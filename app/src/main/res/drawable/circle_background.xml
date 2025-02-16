@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <!-- Для правильної відповіді -->
+    <solid android:color="@color/success_green" />
+    <!-- Для неправильної відповіді використовувати error_red -->
+</shape>

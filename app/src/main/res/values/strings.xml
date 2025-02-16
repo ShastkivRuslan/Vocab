@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LearnWordsTrainer</string>
+    <string name="add_word_button">Add a new word:)</string>
 </resources>
