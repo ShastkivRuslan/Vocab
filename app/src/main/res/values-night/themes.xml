@@ -38,13 +38,6 @@
         <item name="cardElevation">0dp</item>
     </style>
 
-    <style name="Widget.App.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxBackgroundColor">@color/input_background_dark</item>
-        <item name="android:textColorHint">@color/input_hint_dark</item>
-        <item name="boxStrokeColor">@color/primary</item>
-        <item name="hintTextColor">@color/primary</item>
-    </style>
-
     <style name="Widget.App.Button" parent="Widget.Material3.Button">
         <item name="android:textSize">18sp</item>
         <item name="cornerRadius">16dp</item>

@@ -97,14 +97,14 @@ public class WordResultDialog extends BottomSheetDialog {
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(500);
+        animatorSet.setDuration(100);
         animatorSet.setInterpolator(new OvershootInterpolator());
         animatorSet.start();
     }
 
     private void playWrongAnimation() {
         ObjectAnimator rotation = ObjectAnimator.ofFloat(ivResult, "rotation", 0f, 5f, -5f, 0f);
-        rotation.setDuration(500);
+        rotation.setDuration(100);
         rotation.setRepeatCount(1);
         rotation.start();
     }
