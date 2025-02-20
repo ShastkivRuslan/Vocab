@@ -2,11 +2,11 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:colorBackground">
 
-    <!-- Градієнтний фон -->
     <View
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -14,106 +14,100 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <!-- Заголовок -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Додати нове слово"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/add_new_word"
+                android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="32dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Картка з формою -->
             <com.google.android.material.card.MaterialCardView
+                style="@style/CardStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                app:cardCornerRadius="28dp"
-                app:cardElevation="8dp"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                tools:layout_editor_absoluteX="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/cardview_default_elevation"
                     android:orientation="vertical"
                     android:padding="24dp">
 
-                    <!-- Поле для англійського слова -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilEnglish"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
+                        android:hint="@string/origin_word"
                         app:boxCornerRadiusBottomEnd="16dp"
-                        app:endIconMode="clear_text"
-                        android:hint="Англійське слово">
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:endIconMode="clear_text">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEnglish"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textAutoCorrect"
-                            android:padding="16dp"/>
+                            android:padding="16dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Поле для перекладу -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilTranslation"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_marginTop="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
+                        android:hint="@string/translation_word"
                         app:boxCornerRadiusBottomEnd="16dp"
-                        app:endIconMode="clear_text"
-                        android:hint="Переклад">
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:endIconMode="clear_text">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etTranslation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textAutoCorrect"
-                            android:padding="16dp"/>
+                            android:padding="16dp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Кнопка Додати -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAdd"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
-                        android:text="Додати слово"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/add_word_button_text"
                         android:textSize="18sp"
-                        app:cornerRadius="16dp"
-                        android:layout_marginTop="24dp"/>
+                        app:cornerRadius="16dp" />
 
-                    <!-- Додаткова інформація -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Слово буде додано до вашого словника для подальшого вивчення"
-                        android:textColor="@color/secondary_text"
-                        android:textSize="14sp"
+                        android:layout_marginTop="16dp"
                         android:gravity="center"
-                        android:layout_marginTop="16dp"/>
+                        android:text="@string/description_add_word_dialog"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 

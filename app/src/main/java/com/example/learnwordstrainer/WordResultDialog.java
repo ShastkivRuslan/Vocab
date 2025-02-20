@@ -70,13 +70,13 @@ public class WordResultDialog extends BottomSheetDialog {
         if (isCorrect) {
             ivResult.setImageResource(R.drawable.ic_check);
             ivResult.setBackgroundTintList(ColorStateList.valueOf(
-                    ContextCompat.getColor(getContext(), R.color.success_green)));
+                    ContextCompat.getColor(getContext(), R.color.success)));
             tvResult.setText("Правильно!");
             playCorrectAnimation();
         } else {
             ivResult.setImageResource(R.drawable.ic_close);
             ivResult.setBackgroundTintList(ColorStateList.valueOf(
-                    ContextCompat.getColor(getContext(), R.color.error_red)));
+                    ContextCompat.getColor(getContext(), R.color.error)));
             tvResult.setText("Спробуйте ще раз");
             playWrongAnimation();
         }
@@ -97,14 +97,14 @@ public class WordResultDialog extends BottomSheetDialog {
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(100);
+        animatorSet.setDuration(1000);
         animatorSet.setInterpolator(new OvershootInterpolator());
         animatorSet.start();
     }
 
     private void playWrongAnimation() {
         ObjectAnimator rotation = ObjectAnimator.ofFloat(ivResult, "rotation", 0f, 5f, -5f, 0f);
-        rotation.setDuration(100);
+        rotation.setDuration(1000);
         rotation.setRepeatCount(1);
         rotation.start();
     }

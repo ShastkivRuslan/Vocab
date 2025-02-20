@@ -5,24 +5,22 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Brand colors -->
-    <color name="primary">#C2E965</color>
-    <color name="primary_variant">#D5EC9D</color>
+    <color name="primary">#80CBC4</color>
+    <color name="primary_variant">#009688</color>
     <color name="secondary">#3F51B5</color>
 
     <!-- Status colors -->
-    <color name="success">#00C853</color>
-    <color name="success_container">#205121</color>
-    <color name="error">#FF5252</color>
-    <color name="error_container">#8C1D18</color>
+    <color name="success">#66BB6A</color>
+    <color name="error">#EC407A</color>
 
     <!-- Progress colors -->
-    <color name="progress_primary">#D5EC9D</color>
-    <color name="progress_background">#434A31</color>
+    <color name="progress_primary">#00AD98</color>
+    <color name="progress_background">#003E36</color>
 
     <!-- Background & Surface -->
     <color name="background">#121212</color>
     <color name="surface">#1E1E1E</color>
-    <color name="card_background">#30312C</color>
+    <color name="card_background">#18211D</color>
     <color name="card_stroke">#3D3D3D</color>
 
     <!-- Text colors -->
@@ -38,4 +36,7 @@
     <!-- Gradient -->
     <color name="gradient_start">#3700B3</color>
     <color name="gradient_end">#6200EE</color>
+
+    <!--  Theme button color  -->
+    <color name="result_dialog_transparent">#E218211D</color>
 </resources>

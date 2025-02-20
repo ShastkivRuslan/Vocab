@@ -1,4 +1,36 @@
 <resources>
     <string name="app_name">LearnWordsTrainer</string>
     <string name="add_word_button">Add a new word:)</string>
+    <string name="add_new_word">Додати нове слово</string>
+    <string name="origin_word">Англійське слово</string>
+    <string name="translation_word">Переклад</string>
+    <string name="add_word_button_text">Додати слово</string>
+    <string name="description_add_word_dialog">Слово буде додано до вашого словника для подальшого вивчення</string>
+    <string name="change_theme">Змінити тему</string>
+    <string name="head_text">Мій словник</string>
+    <string name="description_head_text">Вивчайте англійську легко</string>
+    <string name="add_new_word_button">Додати нове слово</string>
+    <string name="repeate_mode">Режим повторення</string>
+    <string name="count_words">Всього слів</string>
+    <string name="num_of_words">0</string>
+    <string name="learned">Вивчено</string>
+    <string name="learned_percent">0%</string>
+    <string name="today_progress">Сьогоднішній прогрес</string>
+    <string name="count_progress">7/10</string>
+    <string name="translate_word">Перекладіть слово</string>
+    <string name="word">Determination</string>
+    <string name="correct_count">23</string>
+    <string name="correct">Правильно</string>
+    <string name="wrong_count">7</string>
+    <string name="errors">Помилки</string>
+    <string name="num_1">1</string>
+    <string name="answer_1">Варіант 1</string>
+    <string name="num_2">2</string>
+    <string name="answer_2">Варіант 2</string>
+    <string name="num_3">3</string>
+    <string name="answer_3">Варіант 3</string>
+    <string name="num_4">4</string>
+    <string name="answer_4">Варіант 4</string>
+    <string name="next_word">Наступне слово</string>
+    <string name="todo">TODO</string>
 </resources>

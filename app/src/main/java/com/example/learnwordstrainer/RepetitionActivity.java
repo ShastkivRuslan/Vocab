@@ -1,5 +1,7 @@
 package com.example.learnwordstrainer;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -92,7 +94,6 @@ public class RepetitionActivity extends AppCompatActivity {
     private void resetAnswerStyles() {
         for (int i = 0; i < answerLayouts.length; i++) {
             variantNumbers[i].setBackgroundResource(R.drawable.shape_rounded_variants);
-            answerLayouts[i].setBackgroundResource(R.drawable.shape_rounded_container);
         }
     }
 
@@ -102,11 +103,11 @@ public class RepetitionActivity extends AppCompatActivity {
         }
 
         variantNumbers[correctAnswerIndex].setBackgroundResource(R.drawable.shape_rounded_variants_correct);
-        answerLayouts[correctAnswerIndex].setBackgroundResource(R.drawable.shape_rounded_container_correct);
+        animateCorrectAnswer(answerLayouts[correctAnswerIndex], variantNumbers[correctAnswerIndex]);
 
         if (selectedIndex != correctAnswerIndex) {
             variantNumbers[selectedIndex].setBackgroundResource(R.drawable.shape_rounded_variants_wrong);
-            answerLayouts[selectedIndex].setBackgroundResource(R.drawable.shape_rounded_container_wrong);
+            shakeAnimation(answerLayouts[selectedIndex]);
             currentWrongAnswerCount++;
             repetitionBinding.tvWrongCount.setText(String.valueOf(currentWrongAnswerCount));
         } else {
@@ -176,5 +177,26 @@ public class RepetitionActivity extends AppCompatActivity {
             dbHelper.close();
         }
         super.onDestroy();
+    }
+
+    private void animateCorrectAnswer(View layout, TextView variantNumber) {
+        ObjectAnimator pulse = ObjectAnimator.ofFloat(layout, View.ALPHA, 1f, 0.7f, 1f);
+        ObjectAnimator colorFade = ObjectAnimator.ofArgb(layout, "backgroundColor",
+                getResources().getColor(R.color.card_background),
+                getResources().getColor(R.color.success),
+                getResources().getColor(R.color.card_background));
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(pulse, colorFade);
+        set.setDuration(500);
+        set.start();
+
+        variantNumber.setBackgroundResource(R.drawable.shape_rounded_variants_correct);
+    }
+
+    private void shakeAnimation(View view) {
+        ObjectAnimator shake = ObjectAnimator.ofFloat(view, "translationX", 0, 10, -10, 10, -10, 5, -5, 0);
+        shake.setDuration(500);
+        shake.start();
     }
 }
