@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LearnWordsTrainer</string>
+    <string name="app_name">Vocab.</string>
     <string name="add_word_button">Add a new word:)</string>
     <string name="add_new_word">Додати нове слово</string>
     <string name="origin_word">Англійське слово</string>
