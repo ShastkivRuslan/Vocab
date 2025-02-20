@@ -1,26 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Base.Theme.LearnWordsTrainer" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Colors -->
-        <item name="android:windowBackground">@color/background_dark</item>
-        <item name="android:colorBackground">@color/background_dark</item>
-        <item name="colorSurface">@color/surface_dark</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_variant</item>
         <item name="colorSecondary">@color/secondary</item>
-        <item name="colorOnBackground">@color/text_primary_dark</item>
-        <item name="colorOnSurface">@color/text_primary_dark</item>
-
-        <!-- Text colors -->
-        <item name="android:textColorPrimary">@color/text_primary_dark</item>
-        <item name="android:textColorSecondary">@color/text_secondary_dark</item>
+        <item name="android:colorBackground">@color/background</item>
 
         <!-- Card style -->
         <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
-
-        <!-- TextInputLayout style -->
+        <!-- Input style -->
         <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
-
         <!-- Button style -->
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
 
@@ -32,10 +21,17 @@
     </style>
 
     <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Filled">
-        <item name="cardBackgroundColor">@color/card_background_dark</item>
-        <item name="strokeColor">@color/card_stroke_dark</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="strokeColor">@color/card_stroke</item>
         <item name="strokeWidth">1dp</item>
         <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.App.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/input_background</item>
+        <item name="android:textColorHint">@color/input_hint</item>
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="hintTextColor">@color/primary</item>
     </style>
 
     <style name="Widget.App.Button" parent="Widget.Material3.Button">

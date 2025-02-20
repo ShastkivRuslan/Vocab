@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- System colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand colors -->
+    <color name="primary">#C2E965</color>
+    <color name="primary_variant">#D5EC9D</color>
+    <color name="secondary">#3F51B5</color>
+
+    <!-- Status colors -->
+    <color name="success">#00C853</color>
+    <color name="success_container">#205121</color>
+    <color name="error">#FF5252</color>
+    <color name="error_container">#8C1D18</color>
+
+    <!-- Progress colors -->
+    <color name="progress_primary">#D5EC9D</color>
+    <color name="progress_background">#434A31</color>
+
+    <!-- Background & Surface -->
+    <color name="background">#121212</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="card_background">#30312C</color>
+    <color name="card_stroke">#3D3D3D</color>
+
+    <!-- Text colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#9BA1AB</color>
+    <color name="divider">#3D3D3D</color>
+
+    <!-- Input colors -->
+    <color name="input_background">#2D2D2D</color>
+    <color name="input_text">#FFFFFF</color>
+    <color name="input_hint">#80FFFFFF</color>
+
+    <!-- Gradient -->
+    <color name="gradient_start">#3700B3</color>
+    <color name="gradient_end">#6200EE</color>
+</resources>
