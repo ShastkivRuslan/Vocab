@@ -38,5 +38,6 @@
     <color name="gradient_end">#6200EE</color>
 
     <!--  Theme button color  -->
-    <color name="result_dialog_transparent">#E218211D</color>
+    <color name="success_transparent">#8F66BB6A</color>
+    <color name="wrong_transparent">#90EC407A</color>
 </resources>

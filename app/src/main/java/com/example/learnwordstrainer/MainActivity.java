@@ -9,13 +9,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import com.example.learnwordstrainer.repository.WordRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnAddWord, btnRepetition;
     private TextView tvWordCount, tvLearnedCount;
-    private DatabaseHelper dbHelper;
+
+    private WordRepository wordRepository;
 
     private SharedPreferences preferences;
     private static final String THEME_PREF = "theme_preference";
@@ -32,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
         btnRepetition = findViewById(R.id.btnRepetition);
         tvWordCount = findViewById(R.id.tvWordCount);
         tvLearnedCount = findViewById(R.id.tvLearnedCount);
-
-        dbHelper = new DatabaseHelper(this);
+        wordRepository = new WordRepository(getApplication());
 
         setupClickListeners();
         updateStatistics();
@@ -62,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateStatistics() {
-        int totalWords = dbHelper.getWordCount();
-        int learnedWords = dbHelper.getLearnedWordsCount();
+        int totalWords = wordRepository.getWordCount();
+        int learnedWords = wordRepository.getLearnedWordsCount();
 
         tvWordCount.setText(String.valueOf(totalWords));
 
@@ -75,14 +77,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateStatistics();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dbHelper != null) {
-            dbHelper.close();
-        }
     }
 
     @Override

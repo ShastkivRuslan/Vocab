@@ -33,4 +33,5 @@
     <string name="answer_4">Варіант 4</string>
     <string name="next_word">Наступне слово</string>
     <string name="todo">TODO</string>
+    <string name="wrong">Спробуйте ще раз</string>
 </resources>

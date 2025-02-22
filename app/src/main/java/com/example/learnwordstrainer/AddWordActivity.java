@@ -9,11 +9,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.learnwordstrainer.repository.WordRepository;
+
 public class AddWordActivity extends AppCompatActivity {
 
     private EditText etEnglish, etTranslation;
     private Button btnAdd;
-    private DatabaseHelper dbHelper;
+    private WordRepository wordRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,8 @@ public class AddWordActivity extends AppCompatActivity {
         etEnglish = findViewById(R.id.etEnglish);
         etTranslation = findViewById(R.id.etTranslation);
         btnAdd = findViewById(R.id.btnAdd);
-        dbHelper = new DatabaseHelper(this);
+
+        wordRepository = new WordRepository(getApplication());
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,12 +55,12 @@ public class AddWordActivity extends AppCompatActivity {
             return;
         }
 
-        if (dbHelper.wordExists(english)) {
+        if (wordRepository.wordExists(english)) {
             Toast.makeText(this, "Це слово вже існує в словнику", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        dbHelper.addWord(english, translation);
+        wordRepository.addWord(english, translation);
         Toast.makeText(this, "Слово додано", Toast.LENGTH_SHORT).show();
 
         etEnglish.setText("");
@@ -81,14 +84,6 @@ public class AddWordActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dbHelper != null) {
-            dbHelper.close();
-        }
     }
 
     @Override

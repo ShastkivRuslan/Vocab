@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:colorBackground">
     <View
         android:layout_width="match_parent"
@@ -21,12 +21,12 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardProgress"
+                style="@style/CardStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="16dp"
                 android:layout_marginTop="14dp"
-                style="@style/CardStyle"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_margin="16dp">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,11 +67,11 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardWord"
+                style="@style/CardStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                style="@style/CardStyle"
                 android:layout_margin="16dp"
+                android:layout_marginTop="14dp"
                 app:layout_constraintTop_toBottomOf="@id/cardProgress">
 
                 <LinearLayout
@@ -87,11 +87,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/translate_word"
+                            android:layout_centerVertical="true"
                             android:gravity="center"
+                            android:text="@string/translate_word"
                             android:textColor="@color/text_secondary"
-                            android:textSize="16sp"
-                            android:layout_centerVertical="true" />
+                            android:textSize="16sp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnListen"
@@ -105,7 +105,7 @@
                             android:padding="8dp"
                             app:icon="@drawable/ic_volume"
                             app:iconGravity="textStart"
-                            app:iconPadding="0dp"/>
+                            app:iconPadding="0dp" />
                     </RelativeLayout>
 
                     <TextView
@@ -139,19 +139,19 @@
                                 android:text="@string/correct_count"
                                 android:textColor="@color/success"
                                 android:textSize="24sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/correct"
-                                android:textColor="@color/text_secondary"/>
+                                android:textColor="@color/text_secondary" />
                         </LinearLayout>
 
                         <View
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:background="@color/divider"/>
+                            android:background="@color/divider" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -167,13 +167,13 @@
                                 android:text="@string/wrong_count"
                                 android:textColor="@color/error"
                                 android:textSize="24sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/errors"
-                                android:textColor="@color/text_secondary"/>
+                                android:textColor="@color/text_secondary" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -184,15 +184,15 @@
                 android:id="@+id/optionsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/cardWord">
 
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/CardAnswerStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/CardAnswerStyle">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/layoutAnswer1"
@@ -205,7 +205,7 @@
                             android:layout_marginStart="12dp"
                             android:background="@drawable/shape_rounded_variants"
                             android:gravity="center"
-                            android:text="@string/num_1"/>
+                            android:text="@string/num_1" />
 
                         <TextView
                             android:id="@+id/tvVariantValue1"
@@ -213,15 +213,15 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="8dp"
                             android:gravity="center"
-                            android:textColor="@color/text_secondary"
-                            android:text="@string/answer_1"/>
+                            android:text="@string/answer_1"
+                            android:textColor="@color/text_secondary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/CardAnswerStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/CardAnswerStyle">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/layoutAnswer2"
@@ -234,7 +234,7 @@
                             android:layout_marginStart="12dp"
                             android:background="@drawable/shape_rounded_variants"
                             android:gravity="center"
-                            android:text="@string/num_2"/>
+                            android:text="@string/num_2" />
 
                         <TextView
                             android:id="@+id/tvVariantValue2"
@@ -242,17 +242,17 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="8dp"
                             android:gravity="center"
-                            android:textColor="@color/text_secondary"
-                            android:text="@string/answer_2"/>
+                            android:text="@string/answer_2"
+                            android:textColor="@color/text_secondary" />
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/CardAnswerStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    style="@style/CardAnswerStyle">
+                    android:layout_marginTop="18dp">
 
                     <LinearLayout
                         android:id="@+id/layoutAnswer3"
@@ -265,7 +265,7 @@
                             android:layout_marginStart="12dp"
                             android:background="@drawable/shape_rounded_variants"
                             android:gravity="center"
-                            android:text="@string/num_3"/>
+                            android:text="@string/num_3" />
 
                         <TextView
                             android:id="@+id/tvVariantValue3"
@@ -273,17 +273,17 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="8dp"
                             android:gravity="center"
-                            android:textColor="@color/text_secondary"
-                            android:text="@string/answer_3"/>
+                            android:text="@string/answer_3"
+                            android:textColor="@color/text_secondary" />
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/CardAnswerStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    style="@style/CardAnswerStyle"
                     android:layout_marginBottom="16dp">
 
                     <LinearLayout
@@ -297,7 +297,7 @@
                             android:layout_marginStart="12dp"
                             android:background="@drawable/shape_rounded_variants"
                             android:gravity="center"
-                            android:text="@string/num_4"/>
+                            android:text="@string/num_4" />
 
                         <TextView
                             android:id="@+id/tvVariantValue4"
@@ -305,13 +305,75 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="8dp"
                             android:gravity="center"
-                            android:textColor="@color/text_secondary"
-                            android:text="@string/answer_4"/>
+                            android:text="@string/answer_4"
+                            android:textColor="@color/text_secondary" />
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/resultFooter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:translationY="20dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/success_transparent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:id="@+id/resultFooterIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="44dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/ic_check"
+                        android:contentDescription="@string/todo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/resultFooterText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/correct"
+                        android:textColor="@color/white"
+                        android:textSize="22sp"
+                        app:layout_constraintBottom_toBottomOf="@id/resultFooterIcon"
+                        app:layout_constraintTop_toTopOf="@id/resultFooterIcon"
+                        app:layout_constraintStart_toEndOf="@id/resultFooterIcon"
+                        android:layout_marginStart="8dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/resultFooterBtn"
+                        android:layout_width="310dp"
+                        android:layout_height="58dp"
+                        app:cornerRadius="30dp"
+                        android:text="@string/next_word"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/resultFooterIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginBottom="44dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/success"
+                        android:backgroundTint="@color/background"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
