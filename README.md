@@ -1,7 +1,8 @@
 
-![ic_launcher](https://github.com/user-attachments/assets/d672752d-666c-4a0e-940b-90b867130d34)
-
-# Vocab.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/d672752d-666c-4a0e-940b-90b867130d34" alt="ic_launcher" width="200"/>
+  <h1>Vocab.</h1>
+</div>
 
 An Android app for learning English words. Designed to make vocabulary acquisition easy and engaging through interactive exercises and spaced repetition.
 
