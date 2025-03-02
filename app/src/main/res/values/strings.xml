@@ -10,7 +10,7 @@
     <string name="head_text">Мій словник</string>
     <string name="description_head_text">Вивчайте англійську легко</string>
     <string name="add_new_word_button">Додати нове слово</string>
-    <string name="repeate_mode">Режим повторення</string>
+    <string name="repeat_mode">Режим повторення</string>
     <string name="count_words">Всього слів</string>
     <string name="num_of_words">0</string>
     <string name="learned">Вивчено</string>
@@ -34,4 +34,10 @@
     <string name="next_word">Наступне слово</string>
     <string name="todo">TODO</string>
     <string name="wrong">Спробуйте ще раз</string>
+    <string name="all_words_btn">Всі слова</string>
+    <string name="search_words">Пошук слова</string>
+    <string name="all_words_card_description">Перегляньте всі збережені слова</string>
+    <string name="repetition_card_description">Перевірте знання вивчених слів</string>
+    <string name="add_card_description">Поповніть свій словниковий запас</string>
+    <string name="all_words_icon_description">Список усіх слів</string>
 </resources>

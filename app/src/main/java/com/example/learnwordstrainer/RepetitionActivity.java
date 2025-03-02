@@ -1,9 +1,7 @@
 package com.example.learnwordstrainer;
 
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -123,7 +121,7 @@ public class RepetitionActivity extends AppCompatActivity {
                 currentWrongAnswerCount
         );
 
-        showResultFooter(selectedIndex != correctAnswerIndex);
+        showResultFooter(selectedIndex != correctAnswerIndex, answerLayouts[correctAnswerIndex]);
     }
 
     private void loadWrongAnswers() {
@@ -136,14 +134,14 @@ public class RepetitionActivity extends AppCompatActivity {
         }
     }
 
-    private void showResultFooter(boolean isCorrect) {
+    private void showResultFooter(boolean isCorrect, View view) {
         if (!isCorrect) {
             repetitionBinding.resultFooter.setCardBackgroundColor(getColor(R.color.success_transparent));
             repetitionBinding.resultFooterIcon.setBackgroundResource(R.drawable.ic_check);
             repetitionBinding.resultFooterText.setText(R.string.correct);
         } else {
             repetitionBinding.resultFooter.setCardBackgroundColor(getColor(R.color.wrong_transparent));
-            repetitionBinding.resultFooterIcon.setBackgroundResource(R.drawable.ic_close);
+            repetitionBinding.resultFooterIcon.setBackgroundResource(R.drawable.ic_wrong);
             repetitionBinding.resultFooterText.setText(R.string.wrong);
         }
         repetitionBinding.resultFooterBtn.setOnClickListener(v -> {
@@ -153,7 +151,7 @@ public class RepetitionActivity extends AppCompatActivity {
             startNewRound();
             hideResultFooterWithAnimation();
         });
-        showResultFooterWithAnimation();
+        showResultFooterWithAnimation(view);
     }
 
     private void loadRandomWord() {
@@ -204,27 +202,24 @@ public class RepetitionActivity extends AppCompatActivity {
         shake.start();
     }
 
-    private void showResultFooterWithAnimation() {
+    private void showResultFooterWithAnimation(View sourceView) {
+        int[] sourceCoords = new int[2];
+        sourceView.getLocationOnScreen(sourceCoords);
+
+        int[] targetCoords = new int[2];
+        repetitionBinding.resultFooter.getLocationOnScreen(targetCoords);
+
+        float startY = sourceCoords[1] - targetCoords[1];
+
         repetitionBinding.resultFooter.setVisibility(View.VISIBLE);
         repetitionBinding.resultFooter.setAlpha(0f);
-        repetitionBinding.resultFooter.setTranslationY(200f);
+        repetitionBinding.resultFooter.setTranslationY(startY);
 
         ObjectAnimator slideUp = ObjectAnimator.ofFloat(
                 repetitionBinding.resultFooter,
                 "translationY",
-                200f,
+                startY,
                 60f
-
-
-
-
-
-
-
-
-
-
-
         );
         slideUp.setDuration(300);
         slideUp.setInterpolator(new DecelerateInterpolator());

@@ -174,7 +174,8 @@
                     android:layout_marginStart="30dp"
                     app:layout_constraintStart_toEndOf="@id/tvMainSliderDescription"
                     app:layout_constraintTop_toTopOf="@id/tvMainSliderDescription"
-                    app:layout_constraintBottom_toBottomOf="@id/tvMainSliderDescription">
+                    app:layout_constraintBottom_toBottomOf="@id/tvMainSliderDescription"
+                    android:importantForAccessibility="no">
                 </ImageView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -193,187 +194,20 @@
                     android:orientation="horizontal"
                     android:clipToPadding="false">
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btnAddWord"
-                        style="@style/NavigationCardStyle"
-                        android:layout_marginStart="16dp">
+                    <include
+                        android:id="@+id/add_word_include"
+                        layout="@layout/add_word_item_card"/>
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                    <include
+                        android:id="@+id/repetition_include"
+                        layout="@layout/repetition_item_card"/>
 
-                            <ImageView
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
-                                android:src="@drawable/plus_shape"
-                                android:alpha="0.1"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="-40dp"
-                                android:layout_marginBottom="-40dp"/>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:padding="20dp">
-
-                                <com.google.android.material.card.MaterialCardView
-                                    android:layout_width="54dp"
-                                    android:layout_height="54dp"
-                                    app:cardCornerRadius="14dp"
-                                    app:cardElevation="0dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:background="@drawable/ic_add_new"
-                                        android:backgroundTint="@color/primary"
-                                        android:layout_gravity="center"/>
-                                </com.google.android.material.card.MaterialCardView>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/add_new_word_button"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/text_primary"
-                                    android:layout_marginTop="16dp"/>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/add_card_description"
-                                    android:textColor="@color/text_secondary"
-                                    android:textSize="14sp"
-                                    android:layout_marginTop="6dp"/>
-
-                            </LinearLayout>
-                        </RelativeLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        style="@style/NavigationCardStyle"
-                        android:id="@+id/btnRepetition">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
-                                android:src="@drawable/repeate_shape"
-                                android:alpha="0.1"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="-40dp"
-                                android:layout_marginBottom="-40dp"/>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:padding="20dp">
-
-                                <com.google.android.material.card.MaterialCardView
-                                    android:layout_width="54dp"
-                                    android:layout_height="54dp"
-                                    app:cardCornerRadius="14dp"
-                                    app:cardElevation="0dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:background="@drawable/hugeicons__quiz_03"
-                                        android:backgroundTint="@color/primary"
-                                        android:layout_gravity="center"/>
-                                </com.google.android.material.card.MaterialCardView>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/repeate_mode"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/text_primary"
-                                    android:layout_marginTop="16dp"/>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/repetition_card_description"
-                                    android:textColor="@color/text_secondary"
-                                    android:textSize="14sp"
-                                    android:layout_marginTop="6dp"/>
-
-                            </LinearLayout>
-                        </RelativeLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        style="@style/NavigationCardStyle">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
-                                android:src="@drawable/list_shape"
-                                android:alpha="0.1"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginEnd="-40dp"
-                                android:layout_marginBottom="-40dp"/>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                android:padding="20dp">
-
-                                <com.google.android.material.card.MaterialCardView
-                                    android:layout_width="54dp"
-                                    android:layout_height="54dp"
-                                    app:cardCornerRadius="14dp"
-                                    app:cardElevation="0dp">
-
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:background="@drawable/ic_all_words"
-                                        android:backgroundTint="@color/primary"
-                                        android:layout_gravity="center"/>
-                                </com.google.android.material.card.MaterialCardView>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/all_words_btn"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/text_primary"
-                                    android:layout_marginTop="16dp"/>
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/all_words_card_description"
-                                    android:textColor="@color/text_secondary"
-                                    android:textSize="14sp"
-                                    android:layout_marginTop="6dp"/>
-
-                            </LinearLayout>
-                        </RelativeLayout>
-                    </com.google.android.material.card.MaterialCardView>
+                    <include
+                        layout="@layout/all_words_item_card"/>
 
                 </LinearLayout>
+
             </HorizontalScrollView>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

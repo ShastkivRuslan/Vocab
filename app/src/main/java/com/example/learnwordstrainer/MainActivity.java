@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.example.learnwordstrainer.databinding.ActivityMainBinding;
 import com.example.learnwordstrainer.repository.WordRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding mainBinding;
 
-    private Button btnAddWord, btnRepetition;
     private TextView tvWordCount, tvLearnedCount;
 
     private WordRepository wordRepository;
@@ -25,26 +25,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
-        applyTheme(preferences.getInt(THEME_PREF, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM));
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        applyTheme(preferences.getInt(THEME_PREF, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM));
+        setContentView(mainBinding.getRoot());
 
-        btnAddWord = findViewById(R.id.btnAddWord);
-        btnRepetition = findViewById(R.id.btnRepetition);
-        tvWordCount = findViewById(R.id.tvWordCount);
-        tvLearnedCount = findViewById(R.id.tvLearnedCount);
+        tvWordCount = mainBinding.tvWordCount;
+        tvLearnedCount = mainBinding.tvLearnedCount;
+        FloatingActionButton fabTheme = mainBinding.fabTheme;
         wordRepository = new WordRepository(getApplication());
 
         setupClickListeners();
         updateStatistics();
-        FloatingActionButton fabTheme = findViewById(R.id.fabTheme);
         fabTheme.setOnClickListener(v -> showThemeDialog());
     }
 
     private void setupClickListeners() {
-        btnAddWord.setOnClickListener(new View.OnClickListener() {
+        mainBinding.addWordInclude.btnAddWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddWordActivity.class);
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnRepetition.setOnClickListener(new View.OnClickListener() {
+        mainBinding.repetitionInclude.btnRepetition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RepetitionActivity.class);

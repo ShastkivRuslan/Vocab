@@ -103,7 +103,7 @@
                             android:minWidth="0dp"
                             android:minHeight="0dp"
                             android:padding="8dp"
-                            app:icon="@drawable/ic_volume"
+                            app:icon="@drawable/ic_listen"
                             app:iconGravity="textStart"
                             app:iconPadding="0dp" />
                     </RelativeLayout>
@@ -313,70 +313,72 @@
 
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/resultFooter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="28dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:translationY="20dp"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/success_transparent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <ImageView
-                        android:id="@+id/resultFooterIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="44dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/ic_check"
-                        android:contentDescription="@string/todo"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/resultFooterText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/correct"
-                        android:textColor="@color/white"
-                        android:textSize="22sp"
-                        app:layout_constraintBottom_toBottomOf="@id/resultFooterIcon"
-                        app:layout_constraintTop_toTopOf="@id/resultFooterIcon"
-                        app:layout_constraintStart_toEndOf="@id/resultFooterIcon"
-                        android:layout_marginStart="8dp"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/resultFooterBtn"
-                        android:layout_width="310dp"
-                        android:layout_height="58dp"
-                        app:cornerRadius="30dp"
-                        android:text="@string/next_word"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/resultFooterIcon"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginBottom="44dp"
-                        android:layout_marginTop="12dp"
-                        android:textColor="@color/success"
-                        android:backgroundTint="@color/background"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/resultFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="28dp"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/success_transparent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/resultFooterIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ic_check"
+                android:contentDescription="@string/todo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/resultFooterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/correct"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@id/resultFooterIcon"
+                app:layout_constraintTop_toTopOf="@id/resultFooterIcon"
+                app:layout_constraintStart_toEndOf="@id/resultFooterIcon"
+                android:layout_marginStart="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/resultFooterBtn"
+                android:layout_width="310dp"
+                android:layout_height="58dp"
+                app:cornerRadius="30dp"
+                android:text="@string/next_word"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/resultFooterIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="44dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/success"
+                android:backgroundTint="@color/background"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
