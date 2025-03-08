@@ -1,4 +1,4 @@
-package com.example.learnwordstrainer;
+package com.example.learnwordstrainer.viewmodel;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;

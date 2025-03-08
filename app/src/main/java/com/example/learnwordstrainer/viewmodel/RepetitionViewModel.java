@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import com.example.learnwordstrainer.model.Word;
 import com.example.learnwordstrainer.repository.WordRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
