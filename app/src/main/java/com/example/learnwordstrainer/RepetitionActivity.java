@@ -8,27 +8,19 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import com.example.learnwordstrainer.databinding.ActivityRepetitionBinding;
-import com.example.learnwordstrainer.model.Word;
-import com.example.learnwordstrainer.repository.WordRepository;
 
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.learnwordstrainer.databinding.ActivityRepetitionBinding;
+import com.example.learnwordstrainer.viewmodel.RepetitionViewModel;
+
 import java.util.Locale;
-import java.util.Random;
 
 public class RepetitionActivity extends AppCompatActivity {
-    private ActivityRepetitionBinding repetitionBinding;
-
-    private WordRepository wordRepository;
+    private ActivityRepetitionBinding binding;
+    private RepetitionViewModel viewModel;
     private TextToSpeech textToSpeech;
-
-    private int currentWordId;
-    private String currentWord;
-    private String currentTranslation;
-    private int currentCorrectAnswerCount;
-    private int currentWrongAnswerCount;
-    private int correctAnswerIndex;
 
     private View[] answerLayouts;
     private TextView[] variantValues;
@@ -37,44 +29,56 @@ public class RepetitionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repetitionBinding = ActivityRepetitionBinding.inflate(getLayoutInflater());
-        setContentView(repetitionBinding.getRoot());
+        binding = ActivityRepetitionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        viewModel = new ViewModelProvider(this).get(RepetitionViewModel.class);
 
         initializeViews();
         initializeTextToSpeech();
-        wordRepository = new WordRepository(getApplication());
+        observeViewModel();
 
-        repetitionBinding.btnListen.setOnClickListener(v -> speak(currentWord));
+        binding.btnListen.setOnClickListener(v -> speak(viewModel.getWordForSpeech()));
 
-        startNewRound();
+        viewModel.startNewRound();
     }
 
     private void initializeViews() {
         answerLayouts = new View[]{
-                repetitionBinding.layoutAnswer1,
-                repetitionBinding.layoutAnswer2,
-                repetitionBinding.layoutAnswer3,
-                repetitionBinding.layoutAnswer4
+                binding.layoutAnswer1,
+                binding.layoutAnswer2,
+                binding.layoutAnswer3,
+                binding.layoutAnswer4
         };
 
         variantValues = new TextView[]{
-                repetitionBinding.tvVariantValue1,
-                repetitionBinding.tvVariantValue2,
-                repetitionBinding.tvVariantValue3,
-                repetitionBinding.tvVariantValue4
+                binding.tvVariantValue1,
+                binding.tvVariantValue2,
+                binding.tvVariantValue3,
+                binding.tvVariantValue4
         };
 
         variantNumbers = new TextView[]{
-                repetitionBinding.tvVariantNumber1,
-                repetitionBinding.tvVariantNumber2,
-                repetitionBinding.tvVariantNumber3,
-                repetitionBinding.tvVariantNumber4
+                binding.tvVariantNumber1,
+                binding.tvVariantNumber2,
+                binding.tvVariantNumber3,
+                binding.tvVariantNumber4
         };
 
         for (int i = 0; i < answerLayouts.length; i++) {
             final int index = i;
             answerLayouts[i].setOnClickListener(v -> handleAnswerSelection(index));
         }
+
+        binding.resultFooterBtn.setOnClickListener(v -> {
+            for (View layout : answerLayouts) {
+                layout.setEnabled(true);
+            }
+            hideResultFooterWithAnimation();
+            viewModel.hideResultFooter();
+            viewModel.startNewRound();
+            resetAnswerStyles();
+        });
     }
 
     private void initializeTextToSpeech() {
@@ -85,87 +89,74 @@ public class RepetitionActivity extends AppCompatActivity {
         });
     }
 
-    private void startNewRound() {
-        resetAnswerStyles();
-        loadRandomWord();
-        loadWrongAnswers();
+    private void observeViewModel() {
+        viewModel.getCurrentWord().observe(this, word -> {
+            if (word != null) {
+                binding.tvWord.setText(word.getEnglishWord());
+            }
+        });
+
+        viewModel.getAnswerOptions().observe(this, options -> {
+            if (options != null) {
+                for (int i = 0; i < Math.min(options.size(), variantValues.length); i++) {
+                    variantValues[i].setText(options.get(i));
+                }
+            }
+        });
+
+        viewModel.getCorrectAnswerCount().observe(this, count ->
+                binding.tvCorrectCount.setText(String.valueOf(count)));
+
+        viewModel.getWrongAnswerCount().observe(this, count ->
+                binding.tvWrongCount.setText(String.valueOf(count)));
+
+        viewModel.getIsRoundCompleted().observe(this, isCompleted -> {
+            if (isCompleted) {
+                for (View layout : answerLayouts) {
+                    layout.setEnabled(false);
+                }
+
+                Integer correctIndex = viewModel.getCorrectAnswerIndex().getValue();
+                if (correctIndex != null) {
+                    variantNumbers[correctIndex].setBackgroundResource(R.drawable.shape_rounded_variants_correct);
+                    animateCorrectAnswer(answerLayouts[correctIndex], variantNumbers[correctIndex]);
+                }
+            }
+        });
+
+        viewModel.getIsCorrectAnswer().observe(this, isCorrect -> {
+            if (viewModel.getIsRoundCompleted().getValue() == Boolean.TRUE) {
+                Integer correctIndex = viewModel.getCorrectAnswerIndex().getValue();
+                if (correctIndex != null) {
+                    showResultFooter(!isCorrect);
+                }
+            }
+        });
+        viewModel.getShowResultFooter().observe(this, show -> {
+            if (show) {
+                Boolean isCorrect = viewModel.getIsCorrectAnswer().getValue();
+                if (isCorrect != null) {
+                    showResultFooter(!isCorrect);
+                }
+            } else {
+                binding.resultFooter.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void handleAnswerSelection(int selectedIndex) {
+        viewModel.checkAnswer(selectedIndex);
+
+        if (viewModel.getIsCorrectAnswer().getValue() != Boolean.TRUE) {
+            variantNumbers[selectedIndex].setBackgroundResource(R.drawable.shape_rounded_variants_wrong);
+            shakeAnimation(answerLayouts[selectedIndex]);
+        }
     }
 
     private void resetAnswerStyles() {
         for (int i = 0; i < answerLayouts.length; i++) {
             variantNumbers[i].setBackgroundResource(R.drawable.shape_rounded_variants);
         }
-    }
-
-    private void handleAnswerSelection(int selectedIndex) {
-        for (View layout : answerLayouts) {
-            layout.setEnabled(false);
-        }
-
-        variantNumbers[correctAnswerIndex].setBackgroundResource(R.drawable.shape_rounded_variants_correct);
-        animateCorrectAnswer(answerLayouts[correctAnswerIndex], variantNumbers[correctAnswerIndex]);
-
-        if (selectedIndex != correctAnswerIndex) {
-            variantNumbers[selectedIndex].setBackgroundResource(R.drawable.shape_rounded_variants_wrong);
-            shakeAnimation(answerLayouts[selectedIndex]);
-            currentWrongAnswerCount++;
-            repetitionBinding.tvWrongCount.setText(String.valueOf(currentWrongAnswerCount));
-        } else {
-            currentCorrectAnswerCount++;
-            repetitionBinding.tvCorrectCount.setText(String.valueOf(currentCorrectAnswerCount));
-        }
-
-        wordRepository.updateScore(
-                currentWordId,
-                currentCorrectAnswerCount,
-                currentWrongAnswerCount
-        );
-
-        showResultFooter(selectedIndex != correctAnswerIndex, answerLayouts[correctAnswerIndex]);
-    }
-
-    private void loadWrongAnswers() {
-        List<String> answers = wordRepository.getRandomTranslations(currentWordId);
-        correctAnswerIndex = new Random().nextInt(4);
-        answers.add(correctAnswerIndex, currentTranslation);
-
-        for (int i = 0; i < variantValues.length; i++) {
-            variantValues[i].setText(answers.get(i));
-        }
-    }
-
-    private void showResultFooter(boolean isCorrect, View view) {
-        if (!isCorrect) {
-            repetitionBinding.resultFooter.setCardBackgroundColor(getColor(R.color.success_transparent));
-            repetitionBinding.resultFooterIcon.setBackgroundResource(R.drawable.ic_check);
-            repetitionBinding.resultFooterText.setText(R.string.correct);
-        } else {
-            repetitionBinding.resultFooter.setCardBackgroundColor(getColor(R.color.wrong_transparent));
-            repetitionBinding.resultFooterIcon.setBackgroundResource(R.drawable.ic_wrong);
-            repetitionBinding.resultFooterText.setText(R.string.wrong);
-        }
-        repetitionBinding.resultFooterBtn.setOnClickListener(v -> {
-            for (View layout : answerLayouts) {
-                layout.setEnabled(true);
-            }
-            startNewRound();
-            hideResultFooterWithAnimation();
-        });
-        showResultFooterWithAnimation(view);
-    }
-
-    private void loadRandomWord() {
-
-        Word randomWord = wordRepository.getRandomWord();
-        currentWordId = randomWord.getId();
-        currentWord = randomWord.getEnglishWord();
-        currentTranslation = randomWord.getTranslation();
-        currentCorrectAnswerCount = randomWord.getCorrectAnswerCount();
-        currentWrongAnswerCount = randomWord.getWrongAnswerCount();
-
-        repetitionBinding.tvWord.setText(currentWord);
-        repetitionBinding.tvCorrectCount.setText(String.valueOf(currentCorrectAnswerCount));
-        repetitionBinding.tvWrongCount.setText(String.valueOf(currentWrongAnswerCount));
     }
 
     private void speak(String text) {
@@ -202,30 +193,36 @@ public class RepetitionActivity extends AppCompatActivity {
         shake.start();
     }
 
-    private void showResultFooterWithAnimation(View sourceView) {
-        int[] sourceCoords = new int[2];
-        sourceView.getLocationOnScreen(sourceCoords);
+    private void showResultFooter(boolean isCorrect) {
+        if (!isCorrect) {
+            binding.resultFooter.setCardBackgroundColor(getColor(R.color.success_transparent));
+            binding.resultFooterIcon.setBackgroundResource(R.drawable.ic_check);
+            binding.resultFooterText.setText(R.string.correct);
+        } else {
+            binding.resultFooter.setCardBackgroundColor(getColor(R.color.wrong_transparent));
+            binding.resultFooterIcon.setBackgroundResource(R.drawable.ic_wrong);
+            binding.resultFooterText.setText(R.string.wrong);
+        }
 
-        int[] targetCoords = new int[2];
-        repetitionBinding.resultFooter.getLocationOnScreen(targetCoords);
+        showResultFooterWithAnimation();
+    }
 
-        float startY = sourceCoords[1] - targetCoords[1];
-
-        repetitionBinding.resultFooter.setVisibility(View.VISIBLE);
-        repetitionBinding.resultFooter.setAlpha(0f);
-        repetitionBinding.resultFooter.setTranslationY(startY);
+    private void showResultFooterWithAnimation() {
+        binding.resultFooter.setVisibility(View.VISIBLE);
+        binding.resultFooter.setAlpha(0f);
+        binding.resultFooter.setTranslationY(100f);
 
         ObjectAnimator slideUp = ObjectAnimator.ofFloat(
-                repetitionBinding.resultFooter,
+                binding.resultFooter,
                 "translationY",
-                startY,
-                60f
+                100f,
+                0f
         );
         slideUp.setDuration(300);
-        slideUp.setInterpolator(new DecelerateInterpolator());
+        slideUp.setInterpolator(new DecelerateInterpolator()); // Сповільнення в кінці руху
 
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(
-                repetitionBinding.resultFooter,
+                binding.resultFooter,
                 "alpha",
                 0f,
                 1f
@@ -239,7 +236,7 @@ public class RepetitionActivity extends AppCompatActivity {
 
     private void hideResultFooterWithAnimation() {
         ObjectAnimator slideDown = ObjectAnimator.ofFloat(
-                repetitionBinding.resultFooter,
+                binding.resultFooter,
                 "translationY",
                 60f,
                 200f
@@ -248,7 +245,7 @@ public class RepetitionActivity extends AppCompatActivity {
         slideDown.setInterpolator(new AccelerateInterpolator());
 
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(
-                repetitionBinding.resultFooter,
+                binding.resultFooter,
                 "alpha",
                 1f,
                 0f

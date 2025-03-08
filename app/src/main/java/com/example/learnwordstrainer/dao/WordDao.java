@@ -3,9 +3,7 @@ package com.example.learnwordstrainer.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-
 import com.example.learnwordstrainer.model.Word;
-
 import java.util.List;
 
 @Dao

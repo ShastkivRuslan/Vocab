@@ -4,68 +4,62 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.learnwordstrainer.repository.WordRepository;
+import com.example.learnwordstrainer.databinding.ActivityAddWordBinding;
+
+import java.util.Objects;
 
 public class AddWordActivity extends AppCompatActivity {
 
-    private EditText etEnglish, etTranslation;
-    private Button btnAdd;
-    private WordRepository wordRepository;
+    private ActivityAddWordBinding binding;
+    private AddWordViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_word);
+
+        binding = ActivityAddWordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        viewModel = new ViewModelProvider(this).get(AddWordViewModel.class);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Додати нове слово");
         }
 
-        etEnglish = findViewById(R.id.etEnglish);
-        etTranslation = findViewById(R.id.etTranslation);
-        btnAdd = findViewById(R.id.btnAdd);
+        setupObservers();
+        setupListeners();
+    }
 
-        wordRepository = new WordRepository(getApplication());
+    private void setupObservers() {
+        viewModel.getMessage().observe(this, message -> {
+            if (message != null && !message.isEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                viewModel.clearMessage();
+            }
+        });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addWord();
+        viewModel.getWordAdded().observe(this, added -> {
+            if (added) {
+                binding.etEnglish.setText("");
+                binding.etTranslation.setText("");
+                clearFocus();
+                viewModel.resetWordAdded();
             }
         });
     }
 
-    private void addWord() {
-        String english = etEnglish.getText().toString().trim().toLowerCase();
-        String translation = etTranslation.getText().toString().trim().toLowerCase();
+    private void setupListeners() {
+        binding.btnAdd.setOnClickListener(view -> {
+            String english = Objects.requireNonNull(binding.etEnglish.getText()).toString().trim().toLowerCase();
+            String translation = Objects.requireNonNull(binding.etTranslation.getText()).toString().trim().toLowerCase();
 
-        if (english.isEmpty() || translation.isEmpty()) {
-            Toast.makeText(this, "Заповніть усі поля", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!english.matches("[a-zA-Z ]+") || !translation.matches("[а-яА-ЯіІїЇєЄґҐ' ]+")) {
-            Toast.makeText(this, "Використовуйте тільки літери", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (wordRepository.wordExists(english)) {
-            Toast.makeText(this, "Це слово вже існує в словнику", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        wordRepository.addWord(english, translation);
-        Toast.makeText(this, "Слово додано", Toast.LENGTH_SHORT).show();
-
-        etEnglish.setText("");
-        etTranslation.setText("");
-        clearFocus();
+            viewModel.addWord(english, translation);
+        });
     }
 
     private void clearFocus() {

@@ -81,6 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
+                        app:cardBackgroundColor="@color/surface"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="1dp">
 
@@ -113,6 +114,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        app:cardBackgroundColor="@color/surface"
                         android:layout_weight="1"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="1dp">

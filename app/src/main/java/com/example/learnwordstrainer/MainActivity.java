@@ -2,79 +2,64 @@ package com.example.learnwordstrainer;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.learnwordstrainer.databinding.ActivityMainBinding;
-import com.example.learnwordstrainer.repository.WordRepository;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.learnwordstrainer.viewmodel.MainViewModel;
+import com.example.learnwordstrainer.model.ThemeMode;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding mainBinding;
-
-    private TextView tvWordCount, tvLearnedCount;
-
-    private WordRepository wordRepository;
-
-    private SharedPreferences preferences;
-    private static final String THEME_PREF = "theme_preference";
+    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+        viewModel.getCurrentTheme().observe(this, this::applyTheme);
+
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        applyTheme(preferences.getInt(THEME_PREF, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM));
         setContentView(mainBinding.getRoot());
 
-        tvWordCount = mainBinding.tvWordCount;
-        tvLearnedCount = mainBinding.tvLearnedCount;
-        FloatingActionButton fabTheme = mainBinding.fabTheme;
-        wordRepository = new WordRepository(getApplication());
-
         setupClickListeners();
-        updateStatistics();
-        fabTheme.setOnClickListener(v -> showThemeDialog());
+        setupObservers();
+
+        mainBinding.fabTheme.setOnClickListener(v -> showThemeDialog());
+    }
+
+    private void setupObservers() {
+        viewModel.getTotalWordsCount().observe(this, count -> {
+            mainBinding.tvWordCount.setText(String.valueOf(count));
+        });
+
+        viewModel.getLearnedPercentage().observe(this, percentage -> {
+            mainBinding.tvLearnedCount.setText(percentage + "%");
+        });
     }
 
     private void setupClickListeners() {
-        mainBinding.addWordInclude.btnAddWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddWordActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
+        mainBinding.addWordInclude.btnAddWord.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AddWordActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
-        mainBinding.repetitionInclude.btnRepetition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RepetitionActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
+        mainBinding.repetitionInclude.btnRepetition.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, RepetitionActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
-    }
-
-    private void updateStatistics() {
-        int totalWords = wordRepository.getWordCount();
-        int learnedWords = wordRepository.getLearnedWordsCount();
-
-        tvWordCount.setText(String.valueOf(totalWords));
-
-        int percentage = totalWords > 0 ? (learnedWords * 100) / totalWords : 0;
-        tvLearnedCount.setText(percentage + "%");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateStatistics();
+        viewModel.loadStatistics();
     }
 
     @Override
@@ -85,12 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void showThemeDialog() {
         String[] themes = {"Системна", "Світла", "Темна"};
-        int currentTheme = preferences.getInt(THEME_PREF, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        int currentThemeValue = viewModel.getCurrentThemeValue();
         int selectedTheme = 0;
 
-        switch (currentTheme) {
+        switch (currentThemeValue) {
             case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
-                selectedTheme = 0;
                 break;
             case AppCompatDelegate.MODE_NIGHT_NO:
                 selectedTheme = 1;
@@ -103,28 +87,24 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Виберіть тему")
                 .setSingleChoiceItems(themes, selectedTheme, (dialog, which) -> {
-                    int themeMode;
+                    ThemeMode selectedThemeMode;
                     switch (which) {
-                        case 0:
-                            themeMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-                            break;
                         case 1:
-                            themeMode = AppCompatDelegate.MODE_NIGHT_NO;
+                            selectedThemeMode = ThemeMode.LIGHT;
                             break;
                         case 2:
-                            themeMode = AppCompatDelegate.MODE_NIGHT_YES;
+                            selectedThemeMode = ThemeMode.DARK;
                             break;
                         default:
-                            themeMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                            selectedThemeMode = ThemeMode.SYSTEM;
                     }
-                    preferences.edit().putInt(THEME_PREF, themeMode).apply();
-                    applyTheme(themeMode);
+                    viewModel.setTheme(selectedThemeMode);
                     dialog.dismiss();
                 })
                 .show();
     }
 
-    private void applyTheme(int themeMode) {
+    private void applyTheme(Integer themeMode) {
         AppCompatDelegate.setDefaultNightMode(themeMode);
     }
 }
