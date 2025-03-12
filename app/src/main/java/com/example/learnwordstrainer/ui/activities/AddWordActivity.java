@@ -5,13 +5,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.databinding.ActivityAddWordBinding;
-import com.example.learnwordstrainer.viewmodel.AddWordViewModel;
+import com.example.learnwordstrainer.viewmodels.AddWordViewModel;
 
 import java.util.Objects;
 

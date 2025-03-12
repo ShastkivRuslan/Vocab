@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.databinding.ActivityRepetitionBinding;
-import com.example.learnwordstrainer.viewmodel.RepetitionViewModel;
+import com.example.learnwordstrainer.viewmodels.RepetitionViewModel;
 
 import java.util.Locale;
 
@@ -220,7 +220,7 @@ public class RepetitionActivity extends AppCompatActivity {
                 0f
         );
         slideUp.setDuration(300);
-        slideUp.setInterpolator(new DecelerateInterpolator()); // Сповільнення в кінці руху
+        slideUp.setInterpolator(new DecelerateInterpolator());
 
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(
                 binding.resultFooter,

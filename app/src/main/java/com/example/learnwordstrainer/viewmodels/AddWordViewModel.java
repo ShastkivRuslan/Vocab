@@ -1,4 +1,4 @@
-package com.example.learnwordstrainer.viewmodel;
+package com.example.learnwordstrainer.viewmodels;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,10 +10,8 @@ import com.example.learnwordstrainer.repository.WordRepository;
 public class AddWordViewModel extends AndroidViewModel {
     private final WordRepository wordRepository;
 
-    // LiveData для повідомлень (помилки, успіхи)
     private final MutableLiveData<String> message = new MutableLiveData<>();
 
-    // LiveData для відстеження статусу додавання слова
     private final MutableLiveData<Boolean> wordAdded = new MutableLiveData<>(false);
 
     public AddWordViewModel(Application application) {

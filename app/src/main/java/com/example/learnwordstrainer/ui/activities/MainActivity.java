@@ -2,16 +2,19 @@ package com.example.learnwordstrainer.ui.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.learnwordstrainer.BubbleService;
 import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.databinding.ActivityMainBinding;
 import com.example.learnwordstrainer.model.ThemeMode;
-import com.example.learnwordstrainer.viewmodel.MainViewModel;
+import com.example.learnwordstrainer.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding mainBinding;
@@ -32,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
         setupObservers();
 
         mainBinding.fabTheme.setOnClickListener(v -> showThemeDialog());
+        startBubbleService();
+    }
+    private void startBubbleService() {
+        if (Settings.canDrawOverlays(this)) {
+            startService(new Intent(this, BubbleService.class));
+        } else {
+            // Просимо дозвіл, якщо його немає
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startService(intent);
+        }
     }
 
     private void setupObservers() {

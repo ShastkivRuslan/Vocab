@@ -40,4 +40,10 @@
     <string name="repetition_card_description">Перевірте знання вивчених слів</string>
     <string name="add_card_description">Поповніть свій словниковий запас</string>
     <string name="all_words_icon_description">Список усіх слів</string>
+    <string name="quick_add_word">Швидке додавання слова</string>
+    <string name="word_added_successfully">Слово успішно додано</string>
+    <string name="cancel">Скасувати</string>
+    <string name="add">Додати</string>
+    <string name="enable_quick_add_bubble">Увімкнути плаваючу кнопку</string>
+    <string name="enable_quick_add_bubble_summary">Показувати кнопку швидкого додавання слів поверх інших додатків</string>
 </resources>
