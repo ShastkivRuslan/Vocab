@@ -46,4 +46,7 @@
     <string name="add">Додати</string>
     <string name="enable_quick_add_bubble">Увімкнути плаваючу кнопку</string>
     <string name="enable_quick_add_bubble_summary">Показувати кнопку швидкого додавання слів поверх інших додатків</string>
+    <string name="close_bubble">Close bubble</string>
+    <string name="search_word">Сканувати слово</string>
+    <string name="write_manually">Написати вручну</string>
 </resources>

@@ -42,7 +42,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.room)
     annotationProcessor(libs.room.compiler)
-    implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.material)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

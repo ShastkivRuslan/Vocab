@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +19,8 @@ import com.example.learnwordstrainer.model.ThemeMode;
 import com.example.learnwordstrainer.viewmodels.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_OVERLAY_PERMISSION = 1234;
+
     private ActivityMainBinding mainBinding;
     private MainViewModel viewModel;
 
@@ -25,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
         viewModel.getCurrentTheme().observe(this, this::applyTheme);
 
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mainBinding.fabTheme.setOnClickListener(v -> showThemeDialog());
         startBubbleService();
     }
+
     private void startBubbleService() {
         if (Settings.canDrawOverlays(this)) {
             startService(new Intent(this, BubbleService.class));
@@ -44,7 +48,21 @@ public class MainActivity extends AppCompatActivity {
             // Просимо дозвіл, якщо його немає
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getPackageName()));
-            startService(intent);
+            startActivityForResult(intent, REQUEST_OVERLAY_PERMISSION);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_OVERLAY_PERMISSION) {
+            if (Settings.canDrawOverlays(this)) {
+                // Тепер уже можна запускати сервіс
+                startService(new Intent(this, BubbleService.class));
+            } else {
+                Toast.makeText(this, "Потрібен дозвіл для показу бульбашки", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -6,19 +6,19 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bubbleCardView"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:elevation="8dp"
-        android:alpha="0.9">
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        android:alpha="0.75">
 
         <ImageView
             android:id="@+id/bubbleIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_add_new"
-            android:contentDescription="@string/quick_add_word"
-            app:tint="@color/primary" />
+            android:contentDescription="@string/quick_add_word"/>
 
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>
