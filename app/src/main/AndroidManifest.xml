@@ -19,7 +19,7 @@
         <activity android:name=".ui.activities.AddWordActivity" />
         <activity android:name=".ui.activities.RepetitionActivity" />
         <activity
-            android:name=".AddWordFloatingActivity"
+            android:name=".ui.activities.AddWordFloatingActivity"
             android:theme="@style/Theme.Transparent"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance">
@@ -35,7 +35,7 @@
         </activity>
 
         <service
-            android:name=".BubbleService"
+            android:name=".service.BubbleService"
             android:enabled="true"
             android:exported="false" />
     </application>

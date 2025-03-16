@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.learnwordstrainer.BubbleService;
+import com.example.learnwordstrainer.service.BubbleService;
 import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.databinding.ActivityMainBinding;
 import com.example.learnwordstrainer.model.ThemeMode;
@@ -41,14 +43,22 @@ public class MainActivity extends AppCompatActivity {
         startBubbleService();
     }
 
+    private final ActivityResultLauncher<Intent> overlayPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                // After returning from the permission screen, check if permission was granted
+                if (Settings.canDrawOverlays(this)) {
+                    startService(new Intent(this, BubbleService.class));
+                }
+            });
+
     private void startBubbleService() {
         if (Settings.canDrawOverlays(this)) {
             startService(new Intent(this, BubbleService.class));
         } else {
-            // Просимо дозвіл, якщо його немає
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, REQUEST_OVERLAY_PERMISSION);
+            overlayPermissionLauncher.launch(intent);
         }
     }
 
@@ -67,13 +77,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        viewModel.getTotalWordsCount().observe(this, count -> {
-            mainBinding.tvWordCount.setText(String.valueOf(count));
-        });
+        viewModel.getTotalWordsCount().observe(this, count
+                -> mainBinding.tvWordCount.setText(String.valueOf(count)));
 
-        viewModel.getLearnedPercentage().observe(this, percentage -> {
-            mainBinding.tvLearnedCount.setText(percentage + "%");
-        });
+        viewModel.getLearnedPercentage().observe(this, percentage
+                -> mainBinding.tvLearnedCount.setText(getString(R.string.percentage_format, percentage)));
     }
 
     private void setupClickListeners() {

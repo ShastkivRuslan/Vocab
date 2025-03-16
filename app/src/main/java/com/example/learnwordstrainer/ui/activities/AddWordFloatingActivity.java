@@ -1,17 +1,26 @@
 package com.example.learnwordstrainer.ui.activities;
 
-import android.animation.*;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.view.animation.*;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.example.learnwordstrainer.databinding.ActivityAddWordFloatingBinding;
 import com.example.learnwordstrainer.viewmodels.AddWordFloatingViewModel;
+
+import java.util.Objects;
 
 public class AddWordFloatingActivity extends AppCompatActivity {
 
@@ -24,28 +33,48 @@ public class AddWordFloatingActivity extends AppCompatActivity {
         binding = ActivityAddWordFloatingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setupWindowProperties();
+        setupViewModel();
+        setupEventListeners();
+        setupOnBackPressed();
+        observeViewModel();
+        animateDialogAppearance();
+    }
+
+    private void setupWindowProperties() {
         getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         binding.backgroundDim.setBackgroundColor(Color.parseColor("#80000000"));
-        getWindow().addFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-        );
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        setShowWhenLocked(true);
+    }
 
+    private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(AddWordFloatingViewModel.class);
-
-        animateDialogAppearance();
-        setupEventListeners();
-        observeViewModel();
     }
 
     private void setupEventListeners() {
         binding.closeButton.setOnClickListener(v -> animateDialogDisappearance());
         binding.backgroundDim.setOnClickListener(v -> animateDialogDisappearance());
-        binding.saveButton.setOnClickListener(v -> {
-            String word = binding.wordEditText.getText().toString().trim();
-            String translation = binding.translationEditText.getText().toString().trim();
-            viewModel.addWord(word, translation);
+        binding.saveButton.setOnClickListener(v -> handleSaveButtonClick());
+    }
+
+    private void handleSaveButtonClick() {
+        String word = Objects.requireNonNull(binding.wordEditText.getText()).toString().trim();
+        String translation = Objects.requireNonNull(binding.translationEditText.getText()).toString().trim();
+        if (word.isEmpty() || translation.isEmpty()) {
+            Toast.makeText(this, "Будь ласка, заповніть обидва поля", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        viewModel.addWord(word, translation);
+    }
+
+    private void setupOnBackPressed() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                animateDialogDisappearance();
+            }
         });
     }
 
@@ -110,11 +139,4 @@ public class AddWordFloatingActivity extends AppCompatActivity {
         });
         set.start();
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        animateDialogDisappearance();
-    }
 }
-

@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.learnwordstrainer.R;
@@ -175,10 +176,12 @@ public class RepetitionActivity extends AppCompatActivity {
 
     private void animateCorrectAnswer(View layout, TextView variantNumber) {
         ObjectAnimator pulse = ObjectAnimator.ofFloat(layout, View.ALPHA, 1f, 0.7f, 1f);
+
+        // Assuming you're in an Activity
         ObjectAnimator colorFade = ObjectAnimator.ofArgb(layout, "backgroundColor",
-                getResources().getColor(R.color.card_background),
-                getResources().getColor(R.color.success),
-                getResources().getColor(R.color.card_background));
+                ContextCompat.getColor(this, R.color.card_background),
+                ContextCompat.getColor(this, R.color.success),
+                ContextCompat.getColor(this, R.color.card_background));
 
         AnimatorSet set = new AnimatorSet();
         set.playTogether(pulse, colorFade);
