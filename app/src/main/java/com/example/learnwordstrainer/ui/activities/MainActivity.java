@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> overlayPermissionLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                // After returning from the permission screen, check if permission was granted
                 if (Settings.canDrawOverlays(this)) {
                     startService(new Intent(this, BubbleService.class));
                 }
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_OVERLAY_PERMISSION) {
             if (Settings.canDrawOverlays(this)) {
-                // Тепер уже можна запускати сервіс
                 startService(new Intent(this, BubbleService.class));
             } else {
                 Toast.makeText(this, "Потрібен дозвіл для показу бульбашки", Toast.LENGTH_SHORT).show();
