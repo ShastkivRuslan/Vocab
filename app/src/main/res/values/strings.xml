@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Add a new word:)</string>
-    <string name="add_new_word">Додати нове слово</string>
-    <string name="origin_word">Англійське слово</string>
+    <string name="add_new_word">Нове слово</string>
+    <string name="origin_word">Введіть слово</string>
     <string name="translation_word">Переклад</string>
-    <string name="add_word_button_text">Додати слово</string>
-    <string name="description_add_word_dialog">Слово буде додано до вашого словника для подальшого вивчення</string>
+    <string name="add_word_button_text">Що це за слово?</string>
+    <string name="description_add_word_dialog">АІ асистент покаже інфомацію про це слово разом із прикладами використання та перекладами.</string>
     <string name="change_theme">Змінити тему</string>
     <string name="head_text">Мій словник</string>
     <string name="description_head_text">Вивчайте англійську легко</string>
@@ -50,4 +50,20 @@
     <string name="search_word">Сканувати слово</string>
     <string name="write_manually">Написати вручну</string>
     <string name="percentage_format">%1$d%%</string>
+    <string name="practice_type">Режим практики</string>
+    <string name="practice_card_description">Переглядайте приклади речень</string>
+    <string name="practice_mode">Практика</string>
+    <string name="transcription">Транскрипція</string>
+    <string name="part_of_speech">Частина мови</string>
+    <string name="example_usage">Приклади використання</string>
+    <string name="example_sentence_1">Приклад речення №1.</string>
+    <string name="example_translation_1">Приклад перекладу речення №1.</string>
+    <string name="example_sentence_2">Приклад речення №2.</string>
+    <string name="example_translation_2">Приклад перекладу речення №2.</string>
+    <string name="example_sentence_3">Приклад речення №3.</string>
+    <string name="example_translation_3">Приклад перекладу речення №3.</string>
+    <string name="thinking">Думаю...</string>
+    <string name="thinking_animation">Анімація думання</string>
+    <string name="generating_examples">Генерую приклади</string>
+    <string name="add_to_vocab">Додати до словника</string>
 </resources>

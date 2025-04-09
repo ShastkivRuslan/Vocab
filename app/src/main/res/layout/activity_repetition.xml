@@ -344,14 +344,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
-                android:id="@+id/resultFooterIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_check"
-                android:contentDescription="@string/todo"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/onProcessAnimation"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
@@ -362,9 +361,9 @@
                 android:text="@string/correct"
                 android:textColor="@color/white"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@id/resultFooterIcon"
-                app:layout_constraintTop_toTopOf="@id/resultFooterIcon"
-                app:layout_constraintStart_toEndOf="@id/resultFooterIcon"
+                app:layout_constraintBottom_toBottomOf="@id/onProcessAnimation"
+                app:layout_constraintTop_toTopOf="@id/onProcessAnimation"
+                app:layout_constraintStart_toEndOf="@id/onProcessAnimation"
                 android:layout_marginStart="8dp"/>
 
             <com.google.android.material.button.MaterialButton
@@ -374,7 +373,7 @@
                 app:cornerRadius="30dp"
                 android:text="@string/next_word"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/resultFooterIcon"
+                app:layout_constraintTop_toBottomOf="@id/onProcessAnimation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="44dp"

@@ -21,6 +21,7 @@
     <!-- Background & Surface -->
     <color name="background">#121826</color>
     <color name="surface">#1E2135</color>
+    <color name="surface_variant">#2C2C2C</color>
     <color name="card_background">#252D41</color>
     <color name="card_stroke">#3D3D3D</color>
 
@@ -37,4 +38,7 @@
     <!--  Theme button color  -->
     <color name="success_transparent">#8F66BB6A</color>
     <color name="wrong_transparent">#90EC407A</color>
+
+    <color name="chat_header_background">#F2F2F7</color>
+    <color name="message_text">#333333</color>
 </resources>
