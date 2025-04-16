@@ -106,7 +106,6 @@ public class AddWordFloatingViewModel extends AndroidViewModel {
                             String content = result.getChoices().get(0).getMessage().getContent();
                             WordInfoResponse wordResponse = parseWordInfo(content);
 
-                            // Оновлюємо дані у View Model
                             currentTranslation.setValue(wordResponse.getTranslation());
                             examples.setValue(buildWordInfoMessage(wordResponse));
                         } else {
