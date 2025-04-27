@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     Uri.parse("package:" + getPackageName()));
             overlayPermissionLauncher.launch(intent);
         }
+
     }
 
     @Override
@@ -91,6 +92,12 @@ public class MainActivity extends AppCompatActivity {
 
         mainBinding.repetitionInclude.btnRepetition.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, RepetitionActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        mainBinding.practiceInclude.btnPractice.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, PracticeActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
