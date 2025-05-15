@@ -28,5 +28,4 @@ public class BubbleAutoStartReceiver extends BroadcastReceiver {
                 break;
         }
     }
-
 }
