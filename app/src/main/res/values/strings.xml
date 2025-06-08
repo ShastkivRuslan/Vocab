@@ -66,4 +66,20 @@
     <string name="thinking_animation">Анімація думання</string>
     <string name="generating_examples">Генерую приклади</string>
     <string name="add_to_vocab">Додати до словника</string>
+    <string name="word_to_know">Слово: %1$s</string>
+    <string name="tts_button">TTS button</string>
+    <string name="back">Назад</string>
+    <string name="settings">Налаштування</string>
+    <string name="settings_description">Налаштуй додаток під себе</string>
+    <string name="theme">Тема</string>
+    <string name="theme_description">Виберіть тему додатку</string>
+    <string name="language">Мова додатку</string>
+    <string name="current_language">Виберіть мову додатку</string>
+    <string name="notifications">Сповіщення</string>
+    <string name="notifications_description">Керуйте сповіщеннями з додатку</string>
+    <string name="floating_add">Плаваюча кнопка</string>
+    <string name="floating_add_description">Керуйте плаваючою кнопкою</string>
+    <string name="about_us">Про нас</string>
+    <string name="about_us_description">Правова інформація</string>
+    <string name="size_of_bubble">Розмір плаваючої кнопки</string>
 </resources>

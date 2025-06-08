@@ -12,7 +12,7 @@
         android:background="@drawable/gradient_background"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabTheme"
+        android:id="@+id/fabSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
@@ -21,7 +21,7 @@
         app:backgroundTint="@color/card_background"
         app:fabSize="mini"
         app:elevation="2dp"
-        app:srcCompat="@drawable/ic_theme" />
+        app:srcCompat="@drawable/ic_settings" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -205,6 +205,7 @@
                         layout="@layout/repetition_item_card"/>
 
                     <include
+                        android:id="@+id/allWordsInclude"
                         layout="@layout/all_words_item_card"/>
 
                 </LinearLayout>
