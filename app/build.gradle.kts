@@ -1,8 +1,21 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
 }
 
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+
+val apiKey = localProperties.getProperty("openai.api.key") ?: ""
+val apiSystemPromt = localProperties.getProperty("openai.system.promt") ?: ""
+
 android {
+
     namespace = "com.example.learnwordstrainer"
     compileSdk = 34
 
@@ -14,6 +27,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -31,6 +45,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -43,6 +58,12 @@ dependencies {
     implementation(libs.room)
     annotationProcessor(libs.room.compiler)
     implementation(libs.material)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.squareup.logging.interceptor)
+    implementation (libs.android.lottie)
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

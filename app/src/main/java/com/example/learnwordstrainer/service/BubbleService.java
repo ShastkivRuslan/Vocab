@@ -4,12 +4,19 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -19,16 +26,19 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.BounceInterpolator;
+import androidx.core.app.NotificationCompat;
 
 import com.example.learnwordstrainer.R;
-import com.example.learnwordstrainer.model.BubblePosition;
-import com.example.learnwordstrainer.repository.BubblePositionRepository;
 import com.example.learnwordstrainer.ui.activities.AddWordFloatingActivity;
+import com.example.learnwordstrainer.ui.activities.MainActivity;
+import com.example.learnwordstrainer.model.BubblePosition;
+import com.example.learnwordstrainer.repository.BubbleRepository;
 import com.example.learnwordstrainer.viewmodels.BubbleViewModel;
 
 /**
  * Service responsible for displaying and managing a floating bubble UI element
  * that provides quick access to add new words functionality.
+ * Configured as a foreground service to ensure continuous operation.
  */
 public class BubbleService extends Service {
 
@@ -38,6 +48,9 @@ public class BubbleService extends Service {
     private static final long ANIMATION_DURATION = 300;
     private static final long CLICK_DURATION_THRESHOLD = 200;
     private static final int DELETION_ZONE_RADIUS = 150;
+    private static final int NOTIFICATION_ID = 1001;
+    private static final String CHANNEL_ID = "bubble_service_channel";
+    private static final String ACTION_STOP_SERVICE = "com.example.learnwordstrainer.STOP_BUBBLE_SERVICE";
 
     // UI Components
     private WindowManager windowManager;
@@ -53,32 +66,117 @@ public class BubbleService extends Service {
     private int screenHeight;
     private boolean isDeleteZoneVisible = false;
     private boolean isDeleteZoneActive = false;
+    private boolean isScreenOn = true;
+    private BroadcastReceiver screenReceiver;
+
+    private PowerManager.WakeLock wakeLock;
 
     // MVVM Components
     private BubbleViewModel viewModel;
-    private BubblePositionRepository repository;
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    private BubbleRepository repository;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initRepository();
         initViewModel();
-        initViews();
-        setupWindowManager();
-        setupTouchListener();
-        setupClickListener();
-        loadBubblePosition();
+        acquireWakeLock();
+        registerScreenReceiver();
 
-        windowManager.addView(bubbleView, bubbleParams);
+        if (isScreenOn) {
+            initViews();
+            setupWindowManager();
+            setupTouchListener();
+            setupClickListener();
+            loadBubblePosition();
+            windowManager.addView(bubbleView, bubbleParams);
+        }
+
+        createNotificationChannel();
+        startForeground(NOTIFICATION_ID, createNotification());
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && ACTION_STOP_SERVICE.equals(intent.getAction())) {
+            stopSelf();
+            return START_NOT_STICKY;
+        }
+
+        // Перевіряємо стан екрану та відновлюємо бульбашку якщо потрібно
+        if (isScreenOn && bubbleView == null) {
+            restoreBubble();
+        }
+
+        // Завжди перезапускати сервіс при завершенні
+        return START_STICKY;
+    }
+
+    private void acquireWakeLock() {
+        if (wakeLock == null || !wakeLock.isHeld()) {
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+            wakeLock = powerManager.newWakeLock(
+                    PowerManager.PARTIAL_WAKE_LOCK,
+                    "BubbleService::WakeLock");
+            wakeLock.acquire(10 * 60 * 1000L); // 10 хвилин максимум
+        }
+    }
+
+    private void releaseWakeLock() {
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+            wakeLock = null;
+        }
+    }
+
+    private void createNotificationChannel() {
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                "Bubble Service Channel",
+                NotificationManager.IMPORTANCE_MIN); // ВАЖЛИВО: IMPORTANCE_MIN замість IMPORTANCE_LOW
+        channel.setDescription("Channel for Word Trainer Bubble Service");
+        channel.setShowBadge(false);
+        channel.setSound(null, null); // Без звуку
+        channel.enableVibration(false); // Без вібрації
+        channel.enableLights(false); // Без світла
+        channel.setLockscreenVisibility(Notification.VISIBILITY_SECRET); // Не показувати на екрані блокування
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+    }
+
+    private Notification createNotification() {
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        Intent stopIntent = new Intent(this, BubbleService.class);
+        stopIntent.setAction(ACTION_STOP_SERVICE);
+        PendingIntent stopPendingIntent = PendingIntent.getService(
+                this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        return new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Vocab.")
+                .setContentText(isScreenOn ? "Бульбашка активна" : "Бульбашка призупинена")
+                .setSmallIcon(R.drawable.ic_bubble)
+                .setContentIntent(pendingIntent)
+                .addAction(R.drawable.ic_close, "Зупинити", stopPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_MIN) // PRIORITY_MIN - найнижчий пріоритет
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET) // Приховати на екрані блокування
+                .setSilent(true) // Тихе сповіщення
+                .setShowWhen(false) // Не показувати час
+                .setOngoing(true) // Постійне сповіщення
+                .setCategory(NotificationCompat.CATEGORY_SERVICE) // Категорія сервісу
+                .build();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     private void initRepository() {
-        repository = new BubblePositionRepository(this);
+        repository = new BubbleRepository(this);
     }
 
     private void initViewModel() {
@@ -86,6 +184,8 @@ public class BubbleService extends Service {
     }
 
     private void initViews() {
+        if (bubbleView != null) return; // Уже ініціалізовано
+
         Context themedContext = new ContextThemeWrapper(this, R.style.Theme_LearnWordsTrainer);
         LayoutInflater inflater = LayoutInflater.from(themedContext);
         bubbleView = inflater.inflate(R.layout.bubble_layout, null, false);
@@ -93,7 +193,10 @@ public class BubbleService extends Service {
     }
 
     private void setupWindowManager() {
-        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        if (windowManager == null) {
+            windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        }
+
         Point size = new Point();
         windowManager.getDefaultDisplay().getSize(size);
         screenWidth = size.x;
@@ -108,7 +211,9 @@ public class BubbleService extends Service {
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS |
+                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT
         );
         params.gravity = Gravity.TOP | Gravity.START;
@@ -131,19 +236,62 @@ public class BubbleService extends Service {
     }
 
     private void loadBubblePosition() {
-        BubblePosition position = viewModel.loadSavedPosition();
-        bubbleParams.x = position.x;
-        bubbleParams.y = position.y;
+        if (bubbleParams != null && viewModel != null) {
+            BubblePosition position = viewModel.loadSavedPosition();
+            bubbleParams.x = position.x;
+            bubbleParams.y = position.y;
+        }
     }
 
     private void setupTouchListener() {
-        View bubbleCardView = bubbleView.findViewById(R.id.bubbleCardView);
-        bubbleCardView.setOnTouchListener(new BubbleTouchListener());
-        bubbleCardView.setOnLongClickListener(view -> {
-            provideFeedback(view);
-            showQuickActions();
-            return true;
-        });
+        if (bubbleView != null) {
+            View bubbleCardView = bubbleView.findViewById(R.id.bubbleCardView);
+            bubbleCardView.setOnTouchListener(new BubbleTouchListener());
+            bubbleCardView.setOnLongClickListener(view -> {
+                provideFeedback(view);
+                showQuickActions();
+                return true;
+            });
+        }
+    }
+
+    private void setupClickListener() {
+        if (bubbleView != null) {
+            bubbleView.findViewById(R.id.bubbleCardView).setOnClickListener(v -> {
+                provideFeedback(v);
+                launchAddWordActivity();
+            });
+        }
+    }
+
+    private void restoreBubble() {
+        try {
+            if (bubbleView == null) {
+                initViews();
+                setupWindowManager();
+                setupTouchListener();
+                setupClickListener();
+                loadBubblePosition();
+            }
+
+            if (bubbleView != null && windowManager != null) {
+                windowManager.addView(bubbleView, bubbleParams);
+            }
+        } catch (Exception e) {
+            // Логування помилки
+            e.printStackTrace();
+        }
+    }
+
+    private void hideBubble() {
+        try {
+            if (bubbleView != null && windowManager != null) {
+                windowManager.removeView(bubbleView);
+            }
+        } catch (Exception e) {
+            // View може бути вже видалений
+        }
+        bubbleView = null;
     }
 
     private class BubbleTouchListener implements View.OnTouchListener {
@@ -211,7 +359,6 @@ public class BubbleService extends Service {
                 hideDeleteZone();
             }
 
-            // і не над зоною видалення
             if (wasQuickTap && !wasOverDeleteZone) {
                 v.performClick();
             }
@@ -227,9 +374,11 @@ public class BubbleService extends Service {
     }
 
     private void updateBubblePosition(int x, int y) {
-        bubbleParams.x = x;
-        bubbleParams.y = y;
-        windowManager.updateViewLayout(bubbleView, bubbleParams);
+        if (bubbleParams != null && windowManager != null && bubbleView != null) {
+            bubbleParams.x = x;
+            bubbleParams.y = y;
+            windowManager.updateViewLayout(bubbleView, bubbleParams);
+        }
     }
 
     private void showQuickActions() {
@@ -253,6 +402,8 @@ public class BubbleService extends Service {
     }
 
     private boolean isBubbleOverDeleteZone(int x, int y) {
+        if (bubbleView == null || deleteZoneView == null) return false;
+
         int bubbleCenterX = x + bubbleView.getWidth() / 2;
         int bubbleCenterY = y + bubbleView.getHeight() / 2;
 
@@ -266,43 +417,59 @@ public class BubbleService extends Service {
     }
 
     private void showDeleteZone() {
-        if (!isDeleteZoneVisible) {
-            windowManager.addView(deleteZoneView, deleteZoneParams);
-            isDeleteZoneVisible = true;
+        if (!isDeleteZoneVisible && deleteZoneView != null && windowManager != null) {
+            try {
+                windowManager.addView(deleteZoneView, deleteZoneParams);
+                isDeleteZoneVisible = true;
 
-            deleteZoneView.setAlpha(0f);
-            deleteZoneView.setScaleX(0f);
-            deleteZoneView.setScaleY(0f);
+                deleteZoneView.setAlpha(0f);
+                deleteZoneView.setScaleX(0f);
+                deleteZoneView.setScaleY(0f);
+
+                deleteZoneView.animate()
+                        .scaleX(0.7f)
+                        .scaleY(0.7f)
+                        .alpha(0.5f)
+                        .setDuration(250)
+                        .withEndAction(() -> isDeleteZoneActive = true)
+                        .start();
+            } catch (Exception e) {
+                // Логування помилки
+            }
+        }
+    }
+
+    private void animateDeleteZoneHighlight() {
+        if (deleteZoneView != null) {
+            deleteZoneView.animate().cancel();
+            deleteZoneView.clearAnimation();
+
+            deleteZoneView.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .alpha(1f)
+                    .setDuration(150)
+                    .start();
+        }
+    }
+
+    private void animateDeleteZoneNormal() {
+        if (deleteZoneView != null) {
+            deleteZoneView.animate().cancel();
+            deleteZoneView.clearAnimation();
 
             deleteZoneView.animate()
                     .scaleX(0.7f)
                     .scaleY(0.7f)
                     .alpha(0.5f)
-                    .setDuration(250)
-                    .withEndAction(() -> isDeleteZoneActive = true)
+                    .setDuration(150)
                     .start();
         }
     }
 
-    private void animateDeleteZoneHighlight() {
-        deleteZoneView.animate()
-                .scaleX(1f)
-                .scaleY(1f)
-                .alpha(1f)
-                .setDuration(150)
-                .start();
-    }
-
-    private void animateDeleteZoneNormal() {
-        deleteZoneView.animate()
-                .scaleX(0.7f)
-                .scaleY(0.7f)
-                .alpha(0.5f)
-                .setDuration(150)
-                .start();
-    }
-
     private void snapToEdge() {
+        if (bubbleView == null) return;
+
         int bubbleWidth = bubbleView.getMeasuredWidth();
         if (bubbleWidth == 0) bubbleWidth = 40;
 
@@ -343,9 +510,11 @@ public class BubbleService extends Service {
     private ValueAnimator createHorizontalAnimator(int startX, int targetX) {
         ValueAnimator xAnimator = ValueAnimator.ofInt(startX, targetX);
         xAnimator.addUpdateListener(animation -> {
-            bubbleParams.x = (int) animation.getAnimatedValue();
-            viewModel.saveBubblePosition(bubbleParams.x, bubbleParams.y);
-            windowManager.updateViewLayout(bubbleView, bubbleParams);
+            if (bubbleParams != null && viewModel != null && windowManager != null && bubbleView != null) {
+                bubbleParams.x = (int) animation.getAnimatedValue();
+                viewModel.saveBubblePosition(bubbleParams.x, bubbleParams.y);
+                windowManager.updateViewLayout(bubbleView, bubbleParams);
+            }
         });
         xAnimator.setInterpolator(new BounceInterpolator());
         return xAnimator;
@@ -368,14 +537,19 @@ public class BubbleService extends Service {
     }
 
     private void hideDeleteZone() {
-        if (isDeleteZoneVisible) {
-            deleteZoneView.animate()
-                    .alpha(0f)
-                    .scaleX(0.5f)
-                    .scaleY(0.5f)
-                    .setDuration(150)
-                    .withEndAction(this::removeDeleteZoneView)
-                    .start();
+        if (deleteZoneView != null) {
+            deleteZoneView.animate().cancel();
+            deleteZoneView.clearAnimation();
+
+            if (isDeleteZoneVisible) {
+                deleteZoneView.animate()
+                        .alpha(0f)
+                        .scaleX(0.5f)
+                        .scaleY(0.5f)
+                        .setDuration(150)
+                        .withEndAction(this::removeDeleteZoneView)
+                        .start();
+            }
         }
     }
 
@@ -391,13 +565,6 @@ public class BubbleService extends Service {
         }
     }
 
-    private void setupClickListener() {
-        bubbleView.findViewById(R.id.bubbleCardView).setOnClickListener(v -> {
-            provideFeedback(v);
-            launchAddWordActivity();
-        });
-    }
-
     private void launchAddWordActivity() {
         Intent intent = new Intent(this, AddWordFloatingActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -408,17 +575,66 @@ public class BubbleService extends Service {
     public void onDestroy() {
         super.onDestroy();
         cleanupViews();
+        releaseWakeLock();
         viewModel = null;
+
+        if (screenReceiver != null) {
+            unregisterReceiver(screenReceiver);
+            screenReceiver = null;
+        }
     }
 
     private void cleanupViews() {
         if (bubbleView != null) {
-            windowManager.removeView(bubbleView);
+            try {
+                windowManager.removeView(bubbleView);
+            } catch (IllegalArgumentException e) {
+                // View might already be removed
+            }
             bubbleView = null;
         }
         if (deleteZoneView != null && isDeleteZoneVisible) {
-            windowManager.removeView(deleteZoneView);
+            try {
+                windowManager.removeView(deleteZoneView);
+            } catch (IllegalArgumentException e) {
+                // View might already be removed
+            }
             deleteZoneView = null;
+        }
+    }
+
+    private void registerScreenReceiver() {
+        screenReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+                    isScreenOn = false;
+                    hideBubble();
+                    releaseWakeLock();
+                    // Оновлюємо нотифікацію
+                    updateNotification();
+                } else if (Intent.ACTION_SCREEN_ON.equals(action) || Intent.ACTION_USER_PRESENT.equals(action)) {
+                    isScreenOn = true;
+                    acquireWakeLock();
+                    restoreBubble();
+                    // Оновлюємо нотифікацію
+                    updateNotification();
+                }
+            }
+        };
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        registerReceiver(screenReceiver, filter);
+    }
+
+    private void updateNotification() {
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        if (notificationManager != null) {
+            notificationManager.notify(NOTIFICATION_ID, createNotification());
         }
     }
 }

@@ -16,54 +16,65 @@ import java.util.Objects;
 
 public class AddWordActivity extends AppCompatActivity {
 
-    private ActivityAddWordBinding binding;
-    private AddWordViewModel viewModel;
+    private ActivityAddWordBinding binding; // View Binding for easier access to views
+    private AddWordViewModel viewModel; // ViewModel to handle business logic
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Initialize binding and set the content view
         binding = ActivityAddWordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initialize the ViewModel
         viewModel = new ViewModelProvider(this).get(AddWordViewModel.class);
 
+        // Set up the ActionBar with a back button and title
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Додати нове слово");
+            getSupportActionBar().setTitle("Add New Word");
         }
 
-        setupObservers();
-        setupListeners();
+        setupObservers(); // Observe LiveData changes
+        setupListeners(); // Set up button listeners
     }
 
+    // Set up LiveData observers
     private void setupObservers() {
+        // Observe messages from ViewModel (like success or error)
         viewModel.getMessage().observe(this, message -> {
             if (message != null && !message.isEmpty()) {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-                viewModel.clearMessage();
+                viewModel.clearMessage(); // Clear message after showing
             }
         });
 
+        // Observe if a word was successfully added
         viewModel.getWordAdded().observe(this, added -> {
             if (added) {
+                // Clear input fields
                 binding.etEnglish.setText("");
                 binding.etTranslation.setText("");
-                clearFocus();
-                viewModel.resetWordAdded();
+                clearFocus(); // Hide the keyboard
+                viewModel.resetWordAdded(); // Reset the flag
             }
         });
     }
 
+    // Set up listeners for UI elements
     private void setupListeners() {
         binding.btnAdd.setOnClickListener(view -> {
+            // Get text from EditTexts, trim and lowercase
             String english = Objects.requireNonNull(binding.etEnglish.getText()).toString().trim().toLowerCase();
             String translation = Objects.requireNonNull(binding.etTranslation.getText()).toString().trim().toLowerCase();
 
+            // Pass the words to ViewModel to add
             viewModel.addWord(english, translation);
         });
     }
 
+    // Hide the keyboard and clear focus
     private void clearFocus() {
         View view = getCurrentFocus();
         if (view != null) {
@@ -73,18 +84,20 @@ public class AddWordActivity extends AppCompatActivity {
         }
     }
 
+    // Handle ActionBar back button click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            onBackPressed(); // Navigate back
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // Override finish() to add custom transition animation when closing
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right); // Slide animation
     }
 }

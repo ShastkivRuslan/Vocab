@@ -12,124 +12,153 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#99000000"
-        android:visibility="visible"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"/>
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/CardStyle"
+    <androidx.cardview.widget.CardView
         android:id="@+id/dialogCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/cardview_default_elevation"
-            android:orientation="vertical"
-            android:padding="24dp"
-            >
+            android:padding="16dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:text="@string/add_new_word"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnListen"/>
 
-                <TextView
-                    android:id="@+id/titleTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_new_word"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/closeButton"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+            <ImageButton
+                android:id="@+id/btnListen"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/tts_button"
+                android:src="@drawable/ic_speaker"
+                app:tint="@color/primary"
+                android:visibility="gone"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintEnd_toStartOf="@id/closeButton"
+                app:layout_constraintStart_toEndOf="@id/titleTextView"
+                app:layout_constraintTop_toTopOf="@id/titleTextView"
+                app:layout_constraintBottom_toBottomOf="@id/titleTextView"/>
 
-                <ImageButton
-                    android:id="@+id/closeButton"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_close"
-                    android:contentDescription="@string/close_bubble"
-                    app:tint="@color/primary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/closeButton"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close"
+                android:contentDescription="@string/close_bubble"
+                app:tint="@color/primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/titleTextView"
+                app:layout_constraintBottom_toBottomOf="@id/titleTextView"/>
 
+            <TextView
+                android:id="@+id/aiResponseText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/titleTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEnglish"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/origin_word"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:endIconMode="clear_text">
+                android:layout_marginTop="16dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintTop_toBottomOf="@id/titleTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/wordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textAutoCorrect"
-                    android:padding="16dp" />
-
+                    android:padding="12dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilTranslation"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/translation_word"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:endIconMode="clear_text">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/translationEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textAutoCorrect"
-                    android:padding="16dp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="24dp"
+                android:id="@+id/checkBtn"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/add_word_button_text"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                app:cornerRadius="16dp"
-                app:backgroundTint="@color/primary"/>
+                app:cornerRadius="12dp"
+                app:backgroundTint="@color/primary"
+                app:layout_constraintTop_toBottomOf="@id/tilEnglish"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addBtn"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_to_vocab"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:cornerRadius="12dp"
+                android:visibility="gone"
+                app:backgroundTint="@color/primary"
+                app:layout_constraintTop_toBottomOf="@id/aiResponseText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/generatingAiResult"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/ai_loading"
+                app:layout_constraintTop_toBottomOf="@id/tilEnglish"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/descriptionText"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/description_add_word_dialog"
                 android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

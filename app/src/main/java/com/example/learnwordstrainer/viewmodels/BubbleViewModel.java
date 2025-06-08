@@ -1,16 +1,16 @@
 package com.example.learnwordstrainer.viewmodels;
 
 import com.example.learnwordstrainer.model.BubblePosition;
-import com.example.learnwordstrainer.repository.BubblePositionRepository;
+import com.example.learnwordstrainer.repository.BubbleRepository;
 
 /**
  * ViewModel for the floating bubble, managing its position and state
  */
 public class BubbleViewModel {
-    private final BubblePositionRepository repository;
+    private final BubbleRepository repository;
     private BubblePosition currentPosition;
 
-    public BubbleViewModel(BubblePositionRepository repository) {
+    public BubbleViewModel(BubbleRepository repository) {
         this.repository = repository;
     }
 
