@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.databinding.ActivityRepetitionBinding;
 import com.example.learnwordstrainer.viewmodels.RepetitionViewModel;
@@ -198,14 +199,17 @@ public class RepetitionActivity extends AppCompatActivity {
     }
 
     private void showResultFooter(boolean isCorrect) {
+        LottieAnimationView animationView = findViewById(R.id.onProcessAnimation);
         if (!isCorrect) {
             binding.resultFooter.setCardBackgroundColor(getColor(R.color.success_transparent));
-            binding.resultFooterIcon.setBackgroundResource(R.drawable.ic_check);
             binding.resultFooterText.setText(R.string.correct);
+            animationView.setAnimation(R.raw.correct_anim);
+            animationView.playAnimation();
         } else {
             binding.resultFooter.setCardBackgroundColor(getColor(R.color.wrong_transparent));
-            binding.resultFooterIcon.setBackgroundResource(R.drawable.ic_wrong);
             binding.resultFooterText.setText(R.string.wrong);
+            animationView.setAnimation(R.raw.wrong_anim);
+            animationView.playAnimation();
         }
 
         showResultFooterWithAnimation();

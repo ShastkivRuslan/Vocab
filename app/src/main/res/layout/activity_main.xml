@@ -12,7 +12,7 @@
         android:background="@drawable/gradient_background"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabTheme"
+        android:id="@+id/fabSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
@@ -21,7 +21,7 @@
         app:backgroundTint="@color/card_background"
         app:fabSize="mini"
         app:elevation="2dp"
-        app:srcCompat="@drawable/ic_theme" />
+        app:srcCompat="@drawable/ic_settings" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -205,7 +205,61 @@
                         layout="@layout/repetition_item_card"/>
 
                     <include
+                        android:id="@+id/allWordsInclude"
                         layout="@layout/all_words_item_card"/>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/additionalLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/mainScroll">
+
+                <TextView
+                    android:id="@+id/tvAdditionalSliderDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Практика"
+                    android:textColor="@color/text_primary"
+                    android:layout_margin="18dp"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+                </TextView>
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/ic_right_chevron"
+                    android:layout_marginStart="60dp"
+                    app:layout_constraintStart_toEndOf="@id/tvAdditionalSliderDescription"
+                    app:layout_constraintTop_toTopOf="@id/tvAdditionalSliderDescription"
+                    app:layout_constraintBottom_toBottomOf="@id/tvAdditionalSliderDescription"
+                    android:importantForAccessibility="no">
+                </ImageView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/additionalScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                app:layout_constraintTop_toBottomOf="@id/additionalLinearLayout">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:clipToPadding="false">
+
+                    <include
+                        android:id="@+id/practice_include"
+                        layout="@layout/practice_item_card"/>
 
                 </LinearLayout>
 
