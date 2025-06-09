@@ -82,4 +82,18 @@
     <string name="about_us">Про нас</string>
     <string name="about_us_description">Правова інформація</string>
     <string name="size_of_bubble">Розмір плаваючої кнопки</string>
+    <string name="bubble_settings_title">Плаваюча кнопка</string>
+    <string name="bubble_settings_description">Налаштуй плаваючу кнопку під себе</string>
+    <string name="bubble_settings_toggle">Плаваюча кнопка</string>
+    <string name="bubble_settings_toggle_description">Увімкніть чи вимкніть плаваючу кнопку</string>
+    <string name="bubble_settings_size">Розмір плаваючої кнопки</string>
+    <string name="bubble_settings_size_description">Виберіть розмір який вам підходить</string>
+    <string name="bubble_settings_transparency">Прозорість кнопки</string>
+    <string name="bubble_settings_transparency_description">Встановіть прозорість плаваючої кнопки</string>
+    <string name="bubble_settings_vibration">Вібрація при торканні</string>
+    <string name="bubble_settings_vibration_description">Вібрація при натисканні на бульбашку</string>
+    <string name="bubble_settings_auto_hide">Автоматичне приховування</string>
+    <string name="bubble_settings_autoHide_description">Автоматичне приховування у вибраних додатках</string>
+    <string name="bubble_settings_about">Про бульбашку</string>
+    <string name="bubble_settings_about_description">Корисна інформація про плаваючу кнопку</string>
 </resources>
