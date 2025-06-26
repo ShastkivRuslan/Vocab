@@ -44,6 +44,7 @@
         <activity android:name=".ui.activities.RepetitionActivity" />
         <activity android:name=".ui.activities.PracticeActivity"/>
         <activity android:name=".ui.activities.SettingsActivity"/>
+        <activity android:name=".ui.activities.BubbleSettingsActivity"/>
 
         <activity
             android:name=".ui.activities.AddWordFloatingActivity"

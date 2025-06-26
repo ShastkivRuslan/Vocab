@@ -29,4 +29,22 @@ public class BubbleViewModel {
         repository.savePosition(x, y);
         currentPosition = new BubblePosition(x, y);
     }
+
+    /**
+     * Зберігає розмір бульбашки
+     * @param sizeDp розмір у dp
+     */
+    public void saveBubbleSize(int sizeDp) {
+        repository.setBubbleSize(sizeDp);
+    }
+
+    /**
+     * Отримує збережений розмір бульбашки
+     * @return розмір у dp
+     */
+    public int getSavedBubbleSize() {
+        return repository.getBubbleSize();
+    }
+
+
 }

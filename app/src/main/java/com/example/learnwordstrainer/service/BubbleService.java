@@ -17,6 +17,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -26,6 +27,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.BounceInterpolator;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+
 import androidx.core.app.NotificationCompat;
 
 import com.example.learnwordstrainer.R;
@@ -34,6 +38,7 @@ import com.example.learnwordstrainer.ui.activities.MainActivity;
 import com.example.learnwordstrainer.model.BubblePosition;
 import com.example.learnwordstrainer.repository.BubbleRepository;
 import com.example.learnwordstrainer.viewmodels.BubbleViewModel;
+import com.google.android.material.card.MaterialCardView;
 
 /**
  * Service responsible for displaying and managing a floating bubble UI element
@@ -67,9 +72,12 @@ public class BubbleService extends Service {
     private boolean isDeleteZoneVisible = false;
     private boolean isDeleteZoneActive = false;
     private boolean isScreenOn = true;
+    private boolean isBubbleAdded = false;
     private BroadcastReceiver screenReceiver;
 
     private PowerManager.WakeLock wakeLock;
+    private static final String ACTION_UPDATE_SETTINGS = "com.example.learnwordstrainer.UPDATE_BUBBLE_SETTINGS";
+    private BroadcastReceiver settingsReceiver;
 
     // MVVM Components
     private BubbleViewModel viewModel;
@@ -89,7 +97,14 @@ public class BubbleService extends Service {
             setupTouchListener();
             setupClickListener();
             loadBubblePosition();
-            windowManager.addView(bubbleView, bubbleParams);
+
+            try {
+                windowManager.addView(bubbleView, bubbleParams);
+                isBubbleAdded = true;
+            } catch (IllegalStateException e) {
+                android.util.Log.w("BubbleService", "View already added during onCreate", e);
+                isBubbleAdded = true;
+            }
         }
 
         createNotificationChannel();
@@ -190,6 +205,9 @@ public class BubbleService extends Service {
         LayoutInflater inflater = LayoutInflater.from(themedContext);
         bubbleView = inflater.inflate(R.layout.bubble_layout, null, false);
         deleteZoneView = inflater.inflate(R.layout.delete_zone_layout, null);
+
+        int savedSize = viewModel.getSavedBubbleSize(); // потрібно додати цей метод до ViewModel
+        setBubbleSize(savedSize > 0 ? savedSize : 40); // 40dp за замовчуванням
     }
 
     private void setupWindowManager() {
@@ -264,7 +282,7 @@ public class BubbleService extends Service {
         }
     }
 
-    private void restoreBubble() {
+    public void restoreBubble() {
         try {
             if (bubbleView == null) {
                 initViews();
@@ -274,22 +292,34 @@ public class BubbleService extends Service {
                 loadBubblePosition();
             }
 
-            if (bubbleView != null && windowManager != null) {
-                windowManager.addView(bubbleView, bubbleParams);
+            if (bubbleView != null && windowManager != null && !isBubbleAdded) {
+                if (!bubbleView.isAttachedToWindow()) {
+                    windowManager.addView(bubbleView, bubbleParams);
+                    isBubbleAdded = true;
+                }
             }
+        } catch (IllegalStateException e) {
+            android.util.Log.w("BubbleService", "View already added to window manager", e);
+            isBubbleAdded = true;
         } catch (Exception e) {
-            // Логування помилки
-            e.printStackTrace();
+            android.util.Log.e("BubbleService", "Error restoring bubble", e);
         }
     }
 
-    private void hideBubble() {
+    public void hideBubble() {
         try {
-            if (bubbleView != null && windowManager != null) {
-                windowManager.removeView(bubbleView);
+            if (bubbleView != null && windowManager != null && isBubbleAdded) {
+                if (bubbleView.isAttachedToWindow()) {
+                    windowManager.removeView(bubbleView);
+                }
+                isBubbleAdded = false;
             }
+        } catch (IllegalArgumentException e) {
+            android.util.Log.d("BubbleService", "View wasn't in window manager", e);
+            isBubbleAdded = false;
         } catch (Exception e) {
-            // View може бути вже видалений
+            android.util.Log.e("BubbleService", "Error hiding bubble", e);
+            isBubbleAdded = false;
         }
         bubbleView = null;
     }
@@ -481,6 +511,13 @@ public class BubbleService extends Service {
     }
 
     private int calculateTargetX(int bubbleWidth) {
+        // Тепер отримуємо реальну ширину динамічно
+        if (bubbleWidth == 0) {
+            bubbleWidth = getBubbleSizeDp();
+            if (bubbleWidth <= 0) bubbleWidth = 40; // резервне значення
+            bubbleWidth = dpToPx(bubbleWidth);
+        }
+
         if (bubbleParams.x < screenWidth / 2) {
             return MARGIN_HORIZONTAL;
         } else {
@@ -585,21 +622,27 @@ public class BubbleService extends Service {
     }
 
     private void cleanupViews() {
-        if (bubbleView != null) {
+        if (bubbleView != null && isBubbleAdded) {
             try {
-                windowManager.removeView(bubbleView);
+                if (bubbleView.isAttachedToWindow()) {
+                    windowManager.removeView(bubbleView);
+                }
             } catch (IllegalArgumentException e) {
-                // View might already be removed
+                android.util.Log.d("BubbleService", "View wasn't in window manager during cleanup", e);
             }
+            isBubbleAdded = false;
             bubbleView = null;
         }
+
         if (deleteZoneView != null && isDeleteZoneVisible) {
             try {
                 windowManager.removeView(deleteZoneView);
             } catch (IllegalArgumentException e) {
-                // View might already be removed
+                android.util.Log.d("BubbleService", "Delete zone view wasn't in window manager", e);
             }
             deleteZoneView = null;
+            isDeleteZoneVisible = false;
+            isDeleteZoneActive = false;
         }
     }
 
@@ -612,13 +655,13 @@ public class BubbleService extends Service {
                     isScreenOn = false;
                     hideBubble();
                     releaseWakeLock();
-                    // Оновлюємо нотифікацію
                     updateNotification();
                 } else if (Intent.ACTION_SCREEN_ON.equals(action) || Intent.ACTION_USER_PRESENT.equals(action)) {
                     isScreenOn = true;
                     acquireWakeLock();
-                    restoreBubble();
-                    // Оновлюємо нотифікацію
+                    if (!isBubbleAdded || bubbleView == null || !bubbleView.isAttachedToWindow()) {
+                        restoreBubble();
+                    }
                     updateNotification();
                 }
             }
@@ -636,5 +679,50 @@ public class BubbleService extends Service {
         if (notificationManager != null) {
             notificationManager.notify(NOTIFICATION_ID, createNotification());
         }
+    }
+
+    private void setBubbleSize(int sizeDp) {
+        if (bubbleView == null) return;
+
+        MaterialCardView bubbleCardView = bubbleView.findViewById(R.id.bubbleCardView);
+        if (bubbleCardView == null) return;
+
+        int sizePixels = dpToPx(sizeDp);
+
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) bubbleCardView.getLayoutParams();
+        layoutParams.width = sizePixels;
+        layoutParams.height = sizePixels;
+
+        bubbleCardView.setLayoutParams(layoutParams);
+
+        ImageView imageView = bubbleView.findViewById(R.id.bubbleIcon);
+        FrameLayout.LayoutParams imageParams = (FrameLayout.LayoutParams) imageView.getLayoutParams();
+
+        imageParams.width = sizePixels / 2;
+        imageParams.height = sizePixels / 2;
+
+        imageView.setLayoutParams(imageParams);
+    }
+
+    private int dpToPx(int dp) {
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
+    }
+
+    private int getBubbleSizeDp() {
+        if (bubbleView == null) return -1;
+
+        MaterialCardView bubbleCardView = bubbleView.findViewById(R.id.bubbleCardView);
+        if (bubbleCardView == null) return -1;
+
+        int widthPixels = bubbleCardView.getLayoutParams().width;
+        return pxToDp(widthPixels);
+    }
+
+    private int pxToDp(int px) {
+        return (int) (px / getResources().getDisplayMetrics().density);
     }
 }

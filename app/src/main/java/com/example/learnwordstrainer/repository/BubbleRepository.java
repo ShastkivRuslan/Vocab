@@ -13,8 +13,10 @@ public class BubbleRepository {
     private static final String PREF_BUBBLE_X = "bubbleX";
     private static final String PREF_BUBBLE_Y = "bubbleY";
     private static final String PREF_BUBBLE_ENABLED = "bubble_enabled";
+    private static final String PREF_BUBBLE_SIZE = "bubble_size";
     private static final int DEFAULT_X = 20;
     private static final int DEFAULT_Y = 100;
+    private static final int DEFAULT_SIZE = 40;
     private static final boolean DEFAULT_ENABLED = true;
 
     private final Context context;
@@ -49,6 +51,18 @@ public class BubbleRepository {
         return prefs.getBoolean(PREF_BUBBLE_ENABLED, DEFAULT_ENABLED);
     }
 
+    public int getBubbleSize() {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getInt(PREF_BUBBLE_SIZE, DEFAULT_SIZE);
+    }
+
+    public void setBubbleSize(int size) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(PREF_BUBBLE_SIZE, size);
+        editor.apply();
+    }
+
     public void setBubbleEnabled(boolean isEnabled) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -61,5 +75,14 @@ public class BubbleRepository {
         boolean newState = !currentState;
         setBubbleEnabled(newState);
         return newState;
+    }
+
+    /**
+     * Перевіряє чи розмір в допустимих межах
+     * @param size розмір для перевірки
+     * @return true якщо розмір допустимий
+     */
+    public boolean isValidBubbleSize(int size) {
+        return size >= 30 && size <= 80;
     }
 }

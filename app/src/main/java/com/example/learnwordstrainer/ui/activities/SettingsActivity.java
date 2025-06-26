@@ -1,11 +1,13 @@
 package com.example.learnwordstrainer.ui.activities;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.databinding.ActivitySettingsBinding;
 import com.example.learnwordstrainer.model.ThemeMode;
 import com.example.learnwordstrainer.viewmodels.SettingsViewModel;
@@ -19,14 +21,19 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         viewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
+
         binding.fabBack.setOnClickListener(v -> finish());
-        binding.switchBubble.setOnClickListener(v -> viewModel.toggleBubbleSwitch());
+
+        binding.llBubbleSettings.setOnClickListener(view -> {
+            Intent intent = new Intent(SettingsActivity.this, BubbleSettingsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
         binding.ThemeSettings.setOnClickListener(v -> showThemeDialog());
-        viewModel.getIsBubbleEnabled().observe(this, isEnabled -> {
-            binding.switchBubble.setChecked(isEnabled);
-        });
+
     }
 
     private void showThemeDialog() {

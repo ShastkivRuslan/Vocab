@@ -260,22 +260,24 @@
                         android:layout_marginVertical="8dp" />
 
                     <!-- Експорт/Імпорт даних -->
+
+                    <!-- Розділювач -->
                     <LinearLayout
-                        android:id="@+id/llBubbleSwitch"
+                        android:id="@+id/llBubbleSettings"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="16dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true">
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_add_floating"
                             android:layout_marginEnd="16dp"
+                            android:src="@drawable/ic_add_floating"
                             app:tint="@color/text_primary" />
 
                         <LinearLayout
@@ -288,72 +290,26 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/floating_add"
-                                android:textSize="16sp"
                                 android:textColor="@color/text_primary"
+                                android:textSize="16sp"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="@string/floating_add_description"
-                                android:textSize="14sp"
                                 android:textColor="@color/text_secondary"
-                                android:layout_marginTop="4dp" />
+                                android:textSize="14sp" />
 
                         </LinearLayout>
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/switchBubble"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:thumbTint="@color/white"
-                            app:trackTint="@color/surface" />
-
-                    </LinearLayout>
-
-                    <!-- Розділювач -->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider"
-                        android:layout_marginVertical="8dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="16dp"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_add_floating"
-                            android:layout_marginEnd="16dp"
-                            app:tint="@color/text_primary"/>
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_right_chevron"
+                            app:tint="@color/text_secondary" />
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/size_of_bubble"
-                                android:textSize="16sp"
-                                android:textColor="@color/text_primary"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Задати розмір"
-                        </LinearLayout>
                     </LinearLayout>
 
                     <View
