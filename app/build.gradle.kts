@@ -4,8 +4,8 @@ import java.io.FileInputStream
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 val localProperties = Properties()
@@ -16,9 +16,7 @@ if (localPropertiesFile.exists()) {
     }
 }
 val apiKey: String = localProperties.getProperty("openai.api.key", "")
-val apiSystemPrompt: String = localProperties.getProperty("openai.system.promt", "")
-
-
+val apiSystemPrompt: String = localProperties.getProperty("openai.system.prompt", "")
 
 android {
     namespace = "com.example.learnwordstrainer"
@@ -33,6 +31,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "API_SYSTEM_PROMPT", "\"$apiSystemPrompt\"")
     }
 
     buildTypes {
@@ -58,28 +57,32 @@ android {
 }
 
 dependencies {
+    implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.room)
-    implementation(libs.core.ktx.v1131)
-    ksp(libs.room.compiler)
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.squareup.logging.interceptor)
-    implementation(libs.android.lottie)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.datastore.preferences)
+    implementation(libs.lottie)
 
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+    // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    implementation(libs.datastore.preferences)
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
-    implementation(libs.lifecycle.viewmodel.ktx)
-
+    // Testing
     testImplementation(libs.junit)
+    testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    testImplementation(libs.kotlinx.coroutines.test)
 }
