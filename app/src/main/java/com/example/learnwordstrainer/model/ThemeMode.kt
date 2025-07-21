@@ -1,6 +1,6 @@
-package com.example.learnwordstrainer.model;
+package com.example.learnwordstrainer.model
 
-public enum ThemeMode {
+enum class ThemeMode {
     SYSTEM,
     LIGHT,
     DARK

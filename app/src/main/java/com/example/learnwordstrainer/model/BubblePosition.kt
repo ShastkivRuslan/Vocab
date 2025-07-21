@@ -1,11 +1,3 @@
-package com.example.learnwordstrainer.model;
+package com.example.learnwordstrainer.model
 
-public class BubblePosition {
-    public final int x;
-    public final int y;
-
-    public BubblePosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
+data class BubblePosition(val x: Int, val y: Int)

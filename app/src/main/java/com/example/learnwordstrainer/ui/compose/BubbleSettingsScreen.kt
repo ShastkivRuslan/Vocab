@@ -2,36 +2,13 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
@@ -42,13 +19,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.learnwordstrainer.R
+import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
+import com.example.learnwordstrainer.viewmodels.BubbleSettingsUiState
 
 @Composable
-fun BubbleSettingsScreen() {
-    var isBubbleEnabled by remember { mutableStateOf(false) }
-    var bubbleSize by remember { mutableFloatStateOf(40f) }
-    var isBubbleVibrationEnabled by remember { mutableStateOf(true) }
-
+fun BubbleSettingsScreen(
+    uiState: BubbleSettingsUiState,
+    onBackPressed: () -> Unit,
+    onBubbleEnabledChange: (Boolean) -> Unit,
+    onBubbleSizeChange: (Float) -> Unit,
+    onTransparencyChange: (Float) -> Unit,
+    onVibrationEnabledChange: (Boolean) -> Unit,
+    onAutoHideClick: () -> Unit,
+    onAboutBubbleClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -79,21 +63,16 @@ fun BubbleSettingsScreen() {
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    onClick = { /* TODO: onBackClick */ },
-                    modifier = Modifier.size(48.dp)
-                ) {
+                IconButton(onClick = onBackPressed, modifier = Modifier.size(48.dp)) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_left_chevron),
-                        contentDescription = "Back",
+                        contentDescription = "Back", // TODO: stringResource
                         modifier = Modifier.fillMaxSize()
                     )
                 }
                 Text(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    text = "Налаштування бульбашки",
+                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    text = "Налаштування бульбашки", // TODO: stringResource
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -102,11 +81,12 @@ fun BubbleSettingsScreen() {
 
             Text(
                 modifier = Modifier.padding(start = 26.dp),
-                text = "Персоналізуйте плаваючу бульбашку",
+                text = "Персоналізуйте плаваючу бульбашку", // TODO: stringResource
                 color = Color.White.copy(alpha = 0.7f),
                 fontSize = 16.sp
             )
 
+            // Картка з налаштуваннями
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,88 +94,65 @@ fun BubbleSettingsScreen() {
                 elevation = CardDefaults.cardElevation(8.dp),
                 shape = RoundedCornerShape(size = 20.dp)
             ) {
-                Column(
-                    modifier = Modifier.padding(24.dp)
-                ) {
+                Column(modifier = Modifier.padding(24.dp)) {
+                    // Кожен елемент тепер використовує дані з uiState та викликає відповідну функцію
                     BubbleSettingItemWithSwitch(
                         title = "Плаваюча бульбашка",
                         description = "Увімкнути плаваючу бульбашку для швидкого доступу",
-                        isChecked = isBubbleEnabled,
-                        onCheckedChange = { isBubbleEnabled = it }
+                        isChecked = uiState.isBubbleEnabled,
+                        onCheckedChange = onBubbleEnabledChange
                     )
-
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                    )
-
+                    Divider()
                     BubbleSettingsSlider(
                         title = "Розмір бульбашки",
                         description = "Налаштуй розмір плаваючої бульбашки",
-                        currentSize = bubbleSize,
-                        startSliderValue = 30,
-                        endSliderValue = 80,
+                        currentValue = uiState.bubbleSize,
+                        valueRange = 30f..80f,
                         steps = 9,
-                        onSizeChange = { bubbleSize = it }
+                        onValueChangeFinished = { onBubbleSizeChange(it) }
                     )
-
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                    )
-
+                    Divider()
                     BubbleSettingsSlider(
                         title = "Прозорість",
                         description = "Налаштуйте прозорість бульбашки",
-                        startSliderValue = 0,
-                        endSliderValue = 100,
+                        currentValue = uiState.bubbleTransparency,
+                        valueRange = 0f..100f,
                         steps = 10,
-                        currentSize = 50f,
-                        onSizeChange = { /* TODO: onTransparencyClick */ }
+                        onValueChangeFinished = { onTransparencyChange(it) }
                     )
-
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                    )
-
+                    Divider()
                     BubbleSettingItemWithSwitch(
                         title = "Вібрація",
                         description = "Увімкнути вібрацію при натисканні",
-                        isChecked = isBubbleVibrationEnabled,
-                        onCheckedChange = { isBubbleVibrationEnabled = it }
+                        isChecked = uiState.isVibrationEnabled,
+                        onCheckedChange = onVibrationEnabledChange
                     )
-
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                    )
-
+                    Divider()
                     BubbleSettingItem(
                         title = "Автоматичне приховування",
                         description = "Налаштуйте автоматичне приховування бульбашки",
-                        onClick = { /* TODO: onAutoHideClick */ }
+                        onClick = onAutoHideClick
                     )
-
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                    )
-
+                    Divider()
                     BubbleSettingItem(
                         title = "Про бульбашку",
                         description = "Інформація про функцію плаваючої бульбашки",
-                        onClick = { /* TODO: onAboutBubbleClick */ }
+                        onClick = onAboutBubbleClick
                     )
                 }
             }
         }
     }
+}
+
+// Допоміжний Composable для розділювача, щоб уникнути дублювання
+@Composable
+private fun Divider() {
+    HorizontalDivider(
+        modifier = Modifier.padding(vertical = 8.dp),
+        thickness = 1.dp,
+        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+    )
 }
 
 @Composable
@@ -289,60 +246,33 @@ fun BubbleSettingItemWithSwitch(
 fun BubbleSettingsSlider(
     title: String,
     description: String,
-    startSliderValue: Int,
-    endSliderValue: Int,
+    currentValue: Float,
+    valueRange: ClosedFloatingPointRange<Float>,
     steps: Int,
-    currentSize: Float,
-    onSizeChange: (Float) -> Unit
+    onValueChangeFinished: (Float) -> Unit
 ) {
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
-        Text(
-            text = title,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+    var sliderPosition by remember(currentValue) { mutableFloatStateOf(currentValue) }
 
-        Text(
-            text = description,
-            fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Text(text = description, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), modifier = Modifier.padding(top = 4.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = startSliderValue.toString(),
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                modifier = Modifier.padding(end = 8.dp)
-            )
-
+        Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(text = valueRange.start.toInt().toString())
             Slider(
-                value = currentSize,
-                onValueChange = onSizeChange,
-                valueRange = startSliderValue.toFloat()..endSliderValue.toFloat(),
+                value = sliderPosition,
+                onValueChange = { sliderPosition = it },
+                onValueChangeFinished = { onValueChangeFinished(sliderPosition) },
+                valueRange = valueRange,
                 steps = steps,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
                 colors = SliderDefaults.colors(
                     thumbColor = MaterialTheme.colorScheme.primary,
                     activeTrackColor = MaterialTheme.colorScheme.primary,
                     inactiveTrackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
                 )
             )
-
-            Text(
-                text = endSliderValue.toString(),
-                fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                modifier = Modifier.padding(start = 8.dp)
-            )
+            Text(text = valueRange.endInclusive.toInt().toString())
         }
     }
 }
@@ -350,5 +280,16 @@ fun BubbleSettingsSlider(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun BubbleSettingsScreenPreview() {
-    BubbleSettingsScreen()
+    LearnWordsTrainerTheme {
+        BubbleSettingsScreen(
+            uiState = BubbleSettingsUiState(bubbleSize = 50f),
+            onBackPressed = {},
+            onBubbleEnabledChange = {},
+            onBubbleSizeChange = {},
+            onTransparencyChange = {},
+            onVibrationEnabledChange = {},
+            onAutoHideClick = {},
+            onAboutBubbleClick = {}
+        )
+    }
 }

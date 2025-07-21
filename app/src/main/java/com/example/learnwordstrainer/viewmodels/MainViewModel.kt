@@ -1,50 +1,45 @@
-package com.example.learnwordstrainer.viewmodels;
+package com.example.learnwordstrainer.viewmodels
 
-import android.app.Application;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.learnwordstrainer.repository.ThemeRepository
+import com.example.learnwordstrainer.repository.WordRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-import com.example.learnwordstrainer.repository.ThemeRepository;
-import com.example.learnwordstrainer.repository.WordRepository;
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val wordRepository =
+        WordRepository(
+            application
+        )
+    private val themeRepository = ThemeRepository(application)
 
-public class MainViewModel extends AndroidViewModel {
-    private final WordRepository wordRepository;
-    private final ThemeRepository themeRepository;
+    private val _themeMode = MutableStateFlow(themeRepository.themeMode)
+    val themeMode = _themeMode.asStateFlow()
 
-    private final MutableLiveData<Integer> totalWordsCount = new MutableLiveData<>(0);
-    private final MutableLiveData<Integer> learnedPercentage = new MutableLiveData<>(0);
+    private val _totalWordsCount = MutableLiveData(0)
+    val totalWordsCount: LiveData<Int> = _totalWordsCount
 
+    private val _learnedPercentage = MutableLiveData(0)
+    val learnedPercentage: LiveData<Int> = _learnedPercentage
 
-
-    public MainViewModel(Application application) {
-        super(application);
-        wordRepository = new WordRepository(application);
-        themeRepository = new ThemeRepository(application);
-
-        // Застосування збереженої теми при старті
-        AppCompatDelegate.setDefaultNightMode(themeRepository.getThemeMode());
-
-        // Початкове завантаження статистики
-        loadStatistics();
+    init {
+        loadStatistics()
     }
 
-    public LiveData<Integer> getTotalWordsCount() {
-        return totalWordsCount;
+    fun loadStatistics() {
+        val total = wordRepository.getWordCount()
+        val learned = wordRepository.getLearnedWordsCount()
+
+        _totalWordsCount.value = total
+        _learnedPercentage.value = if (total > 0) (learned * 100) / total else 0
     }
 
-    public LiveData<Integer> getLearnedPercentage() {
-        return learnedPercentage;
-    }
-
-    public void loadStatistics() {
-        int total = wordRepository.getWordCount();
-        int learned = wordRepository.getLearnedWordsCount();
-
-        totalWordsCount.setValue(total);
-
-        int percentage = total > 0 ? (learned * 100) / total : 0;
-        learnedPercentage.setValue(percentage);
+    fun updateTheme() {
+        _themeMode.value = themeRepository.themeMode
+        AppCompatDelegate.setDefaultNightMode(themeRepository.themeMode)
     }
 }

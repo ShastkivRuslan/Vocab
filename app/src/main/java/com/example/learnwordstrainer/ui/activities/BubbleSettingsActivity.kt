@@ -1,65 +1,36 @@
-package com.example.learnwordstrainer.ui.activities;
+package com.example.learnwordstrainer.ui.activities
 
-import android.content.Intent;
-import android.os.Bundle;
+import BubbleSettingsScreen
+import BubbleSettingsViewModel
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
+class BubbleSettingsActivity : ComponentActivity() {
 
-import com.example.learnwordstrainer.databinding.ActivityBubbleSettingsBinding;
-import com.example.learnwordstrainer.service.BubbleService;
-import com.example.learnwordstrainer.viewmodels.BubbleSettingsViewModel;
-import com.google.android.material.slider.Slider;
+    private val viewModel: BubbleSettingsViewModel by viewModels()
 
-public class BubbleSettingsActivity extends AppCompatActivity {
-    private ActivityBubbleSettingsBinding binding;
-    private BubbleSettingsViewModel viewModel;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    private BubbleService bubbleService;
+        setContent {
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        binding = ActivityBubbleSettingsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        viewModel = new ViewModelProvider(this).get(BubbleSettingsViewModel.class);
-
-        setupUI();
-        observeViewModel();
-    }
-
-    private void setupUI() {
-        // Існуюча логіка
-        binding.fabBack.setOnClickListener(v -> finish());
-        binding.llBubbleSwitch.setOnClickListener(view -> viewModel.toggleBubbleSwitch());
-
-        // Налаштування слайдеру розміру
-        binding.sliderBubbleSize.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(@NonNull Slider slider) {
-                // Початок перетягування
+            LearnWordsTrainerTheme {
+                BubbleSettingsScreen(
+                    uiState = uiState,
+                    onBackPressed = { finish() },
+                    onBubbleEnabledChange = viewModel::setBubbleEnabled,
+                    onBubbleSizeChange = viewModel::setBubbleSize,
+                    onTransparencyChange = viewModel::setBubbleTransparency,
+                    onVibrationEnabledChange = viewModel::setVibrationEnabled,
+                    onAboutBubbleClick = {},
+                    onAutoHideClick = {})
             }
-
-            @Override
-            public void onStopTrackingTouch(@NonNull Slider slider) {
-                // Кінець перетягування - зберігаємо значення та перезапускаємо сервіс
-                int newSize = (int) slider.getValue();
-                viewModel.saveBubbleSize(newSize);
-            }
-        });
-    }
-
-    private void observeViewModel() {
-        // Існуюча логіка
-        viewModel.getIsBubbleEnabled().observe(this, isEnabled -> {
-            binding.switchBubble.setChecked(isEnabled);
-        });
-
-        viewModel.getBubbleSize().observe(this, size -> {
-            binding.sliderBubbleSize.setValue(size);
-        });
+        }
     }
 }

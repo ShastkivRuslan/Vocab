@@ -1,80 +1,82 @@
-package com.example.learnwordstrainer.viewmodels;
+import android.app.Application
+import android.content.Intent
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.learnwordstrainer.service.BubbleService
+import com.example.learnwordstrainer.viewmodels.BubbleSettingsUiState
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-import android.app.Application;
-import android.content.Intent;
-import android.util.Log;
+class BubbleSettingsViewModel(application: Application) : AndroidViewModel(application) {
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+    private val repository = BubbleSettingsRepository(application)
 
-import com.example.learnwordstrainer.repository.BubbleRepository;
-import com.example.learnwordstrainer.service.BubbleService;
+    val uiState: StateFlow<BubbleSettingsUiState> = combine(
+        repository.isBubbleEnabled,
+        repository.bubbleSize,
+        repository.bubbleTransparency,
+        repository.isVibrationEnabled,
+        repository.autoHideAppList
+    ) { isEnabled, size, transparency, isVibrationOn, appList ->
+        BubbleSettingsUiState(
+            isBubbleEnabled = isEnabled,
+            bubbleSize = size,
+            bubbleTransparency = transparency,
+            isVibrationEnabled = isVibrationOn,
+            autoHideAppList = appList
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = BubbleSettingsUiState()
+    )
 
-public class BubbleSettingsViewModel extends AndroidViewModel {
-    private BubbleRepository bubbleRepository;
-
-    private final MutableLiveData<Boolean> isBubbleEnabled = new MutableLiveData<>();
-    private final MutableLiveData<Integer> bubbleSize = new MutableLiveData<>();
-
-    public BubbleSettingsViewModel(@NonNull Application application) {
-        super(application);
-
-        bubbleRepository = new BubbleRepository(application);
-        isBubbleEnabled.setValue(bubbleRepository.isBubbleEnabled());
-        bubbleSize.setValue(bubbleRepository.getBubbleSize());
-    }
-
-    public LiveData<Integer> getBubbleSize() {
-        return bubbleSize;
-    }
-
-    public LiveData<Boolean> getIsBubbleEnabled() {
-        return isBubbleEnabled;
-    }
-
-    public void toggleBubbleSwitch() {
-        boolean newState = bubbleRepository.toggleBubble();
-        isBubbleEnabled.setValue(newState);
-
-        // Керуємо сервісом залежно від стану
-        if (newState) {
-            startBubbleService();
+    fun setBubbleEnabled(isEnabled: Boolean) = viewModelScope.launch {
+        repository.setBubbleEnabled(isEnabled)
+        if (isEnabled) {
+            startBubbleService()
         } else {
-            stopBubbleService();
+            stopBubbleService()
         }
     }
 
-    private void startBubbleService() {
+    fun setBubbleSize(size: Float) = viewModelScope.launch {
+        repository.setBubbleSize(size)
+    }
+
+    fun setBubbleTransparency(transparency: Float) = viewModelScope.launch {
+        repository.setBubbleTransparency(transparency)
+    }
+
+    fun setVibrationEnabled(isEnabled: Boolean) = viewModelScope.launch {
+        repository.setVibrationEnabled(isEnabled)
+    }
+
+    fun addAppToAutoHideList(packageName: String) = viewModelScope.launch {
+        repository.addAppToAutoHideList(packageName)
+    }
+
+    fun removeAppFromAutoHideList(packageName: String) = viewModelScope.launch {
+        repository.removeAppFromAutoHideList(packageName)
+    }
+
+    private fun startBubbleService() {
         try {
-            Intent serviceIntent = new Intent(getApplication(), BubbleService.class);
-            getApplication().startForegroundService(serviceIntent);
-        } catch (Exception e) {
-            Log.e("SettingsViewModel", "Failed to start bubble service", e);
+            val context = getApplication<Application>()
+            val serviceIntent = Intent(context, BubbleService::class.java)
+            context.startForegroundService(serviceIntent)
+        } catch (e: Exception) {
+            Log.e("BubbleSettingsVM", "Failed to start bubble service", e)
         }
     }
 
-    private void stopBubbleService() {
-        Intent serviceIntent = new Intent(getApplication(), BubbleService.class);
-        getApplication().stopService(serviceIntent);
+    private fun stopBubbleService() {
+        val context = getApplication<Application>()
+        val serviceIntent = Intent(context, BubbleService::class.java)
+        context.stopService(serviceIntent)
     }
-
-    /**
-     * Зберігає розмір бульбашки
-     * @param sizeDp розмір у dp
-     */
-    public void saveBubbleSize(int sizeDp) {
-        bubbleRepository.setBubbleSize(sizeDp);
-        bubbleSize.setValue(sizeDp);
-    }
-
-    /**
-     * Отримує збережений розмір бульбашки
-     * @return розмір у dp
-     */
-    public int getSavedBubbleSize() {
-        return bubbleRepository.getBubbleSize();
-    }
-
 }

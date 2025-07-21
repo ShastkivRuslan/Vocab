@@ -20,7 +20,7 @@ val apiSystemPrompt: String = localProperties.getProperty("openai.system.prompt"
 
 android {
     namespace = "com.example.learnwordstrainer"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.learnwordstrainer"
@@ -50,6 +50,10 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -65,6 +69,22 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.datastore.preferences)
     implementation(libs.lottie)
+    implementation(libs.runtime.livedata)
+    implementation(libs.lifecycle.service)
+
+    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    implementation(libs.ui)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.material3)
+    implementation(libs.activity.compose)
+    implementation(libs.runtime)
+
+    // Optional but helpful
+    debugImplementation(libs.ui.tooling)
+    debugImplementation(libs.ui.test.manifest)
 
     // Room
     implementation(libs.room.runtime)
