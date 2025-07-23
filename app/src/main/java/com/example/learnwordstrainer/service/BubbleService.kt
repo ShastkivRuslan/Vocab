@@ -101,6 +101,7 @@ class BubbleService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent != null && ACTION_STOP_SERVICE == intent.action) {
             stopSelf()
+
             return START_NOT_STICKY
         }
 
