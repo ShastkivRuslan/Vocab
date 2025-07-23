@@ -533,6 +533,7 @@ class BubbleService : Service() {
             }
         }
         xAnimator.interpolator = BounceInterpolator()
+
         return xAnimator
     }
 
