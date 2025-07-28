@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,12 +24,13 @@ import com.example.learnwordstrainer.R
 @Composable
 fun DeleteZoneLayout(
     modifier: Modifier = Modifier,
-    size: Dp,
-    alpha: Float) {
+    alpha: Float,
+    scale: Float) {
     Card(
         modifier = modifier
-            .size(size)
-            .alpha(alpha),
+            .size(64.dp)
+            .alpha(alpha)
+            .scale(scale),
         shape = CircleShape,
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFE91E63)
@@ -52,6 +54,7 @@ fun DeleteZoneLayout(
 @Preview
 @Composable
 private fun DeleteZoneLayoutPreview() {
-    DeleteZoneLayout(size = 40.dp,
-        alpha = 0.9f)
+    DeleteZoneLayout(
+        alpha = 0.9f,
+        scale = 1.0f)
 }

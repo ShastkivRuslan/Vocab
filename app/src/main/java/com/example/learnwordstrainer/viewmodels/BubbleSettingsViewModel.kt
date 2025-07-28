@@ -3,6 +3,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.learnwordstrainer.repository.BubbleSettingsRepository
 import com.example.learnwordstrainer.service.BubbleService
 import com.example.learnwordstrainer.viewmodels.BubbleSettingsUiState
 import kotlinx.coroutines.flow.SharingStarted
