@@ -1,6 +1,7 @@
 package com.example.learnwordstrainer.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.learnwordstrainer.dao.WordDao;
 import com.example.learnwordstrainer.db.WordDatabase;
@@ -15,8 +16,8 @@ public class WordRepository {
     private final WordDao wordDao;
     private final ExecutorService executorService;
 
-    public WordRepository(Application application) {
-        WordDatabase db = WordDatabase.getDatabase(application);
+    public WordRepository(Context context) {
+        WordDatabase db = WordDatabase.getDatabase(context);
         wordDao = db.wordDao();
         executorService = Executors.newSingleThreadExecutor();
     }

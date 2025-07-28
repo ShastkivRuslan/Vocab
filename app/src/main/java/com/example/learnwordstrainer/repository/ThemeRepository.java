@@ -9,8 +9,8 @@ public class ThemeRepository {
     private final SharedPreferences preferences;
     private static final String THEME_PREF = "theme_preference";
 
-    public ThemeRepository(Application application) {
-        preferences = application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+    public ThemeRepository(Context context) {
+        preferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
     }
 
     public int getThemeMode() {
