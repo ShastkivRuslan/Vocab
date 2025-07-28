@@ -1,6 +1,5 @@
 package com.example.learnwordstrainer.ui.activities
 
-import BubbleSettingsRepository
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -26,7 +25,9 @@ import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
 import com.example.learnwordstrainer.utils.NotificationHelper
 import com.example.learnwordstrainer.viewmodels.MainViewModel
 import androidx.core.net.toUri
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
 
