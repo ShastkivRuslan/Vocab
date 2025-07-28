@@ -1,11 +1,11 @@
 package com.example.learnwordstrainer.di
 
 import android.content.Context
-import com.example.learnwordstrainer.domain.GetBubbleSettingsFlowUseCase
-import com.example.learnwordstrainer.domain.SaveBubblePositionUseCase
-import com.example.learnwordstrainer.repository.BubbleSettingsRepository
-import com.example.learnwordstrainer.repository.ThemeRepository
-import com.example.learnwordstrainer.repository.WordRepository
+import com.example.learnwordstrainer.domain.usecase.GetBubbleSettingsFlowUseCase
+import com.example.learnwordstrainer.domain.usecase.SaveBubblePositionUseCase
+import com.example.learnwordstrainer.data.repository.BubbleSettingsRepository
+import com.example.learnwordstrainer.data.repository.ThemeRepository
+import com.example.learnwordstrainer.data.repository.WordRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,12 +44,16 @@ object AppModule {
     @Provides
     @Singleton
     fun provideWordRepository(@ApplicationContext context: Context): WordRepository {
-        return WordRepository(context)
+        return WordRepository(
+            context
+        )
     }
 
     @Provides
     @Singleton
     fun provideThemeRepository(@ApplicationContext context: Context): ThemeRepository {
-        return ThemeRepository(context)
+        return ThemeRepository(
+            context
+        )
     }
 }

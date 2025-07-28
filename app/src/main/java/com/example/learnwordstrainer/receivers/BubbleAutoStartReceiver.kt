@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.util.Log
-import com.example.learnwordstrainer.repository.BubbleSettingsRepository
+import com.example.learnwordstrainer.data.repository.BubbleSettingsRepository
 import com.example.learnwordstrainer.service.BubbleService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

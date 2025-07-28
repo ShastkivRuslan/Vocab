@@ -96,4 +96,9 @@
     <string name="bubble_settings_autoHide_description">Автоматичне приховування у вибраних додатках</string>
     <string name="bubble_settings_about">Про бульбашку</string>
     <string name="bubble_settings_about_description">Корисна інформація про плаваючу кнопку</string>
+    <string name="stop">Зупинити</string>
+    <string name="bubble_service_channel_name">Системне сповіщення</string>
+    <string name="bubble_service_channel_description">Системне сповіщення, яке не дозволяє системі андроід зупиняти сервіс плаваючої кнопки</string>
+    <string name="bubble_active">Плаваюча кнопка активна</string>
+    <string name="bubble_paused">Плаваюча кнопка зупинена</string>
 </resources>

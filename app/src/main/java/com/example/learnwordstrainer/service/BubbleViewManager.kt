@@ -25,11 +25,11 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import com.example.learnwordstrainer.domain.SaveBubblePositionUseCase
-import com.example.learnwordstrainer.model.BubblePosition
-import com.example.learnwordstrainer.ui.activities.AddWordFloatingActivity
-import com.example.learnwordstrainer.ui.compose.BubbleLayout
-import com.example.learnwordstrainer.ui.compose.DeleteZoneLayout
+import com.example.learnwordstrainer.domain.usecase.SaveBubblePositionUseCase
+import com.example.learnwordstrainer.domain.model.BubblePosition
+import com.example.learnwordstrainer.ui.addwordfloating.AddWordFloatingActivity
+import com.example.learnwordstrainer.ui.bubble.compose.BubbleLayout
+import com.example.learnwordstrainer.ui.bubble.compose.DeleteZoneLayout
 import com.example.learnwordstrainer.ui.lifecycle.OverlayLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay

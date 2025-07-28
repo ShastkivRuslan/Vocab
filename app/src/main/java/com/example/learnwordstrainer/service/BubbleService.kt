@@ -14,10 +14,9 @@ import android.util.Log
 import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationCompat
 import com.example.learnwordstrainer.R
-import com.example.learnwordstrainer.domain.GetBubbleSettingsFlowUseCase
-import com.example.learnwordstrainer.domain.SaveBubblePositionUseCase
-import com.example.learnwordstrainer.repository.BubbleSettingsRepository
-import com.example.learnwordstrainer.ui.activities.MainActivity
+import com.example.learnwordstrainer.domain.usecase.GetBubbleSettingsFlowUseCase
+import com.example.learnwordstrainer.domain.usecase.SaveBubblePositionUseCase
+import com.example.learnwordstrainer.ui.mainscreen.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first

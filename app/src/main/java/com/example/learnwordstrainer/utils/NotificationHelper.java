@@ -10,9 +10,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.learnwordstrainer.R;
-import com.example.learnwordstrainer.ui.activities.MainActivity;
-import com.example.learnwordstrainer.ui.activities.RepetitionActivity;
-import com.example.learnwordstrainer.ui.activities.PracticeActivity;
+import com.example.learnwordstrainer.ui.mainscreen.MainActivity;
+import com.example.learnwordstrainer.ui.repetition.RepetitionActivity;
+import com.example.learnwordstrainer.ui.practice.PracticeActivity;
 
 import java.util.Random;
 
