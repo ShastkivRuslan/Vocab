@@ -40,9 +40,9 @@ public class RepetitionActivity extends AppCompatActivity {
         initializeTextToSpeech();
         observeViewModel();
 
-        binding.btnListen.setOnClickListener(v -> speak(viewModel.getWordForSpeech()));
+        //binding.btnListen.setOnClickListener(v -> speak(viewModel.getWordForSpeech()));
 
-        viewModel.startNewRound();
+        //viewModel.startNewRound();
     }
 
     private void initializeViews() {
@@ -77,8 +77,8 @@ public class RepetitionActivity extends AppCompatActivity {
                 layout.setEnabled(true);
             }
             hideResultFooterWithAnimation();
-            viewModel.hideResultFooter();
-            viewModel.startNewRound();
+            //viewModel.hideResultFooter();
+            //viewModel.startNewRound();
             resetAnswerStyles();
         });
     }
@@ -147,7 +147,7 @@ public class RepetitionActivity extends AppCompatActivity {
     }
 
     private void handleAnswerSelection(int selectedIndex) {
-        viewModel.checkAnswer(selectedIndex);
+        //viewModel.checkAnswer(selectedIndex);
 
         if (viewModel.getIsCorrectAnswer().getValue() != Boolean.TRUE) {
             variantNumbers[selectedIndex].setBackgroundResource(R.drawable.shape_rounded_variants_wrong);

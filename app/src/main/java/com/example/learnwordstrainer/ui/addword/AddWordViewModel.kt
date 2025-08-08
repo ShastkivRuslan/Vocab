@@ -1,63 +1,62 @@
-package com.example.learnwordstrainer.ui.addword;
+package com.example.learnwordstrainer.ui.addword
 
-import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.learnwordstrainer.data.repository.WordRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-import com.example.learnwordstrainer.data.repository.WordRepository;
+@HiltViewModel
+class AddWordViewModel @Inject constructor(
+    private val wordRepository: WordRepository
+) : ViewModel() {
 
-public class AddWordViewModel extends AndroidViewModel {
-    private final WordRepository wordRepository;
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
 
-    private final MutableLiveData<String> message = new MutableLiveData<>();
+    private val _wordAdded = MutableLiveData(false)
+    val wordAdded: LiveData<Boolean> = _wordAdded
 
-    private final MutableLiveData<Boolean> wordAdded = new MutableLiveData<>(false);
-
-    public AddWordViewModel(Application application) {
-        super(application);
-        wordRepository = new WordRepository(application);
+    fun clearMessage() {
+        _message.value = ""
     }
 
-    public LiveData<String> getMessage() {
-        return message;
+
+
+    fun resetWordAdded() {
+        _wordAdded.value = false
     }
 
-    public LiveData<Boolean> getWordAdded() {
-        return wordAdded;
-    }
-
-    public void clearMessage() {
-        message.setValue("");
-    }
-
-    public void resetWordAdded() {
-        wordAdded.setValue(false);
-    }
-
-    public void addWord(String english, String translation) {
+    fun addWord(english: String, translation: String) {
         if (english.isEmpty() || translation.isEmpty()) {
-            message.setValue("Заповніть усі поля");
-            return;
+            _message.value = "Заповніть усі поля"
+            return
         }
 
-        if (!english.matches("[a-zA-Z ]+")) {
-            message.setValue("Англійське слово повинно містити тільки латинські літери");
-            return;
+        if (!english.matches("[a-zA-Z ]+".toRegex())) {
+            _message.value = "Англійське слово повинно містити тільки латинські літери"
+            return
         }
 
-        if (!translation.matches("[а-яА-ЯіІїЇєЄґҐ' ]+")) {
-            message.setValue("Переклад повинен містити тільки українські літери");
-            return;
+        if (!translation.matches("[а-яА-ЯіІїЇєЄґҐ' ]+".toRegex())) {
+            _message.value = "Переклад повинен містити тільки українські літери"
+            return
         }
 
-        if (wordRepository.wordExists(english)) {
-            message.setValue("Це слово вже існує в словнику");
-            return;
-        }
+        viewModelScope.launch {
+            if (wordRepository.wordExists(english)) {
+                _message.postValue("Це слово вже існує в словнику")
+                return@launch
+            }
 
-        wordRepository.addWord(english, translation);
-        message.setValue("Слово додано");
-        wordAdded.setValue(true);
+            wordRepository.addWord(english, translation)
+            _message.postValue("Слово додано")
+            _wordAdded.postValue(true)
+        }
     }
 }

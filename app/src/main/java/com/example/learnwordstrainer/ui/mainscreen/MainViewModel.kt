@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.learnwordstrainer.data.repository.ThemeRepository
 import com.example.learnwordstrainer.data.repository.WordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,11 +33,14 @@ class MainViewModel @Inject constructor(
     }
 
     fun loadStatistics() {
-        val total = wordRepository.getWordCount()
-        val learned = wordRepository.getLearnedWordsCount()
+        viewModelScope.launch {
 
-        _totalWordsCount.value = total
-        _learnedPercentage.value = if (total > 0) (learned * 100) / total else 0
+            val total = wordRepository.getWordCount()
+            val learned = wordRepository.getLearnedWordsCount()
+
+            _totalWordsCount.value = total
+            _learnedPercentage.value = if (total > 0) (learned * 100) / total else 0
+        }
     }
 
     fun updateTheme() {

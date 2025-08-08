@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RepetitionViewModel extends AndroidViewModel {
-    private final WordRepository wordRepository;
+    //private final WordRepository wordRepository;
 
     private final MutableLiveData<Word> currentWord = new MutableLiveData<>();
     private final MutableLiveData<List<String>> answerOptions = new MutableLiveData<>();
@@ -26,7 +26,7 @@ public class RepetitionViewModel extends AndroidViewModel {
 
     public RepetitionViewModel(@NonNull Application application) {
         super(application);
-        wordRepository = new WordRepository(application);
+        //wordRepository = new WordRepository(application);
     }
 
     public LiveData<Word> getCurrentWord() {
@@ -61,59 +61,59 @@ public class RepetitionViewModel extends AndroidViewModel {
         return showResultFooter;
     }
 
-    public void startNewRound() {
-        isRoundCompleted.setValue(false);
-        loadRandomWord();
-        loadAnswerOptions();
-    }
-
-    private void loadRandomWord() {
-        Word randomWord = wordRepository.getRandomWord();
-        currentWord.setValue(randomWord);
-        correctAnswerCount.setValue(randomWord.getCorrectAnswerCount());
-        wrongAnswerCount.setValue(randomWord.getWrongAnswerCount());
-    }
-
-    private void loadAnswerOptions() {
-        Word word = currentWord.getValue();
-        if (word != null) {
-            List<String> options = wordRepository.getRandomTranslations(word.getId());
-            int index = new Random().nextInt(4);
-            options.add(index, word.getTranslation());
-
-            answerOptions.setValue(options);
-            correctAnswerIndex.setValue(index);
-        }
-    }
-
-    public void checkAnswer(int selectedIndex) {
-        Word word = currentWord.getValue();
-        if (word == null) return;
-
-        int correct = word.getCorrectAnswerCount();
-        int wrong = word.getWrongAnswerCount();
-
-        boolean isCorrect = selectedIndex == correctAnswerIndex.getValue();
-        if (isCorrect) {
-            correct++;
-            correctAnswerCount.setValue(correct);
-        } else {
-            wrong++;
-            wrongAnswerCount.setValue(wrong);
-        }
-
-        wordRepository.updateScore(word.getId(), correct, wrong);
-        isCorrectAnswer.setValue(isCorrect);
-        isRoundCompleted.setValue(true);
-        showResultFooter.setValue(true);
-    }
-
-    public void hideResultFooter() {
-        showResultFooter.setValue(false);
-    }
-
-    public String getWordForSpeech() {
-        Word word = currentWord.getValue();
-        return word != null ? word.getEnglishWord() : "";
-    }
+//    public void startNewRound() {
+//        isRoundCompleted.setValue(false);
+//        loadRandomWord();
+//        loadAnswerOptions();
+//    }
+//
+//    private void loadRandomWord() {
+//        //Word randomWord = wordRepository.getRandomWord();
+//        //currentWord.setValue(randomWord);
+//        //correctAnswerCount.setValue(randomWord.getCorrectAnswerCount());
+//        //setValue(randomWord.getWrongAnswerCount());
+//    }
+//
+//    private void loadAnswerOptions() {
+//        Word word = currentWord.getValue();
+//        if (word != null) {
+//            //List<String> options = wordRepository.getRandomTranslations(word.getId());
+//            int index = new Random().nextInt(4);
+//            //options.add(index, word.getTranslation());
+//
+//            //answerOptions.setValue(options);
+//            correctAnswerIndex.setValue(index);
+//        }
+//    }
+//
+//    public void checkAnswer(int selectedIndex) {
+//        Word word = currentWord.getValue();
+//        if (word == null) return;
+//
+//        int correct = word.getCorrectAnswerCount();
+//        int wrong = word.getWrongAnswerCount();
+//
+//        //boolean isCorrect = selectedIndex == correctAnswerIndex.getValue();
+//        //if (isCorrect) {
+//            correct++;
+//            correctAnswerCount.setValue(correct);
+//        //} else {
+//        //    wrong++;
+//            wrongAnswerCount.setValue(wrong);
+//        }
+//
+//        wordRepository.updateScore(word.getId(), correct, wrong);
+//        isCorrectAnswer.setValue(isCorrect);
+//        isRoundCompleted.setValue(true);
+//        showResultFooter.setValue(true);
+//    }
+//
+//    public void hideResultFooter() {
+//        showResultFooter.setValue(false);
+//    }
+//
+//    public String getWordForSpeech() {
+//        Word word = currentWord.getValue();
+//        return word != null ? word.getEnglishWord() : "";
+//    }
 }

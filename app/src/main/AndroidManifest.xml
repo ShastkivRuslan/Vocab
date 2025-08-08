@@ -10,7 +10,6 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-    />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
@@ -39,10 +38,26 @@
         <activity android:name=".ui.bubblesettings.BubbleSettingsActivity"/>
 
         <activity
-            android:name=".ui.addwordfloating.AddWordFloatingActivity"
             android:theme="@style/Theme.Transparent"
             android:excludeFromRecents="true"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:name=".ui.addwordfloating.AddWordFloatingActivity"
+            android:exported="true"
+            android:label="Ask Vocab.AI"
+            android:icon="@mipmap/ic_launcher">
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android:intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android:intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -81,7 +96,6 @@
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 
-        <!-- Receiver для відстеження розблокувань екрану -->
         <receiver
             android:name=".receivers.ScreenUnlockReceiver"
             android:enabled="true"
@@ -91,7 +105,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Receiver для автозапуску після перезавантаження -->
         <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="true"

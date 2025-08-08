@@ -101,4 +101,12 @@
     <string name="bubble_service_channel_description">Системне сповіщення, яке не дозволяє системі андроід зупиняти сервіс плаваючої кнопки</string>
     <string name="bubble_active">Плаваюча кнопка активна</string>
     <string name="bubble_paused">Плаваюча кнопка зупинена</string>
+    <string name="add_to_dictionary">Що це за слово?</string>
+    <string name="error_network_title">Відсутнє інтернет з\'єднання</string>
+    <string name="error_network_description">Перевірти чи увімкнено мобільні данні або WI-FI</string>
+    <string name="error_not_found_title">Слово не знайдено</string>
+    <string name="error_not_found_description">Перевірте ваше слово на правильність написання</string>
+    <string name="error_unknown_title">Щось пішло не так</string>
+    <string name="error_unknown_description">Вже працюємо над вирішенням цієї проблеми</string>
+    <string name="try_again">Спробувати ше раз</string>
 </resources>

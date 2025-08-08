@@ -51,7 +51,7 @@ public class PracticeActivity extends AppCompatActivity {
         setupObservers();
         setupListeners();
 
-        updateCurrentWord(viewModel.getNextWord());
+        //updateCurrentWord(viewModel.getNextWord());
     }
 
     private void setupObservers() {
@@ -101,8 +101,8 @@ public class PracticeActivity extends AppCompatActivity {
 
         binding.btnNextWord.setOnClickListener(v -> {
             // Отримуємо наступне слово з ViewModel
-            String nextWord = viewModel.getNextWord();
-            animateCardSwipe(nextWord);
+            //String nextWord = viewModel.getNextWord();
+            //animateCardSwipe(nextWord);
         });
     }
 
@@ -115,7 +115,7 @@ public class PracticeActivity extends AppCompatActivity {
         currentWord = word;
         binding.tvWord.setText(word);
         // Запит до AI для отримання прикладів
-        viewModel.getExamplesFromAI(word);
+        //viewModel.getExamplesFromAI(word);
     }
 
     private void updateExamplesWithAnimation(List<ExampleData> examplesList) {
@@ -347,12 +347,12 @@ public class PracticeActivity extends AppCompatActivity {
 
         if (wordTextView == null || transcriptionTextView == null || partOfSpeechTextView == null) return;
 
-        String newWord = viewModel.getNextWord();
+        //String newWord = viewModel.getNextWord();
         // В майбутньому потрібно отримувати ці дані з API або бази даних
         String newTranscription = "[nɛkst wɜːd]";
         String newPartOfSpeech = "noun";
 
-        wordTextView.setText(newWord);
+        //wordTextView.setText(newWord);
         transcriptionTextView.setText(newTranscription);
         partOfSpeechTextView.setText(newPartOfSpeech);
     }

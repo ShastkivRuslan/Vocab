@@ -14,8 +14,8 @@ import com.example.learnwordstrainer.data.remote.dto.ChatCompletionResponse;
 import com.example.learnwordstrainer.domain.model.Example;
 import com.example.learnwordstrainer.domain.model.ExampleData;
 import com.example.learnwordstrainer.domain.model.Word;
-import com.example.learnwordstrainer.domain.model.WordInfoResponse;
 import com.example.learnwordstrainer.data.repository.WordRepository;
+import com.example.learnwordstrainer.domain.model.WordInfoResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -30,8 +30,8 @@ import retrofit2.Response;
 public class PracticeViewModel extends AndroidViewModel {
     private static final String TAG = "PracticeViewModel";
 
-    private final WordRepository wordRepository;
-    private final OpenAIClient aiClient;
+    //private final WordRepository wordRepository;
+    //private final OpenAIClient aiClient;
 
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private final MutableLiveData<List<ExampleData>> examplesList = new MutableLiveData<>();
@@ -39,8 +39,8 @@ public class PracticeViewModel extends AndroidViewModel {
 
     public PracticeViewModel(@NonNull Application application) {
         super(application);
-        wordRepository = new WordRepository(application);
-        aiClient = new OpenAIClient();
+       // wordRepository = new WordRepository(application);
+        //aiClient = new OpenAIClient();
     }
 
     public LiveData<Boolean> getIsLoading() {
@@ -55,52 +55,48 @@ public class PracticeViewModel extends AndroidViewModel {
         return errorMessage;
     }
 
-    /**
-     * Отримує приклади використання слова від AI
-     * @param word слово, для якого потрібні приклади
-     */
-    public void getExamplesFromAI(String word) {
-        if (TextUtils.isEmpty(word)) {
-            errorMessage.setValue("Відсутнє слово для запиту до AI");
-            return;
-        }
-
-        isLoading.setValue(true);
-
-        aiClient.fetchExamplesFromGPT(word, new Callback<ChatCompletionResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<ChatCompletionResponse> call,
-                                   @NonNull Response<ChatCompletionResponse> response) {
-                isLoading.postValue(false);
-
-                if (response.isSuccessful() && response.body() != null) {
-                    try {
-                        ChatCompletionResponse result = response.body();
-                        if (result.getChoices() != null && !result.getChoices().isEmpty()) {
-                            String content = result.getChoices().get(0).getMessage().getContent();
-                            WordInfoResponse wordResponse = parseWordInfo(content);
-                            List<ExampleData> examples = convertToExampleData(wordResponse.getExamples());
-                            examplesList.postValue(examples);
-                        } else {
-                            errorMessage.postValue("Отримано порожню відповідь від сервера");
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error processing API response", e);
-                        errorMessage.postValue("Помилка обробки відповіді: " + e.getMessage());
-                    }
-                } else {
-                    handleErrorResponse(response);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ChatCompletionResponse> call, @NonNull Throwable t) {
-                isLoading.postValue(false);
-                errorMessage.postValue("Помилка мережі: " + t.getMessage());
-                Log.e(TAG, "Network error", t);
-            }
-        });
-    }
+//    public void getExamplesFromAI(String word) {
+//        if (TextUtils.isEmpty(word)) {
+//            errorMessage.setValue("Відсутнє слово для запиту до AI");
+//            return;
+//        }
+//
+//        isLoading.setValue(true);
+//
+//        aiClient.fetchExamplesFromGPT(word, new Callback<ChatCompletionResponse>() {
+//            @Override
+//            public void onResponse(@NonNull Call<ChatCompletionResponse> call,
+//                                   @NonNull Response<ChatCompletionResponse> response) {
+//                isLoading.postValue(false);
+//
+//                if (response.isSuccessful() && response.body() != null) {
+//                    try {
+//                        ChatCompletionResponse result = response.body();
+//                        if (result.choices != null && !result.choices.isEmpty()) {
+//                            String content = result.choices.get(0).message.content;
+//                            WordInfoResponse wordResponse = parseWordInfo(content);
+//                            List<ExampleData> examples = convertToExampleData(wordResponse.getExamples());
+//                            examplesList.postValue(examples);
+//                        } else {
+//                            errorMessage.postValue("Отримано порожню відповідь від сервера");
+//                        }
+//                    } catch (Exception e) {
+//                        Log.e(TAG, "Error processing API response", e);
+//                        errorMessage.postValue("Помилка обробки відповіді: " + e.getMessage());
+//                    }
+//                } else {
+//                    handleErrorResponse(response);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<ChatCompletionResponse> call, @NonNull Throwable t) {
+//                isLoading.postValue(false);
+//                errorMessage.postValue("Помилка мережі: " + t.getMessage());
+//                Log.e(TAG, "Network error", t);
+//            }
+//        });
+//    }
 
     private void handleErrorResponse(Response<ChatCompletionResponse> response) {
         String errorBody = "";
@@ -158,8 +154,8 @@ public class PracticeViewModel extends AndroidViewModel {
         return result;
     }
 
-    public String getNextWord() {
-        Word randomWord = wordRepository.getRandomWord();
-        return randomWord != null ? randomWord.getEnglishWord() : "";
-    }
+//    public String getNextWord() {
+//        Word randomWord = wordRepository.getRandomWord();
+//        return randomWord != null ? randomWord.englishWord : "";
+//    }
 }
