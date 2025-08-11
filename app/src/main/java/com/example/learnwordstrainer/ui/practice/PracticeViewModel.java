@@ -9,12 +9,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.learnwordstrainer.data.remote.client.OpenAIClient;
 import com.example.learnwordstrainer.data.remote.dto.ChatCompletionResponse;
 import com.example.learnwordstrainer.domain.model.Example;
 import com.example.learnwordstrainer.domain.model.ExampleData;
-import com.example.learnwordstrainer.domain.model.Word;
-import com.example.learnwordstrainer.data.repository.WordRepository;
 import com.example.learnwordstrainer.domain.model.WordInfoResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -23,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PracticeViewModel extends AndroidViewModel {

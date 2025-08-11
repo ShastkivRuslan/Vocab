@@ -1,6 +1,6 @@
 package com.example.learnwordstrainer.domain.usecase
 
-import com.example.learnwordstrainer.data.repository.WordRepository
+import com.example.learnwordstrainer.domain.repository.WordRepository
 import javax.inject.Inject
 
 class CheckIfWordExistsUseCase @Inject constructor(

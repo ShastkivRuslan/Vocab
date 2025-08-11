@@ -1,8 +1,6 @@
 package com.example.learnwordstrainer.domain.usecase
 
-import android.health.connect.datatypes.units.Length
-import android.widget.Toast
-import com.example.learnwordstrainer.data.repository.WordRepository
+import com.example.learnwordstrainer.domain.repository.WordRepository
 import javax.inject.Inject
 
 class AddWordToDictionaryUseCase @Inject constructor(

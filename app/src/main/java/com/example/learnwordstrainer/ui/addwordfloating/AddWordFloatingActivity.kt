@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import com.example.learnwordstrainer.ui.addwordfloating.compose.AddWordDialog
 import com.example.learnwordstrainer.ui.addwordfloating.compose.state.AddWordUiState
 import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
@@ -29,10 +28,8 @@ class AddWordFloatingActivity : ComponentActivity() {
             LearnWordsTrainerTheme {
                 val uiState by viewModel.uiState.collectAsState()
                 val inputWord by viewModel.inputWord.collectAsState()
-                val context = LocalContext.current
-
                 LaunchedEffect(uiState) {
-                    when (val currentState = uiState) {
+                    when (uiState) {
                         is AddWordUiState.Error -> {
                             viewModel.onErrorShown()
                         }

@@ -1,25 +1,30 @@
 package com.example.learnwordstrainer.ui.mainscreen.compose.components
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.learnwordstrainer.R
+import androidx.compose.ui.unit.dp
 import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
 
 @Composable
 fun PermissionDialog(
-    onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
+    onDismiss: () -> Unit,
     dialogTitle: String,
     dialogText: String,
-    icon: ImageVector
+    icon: ImageVector,
+    isDismissForever: Boolean,
+    onDismissForeverChange: (Boolean) -> Unit
 ) {
     AlertDialog(
         icon = {
@@ -29,10 +34,23 @@ fun PermissionDialog(
             Text(text = dialogTitle)
         },
         text = {
-            Text(text = dialogText)
+            Column {
+                Text(text = dialogText)
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = isDismissForever,
+                        onCheckedChange = onDismissForeverChange
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Не показувати більше")
+                }
+            }
         },
         onDismissRequest = {
-            onDismissRequest()
+            onDismiss()
         },
         confirmButton = {
             TextButton(
@@ -46,7 +64,8 @@ fun PermissionDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    onDismissRequest()
+
+                    onDismiss()
                 }
             ) {
                 Text("Відмовитись")
@@ -60,11 +79,13 @@ fun PermissionDialog(
 fun PermissionDialogPreview() {
     LearnWordsTrainerTheme {
         PermissionDialog(
-            onDismissRequest = {},
             onConfirmation = {},
+            onDismiss = {},
             dialogTitle = "Дозвіл на сповіщення",
             dialogText = "Нам потрібен цей дозвіл, щоб надсилати вам нагадування для вивчення слів.",
-            icon = Icons.Default.Notifications
+            icon = Icons.Default.Notifications,
+            isDismissForever = true,
+            onDismissForeverChange = {}
         )
     }
 }

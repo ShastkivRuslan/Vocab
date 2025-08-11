@@ -8,7 +8,9 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BubbleSettingsActivity : ComponentActivity() {
 
     private val viewModel: BubbleSettingsViewModel by viewModels()

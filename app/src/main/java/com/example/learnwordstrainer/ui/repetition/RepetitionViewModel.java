@@ -7,10 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.annotation.NonNull;
 
 import com.example.learnwordstrainer.domain.model.Word;
-import com.example.learnwordstrainer.data.repository.WordRepository;
 
 import java.util.List;
-import java.util.Random;
 
 public class RepetitionViewModel extends AndroidViewModel {
     //private final WordRepository wordRepository;

@@ -2,6 +2,7 @@ package com.example.learnwordstrainer.data.repository
 
 import com.example.learnwordstrainer.data.local.dao.WordDao
 import com.example.learnwordstrainer.domain.model.Word
+import com.example.learnwordstrainer.domain.repository.WordRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

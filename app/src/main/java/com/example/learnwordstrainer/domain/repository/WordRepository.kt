@@ -1,4 +1,4 @@
-package com.example.learnwordstrainer.data.repository
+package com.example.learnwordstrainer.domain.repository
 
 import com.example.learnwordstrainer.domain.model.Word
 

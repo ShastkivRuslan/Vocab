@@ -16,7 +16,9 @@ import com.example.learnwordstrainer.domain.model.ThemeMode
 import com.example.learnwordstrainer.ui.bubblesettings.BubbleSettingsActivity
 import com.example.learnwordstrainer.ui.settings.compose.SettingsScreen
 import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsActivity : ComponentActivity() {
     private val viewModel: SettingsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {

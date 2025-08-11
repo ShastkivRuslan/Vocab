@@ -1,30 +1,37 @@
 package com.example.learnwordstrainer.ui.settings
 
-import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.learnwordstrainer.domain.model.ThemeMode
-import com.example.learnwordstrainer.data.repository.ThemeRepository
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.example.learnwordstrainer.domain.repository.ThemeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
-    private val themeRepository =
-        ThemeRepository(application)
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val themeRepository: ThemeRepository
+) : ViewModel() {
 
-    private val _currentTheme = MutableStateFlow(themeRepository.themeMode)
-    val currentTheme: StateFlow<Int> = _currentTheme.asStateFlow()
+    val currentTheme: StateFlow<Int> = themeRepository.themeMode
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        )
 
     fun setTheme(themeMode: ThemeMode) {
-        val mode = when (themeMode) {
-            ThemeMode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-            ThemeMode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-            ThemeMode.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        viewModelScope.launch {
+            val mode = when (themeMode) {
+                ThemeMode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+                ThemeMode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+                ThemeMode.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
+            themeRepository.saveThemeMode(mode)
         }
-
-        themeRepository.saveThemeMode(mode)
-        _currentTheme.value = mode
-        AppCompatDelegate.setDefaultNightMode(mode)
     }
 }

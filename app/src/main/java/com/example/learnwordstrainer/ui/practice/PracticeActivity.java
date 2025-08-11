@@ -375,8 +375,4 @@ public class PracticeActivity extends AppCompatActivity {
         binding = null;
         typingAnimation = null;
     }
-
-    public void doSomething(String zasib){
-        System.out.println("=Я аомила посуду ");
-    }
 }

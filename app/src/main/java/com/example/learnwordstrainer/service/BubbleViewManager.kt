@@ -44,39 +44,31 @@ class BubbleViewManager(
     initialSize: Dp,
     initialAlpha: Float
 ) {
-
-    // State
     private var isDragging = false
     private var isDeleteZoneVisible = false
 
     private var isVibrationEnabled = false
     private val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-    // Views
     private var bubbleView: View? = null
     private var deleteZoneView: View? = null
 
-    // Layout params
     private lateinit var bubbleParams: WindowManager.LayoutParams
     private lateinit var deleteZoneParams: WindowManager.LayoutParams
 
-    // Animation state
     private var bubbleSizeState by mutableStateOf(initialSize)
     private var bubbleAlphaState by mutableFloatStateOf(initialAlpha)
     private var targetDeleteZoneAlpha by mutableFloatStateOf(0f)
     private var targetDeleteZoneScale by mutableFloatStateOf(0f)
 
-    // System services
     private val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     private val displayMetrics = context.resources.displayMetrics
     private val screenSize = Point()
 
-    // Lifecycle
     private val overlayLifecycleOwner = OverlayLifecycleOwner()
 
     private val positionManager: BubblePositionManager
 
-    // Animators
     private var snapAnimator: ValueAnimator? = null
 
     init {
@@ -157,7 +149,7 @@ class BubbleViewManager(
 
     private fun handleBubbleClick() {
         if (!isDragging) {
-            if (isVibrationEnabled) { // <-- Перевіряємо налаштування
+            if (isVibrationEnabled) {
                 vibrateOnClick()
             }
             openAddWordActivity()
@@ -167,7 +159,6 @@ class BubbleViewManager(
     private fun handleDragStart(offset: androidx.compose.ui.geometry.Offset) {
         isDragging = true
         showDeleteZone()
-        Log.d(TAG, "Drag started at offset: $offset")
     }
 
     private fun handleDrag(dragAmount: androidx.compose.ui.geometry.Offset) {
@@ -186,8 +177,6 @@ class BubbleViewManager(
         } else {
             snapToEdge()
         }
-
-        Log.d(TAG, "Drag ended")
     }
 
     private fun openAddWordActivity() {

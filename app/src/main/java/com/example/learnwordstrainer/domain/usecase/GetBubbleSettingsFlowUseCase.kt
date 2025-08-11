@@ -1,10 +1,13 @@
 package com.example.learnwordstrainer.domain.usecase
 
 import com.example.learnwordstrainer.domain.model.BubblePosition
-import com.example.learnwordstrainer.data.repository.BubbleSettingsRepository
+import com.example.learnwordstrainer.domain.repository.BubbleSettingsRepository
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
-class GetBubbleSettingsFlowUseCase(private val repository: BubbleSettingsRepository) {
+class GetBubbleSettingsFlowUseCase @Inject constructor(
+    private val repository: BubbleSettingsRepository
+) {
     operator fun invoke() = combine(
         repository.position,
         repository.bubbleSize,

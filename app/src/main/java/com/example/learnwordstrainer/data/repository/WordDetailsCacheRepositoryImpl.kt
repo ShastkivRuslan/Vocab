@@ -4,6 +4,7 @@ import com.example.learnwordstrainer.data.local.dao.WordDetailsCacheDao
 import com.example.learnwordstrainer.data.remote.client.OpenAIClient
 import com.example.learnwordstrainer.domain.model.WordData
 import com.example.learnwordstrainer.domain.model.WordDetailsCache
+import com.example.learnwordstrainer.domain.repository.WordDetailsCacheRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

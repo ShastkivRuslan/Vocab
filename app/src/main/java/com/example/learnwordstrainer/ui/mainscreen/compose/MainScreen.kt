@@ -11,7 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -19,10 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview // <-- ВАЖЛИВИЙ ІМПОРТ
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.learnwordstrainer.R
+import com.example.learnwordstrainer.ui.mainscreen.MainScreenEvent
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.AddWordCard
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.AllWordsCard
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.PracticeCard
@@ -32,23 +33,14 @@ import com.example.learnwordstrainer.ui.mainscreen.MainViewModel
 @Composable
 fun MainScreen(
     viewModel: MainViewModel,
-    onSettingsClick: () -> Unit,
-    onAddWordClick: () -> Unit,
-    onRepetitionClick: () -> Unit,
-    onAllWordsClick: () -> Unit,
-    onPracticeClick: () -> Unit
+    onEvent: (MainScreenEvent) -> Unit
 ) {
-    val totalWords by viewModel.totalWordsCount.observeAsState(0)
-    val learnedPercentage by viewModel.learnedPercentage.observeAsState(0)
+    val statisticsState by viewModel.statisticsState.collectAsState()
 
     MainScreenLayout(
-        totalWords = totalWords,
-        learnedPercentage = learnedPercentage,
-        onSettingsClick = onSettingsClick,
-        onAddWordClick = onAddWordClick,
-        onRepetitionClick = onRepetitionClick,
-        onAllWordsClick = onAllWordsClick,
-        onPracticeClick = onPracticeClick
+        totalWords = statisticsState.totalWordsCount,
+        learnedPercentage = statisticsState.learnedPercentage,
+        onEvent = onEvent
     )
 }
 
@@ -56,11 +48,7 @@ fun MainScreen(
 fun MainScreenLayout(
     totalWords: Int,
     learnedPercentage: Int,
-    onSettingsClick: () -> Unit,
-    onAddWordClick: () -> Unit,
-    onRepetitionClick: () -> Unit,
-    onAllWordsClick: () -> Unit,
-    onPracticeClick: () -> Unit
+    onEvent: (MainScreenEvent) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -88,20 +76,20 @@ fun MainScreenLayout(
                     StatisticsCard(totalWords, learnedPercentage)
                     ActionSection(
                         title = stringResource(R.string.head_text),
-                        onAddWordClick = onAddWordClick,
-                        onRepetitionClick = onRepetitionClick,
-                        onAllWordsClick = onAllWordsClick
+                        onAddWordClick = { onEvent(MainScreenEvent.OnAddWordClick) },
+                        onRepetitionClick = { onEvent(MainScreenEvent.OnRepetitionClick) },
+                        onAllWordsClick = { onEvent(MainScreenEvent.OnAllWordsClick) }
                     )
                     PracticeSection(
                         title = "Практика",
-                        onPracticeClick = onPracticeClick
+                        onPracticeClick = { onEvent(MainScreenEvent.OnPracticeClick) }
                     )
                 }
             }
         }
 
         FloatingActionButton(
-            onClick = onSettingsClick,
+            onClick = { onEvent(MainScreenEvent.OnSettingsClick) },
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp),
@@ -113,21 +101,13 @@ fun MainScreenLayout(
     }
 }
 
-@Preview(
-    name = "Головний екран",
-    showBackground = true,
-    uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES
-)
+@Preview(name = "Головний екран", showBackground = true)
 @Composable
 fun MainScreenPreview() {
     MainScreenLayout(
         totalWords = 120,
         learnedPercentage = 45,
-        onSettingsClick = {},
-        onAddWordClick = {},
-        onRepetitionClick = {},
-        onAllWordsClick = {},
-        onPracticeClick = {}
+        onEvent = {}
     )
 }
 

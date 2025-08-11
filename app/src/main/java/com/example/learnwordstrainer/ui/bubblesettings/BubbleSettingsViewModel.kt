@@ -5,18 +5,22 @@ import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.learnwordstrainer.data.repository.BubbleSettingsRepository
+import com.example.learnwordstrainer.domain.repository.BubbleSettingsRepository
 import com.example.learnwordstrainer.service.BubbleService
 import com.example.learnwordstrainer.ui.bubble.BubbleSettingsUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BubbleSettingsViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = BubbleSettingsRepository(application)
+@HiltViewModel
+class BubbleSettingsViewModel @Inject constructor(
+    private val repository: BubbleSettingsRepository,
+    application: Application
+) : AndroidViewModel(application) {
 
     val uiState: StateFlow<BubbleSettingsUiState> = combine(
         repository.isBubbleEnabled,
@@ -59,6 +63,7 @@ class BubbleSettingsViewModel(application: Application) : AndroidViewModel(appli
         repository.setVibrationEnabled(isEnabled)
     }
 
+    /*
     fun addAppToAutoHideList(packageName: String) = viewModelScope.launch {
         repository.addAppToAutoHideList(packageName)
     }
@@ -66,6 +71,8 @@ class BubbleSettingsViewModel(application: Application) : AndroidViewModel(appli
     fun removeAppFromAutoHideList(packageName: String) = viewModelScope.launch {
         repository.removeAppFromAutoHideList(packageName)
     }
+    TODO
+    */
 
     private fun startBubbleService() {
         try {

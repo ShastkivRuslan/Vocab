@@ -5,15 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.util.Log
-import com.example.learnwordstrainer.data.repository.BubbleSettingsRepository
+import com.example.learnwordstrainer.domain.repository.BubbleSettingsRepository
 import com.example.learnwordstrainer.service.BubbleService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class BubbleAutoStartReceiver : BroadcastReceiver() {
+class BubbleAutoStartReceiver @Inject constructor(
+    private val bubbleSettingsRepository: BubbleSettingsRepository
+) : BroadcastReceiver() {
 
     companion object {
         private const val TAG = "BubbleAutoStartReceiver"
@@ -47,9 +50,8 @@ class BubbleAutoStartReceiver : BroadcastReceiver() {
     }
 
     private suspend fun startBubbleServiceIfAllowed(context: Context, reason: String) {
-        val repository = BubbleSettingsRepository(context)
 
-        if (!repository.isBubbleEnabled.first()) {
+        if (!bubbleSettingsRepository.isBubbleEnabled.first()) {
             Log.d(TAG, "Bubble service is disabled in settings. Aborting.")
             return
         }
