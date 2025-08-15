@@ -23,3 +23,6 @@ val DarkError = Color(0xFFEC407A) //
 
 val White = Color(0xFFFFFFFF) //
 val Black = Color(0xFF000000) //
+
+val GreenSuccess = Color(0xFF4CAF50)
+val RedError = Color(0xFFF44336)

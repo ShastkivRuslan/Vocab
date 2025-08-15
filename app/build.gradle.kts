@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.lifecycle.service)
     implementation(libs.lottie.compose)
 
+    implementation(libs.material.icons.extended)
+
     val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
