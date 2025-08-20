@@ -21,27 +21,81 @@ fun RepetitionScreen(
 ) {
     // TODO: Додати TopAppBar з кнопкою onBackPressed
 
-    when (uiState) {
-        is RepetitionUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onBackPressed, modifier = Modifier.size(48.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_left_chevron),
+                    contentDescription = stringResource(R.string.back_button_description),
+                    modifier = Modifier.fillMaxSize()
+                )
             }
-        }
-        is RepetitionUiState.Content -> {
-            RepetitionContent(
-                state = uiState,
-                onAnswerClick = { index -> onEvent(RepetitionEvent.OnAnswerSelected(index)) },
-                onNextWordClick = { onEvent(RepetitionEvent.OnNextWordClicked) },
-                onListenClick = { onEvent(RepetitionEvent.OnListenClicked) }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
+                text = stringResource(R.string.repeat_mode),
+                fontSize = 32.sp,
+                color = Color.White
             )
         }
-        is RepetitionUiState.Error -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = uiState.message)
+
+        // Основний контент екрану, що займає решту місця
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f) // Це важливо, щоб контент займав весь доступний простір
+        ) {
+            when (uiState) {
+                is RepetitionUiState.Loading -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                }
+                is RepetitionUiState.Content -> {
+                    RepetitionContent(
+                        state = uiState,
+                        dailyCorrectCount = uiState.dailyStats?.correctAnswers ?: 0,
+                        dailyWrongCount = uiState.dailyStats?.wrongAnswers ?: 0,
+                        onAnswerClick = { index -> onEvent(RepetitionEvent.OnAnswerSelected(index)) },
+                        onNextWordClick = { onEvent(RepetitionEvent.OnNextWordClicked) },
+                        onListenClick = { onEvent(RepetitionEvent.OnListenClicked) }
+                    )
+                }
+                is RepetitionUiState.Error -> {
+                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.error))
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(32.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            LottieAnimation(
+                                composition = composition,
+                                modifier = Modifier.size(200.dp)
+                            )
+                            Spacer(modifier = Modifier.height(24.dp))
+                            Text(
+                                text = uiState.message,
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
             }
         }
     }
 }
+
 @Preview(name = "Loading State", showBackground = true)
 @Composable
 fun RepetitionScreenPreview_Loading() {
