@@ -2,6 +2,8 @@ package com.example.learnwordstrainer.di
 
 import com.example.learnwordstrainer.data.repository.*
 import com.example.learnwordstrainer.domain.repository.BubbleSettingsRepository
+import com.example.learnwordstrainer.domain.repository.DailyStatsRepository
+import com.example.learnwordstrainer.domain.repository.LanguageRepository
 import com.example.learnwordstrainer.domain.repository.SettingsRepository
 import com.example.learnwordstrainer.domain.repository.ThemeRepository
 import com.example.learnwordstrainer.domain.repository.WordDetailsCacheRepository
@@ -45,4 +47,17 @@ abstract class RepositoryModule {
     abstract fun bindSettingsRepository(
         settingsRepositoryImpl: SettingsRepositoryImpl
     ): SettingsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindStatsRepository(
+        statsRepositoryImpl: StatsRepositoryImpl
+    ): DailyStatsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLanguageRepository(
+        impl: LanguageRepositoryImpl
+    ): LanguageRepository
+
 }

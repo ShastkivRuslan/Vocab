@@ -4,14 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.learnwordstrainer.domain.model.Language
+import com.example.learnwordstrainer.domain.model.LanguageSettings
+import com.example.learnwordstrainer.domain.repository.LanguageRepository
 import com.example.learnwordstrainer.domain.repository.WordRepository
+import com.example.learnwordstrainer.domain.usecase.AddWordToDictionaryUseCase
+import com.example.learnwordstrainer.domain.usecase.CheckIfWordExistsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddWordViewModel @Inject constructor(
-    private val wordRepository: WordRepository
+    private val wordRepository: WordRepository,
+    private val languageRepository: LanguageRepository,
+    private val addWordToDictionaryUseCase: AddWordToDictionaryUseCase
 ) : ViewModel() {
 
     private val _message = MutableLiveData<String>()
@@ -24,7 +34,16 @@ class AddWordViewModel @Inject constructor(
         _message.value = ""
     }
 
-
+    val languageSettings: StateFlow<LanguageSettings> = languageRepository.languageSettings
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = LanguageSettings(
+                appLanguage = Language("uk", "Українська", "🇺🇦"),
+                targetLanguage = Language("uk", "Українська", "🇺🇦"),
+                sourceLanguage = Language("en", "English", "🇬🇧")
+            )
+        )
 
     fun resetWordAdded() {
         _wordAdded.value = false
@@ -47,14 +66,13 @@ class AddWordViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            if (wordRepository.wordExists(english)) {
-                _message.postValue("Це слово вже існує в словнику")
-                return@launch
-            }
-
-            wordRepository.addWord(english, translation)
-            _message.postValue("Слово додано")
-            _wordAdded.postValue(true)
+            addWordToDictionaryUseCase(
+                sourceWord = english,
+                translation = translation,
+                sourceLanguageCode = languageSettings.value.sourceLanguage.code,
+                targetLanguageCode = languageSettings.value.targetLanguage.code,
+                wordLevel = ""
+            )
         }
     }
 }

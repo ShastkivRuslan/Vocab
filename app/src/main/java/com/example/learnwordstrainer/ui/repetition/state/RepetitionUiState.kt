@@ -1,5 +1,6 @@
 package com.example.learnwordstrainer.ui.repetition.state
 
+import com.example.learnwordstrainer.domain.model.DailyStatistic
 import com.example.learnwordstrainer.domain.model.Word
 
 sealed interface RepetitionUiState {
@@ -11,7 +12,8 @@ sealed interface RepetitionUiState {
         val correctCount: Int,
         val wrongCount: Int,
         val selectedAnswerIndex: Int? = null,
-        val isAnswerCorrect: Boolean? = null
+        val isAnswerCorrect: Boolean? = null,
+        val dailyStats: DailyStatistic?
     ) : RepetitionUiState
 
     data class Error(val message: String) : RepetitionUiState

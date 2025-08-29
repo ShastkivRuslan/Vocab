@@ -9,18 +9,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.learnwordstrainer.ui.repetition.state.RepetitionUiState
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.learnwordstrainer.domain.model.DailyStatistic
 import com.example.learnwordstrainer.domain.model.Word
 import com.example.learnwordstrainer.ui.repetition.compose.components.AnswerOptions
 import com.example.learnwordstrainer.ui.repetition.compose.components.ProgressCard
 import com.example.learnwordstrainer.ui.repetition.compose.components.ResultFooter
 import com.example.learnwordstrainer.ui.repetition.compose.components.WordCard
+import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
 
 @Composable
 fun RepetitionContent(
     state: RepetitionUiState.Content,
     onAnswerClick: (Int) -> Unit,
     onNextWordClick: () -> Unit,
-    onListenClick: () -> Unit
+    onListenClick: () -> Unit,
+    dailyCorrectCount: Int,
+    dailyWrongCount: Int
 ) {
     Column(
         modifier = Modifier
@@ -30,12 +34,12 @@ fun RepetitionContent(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         ProgressCard(
-            correctCount = state.correctCount,
-            wrongCount = state.wrongCount
+            correctCount = dailyCorrectCount,
+            wrongCount = dailyWrongCount
         )
 
         WordCard(
-            word = state.word.englishWord,
+            word = state.word.sourceWord,
             correctCount = state.correctCount,
             wrongCount = state.wrongCount,
             onListenClick = onListenClick
@@ -68,28 +72,39 @@ fun RepetitionContent(
 @Preview(showBackground = true)
 @Composable
 fun RepetitionContentPreview() {
+
     val sampleWord = Word(
         id = 1,
-        englishWord = "Heuristic",
+        sourceWord = "Heuristic",
         translation = "Евристичний",
         correctAnswerCount = 12,
-        wrongAnswerCount = 3
+        wrongAnswerCount = 3,
+        sourceLanguageCode = "en",
+        targetLanguageCode = "uk",
+        wordLevel = "A1"
     )
-
     val sampleOptions = listOf("Евристичний", "Спорадичний", "Еклектичний", "Емпіричний")
+
+    val sampleStats = DailyStatistic(
+        correctAnswers = 87,
+        wrongAnswers = 15
+    )
 
     val sampleState = RepetitionUiState.Content(
         word = sampleWord,
         answerOptions = sampleOptions,
-        correctCount = 12,
-        wrongCount = 3,
         selectedAnswerIndex = 2,
-        isAnswerCorrect = false
+        isAnswerCorrect = false,
+        dailyStats = sampleStats,
+        correctCount = 10,
+        wrongCount = 11
     )
 
-    com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme {
+    LearnWordsTrainerTheme {
         RepetitionContent(
             state = sampleState,
+            dailyCorrectCount = sampleStats.correctAnswers,
+            dailyWrongCount = sampleStats.wrongAnswers,
             onAnswerClick = {},
             onNextWordClick = {},
             onListenClick = {}

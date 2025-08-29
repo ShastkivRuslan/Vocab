@@ -2,10 +2,13 @@ package com.example.learnwordstrainer.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.learnwordstrainer.data.local.dao.DailyStatisticDao
 import com.example.learnwordstrainer.data.local.dao.WordDao
 import com.example.learnwordstrainer.data.local.dao.WordDetailsCacheDao
+import com.example.learnwordstrainer.data.local.db.MIGRATION_7_8
 import com.example.learnwordstrainer.data.local.db.WordDatabase
 import com.example.learnwordstrainer.data.remote.api.OpenAIAPI
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +32,10 @@ object AppModule {
             context,
             WordDatabase::class.java,
             "words.db"
-        ).fallbackToDestructiveMigration().build()
+        )
+            .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_7_8)
+            .build()
     }
 
     @Provides
@@ -37,6 +43,12 @@ object AppModule {
     fun provideWordDao(database: WordDatabase): WordDao {
         return database.wordDao()
     }
+
+    @Provides
+    fun provideDailyStatisticDao(appDatabase: WordDatabase): DailyStatisticDao {
+        return appDatabase.dailyStatisticDao()
+    }
+
 
     @Provides
     @Singleton
@@ -75,4 +87,9 @@ object AppModule {
     fun provideOpenAiApi(retrofit: Retrofit): OpenAIAPI {
         return retrofit.create(OpenAIAPI::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = Gson()
+
 }

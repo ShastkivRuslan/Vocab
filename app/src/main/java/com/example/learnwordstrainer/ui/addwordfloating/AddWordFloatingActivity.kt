@@ -25,9 +25,11 @@ class AddWordFloatingActivity : ComponentActivity() {
         viewModel.initialize(selectedText)
 
         setContent {
-            LearnWordsTrainerTheme {
+            val currentTheme by viewModel.themeMode.collectAsState()
+            LearnWordsTrainerTheme(themeMode = currentTheme) {
                 val uiState by viewModel.uiState.collectAsState()
                 val inputWord by viewModel.inputWord.collectAsState()
+
                 LaunchedEffect(uiState) {
                     when (uiState) {
                         is AddWordUiState.Error -> {
@@ -49,7 +51,7 @@ class AddWordFloatingActivity : ComponentActivity() {
                     onTextToSpeech = viewModel::onTextToSpeech,
                     onMainInfoToggle = viewModel::onMainInfoToggle,
                     onExamplesToggle = viewModel::onExamplesToggle,
-                    ontContextToggle = viewModel::onContextToggle,
+                    ontUsageInfoToggle = viewModel::ontUsageInfoToggle,
                     onDismissRequest = { finish() }
                 )
             }

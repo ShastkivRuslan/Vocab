@@ -4,6 +4,7 @@ import com.example.learnwordstrainer.data.local.dao.WordDao
 import com.example.learnwordstrainer.domain.model.Word
 import com.example.learnwordstrainer.domain.repository.WordRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -11,9 +12,9 @@ class WordRepositoryImpl @Inject constructor(
     private val wordDao: WordDao
 ) : WordRepository {
 
-    override suspend fun addWord(englishWord: String, translation: String) {
+
+    override suspend fun addWord(word: Word) {
         withContext(Dispatchers.IO) {
-            val word = Word(englishWord = englishWord, translation = translation)
             wordDao.addWord(word)
         }
     }
@@ -30,9 +31,15 @@ class WordRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun wordExists(englishWord: String): Boolean {
+    override suspend fun getRandomWordForLanguage(languageCode: String): Word? {
         return withContext(Dispatchers.IO) {
-            wordDao.wordExists(englishWord)
+            wordDao.getRandomWordForLanguage(languageCode)
+        }
+    }
+
+    override suspend fun wordExists(sourceWord: String, sourceLanguageCode: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            wordDao.wordExists(sourceWord)
         }
     }
 
@@ -51,6 +58,35 @@ class WordRepositoryImpl @Inject constructor(
     override suspend fun updateScore(id: Int, correctCount: Int, wrongCount: Int) {
         withContext(Dispatchers.IO) {
             wordDao.updateScore(id, correctCount, wrongCount)
+        }
+    }
+
+    override fun getWords(sourceLanguageCode: String): Flow<List<Word>> {
+        return if (sourceLanguageCode.equals("all", ignoreCase = true) || sourceLanguageCode.isBlank()) {
+            wordDao.getAllWords()
+        } else {
+            wordDao.getWordsByLanguage(sourceLanguageCode)
+        }
+    }
+
+    override suspend fun deleteWord(word: Word) {
+        withContext(Dispatchers.IO) {
+            wordDao.deleteWord(word)
+        }
+    }
+
+    override suspend fun getWordForRepetition(sourceLanguageCode: String): Word? {
+        return withContext(Dispatchers.IO) {
+            wordDao.getWordForRepetition(sourceLanguageCode)
+        }
+    }
+
+    override suspend fun getAnswerOptionsForWord(wordToRepeat: Word, targetLanguageCode: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            wordDao.getAnswerOptionsForWord(
+                excludeId = wordToRepeat.id,
+                targetLanguageCode = targetLanguageCode
+            )
         }
     }
 }

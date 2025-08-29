@@ -19,7 +19,7 @@ fun DialogContent(
     onTextToSpeech: (String) -> Unit,
     onMainInfoToggle: () -> Unit,
     onExamplesToggle: () -> Unit,
-    onContextToggle: () -> Unit,
+    onUsageInfoToggle: () -> Unit,
     onDismiss: () -> Unit
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
@@ -50,7 +50,7 @@ fun DialogContent(
                     onAddClick = { onAddToVocabulary() },
                     onMainInfoToggle = onMainInfoToggle,
                     onExamplesToggle = onExamplesToggle,
-                    onContextToggle = onContextToggle
+                    onUsageInfoToggle = onUsageInfoToggle
                 )
             }
 
@@ -59,10 +59,10 @@ fun DialogContent(
                     state = uiState,
                     isMainSectionExpanded = uiState.isMainSectionExpanded,
                     isExamplesSectionExpanded = uiState.isExamplesSectionExpanded,
-                    isContextSectionExpanded = uiState.isContextSectionExpanded,
+                    isContextSectionExpanded = uiState.isUsageInfoSectionExpanded,
                     onMainInfoToggle = onMainInfoToggle,
                     onExamplesToggle = onExamplesToggle,
-                    onContextToggle = onContextToggle
+                    ontUsageInfoToggle = onUsageInfoToggle
                 )
             }
 

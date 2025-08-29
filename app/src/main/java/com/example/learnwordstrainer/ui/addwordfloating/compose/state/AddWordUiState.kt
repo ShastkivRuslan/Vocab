@@ -11,7 +11,7 @@ sealed interface AddWordUiState {
         val isAlreadySaved: Boolean,
         val isMainSectionExpanded: Boolean = false,
         val isExamplesSectionExpanded: Boolean = false,
-        val isContextSectionExpanded: Boolean = false
+        val isUsageInfoSectionExpanded: Boolean = false
     ) : AddWordUiState
 
     data class SavingWord(
@@ -20,7 +20,7 @@ sealed interface AddWordUiState {
         val savingStep: SavingStep,
         val isMainSectionExpanded: Boolean = false,
         val isExamplesSectionExpanded: Boolean = false,
-        val isContextSectionExpanded: Boolean = false
+        val isUsageInfoSectionExpanded: Boolean = false
     ) : AddWordUiState {
         val shouldShowSections: Boolean = savingStep == SavingStep.CollapsingCards
         val shouldShowLoader: Boolean = savingStep == SavingStep.Saving

@@ -148,7 +148,7 @@ fun InteractiveSuccessContentPreview() {
                 onAddClick = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {}
+                onUsageInfoToggle = {}
             )
         }
     }

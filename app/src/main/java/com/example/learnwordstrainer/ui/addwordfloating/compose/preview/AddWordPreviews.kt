@@ -36,7 +36,7 @@ object PreviewData {
         transcription = "[kəmˈpoʊz]",
         partOfSpeech = "noun",
         level = "B2",
-        context = "\"Англійське слово 'reusability' є формальним технічним терміном, що найчастіше зустрічається в програмуванні (reusability of code), інженерії та екології (reusability of materials). Воно має нейтральний відтінок і підкреслює ефективність та економність. Типові словосполучення: 'design for reusability' (проєктувати з розрахунком на повторне використання)",
+        usageInfo = "\"Англійське слово 'reusability' є формальним технічним терміном, що найчастіше зустрічається в програмуванні (reusability of code), інженерії та екології (reusability of materials). Воно має нейтральний відтінок і підкреслює ефективність та економність. Типові словосполучення: 'design for reusability' (проєктувати з розрахунком на повторне використання)",
         examples = listOf(
             Example("Compose makes UI development easier.", "Compose робить розробку UI простішою."),
             Example("We use Compose for our Android app.", "Ми використовуємо Compose для нашого Android додатку."),
@@ -48,7 +48,6 @@ object PreviewData {
     val emptyInputWord = TextFieldValue("")
 }
 
-// Main Dialog Previews
 @Preview(name = "Add Word Dialog - All States", showBackground = true)
 @Composable
 fun AddWordDialogPreview(
@@ -68,7 +67,7 @@ fun AddWordDialogPreview(
                 onTextToSpeech = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {},
+                onUsageInfoToggle = {},
                 onDismiss = {}
             )
         }
@@ -89,7 +88,7 @@ fun DialogIdlePreview() {
                 onTextToSpeech = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {},
+                onUsageInfoToggle = {},
                 onDismiss = {}
             )
         }
@@ -110,7 +109,7 @@ fun DialogLoadingPreview() {
                 onTextToSpeech = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {},
+                onUsageInfoToggle = {},
                 onDismiss = {}
             )
         }
@@ -140,7 +139,7 @@ fun DialogSuccessMainInfoPreview() {
                     onAddClick = {},
                     onMainInfoToggle = {},
                     onExamplesToggle = {},
-                    onContextToggle = {}
+                    onUsageInfoToggle = {}
                 )
             }
         }
@@ -161,7 +160,7 @@ fun DialogErrorPreview() {
                 onTextToSpeech = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {},
+                onUsageInfoToggle = {},
                 onDismiss = {}
             )
         }
@@ -247,7 +246,7 @@ fun SuccessContentMainExpandedPreview() {
                 onAddClick = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {}
+                onUsageInfoToggle = {}
             )
         }
     }
@@ -364,7 +363,7 @@ fun DialogDarkPreview() {
                 onTextToSpeech = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {},
+                onUsageInfoToggle = {},
                 onDismiss = {}
             )
         }
@@ -386,7 +385,7 @@ fun DialogTabletPreview() {
                 onTextToSpeech = {},
                 onMainInfoToggle = {},
                 onExamplesToggle = {},
-                onContextToggle = {},
+                onUsageInfoToggle = {},
                 onDismiss = {}
             )
         }

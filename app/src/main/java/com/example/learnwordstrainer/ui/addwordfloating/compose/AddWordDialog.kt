@@ -16,7 +16,7 @@ fun AddWordDialog(
     onTextToSpeech: (String) -> Unit,
     onMainInfoToggle: () -> Unit,
     onExamplesToggle: () -> Unit,
-    ontContextToggle: () -> Unit,
+    ontUsageInfoToggle: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
     DialogContainer(onDismissRequest = onDismissRequest) {
@@ -29,7 +29,7 @@ fun AddWordDialog(
             onTextToSpeech = onTextToSpeech,
             onMainInfoToggle = onMainInfoToggle,
             onExamplesToggle = onExamplesToggle,
-            onContextToggle = ontContextToggle,
+            onUsageInfoToggle = ontUsageInfoToggle,
             onDismiss = onDismissRequest
         )
     }

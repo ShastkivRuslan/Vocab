@@ -11,8 +11,12 @@ import javax.inject.Singleton
 class OpenAIClient @Inject constructor(
     private val openAiApi: OpenAIAPI
 ) {
-    suspend fun fetchWordInfo(word: String): Result<WordData> {
-        val request = createChatCompletionRequest(word)
+    suspend fun fetchWordInfo(
+        word: String,
+        sourceLanguageName: String,
+        targetLanguageName: String
+    ): Result<WordData> {
+        val request = createChatCompletionRequest(word, sourceLanguageName, targetLanguageName)
         val authHeader = "Bearer ${BuildConfig.API_KEY}"
 
         return try {
@@ -39,24 +43,35 @@ class OpenAIClient @Inject constructor(
         }
     }
 
-    private fun createChatCompletionRequest(input: String): ChatCompletionRequest {
+    private fun createChatCompletionRequest(
+        input: String,
+        sourceLanguage: String,
+        targetLanguage: String
+    ): ChatCompletionRequest {
         val messages = listOf(
             ChatCompletionRequest.Message(
                 role = "system",
-                content = "You are a language assistant. Respond only with JSON in this format: " +
-                        "{originalWord: string, translation: string, transcription: string, partOfSpeech: string, level : string, context: string,  examples: [{sentence: string, translation: string}]}"
+                content = "You are a language assistant expert in linguistics. Your task is to provide structured data about words for a language learner. You must respond only with a single, valid JSON object and nothing else. The JSON structure is: " +
+                        "{originalWord: string, translation: \"string (1-3 comma-separated translations)\", transcription: string, partOfSpeech: string, level: string, usageInfo: string, examples: [{sentence: string, translation: string}]}"
             ),
             ChatCompletionRequest.Message(
                 role = "user",
-                content = "Word or phrase: \"$input\"\n" +
-                        "Return original word, its part of speech, IPA transcription,level, translation to Ukrainian, context(\"Provide a 'Context of Use' description for the English word. Explain its formality, typical domains (like software engineering, sustainability), and common collocations. The description should be in Ukrainian.) and 3 simple English sentences that use this word or phrase in context with their Ukrainian translations.\n" +
-                        "Respond only with valid JSON without any explanation."
+                content = "Provide a complete JSON object for the $sourceLanguage word: \"$input\".\n" +
+                        "Follow these detailed instructions for each field, with all translations targeting the $targetLanguage language:\n" +
+                        "- `translation`: Provide 1-3 common $targetLanguage translations as a single string, separated by commas.\n" +
+                        "- `usageInfo`: Create a single, well-formatted $targetLanguage string. It MUST include the following, clearly labeled in $targetLanguage:\n" +
+                        "  1. 'Синоніми:' (or its equivalent in $targetLanguage): List 2-3 common synonyms, each formatted as '$sourceLanguage word – $targetLanguage translation'.\n" +
+                        "  2. 'Форми слова:' (or its equivalent in $targetLanguage): List the main grammatical forms, each formatted as '$sourceLanguage word – $targetLanguage translation'.\n" +
+                        "  3. 'Примітка:' (or its equivalent in $targetLanguage): Add a brief usage note (1-2 sentences), ONLY if the word is not simple. If the word is simple, omit this label and note.\n" +
+                        "- `examples`: Provide exactly 3 distinct, simple example sentences in $sourceLanguage, each with its $targetLanguage translation.\n" +
+                        "- Provide all other fields (`originalWord`, `transcription`, `partOfSpeech`, `level`) as specified in the system prompt.\n" +
+                        "Your entire response must be only the JSON object."
             )
         )
         return ChatCompletionRequest(
             model = "gpt-4o",
             messages = messages,
-            maxTokens = 350,
+            maxTokens = 500,
             responseFormat = ChatCompletionRequest.ResponseFormat(type = "json_object")
         )
     }

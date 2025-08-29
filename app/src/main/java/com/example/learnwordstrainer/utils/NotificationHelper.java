@@ -11,7 +11,6 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.ui.mainscreen.MainActivity;
-import com.example.learnwordstrainer.ui.repetition.RepetitionActivity;
 import com.example.learnwordstrainer.ui.practice.PracticeActivity;
 
 import java.util.Random;
@@ -80,12 +79,12 @@ public class NotificationHelper {
         );
 
         // Create intent for repetition activity
-        Intent repetitionIntent = new Intent(context, RepetitionActivity.class);
-        repetitionIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent repetitionPendingIntent = PendingIntent.getActivity(
-                context, 1, repetitionIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
+//        Intent repetitionIntent = new Intent(context, RepetitionActivity.class);
+//        repetitionIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent repetitionPendingIntent = PendingIntent.getActivity(
+//                context, 1, repetitionIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+//        );
 
         // Create intent for practice activity
         Intent practiceIntent = new Intent(context, PracticeActivity.class);
@@ -108,7 +107,7 @@ public class NotificationHelper {
                 .setSound(null) // Явно без звуку
                 .setVibrate(new long[]{0}) // Явно без вібрації
                 .setOnlyAlertOnce(true) // Не дзвонити повторно
-                .addAction(R.drawable.ic_repetition, "Повторити", repetitionPendingIntent)
+                //.addAction(R.drawable.ic_repetition, "Повторити", repetitionPendingIntent)
                 .addAction(R.drawable.ic_practice, "Практика", practicePendingIntent);
 
         // Show notification

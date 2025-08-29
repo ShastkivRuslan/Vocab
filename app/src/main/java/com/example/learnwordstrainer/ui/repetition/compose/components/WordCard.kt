@@ -12,6 +12,7 @@ import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,8 +38,7 @@ fun WordCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
             modifier = Modifier.padding(14.dp),
@@ -76,7 +76,7 @@ fun WordCard(
                     color = GreenSuccess,
                     modifier = Modifier.weight(1f)
                 )
-                Divider(
+                HorizontalDivider(
                     modifier = Modifier
                         .height(40.dp)
                         .width(1.dp)

@@ -12,6 +12,7 @@ val LightTextPrimary = Color(0xFF000000) //
 val LightError = Color(0xFFEC407A) //
 
 
+
 val DarkPrimary = Color(0xFF1DAC92) //
 val DarkPrimaryVariant = Color(0xFF009688) //
 val DarkSecondary = Color(0xFF3F51B5) //

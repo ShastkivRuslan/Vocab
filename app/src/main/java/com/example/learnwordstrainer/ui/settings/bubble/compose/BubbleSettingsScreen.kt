@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,119 +34,99 @@ fun BubbleSettingsScreen(
     onAutoHideClick: () -> Unit,
     onAboutBubbleClick: () -> Unit
 ) {
-    Box(
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState())
     ) {
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.primary,
-                            MaterialTheme.colorScheme.background
-                        )
-                    )
-                )
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = onBackPressed, modifier = Modifier.size(48.dp)) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_left_chevron),
-                        contentDescription = "Back", // TODO: stringResource
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-                Text(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
-                    text = "Налаштування бульбашки", // TODO: stringResource
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
+            IconButton(onClick = onBackPressed, modifier = Modifier.size(48.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_left_chevron),
+                    contentDescription = stringResource(R.string.back_button_description),
+                    modifier = Modifier.fillMaxSize()
                 )
             }
-
             Text(
-                modifier = Modifier.padding(start = 26.dp),
-                text = "Персоналізуйте плаваючу бульбашку", // TODO: stringResource
-                color = Color.White.copy(alpha = 0.7f),
-                fontSize = 16.sp
-            )
-
-            // Картка з налаштуваннями
-            Card(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp, start = 16.dp, end = 16.dp),
-                elevation = CardDefaults.cardElevation(8.dp),
-                shape = RoundedCornerShape(size = 20.dp)
-            ) {
-                Column(modifier = Modifier.padding(24.dp)) {
-                    // Кожен елемент тепер використовує дані з uiState та викликає відповідну функцію
-                    BubbleSettingItemWithSwitch(
-                        title = "Плаваюча бульбашка",
-                        description = "Увімкнути плаваючу бульбашку для швидкого доступу",
-                        isChecked = uiState.isBubbleEnabled,
-                        onCheckedChange = onBubbleEnabledChange
-                    )
-                    Divider()
-                    BubbleSettingsSlider(
-                        title = "Розмір бульбашки",
-                        description = "Налаштуй розмір плаваючої бульбашки",
-                        currentValue = uiState.bubbleSize,
-                        valueRange = 30f..80f,
-                        steps = 9,
-                        onValueChangeFinished = { onBubbleSizeChange(it) }
-                    )
-                    Divider()
-                    BubbleSettingsSlider(
-                        title = "Прозорість",
-                        description = "Налаштуйте прозорість бульбашки",
-                        currentValue = uiState.bubbleTransparency,
-                        valueRange = 0f..100f,
-                        steps = 10,
-                        onValueChangeFinished = { onTransparencyChange(it) }
-                    )
-                    Divider()
-                    BubbleSettingItemWithSwitch(
-                        title = "Вібрація",
-                        description = "Увімкнути вібрацію при натисканні",
-                        isChecked = uiState.isVibrationEnabled,
-                        onCheckedChange = onVibrationEnabledChange
-                    )
-                    Divider()
-                    BubbleSettingItem(
-                        title = "Автоматичне приховування",
-                        description = "Налаштуйте автоматичне приховування бульбашки",
-                        onClick = onAutoHideClick
-                    )
-                    Divider()
-                    BubbleSettingItem(
-                        title = "Про бульбашку",
-                        description = "Інформація про функцію плаваючої бульбашки",
-                        onClick = onAboutBubbleClick
-                    )
-                }
+                    .fillMaxSize()
+                    .padding(16.dp),
+                text = stringResource(R.string.bubble_settings_screen_title),
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+        }
+
+        Text(
+            modifier = Modifier.padding(start = 26.dp),
+            text = stringResource(R.string.bubble_settings_screen_subtitle),
+            color = Color.White.copy(alpha = 0.7f),
+            fontSize = 16.sp
+        )
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp, start = 16.dp, end = 16.dp),
+            elevation = CardDefaults.cardElevation(8.dp),
+            shape = RoundedCornerShape(size = 20.dp)
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                BubbleSettingItemWithSwitch(
+                    title = stringResource(R.string.bubble_enable_title),
+                    description = stringResource(R.string.bubble_enable_description),
+                    isChecked = uiState.isBubbleEnabled,
+                    onCheckedChange = onBubbleEnabledChange
+                )
+                Divider()
+                BubbleSettingsSlider(
+                    title = stringResource(R.string.bubble_size_title),
+                    description = stringResource(R.string.bubble_size_description),
+                    currentValue = uiState.bubbleSize,
+                    valueRange = 30f..80f,
+                    steps = 9,
+                    onValueChangeFinished = { onBubbleSizeChange(it) }
+                )
+                Divider()
+                BubbleSettingsSlider(
+                    title = stringResource(R.string.bubble_transparency_title),
+                    description = stringResource(R.string.bubble_transparency_description),
+                    currentValue = uiState.bubbleTransparency,
+                    valueRange = 0f..100f,
+                    steps = 10,
+                    onValueChangeFinished = { onTransparencyChange(it) }
+                )
+                Divider()
+                BubbleSettingItemWithSwitch(
+                    title = stringResource(R.string.bubble_vibration_title),
+                    description = stringResource(R.string.bubble_vibration_description),
+                    isChecked = uiState.isVibrationEnabled,
+                    onCheckedChange = onVibrationEnabledChange
+                )
+                Divider()
+                BubbleSettingItem(
+                    title = stringResource(R.string.bubble_autohide_title),
+                    description = stringResource(R.string.bubble_autohide_description),
+                    onClick = onAutoHideClick
+                )
+                Divider()
+                BubbleSettingItem(
+                    title = stringResource(R.string.bubble_about_title),
+                    description = stringResource(R.string.bubble_about_description),
+                    onClick = onAboutBubbleClick
+                )
             }
         }
     }
 }
 
-// Допоміжний Composable для розділювача, щоб уникнути дублювання
 @Composable
 private fun Divider() {
     HorizontalDivider(

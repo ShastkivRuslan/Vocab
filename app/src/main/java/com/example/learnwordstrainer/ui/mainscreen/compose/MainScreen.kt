@@ -1,128 +1,219 @@
 package com.example.learnwordstrainer.ui.mainscreen.compose
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.learnwordstrainer.R
-import com.example.learnwordstrainer.ui.mainscreen.MainScreenEvent
+import com.example.learnwordstrainer.domain.model.LanguageSettings
+import com.example.learnwordstrainer.navigation.Screen
+import com.example.learnwordstrainer.ui.mainscreen.MainViewModel
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.AddWordCard
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.AllWordsCard
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.PracticeCard
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.RepetitionCard
-import com.example.learnwordstrainer.ui.mainscreen.MainViewModel
 
 @Composable
 fun MainScreen(
+    modifier: Modifier = Modifier,
     viewModel: MainViewModel,
-    onEvent: (MainScreenEvent) -> Unit
+    navController: NavController
 ) {
     val statisticsState by viewModel.statisticsState.collectAsState()
+    val languageSettings by viewModel.languageSettings.collectAsState()
 
     MainScreenLayout(
-        totalWords = statisticsState.totalWordsCount,
-        learnedPercentage = statisticsState.learnedPercentage,
-        onEvent = onEvent
+        modifier = modifier,
+        statisticsState = statisticsState,
+        languageSettings = languageSettings,
+        onSettingsClick = { navController.navigate(Screen.Settings.route) },
+        onAddWordClick = { navController.navigate(Screen.AddWord.route) },
+        onRepetitionClick = { navController.navigate(Screen.Repetition.route) },
+        onAllWordsClick = { navController.navigate(Screen.AllWords.route) },
+        onPracticeClick = { navController.navigate(Screen.Practice.route) }
     )
 }
 
 @Composable
 fun MainScreenLayout(
-    totalWords: Int,
-    learnedPercentage: Int,
-    onEvent: (MainScreenEvent) -> Unit
+    modifier: Modifier,
+    statisticsState: MainViewModel.StatisticsUiState,
+    languageSettings: LanguageSettings,
+    onSettingsClick: () -> Unit,
+    onAddWordClick: () -> Unit,
+    onRepetitionClick: () -> Unit,
+    onAllWordsClick: () -> Unit,
+    onPracticeClick: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.background
-        ) { paddingValues ->
-            Box(modifier = Modifier.fillMaxSize()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.background)
-                            )
-                        )
-                )
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        MainScreenHeader(
+            onSettingsClick = onSettingsClick,
+            languageSettings = languageSettings
+        )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Header()
-                    StatisticsCard(totalWords, learnedPercentage)
-                    ActionSection(
-                        title = stringResource(R.string.head_text),
-                        onAddWordClick = { onEvent(MainScreenEvent.OnAddWordClick) },
-                        onRepetitionClick = { onEvent(MainScreenEvent.OnRepetitionClick) },
-                        onAllWordsClick = { onEvent(MainScreenEvent.OnAllWordsClick) }
-                    )
-                    PracticeSection(
-                        title = "Практика",
-                        onPracticeClick = { onEvent(MainScreenEvent.OnPracticeClick) }
-                    )
-                }
-            }
-        }
-
-        FloatingActionButton(
-            onClick = { onEvent(MainScreenEvent.OnSettingsClick) },
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(16.dp),
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
-        ) {
-            Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.change_theme))
+        when {
+            statisticsState.isLoading -> LoadingContent()
+            statisticsState.error != null -> ErrorContent(
+                error = statisticsState.error,
+                onRetry = { /* Could add retry logic */ }
+            )
+            else -> MainContent(
+                totalWords = statisticsState.totalWordsCount,
+                learnedPercentage = statisticsState.learnedPercentage,
+                onAddWordClick = onAddWordClick,
+                onRepetitionClick = onRepetitionClick,
+                onAllWordsClick = onAllWordsClick,
+                onPracticeClick = onPracticeClick
+            )
         }
     }
 }
 
-@Preview(name = "Головний екран", showBackground = true)
 @Composable
-fun MainScreenPreview() {
-    MainScreenLayout(
-        totalWords = 120,
-        learnedPercentage = 45,
-        onEvent = {}
+private fun MainScreenHeader(
+    onSettingsClick: () -> Unit,
+    languageSettings: LanguageSettings
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        HeaderTitle(languageSettings = languageSettings)
+        SettingsButton(onClick = onSettingsClick)
+    }
+}
+
+@Composable
+private fun HeaderTitle(languageSettings: LanguageSettings) {
+    Column {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = "${languageSettings.sourceLanguage.flagEmoji} -> ${languageSettings.targetLanguage.flagEmoji}",
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.headlineSmall
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.description_head_text),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+        )
+    }
+}
+
+@Composable
+private fun SettingsButton(onClick: () -> Unit) {
+    Card(modifier = Modifier.size(64.dp)) {
+        IconButton(
+            onClick = onClick,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Settings,
+                contentDescription = stringResource(R.string.settings_screen_title),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+@Composable
+private fun LoadingContent() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun ErrorContent(
+    error: String,
+    onRetry: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 24.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.onErrorContainer,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = onRetry) {
+                Text(stringResource(R.string.retry))
+            }
+        }
+    }
+}
+
+@Composable
+private fun MainContent(
+    totalWords: Int,
+    learnedPercentage: Int,
+    onAddWordClick: () -> Unit,
+    onRepetitionClick: () -> Unit,
+    onAllWordsClick: () -> Unit,
+    onPracticeClick: () -> Unit
+) {
+    StatisticsCard(totalWords, learnedPercentage)
+    ActionSection(
+        title = stringResource(R.string.head_text),
+        onAddWordClick = onAddWordClick,
+        onRepetitionClick = onRepetitionClick,
+        onAllWordsClick = onAllWordsClick
+    )
+    PracticeSection(
+        title = stringResource(R.string.practice_mode),
+        onPracticeClick = onPracticeClick
     )
 }
 
-
 @Composable
-fun Header() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = stringResource(R.string.app_name), fontSize = 32.sp, fontWeight = FontWeight.Bold, color = Color.White)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = stringResource(R.string.description_head_text), fontSize = 16.sp, color = Color.White.copy(alpha = 0.7f))
-    }
-}
-
-@Composable
-fun StatisticsCard(totalWords: Int, learnedPercentage: Int) {
+private fun StatisticsCard(totalWords: Int, learnedPercentage: Int) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,14 +225,22 @@ fun StatisticsCard(totalWords: Int, learnedPercentage: Int) {
             modifier = Modifier.padding(24.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            StatItem(label = stringResource(R.string.count_words), value = totalWords.toString(), modifier = Modifier.weight(1f))
-            StatItem(label = stringResource(R.string.learned), value = stringResource(R.string.percentage_format, learnedPercentage), modifier = Modifier.weight(1f))
+            StatItem(
+                label = stringResource(R.string.count_words),
+                value = totalWords.toString(),
+                modifier = Modifier.weight(1f)
+            )
+            StatItem(
+                label = stringResource(R.string.learned),
+                value = stringResource(R.string.percentage_format, learnedPercentage),
+                modifier = Modifier.weight(1f)
+            )
         }
     }
 }
 
 @Composable
-fun StatItem(label: String, value: String, modifier: Modifier = Modifier) {
+private fun StatItem(label: String, value: String, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -149,29 +248,22 @@ fun StatItem(label: String, value: String, modifier: Modifier = Modifier) {
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = label, fontSize = 14.sp)
+            Text(text = label, style = MaterialTheme.typography.labelMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = value, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(text = value, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
         }
     }
 }
 
 @Composable
-fun ActionSection(
+private fun ActionSection(
     title: String,
     onAddWordClick: () -> Unit,
     onRepetitionClick: () -> Unit,
     onAllWordsClick: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.padding(18.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = title, fontSize = 22.sp, color = MaterialTheme.colorScheme.onSurface)
-            Spacer(Modifier.width(16.dp))
-            Image(painter = painterResource(id = R.drawable.ic_right_chevron), contentDescription = null)
-        }
+        SectionHeader(title = title)
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
@@ -185,16 +277,9 @@ fun ActionSection(
 }
 
 @Composable
-fun PracticeSection(title: String, onPracticeClick: () -> Unit) {
+private fun PracticeSection(title: String, onPracticeClick: () -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier.padding(18.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = title, fontSize = 22.sp, color = MaterialTheme.colorScheme.onSurface)
-            Spacer(Modifier.width(16.dp))
-            Image(painter = painterResource(id = R.drawable.ic_right_chevron), contentDescription = null)
-        }
+        SectionHeader(title = title)
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
@@ -203,4 +288,65 @@ fun PracticeSection(title: String, onPracticeClick: () -> Unit) {
             PracticeCard(onClick = onPracticeClick)
         }
     }
+}
+
+@Composable
+private fun SectionHeader(title: String) {
+    Row(
+        modifier = Modifier.padding(18.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(Modifier.width(16.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_right_chevron),
+            contentDescription = null
+        )
+    }
+}
+
+@Preview(name = "Main Screen - Normal")
+@Composable
+fun MainScreenPreview() {
+    MainScreenLayout(
+        modifier = Modifier,
+        statisticsState = MainViewModel.StatisticsUiState(
+            totalWordsCount = 120,
+            learnedPercentage = 45,
+            isLoading = false
+        ),
+        onSettingsClick = {},
+        onAddWordClick = {},
+        onRepetitionClick = {},
+        onAllWordsClick = {},
+        onPracticeClick = {},
+        languageSettings = LanguageSettings(
+            appLanguage = com.example.learnwordstrainer.domain.model.Language("uk", "Українська", "🇺🇦"),
+            targetLanguage = com.example.learnwordstrainer.domain.model.Language("pl", "Polski", "🇵🇱"),
+            sourceLanguage = com.example.learnwordstrainer.domain.model.Language("en", "English", "🇬🇧")
+        )
+    )
+}
+
+@Preview(name = "Main Screen - Loading")
+@Composable
+fun MainScreenLoadingPreview() {
+    MainScreenLayout(
+        modifier = Modifier,
+        statisticsState = MainViewModel.StatisticsUiState(isLoading = true),
+        onSettingsClick = {},
+        onAddWordClick = {},
+        onRepetitionClick = {},
+        onAllWordsClick = {},
+        onPracticeClick = {},
+        languageSettings = LanguageSettings(
+            appLanguage = com.example.learnwordstrainer.domain.model.Language("uk", "Українська", "🇺🇦"),
+            targetLanguage = com.example.learnwordstrainer.domain.model.Language("uk", "Українська", "🇺🇦"),
+            sourceLanguage = com.example.learnwordstrainer.domain.model.Language("en", "English", "🇬🇧")
+        )
+    )
 }

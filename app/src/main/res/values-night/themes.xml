@@ -1,5 +1,5 @@
 <resources>
-    <style name="Base.Theme.LearnWordsTrainer" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Base.Theme.LearnWordsTrainer" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Colors -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_variant</item>

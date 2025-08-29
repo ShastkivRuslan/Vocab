@@ -9,7 +9,7 @@ data class WordData(
     val transcription: String,
     val partOfSpeech: String,
     val level: String,
-    val context: String,
+    val usageInfo: String,
     val examples: List<Example>
 ) {
     companion object {

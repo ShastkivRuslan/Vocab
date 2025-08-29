@@ -1,18 +1,28 @@
 package com.example.learnwordstrainer.ui.addwordfloating
 
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.learnwordstrainer.domain.model.Language
+import com.example.learnwordstrainer.domain.model.LanguageSettings
+import com.example.learnwordstrainer.domain.repository.LanguageRepository
+import com.example.learnwordstrainer.domain.repository.ThemeRepository
 import com.example.learnwordstrainer.domain.usecase.AddWordToDictionaryUseCase
 import com.example.learnwordstrainer.domain.usecase.CheckIfWordExistsUseCase
 import com.example.learnwordstrainer.domain.usecase.GetWordInfoUseCase
+import com.example.learnwordstrainer.navigation.Screen
 import com.example.learnwordstrainer.ui.addwordfloating.compose.state.AddWordUiState
 import com.example.learnwordstrainer.utils.TTSManager
 import com.example.learnwordstrainer.utils.mapThrowableToUiError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,13 +32,32 @@ class AddWordFloatingViewModel @Inject constructor(
     private val getWordInfoUseCase: GetWordInfoUseCase,
     private val addWordToDictionaryUseCase: AddWordToDictionaryUseCase,
     private val checkIfWordExistsUseCase: CheckIfWordExistsUseCase,
-    private val ttsManager: TTSManager
+    private val ttsManager: TTSManager,
+    private val languageRepository: LanguageRepository,
+    themeRepository: ThemeRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<AddWordUiState>(AddWordUiState.Idle)
     val uiState = _uiState.asStateFlow()
 
     private val _inputWord = MutableStateFlow(TextFieldValue(""))
     val inputWord = _inputWord.asStateFlow()
+
+    val themeMode: StateFlow<Int> = themeRepository.themeMode.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    )
+
+    private val languageSettings: StateFlow<LanguageSettings> = languageRepository.languageSettings
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = LanguageSettings(
+                appLanguage = Language("uk", "Українська", "🇺🇦"),
+                targetLanguage = Language("uk", "Українська", "🇺🇦"),
+                sourceLanguage = Language("en", "English", "🇬🇧")
+            )
+        )
 
 
     override fun onCleared() {
@@ -54,9 +83,15 @@ class AddWordFloatingViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = AddWordUiState.Loading
 
-            getWordInfoUseCase(word)
-                .onSuccess { wordInfo ->
-                    val isSaved = checkIfWordExistsUseCase(word)
+            getWordInfoUseCase(
+                word =  word,
+                sourceLanguage = languageSettings.value.sourceLanguage,
+                targetLanguage = languageSettings.value.targetLanguage
+            ).onSuccess { wordInfo ->
+                    val isSaved = checkIfWordExistsUseCase(
+                        sourceWord = word,
+                        sourceLanguageCode = languageSettings.value.sourceLanguage.code
+                    )
 
                     _uiState.value = AddWordUiState.Success(
                         word = wordInfo,
@@ -84,7 +119,7 @@ class AddWordFloatingViewModel @Inject constructor(
                     savingStep = AddWordUiState.SavingStep.CollapsingCards,
                     isMainSectionExpanded = currentState.isMainSectionExpanded,
                     isExamplesSectionExpanded = currentState.isExamplesSectionExpanded,
-                    isContextSectionExpanded = currentState.isContextSectionExpanded
+                    isUsageInfoSectionExpanded = currentState.isUsageInfoSectionExpanded
                 )
 
                 delay(100)
@@ -95,9 +130,16 @@ class AddWordFloatingViewModel @Inject constructor(
                     ) ?: state
                 }
 
+                val settings = languageRepository.getLatestLanguageSettings()
+                val sourceLangCode = settings.sourceLanguage.code
+                val targetLangCode = settings.targetLanguage.code
+
                 addWordToDictionaryUseCase(
-                    currentState.word.originalWord,
-                    currentState.word.translation
+                    sourceWord = currentState.word.originalWord,
+                    translation = currentState.word.translation,
+                    sourceLanguageCode = sourceLangCode,
+                    targetLanguageCode = targetLangCode,
+                    wordLevel = currentState.word.level
                 )
 
                 _uiState.update { state ->
@@ -120,7 +162,7 @@ class AddWordFloatingViewModel @Inject constructor(
                 state.copy(
                     isMainSectionExpanded = isOpening,
                     isExamplesSectionExpanded = false,
-                    isContextSectionExpanded = false
+                    isUsageInfoSectionExpanded = false
                 )
             } ?: it
         }
@@ -133,20 +175,20 @@ class AddWordFloatingViewModel @Inject constructor(
                 state.copy(
                     isMainSectionExpanded = false,
                     isExamplesSectionExpanded = isOpening,
-                    isContextSectionExpanded = false
+                    isUsageInfoSectionExpanded = false
                 )
             } ?: it
         }
     }
 
-    fun onContextToggle() {
+    fun ontUsageInfoToggle() {
         _uiState.update {
             (it as? AddWordUiState.Success)?.let { state ->
-                val isOpening = !state.isContextSectionExpanded
+                val isOpening = !state.isUsageInfoSectionExpanded
                 state.copy(
                     isMainSectionExpanded = false,
                     isExamplesSectionExpanded = false,
-                    isContextSectionExpanded = isOpening
+                    isUsageInfoSectionExpanded = isOpening
                 )
             } ?: it
         }

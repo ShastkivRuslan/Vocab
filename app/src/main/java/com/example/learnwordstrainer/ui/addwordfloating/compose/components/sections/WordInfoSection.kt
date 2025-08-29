@@ -90,7 +90,7 @@ private fun Preview() {
         transcription = "[kəmˈpoʊz]",
         partOfSpeech = "noun",
         level = "B2",
-        context = "\"Англійське слово 'reusability' є формальним технічним терміном, що найчастіше зустрічається в програмуванні (reusability of code), інженерії та екології (reusability of materials). Воно має нейтральний відтінок і підкреслює ефективність та економність. Типові словосполучення: 'design for reusability' (проєктувати з розрахунком на повторне використання)",
+        usageInfo = "\"Англійське слово 'reusability' є формальним технічним терміном, що найчастіше зустрічається в програмуванні (reusability of code), інженерії та екології (reusability of materials). Воно має нейтральний відтінок і підкреслює ефективність та економність. Типові словосполучення: 'design for reusability' (проєктувати з розрахунком на повторне використання)",
         examples = listOf(
             Example("Compose makes UI development easier.", "Compose робить розробку UI простішою."),
             Example("We use Compose for our Android app.", "Ми використовуємо Compose для нашого Android додатку."),

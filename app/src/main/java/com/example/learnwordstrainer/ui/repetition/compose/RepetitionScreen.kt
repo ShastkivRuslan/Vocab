@@ -1,13 +1,22 @@
 package com.example.learnwordstrainer.ui.repetition.compose
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.learnwordstrainer.R
+import com.example.learnwordstrainer.domain.model.DailyStatistic
 import com.example.learnwordstrainer.domain.model.Word
 import com.example.learnwordstrainer.ui.repetition.RepetitionEvent
 import com.example.learnwordstrainer.ui.repetition.state.RepetitionUiState
@@ -19,7 +28,6 @@ fun RepetitionScreen(
     onEvent: (RepetitionEvent) -> Unit,
     onBackPressed: () -> Unit
 ) {
-    // TODO: Додати TopAppBar з кнопкою onBackPressed
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -40,16 +48,15 @@ fun RepetitionScreen(
                     .fillMaxWidth()
                     .padding(start = 16.dp),
                 text = stringResource(R.string.repeat_mode),
-                fontSize = 32.sp,
-                color = Color.White
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
 
-        // Основний контент екрану, що займає решту місця
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(1f) // Це важливо, щоб контент займав весь доступний простір
+                .weight(1f)
         ) {
             when (uiState) {
                 is RepetitionUiState.Loading -> {
@@ -111,20 +118,30 @@ fun RepetitionScreenPreview_Loading() {
 @Preview(name = "Content State", showBackground = true)
 @Composable
 fun RepetitionScreenPreview_Content() {
-    // Create sample data for the content state
     val sampleWord = Word(
         id = 1,
-        englishWord = "Heuristic",
+        sourceWord = "Heuristic",
         translation = "Евристичний",
         correctAnswerCount = 12,
-        wrongAnswerCount = 3
+        wrongAnswerCount = 3,
+        sourceLanguageCode = "en",
+        targetLanguageCode = "uk",
+        wordLevel = "A1"
     )
     val sampleOptions = listOf("Евристичний", "Спорадичний", "Еклектичний", "Емпіричний")
+    val sampleStats = DailyStatistic(
+        date = "2025-08-15",
+        correctAnswers = 87,
+        wrongAnswers = 15,
+        wordsAdded = 4,
+        wordsAsked = 11
+    )
     val sampleState = RepetitionUiState.Content(
         word = sampleWord,
         answerOptions = sampleOptions,
-        correctCount = 12,
-        wrongCount = 3
+        dailyStats = sampleStats,
+        correctCount = 10,
+        wrongCount = 20
     )
 
     LearnWordsTrainerTheme {

@@ -8,9 +8,9 @@ import com.example.learnwordstrainer.domain.model.WordDetailsCache
 
 @Dao
 interface WordDetailsCacheDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(cache: WordDetailsCache)
+    @Query("SELECT * FROM word_details_cache WHERE source_word = :word AND source_language_code = :sourceLangCode AND target_language_code = :targetLangCode")
+    suspend fun getCacheForWord(word: String, sourceLangCode: String, targetLangCode: String): WordDetailsCache?
 
-    @Query("SELECT * FROM word_details_cache WHERE english_word = :word")
-    suspend fun getCacheForWord(word: String): WordDetailsCache?
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entry: WordDetailsCache)
 }

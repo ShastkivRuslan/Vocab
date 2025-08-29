@@ -29,7 +29,7 @@ fun SavingWordContent(
     isContextSectionExpanded: Boolean,
     onMainInfoToggle: () -> Unit,
     onExamplesToggle: () -> Unit,
-    onContextToggle: () -> Unit
+    ontUsageInfoToggle: () -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         AnimatedVisibility(
@@ -54,8 +54,8 @@ fun SavingWordContent(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                ContextSection(
-                    context = state.word.context,
+                UsageInfoSection(
+                    context = state.word.usageInfo,
                     isExpanded = isContextSectionExpanded,
                     onToggle = {}
                 )

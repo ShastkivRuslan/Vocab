@@ -16,7 +16,7 @@ fun SuccessContent(
     onAddClick: () -> Unit,
     onMainInfoToggle: () -> Unit,
     onExamplesToggle: () -> Unit,
-    onContextToggle: () -> Unit
+    onUsageInfoToggle: () -> Unit
 
 ) {
 
@@ -41,10 +41,10 @@ fun SuccessContent(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        ContextSection(
-            context = state.word.context,
-            isExpanded = state.isContextSectionExpanded,
-            onContextToggle
+        UsageInfoSection(
+            context = state.word.usageInfo,
+            isExpanded = state.isUsageInfoSectionExpanded,
+            onUsageInfoToggle
             )
 
         Spacer(modifier = Modifier.height(16.dp))
