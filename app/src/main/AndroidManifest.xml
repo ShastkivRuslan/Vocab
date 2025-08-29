@@ -19,6 +19,7 @@
         tools:targetApi="34" />
 
     <application
+        android:name=".VocabApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,14 +29,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnWordsTrainer"
         android:windowSoftInputMode="adjustResize"
-        android:name=".VocabApp"
-        tools:targetApi="31">
+        android:localeConfig="@xml/locales_config"
+        tools:targetApi="33">
+
+        <receiver
+            android:name=".ui.widget.receiver.WordWidgetReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/word_widget_info" />
+        </receiver>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
 
         <activity android:name=".ui.addword.AddWordActivity" />
-        <activity android:name=".ui.repetition.RepetitionActivity" />
         <activity android:name=".ui.practice.PracticeActivity"/>
-        <activity android:name=".ui.settings.SettingsActivity"/>
-        <activity android:name=".ui.bubblesettings.BubbleSettingsActivity"/>
 
         <activity
             android:theme="@style/Theme.Transparent"
