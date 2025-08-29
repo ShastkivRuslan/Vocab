@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
 }
 
 val localProperties = Properties()
@@ -15,12 +16,13 @@ if (localPropertiesFile.exists()) {
         localProperties.load(fis)
     }
 }
-val apiKey: String = localProperties.getProperty("openai.api.key", "")
+val openAiApiKey: String = localProperties.getProperty("openai.api.key", "")
+val geminiApiKey: String = localProperties.getProperty("gemini.api.key", "")
 val apiSystemPrompt: String = localProperties.getProperty("openai.system.prompt", "")
 
 android {
     namespace = "com.example.learnwordstrainer"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.learnwordstrainer"
@@ -30,7 +32,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "API_KEY", "\"$openAiApiKey\"")
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
         buildConfigField("String", "API_SYSTEM_PROMPT", "\"$apiSystemPrompt\"")
     }
 
@@ -44,19 +47,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         viewBinding = true
         buildConfig = true
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
@@ -71,6 +71,26 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.runtime.livedata)
     implementation(libs.lifecycle.service)
+    implementation(libs.lottie.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.generativeai)
+    implementation(libs.material.icons.extended)
+    implementation(libs.glance.material3)
+
+
+    implementation(libs.glance.appwidget)
+
+    // WorkManager для фонових оновлень
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    // Інтеграція Hilt та WorkManager
+    implementation("androidx.hilt:hilt-work:1.2.0")
+    implementation(libs.glance.preview)
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
+
+
+
 
     val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
     implementation(composeBom)

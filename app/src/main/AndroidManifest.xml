@@ -10,7 +10,6 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
-    />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
@@ -20,6 +19,7 @@
         tools:targetApi="34" />
 
     <application
+        android:name=".VocabApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -29,24 +29,59 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnWordsTrainer"
         android:windowSoftInputMode="adjustResize"
-        android:name=".VocabApp"
-        tools:targetApi="31">
+        android:localeConfig="@xml/locales_config"
+        tools:targetApi="33">
 
-        <activity android:name=".ui.activities.AddWordActivity" />
-        <activity android:name=".ui.activities.RepetitionActivity" />
-        <activity android:name=".ui.activities.PracticeActivity"/>
-        <activity android:name=".ui.activities.SettingsActivity"/>
-        <activity android:name=".ui.activities.BubbleSettingsActivity"/>
+        <receiver
+            android:name=".ui.widget.receiver.WordWidgetReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/word_widget_info" />
+        </receiver>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
+        <activity android:name=".ui.addword.AddWordActivity" />
+        <activity android:name=".ui.practice.PracticeActivity"/>
 
         <activity
-            android:name=".ui.activities.AddWordFloatingActivity"
             android:theme="@style/Theme.Transparent"
             android:excludeFromRecents="true"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:name=".ui.addwordfloating.AddWordFloatingActivity"
+            android:exported="true"
+            android:label="Ask Vocab.AI"
+            android:icon="@mipmap/ic_launcher">
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android:intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android:intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.mainscreen.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -81,7 +116,6 @@
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 
-        <!-- Receiver для відстеження розблокувань екрану -->
         <receiver
             android:name=".receivers.ScreenUnlockReceiver"
             android:enabled="true"
@@ -91,7 +125,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Receiver для автозапуску після перезавантаження -->
         <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="true"

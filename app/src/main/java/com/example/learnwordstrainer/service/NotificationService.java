@@ -16,7 +16,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.learnwordstrainer.R;
 import com.example.learnwordstrainer.receivers.ScreenUnlockReceiver;
-import com.example.learnwordstrainer.ui.activities.MainActivity;
+import com.example.learnwordstrainer.ui.mainscreen.MainActivity;
 
 /**
  * Background service that registers screen unlock receiver
