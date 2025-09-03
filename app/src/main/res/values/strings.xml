@@ -99,8 +99,8 @@
     <string name="stop">Зупинити</string>
     <string name="bubble_service_channel_name">Системне сповіщення</string>
     <string name="bubble_service_channel_description">Системне сповіщення, яке не дозволяє системі андроід зупиняти сервіс плаваючої кнопки</string>
-    <string name="bubble_active">Плаваюча кнопка активна</string>
-    <string name="bubble_paused">Плаваюча кнопка зупинена</string>
+    <string name="bubble_active">Vocab. Quick активний</string>
+    <string name="bubble_paused">Vocab. Quick зупинений</string>
     <string name="add_to_dictionary">Що це за слово?</string>
     <string name="error_network_title">Відсутнє інтернет з\'єднання</string>
     <string name="error_network_description">Перевірти чи увімкнено мобільні данні або WI-FI</string>

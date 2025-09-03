@@ -9,6 +9,7 @@ import com.example.learnwordstrainer.domain.repository.LanguageRepository
 import com.example.learnwordstrainer.domain.repository.WordRepository
 import com.example.learnwordstrainer.domain.usecase.GetWordInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +31,7 @@ enum class SortType {
 class AllWordsViewModel @Inject constructor(
     private val wordRepository: WordRepository,
     private val languageRepository: LanguageRepository,
-    private val getWordInfoUseCase: GetWordInfoUseCase // Ін'єктуємо UseCase
+    private val getWordInfoUseCase: GetWordInfoUseCase
 ) : ViewModel() {
 
     companion object {
@@ -64,6 +65,7 @@ class AllWordsViewModel @Inject constructor(
     private val _isDetailsLoading = MutableStateFlow(false)
     val isDetailsLoading: StateFlow<Boolean> = _isDetailsLoading
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<AllWordsUiState> =
         _languageFilter.flatMapLatest { langCode ->
             wordRepository.getWords(langCode)

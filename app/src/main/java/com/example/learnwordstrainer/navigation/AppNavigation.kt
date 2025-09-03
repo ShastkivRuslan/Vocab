@@ -27,6 +27,8 @@ import com.example.learnwordstrainer.domain.model.Language
 import com.example.learnwordstrainer.ui.allwords.AllWordsScreen
 import com.example.learnwordstrainer.ui.mainscreen.MainViewModel
 import com.example.learnwordstrainer.ui.mainscreen.compose.MainScreen
+import com.example.learnwordstrainer.ui.practice.PracticeUiState
+import com.example.learnwordstrainer.ui.practice.compose.PracticeScreen
 import com.example.learnwordstrainer.ui.repetition.RepetitionViewModel
 import com.example.learnwordstrainer.ui.repetition.compose.RepetitionScreen
 import com.example.learnwordstrainer.ui.settings.bubble.BubbleSettingsViewModel
@@ -198,7 +200,9 @@ fun AppNavigation(mainViewModel: MainViewModel) {
             }
 
             composable(route = Screen.AddWord.route) { PlaceholderScreen(stringResource(R.string.placeholder_add_word)) }
-            composable(route = Screen.Practice.route) { PlaceholderScreen(stringResource(R.string.placeholder_practice)) }
+            composable(route = Screen.Practice.route) {
+                PracticeScreen()
+            }
             composable(route = Screen.AllWords.route) {
                 AllWordsScreen(
                     onBackPressed = { navController.popBackStack() }

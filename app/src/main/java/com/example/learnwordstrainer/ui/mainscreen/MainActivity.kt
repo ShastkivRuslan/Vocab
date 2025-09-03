@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -23,12 +22,10 @@ import androidx.work.WorkManager
 import com.example.learnwordstrainer.R
 import com.example.learnwordstrainer.navigation.AppNavigation
 import com.example.learnwordstrainer.service.BubbleService
-import com.example.learnwordstrainer.service.NotificationService
 import com.example.learnwordstrainer.ui.base.BaseActivity
 import com.example.learnwordstrainer.ui.mainscreen.compose.components.PermissionDialog
 import com.example.learnwordstrainer.ui.theme.LearnWordsTrainerTheme
 import com.example.learnwordstrainer.ui.widget.UpdateWidgetWorker
-import com.example.learnwordstrainer.utils.NotificationHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -131,14 +128,18 @@ class MainActivity : BaseActivity() {
     }
 
     private fun startService(type: ServiceType) {
-        val intent = when (type) {
-            ServiceType.NOTIFICATION -> {
-                NotificationHelper.createNotificationChannel(this)
-                Intent(this, NotificationService::class.java)
-            }
+        // Створюємо Intent? (nullable Intent)
+        val intent: Intent? = when (type) {
             ServiceType.BUBBLE -> Intent(this, BubbleService::class.java)
+
+            // Замість TODO() просто повертаємо null. Код не впаде.
+            ServiceType.NOTIFICATION -> null
         }
-        startService(intent)
+
+        // Запускаємо сервіс, тільки якщо intent не є null
+        intent?.let {
+            startService(it)
+        }
     }
 
     private fun scheduleWidgetUpdates() {

@@ -1,156 +1,130 @@
-package com.example.learnwordstrainer.ui.practice;
+package com.example.learnwordstrainer.ui.practice
 
-import android.app.Application;
-import android.text.TextUtils;
-import android.util.Log;
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.learnwordstrainer.domain.model.ExampleData
+import com.example.learnwordstrainer.domain.model.Word
+import com.example.learnwordstrainer.domain.usecase.GetPracticeWordsUseCase
+import com.example.learnwordstrainer.utils.TTSManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+@HiltViewModel
+class PracticeViewModel @Inject constructor(
+    private val getPracticeWordsUseCase: GetPracticeWordsUseCase,
+    // private val getAiExamplesUseCase: GetAiExamplesUseCase,
+    private val ttsManager: TTSManager
+) : ViewModel() {
 
-import com.example.learnwordstrainer.data.remote.dto.ChatCompletionResponse;
-import com.example.learnwordstrainer.domain.model.Example;
-import com.example.learnwordstrainer.domain.model.ExampleData;
-import com.example.learnwordstrainer.domain.model.WordInfoResponse;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+    private val _uiState = MutableStateFlow<PracticeUiState>(PracticeUiState.Loading)
+    val uiState = _uiState.asStateFlow()
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+    private var wordDeck: MutableList<Word> = mutableListOf()
+    private val maxDeckSize = 3 // Максимальна кількість карт в колоді (видимих + наступні)
 
-import retrofit2.Response;
-
-public class PracticeViewModel extends AndroidViewModel {
-    private static final String TAG = "PracticeViewModel";
-
-    //private final WordRepository wordRepository;
-    //private final OpenAIClient aiClient;
-
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
-    private final MutableLiveData<List<ExampleData>> examplesList = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>("");
-
-    public PracticeViewModel(@NonNull Application application) {
-        super(application);
-       // wordRepository = new WordRepository(application);
-        //aiClient = new OpenAIClient();
+    init {
+        loadWordDeck()
     }
 
-    public LiveData<Boolean> getIsLoading() {
-        return isLoading;
-    }
-
-    public LiveData<List<ExampleData>> getExamplesList() {
-        return examplesList;
-    }
-
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
-    }
-
-//    public void getExamplesFromAI(String word) {
-//        if (TextUtils.isEmpty(word)) {
-//            errorMessage.setValue("Відсутнє слово для запиту до AI");
-//            return;
-//        }
-//
-//        isLoading.setValue(true);
-//
-//        aiClient.fetchExamplesFromGPT(word, new Callback<ChatCompletionResponse>() {
-//            @Override
-//            public void onResponse(@NonNull Call<ChatCompletionResponse> call,
-//                                   @NonNull Response<ChatCompletionResponse> response) {
-//                isLoading.postValue(false);
-//
-//                if (response.isSuccessful() && response.body() != null) {
-//                    try {
-//                        ChatCompletionResponse result = response.body();
-//                        if (result.choices != null && !result.choices.isEmpty()) {
-//                            String content = result.choices.get(0).message.content;
-//                            WordInfoResponse wordResponse = parseWordInfo(content);
-//                            List<ExampleData> examples = convertToExampleData(wordResponse.getExamples());
-//                            examplesList.postValue(examples);
-//                        } else {
-//                            errorMessage.postValue("Отримано порожню відповідь від сервера");
-//                        }
-//                    } catch (Exception e) {
-//                        Log.e(TAG, "Error processing API response", e);
-//                        errorMessage.postValue("Помилка обробки відповіді: " + e.getMessage());
-//                    }
-//                } else {
-//                    handleErrorResponse(response);
+    fun onEvent(event: PracticeEvent) {
+        when (event) {
+            PracticeEvent.OnNextWordClicked -> showNextWord()
+            PracticeEvent.OnListenClicked -> {
+//                (uiState.value as? PracticeUiState.Content)?.let {
+//                    ttsManager.speak(it.currentWord.sourceWord)
 //                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<ChatCompletionResponse> call, @NonNull Throwable t) {
-//                isLoading.postValue(false);
-//                errorMessage.postValue("Помилка мережі: " + t.getMessage());
-//                Log.e(TAG, "Network error", t);
-//            }
-//        });
-//    }
-
-    private void handleErrorResponse(Response<ChatCompletionResponse> response) {
-        String errorBody = "";
-        try {
-            if (response.errorBody() != null) {
-                errorBody = response.errorBody().string();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error reading error body", e);
-        }
-
-        errorMessage.postValue("Помилка API: " + response.code() + " " + errorBody);
-    }
-
-    public WordInfoResponse parseWordInfo(String jsonResponse) {
-        if (TextUtils.isEmpty(jsonResponse)) {
-            return createEmptyWordInfoResponse();
-        }
-
-        try {
-            Gson gson = new Gson();
-            return gson.fromJson(jsonResponse, WordInfoResponse.class);
-        } catch (JsonSyntaxException e) {
-            Log.e(TAG, "Error parsing JSON", e);
-            return createEmptyWordInfoResponse();
-        }
-    }
-
-    private WordInfoResponse createEmptyWordInfoResponse() {
-        WordInfoResponse response = new WordInfoResponse();
-        response.setTranslation("");
-        response.setTranscription("");
-        response.setPartOfSpeech("");
-        response.setExamples(Collections.emptyList());
-        return response;
-    }
-
-    private List<ExampleData> convertToExampleData(List<Example> examples) {
-        List<ExampleData> result = new ArrayList<>();
-        if (examples == null || examples.isEmpty()) {
-            // Повертаємо хоча б один пустий приклад, щоб уникнути помилок відображення
-            result.add(new ExampleData("No examples available", "Приклади відсутні"));
-            return result;
-        }
-
-        for (Example example : examples) {
-            String sentence = example.getSentence();
-            String translation = example.getTranslation();
-
-            if (!TextUtils.isEmpty(sentence)) {
-                result.add(new ExampleData(sentence, translation != null ? translation : ""));
             }
         }
-
-        return result;
     }
 
-//    public String getNextWord() {
-//        Word randomWord = wordRepository.getRandomWord();
-//        return randomWord != null ? randomWord.englishWord : "";
-//    }
+    private fun loadWordDeck() {
+        viewModelScope.launch {
+            _uiState.value = PracticeUiState.Loading
+            val words = getPracticeWordsUseCase()
+            if (words.isEmpty()) {
+                _uiState.value = PracticeUiState.Empty("Ваш словник порожній. Додайте слова, щоб почати практику.")
+            } else {
+                wordDeck.clear() // Очищуємо, якщо перезавантажуємо
+                wordDeck.addAll(words)
+                showNextWord(isInitialLoad = true) // Передаємо флаг для початкового завантаження
+            }
+        }
+    }
+
+    private fun showNextWord(isInitialLoad: Boolean = false) {
+        if (wordDeck.isEmpty()) {
+            loadWordDeck() // Перезавантажуємо колоду, якщо закінчилася
+            return
+        }
+
+        val nextWord = wordDeck.removeAt(0)
+
+        // Додаємо поточне слово в кінець колоди, якщо це не початкове завантаження
+        // та якщо колода ще не пуста. Це імітує "переміщення в кінець".
+        if (!isInitialLoad && _uiState.value is PracticeUiState.Content) {
+            // Отримаємо попереднє поточне слово, якщо воно було
+            val previousCurrentWord = (_uiState.value as PracticeUiState.Content).currentWord
+            wordDeck.add(previousCurrentWord)
+        }
+
+        // Беремо наступні `maxDeckSize - 1` слова для задніх карток
+        val nextWordsInDeck = wordDeck.take(maxDeckSize - 1)
+
+        _uiState.value = PracticeUiState.Content(
+            currentWord = nextWord,
+           examples = emptyList(), // Очищуємо приклади для нового слова
+            isAiLoadingExamples = true
+        )
+
+        loadExamplesForWord(nextWord)
+    }
+
+    private fun loadExamplesForWord(word: Word) {
+        viewModelScope.launch {
+            delay(1500) // Імітація завантаження
+            val examples = generateMockExamples(word)
+
+            _uiState.update {
+                (it as? PracticeUiState.Content)?.copy(
+                    examples = examples,
+                    isAiLoadingExamples = false
+                ) ?: it
+            }
+        }
+    }
+
+    private fun generateMockExamples(word: Word): List<ExampleData> {
+        return listOf(
+            ExampleData(
+                "The beauty of the sunset was ephemeral, lasting only a few minutes.",
+                "Краса заходу сонця була ефемерною, триваючи лише кілька хвилин."
+            ),
+            ExampleData(
+               "He dedicated his life to the pursuit of knowledge.",
+                "Він присвятив своє життя гонитві за знаннями."
+            ),
+            ExampleData(
+                "Her resilience in the face of adversity was an inspiration to us all.",
+                "Її стійкість перед лицем негараздів була натхненням для всіх нас."
+            ),
+            ExampleData(
+                "It's crucial to distinguish between fact and opinion.",
+                "Вкрай важливо розрізняти факт та думку."
+            ),
+            ExampleData(
+                "The novel provides a compelling narrative of historical events.",
+                "Роман пропонує захоплюючу розповідь про історичні події."
+            )
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        ttsManager.shutdown()
+    }
 }

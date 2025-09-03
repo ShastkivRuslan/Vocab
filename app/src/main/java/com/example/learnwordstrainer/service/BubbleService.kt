@@ -126,7 +126,6 @@ class BubbleService : Service() {
         val stopIntent = createStopServiceIntent()
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(getString(R.string.app_name))
             .setContentText(getNotificationText())
             .setSmallIcon(R.drawable.ic_bubble)
             .setContentIntent(mainIntent)
