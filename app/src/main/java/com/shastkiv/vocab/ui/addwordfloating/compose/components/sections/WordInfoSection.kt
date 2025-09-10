@@ -1,0 +1,161 @@
+package com.shastkiv.vocab.ui.addwordfloating.compose.components.sections
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.shastkiv.vocab.domain.model.WordData
+import com.shastkiv.vocab.ui.addwordfloating.compose.components.common.*
+import com.shastkiv.vocab.ui.addwordfloating.compose.preview.PreviewData
+import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
+
+@Composable
+fun WordInfoSection(
+    originalWord: String,
+    translation: String?,
+    wordData: WordData?,
+    isExpanded: Boolean,
+    isLocked: Boolean,
+    onToggle: () -> Unit
+) {
+    ExpandableCard(
+        isExpanded = isExpanded,
+        onToggle = onToggle,
+        title = if (isExpanded || isLocked) "Основна інформація" else originalWord,
+        showArrow = !isLocked && !isExpanded,
+        isLocked = false
+    ) {
+        WordInfoContent(originalWord, translation, wordData, isLocked)
+    }
+}
+
+@Composable
+private fun WordInfoContent(
+    originalWord: String,
+    translation: String?,
+    wordData: WordData?,
+    isLocked: Boolean
+) {
+    Column {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically // Вирівнюємо елементи по центру вертикально
+        ) {
+            Text(
+                text = originalWord,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.weight(1f, fill = false)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            if(!isLocked) {
+                LevelBadge(level = wordData?.level ?: "[...]")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        if (!isLocked) {
+            Text(
+                text = wordData?.transcription ?: "[...]",
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "Переклад:",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = translation ?: "...",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        if (!isLocked) {
+            Text(
+                text = wordData?.partOfSpeech ?: "...",
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+
+        if (isLocked) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .blur(radius = 2.dp)
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Транскрипція:",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Рівень:",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Частина мови:",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                }
+                ProFeatureLock(modifier = Modifier.matchParentSize()) // Займаємо весь розмір Box
+            }
+        }
+    }
+}
+
+@Preview(name = "WordInfoSection - PRO версія", showBackground = true)
+@Composable
+fun WordInfoSectionProPreview() {
+    LearnWordsTrainerTheme {
+        Column(modifier = Modifier.padding(16.dp)) {
+            WordInfoSection(
+                originalWord = "Persistent",
+                translation = "Наполегливий",
+                wordData = PreviewData.sampleWord.copy(originalWord = "Persistent"),
+                isExpanded = true,
+                isLocked = true,
+                onToggle = {}
+            )
+        }
+    }
+}

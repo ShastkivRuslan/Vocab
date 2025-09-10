@@ -21,11 +21,11 @@ val geminiApiKey: String = localProperties.getProperty("gemini.api.key", "")
 val apiSystemPrompt: String = localProperties.getProperty("openai.system.prompt", "")
 
 android {
-    namespace = "com.example.learnwordstrainer"
+    namespace = "com.shastkiv.vocab"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.learnwordstrainer"
+        applicationId = "com.shastkiv.vocab"
         minSdk = 29
         targetSdk = 34
         versionCode = 1
@@ -78,13 +78,13 @@ dependencies {
     implementation(libs.material.icons.extended)
     implementation(libs.glance.material3)
 
+    implementation(libs.translate)
+
 
     implementation(libs.glance.appwidget)
 
-    // WorkManager для фонових оновлень
     implementation("androidx.work:work-runtime-ktx:2.9.0")
 
-    // Інтеграція Hilt та WorkManager
     implementation("androidx.hilt:hilt-work:1.2.0")
     implementation(libs.glance.preview)
     ksp("androidx.hilt:hilt-compiler:1.2.0")

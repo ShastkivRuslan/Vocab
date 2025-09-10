@@ -29,6 +29,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 coroutinesTest = "1.8.1"
 runtime = "1.8.3"
+translate = "17.0.3"
 uiToolingPreview = "1.8.3"
 runtimeLivedata = "1.8.3"
 lifecycleService = "2.9.2"
@@ -75,6 +76,7 @@ ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitV
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
+translate = { module = "com.google.mlkit:translate", version.ref = "translate" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "uiToolingPreview" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiToolingPreview" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiToolingPreview" }
