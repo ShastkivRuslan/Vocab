@@ -76,3 +76,27 @@ fun LearnWordsTrainerTheme(
         content = content
     )
 }
+
+@Composable
+fun VocabAppCoreTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: Int? = null,
+    content: @Composable () -> Unit
+) {
+    val colorScheme = when {
+        themeMode != null -> when (themeMode) {
+            AppCompatDelegate.MODE_NIGHT_YES -> DarkColorScheme
+            AppCompatDelegate.MODE_NIGHT_NO -> LightColorScheme
+            else -> if (darkTheme) DarkColorScheme else LightColorScheme
+        }
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
+    }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = AppTypography,
+        shapes = AppShapes,
+        content = content
+    )
+}

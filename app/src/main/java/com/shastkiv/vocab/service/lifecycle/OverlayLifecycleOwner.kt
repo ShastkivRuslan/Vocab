@@ -3,13 +3,17 @@ package com.shastkiv.vocab.ui.lifecycle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.ViewModelStore
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
+import androidx.lifecycle.ViewModelStoreOwner
 
-class OverlayLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner {
+class OverlayLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner, ViewModelStoreOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
+
+    override val viewModelStore = ViewModelStore()
 
     override val lifecycle: Lifecycle = lifecycleRegistry
     override val savedStateRegistry = savedStateRegistryController.savedStateRegistry
@@ -59,6 +63,7 @@ class OverlayLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner {
     fun destroy() {
         if (lifecycleRegistry.currentState != Lifecycle.State.DESTROYED) {
             lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+            viewModelStore.clear()
         }
     }
 

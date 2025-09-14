@@ -11,28 +11,51 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
 import android.util.Log
-import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationCompat
 import com.shastkiv.vocab.R
-import com.shastkiv.vocab.domain.usecase.GetBubbleSettingsFlowUseCase
-import com.shastkiv.vocab.domain.usecase.SaveBubblePositionUseCase
+import com.shastkiv.vocab.ui.addwordfloating.AddWordFloatingViewModel
+import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
 import com.shastkiv.vocab.ui.mainscreen.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
+/**
+ * BubbleService - Service coordinator implementing clean architecture separation.
+ *
+ * ARCHITECTURE DECISIONS:
+ *
+ * 1. BubbleManager uses UseCase pattern because:
+ *    - Simple CRUD operations (save position, get settings)
+ *    - No complex UI state management needed
+ *    - Direct data operations without sophisticated coordination
+ *
+ * 2. DialogManager uses ViewModel Factory pattern because:
+ *    - Complex UI state machine (Loading â†’ Success â†’ SavingWord â†’ etc.)
+ *    - Sophisticated animation states and transitions
+ *    - Coordination of multiple UseCase for single UI flow
+ *    - Reactive StateFlow management for Compose
+ *    - Lifecycle-aware operations with cleanup
+ *
+ * This hybrid approach is architecturally sound:
+ * - UseCase for simple operations (CRUD)
+ * - ViewModel for complex UI coordination
+ *
+ * BubbleService acts as mediator, coordinating between separated concerns
+ * without mixing responsibilities within single classes.
+ */
 @AndroidEntryPoint
 class BubbleService : Service() {
 
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var bubbleViewManager: BubbleViewManager? = null
     private var isBubbleVisible = false
 
-    @Inject
-    lateinit var getBubbleSettingsFlowUseCase: GetBubbleSettingsFlowUseCase
-    @Inject
-    lateinit var saveBubblePositionUseCase: SaveBubblePositionUseCase
+    // Clean separation: different patterns for different complexity levels
+    @Inject lateinit var bubbleManager: BubbleManager
+    @Inject lateinit var dialogManager: DialogManager
+
+    // Shared overlay lifecycle for both managers
+    private val overlayLifecycleOwner = OverlayLifecycleOwner()
 
     private val screenStateReceiver = ScreenStateReceiver()
 
@@ -43,8 +66,7 @@ class BubbleService : Service() {
         isBubbleVisible = true
         startForegroundService()
         registerScreenStateReceiver()
-        initializeBubble()
-        observeBubbleSettings()
+        initializeComponents()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -66,6 +88,43 @@ class BubbleService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    private fun initializeComponents() {
+        serviceScope.launch {
+            try {
+                bubbleManager.initialize(
+                    context = this@BubbleService,
+                    coroutineScope = serviceScope,
+                    onBubbleClick = ::handleBubbleClick,
+                    onBubbleRemoval = ::handleBubbleRemoval
+                )
+
+                bubbleManager.observeSettings(serviceScope)
+
+                Log.d(TAG, "All components initialized successfully")
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to initialize components", e)
+                stopSelf()
+            }
+        }
+    }
+
+    /**
+     * Handle bubble click - coordinate between managers
+     */
+    private fun handleBubbleClick() {
+        Log.d("BubbleService", "handleBubbleClick called")
+        dialogManager.showDialog(
+            context = this,
+            overlayLifecycleOwner = overlayLifecycleOwner
+        )
+    }
+
+    private fun handleBubbleRemoval() {
+        Log.d(TAG, "Bubble removed by user")
+        stopSelf()
+    }
+
     private fun startForegroundService() {
         val notification = createNotification()
         startForeground(NOTIFICATION_ID, notification)
@@ -77,40 +136,6 @@ class BubbleService : Service() {
             addAction(Intent.ACTION_USER_PRESENT)
         }
         registerReceiver(screenStateReceiver, filter)
-    }
-
-    private fun initializeBubble() {
-        if (bubbleViewManager != null) {
-            Log.w(TAG, "BubbleViewManager already exists")
-            return
-        }
-
-        serviceScope.launch {
-            try {
-                val initialSettings = getBubbleSettingsFlowUseCase().first()
-
-                bubbleViewManager = BubbleViewManager(
-                    context = this@BubbleService,
-                    coroutineScope = serviceScope,
-                    saveBubblePositionUseCase = saveBubblePositionUseCase,
-                    onBubbleRemovedByUser = ::handleBubbleRemoval,
-                    initialSize = initialSettings.size.dp,
-                    initialAlpha = initialSettings.transparency / 100f
-                )
-
-                bubbleViewManager?.show(initialSettings.position)
-                Log.d(TAG, "Bubble initialized and shown")
-
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to initialize bubble", e)
-                stopSelf()
-            }
-        }
-    }
-
-    private fun handleBubbleRemoval() {
-        Log.d(TAG, "Bubble removed by user")
-        stopSelf()
     }
 
     private fun updateNotificationState() {
@@ -185,24 +210,11 @@ class BubbleService : Service() {
             Log.w(TAG, "ScreenStateReceiver was not registered", e)
         }
 
-        bubbleViewManager?.destroy()
-        bubbleViewManager = null
+        bubbleManager.destroy()
+        dialogManager.destroy()
+        overlayLifecycleOwner.destroy()
 
         serviceScope.cancel()
-    }
-
-    private fun observeBubbleSettings() {
-        serviceScope.launch {
-            getBubbleSettingsFlowUseCase().collect { settings ->
-                val newAlpha = settings.transparency / 100f
-                val newSize = settings.size.dp
-
-                bubbleViewManager?.updateBubbleSettings(
-                    newSize = newSize,
-                    newAlpha = newAlpha,
-                    isVibrationEnabled = settings.isVibrationEnabled)
-            }
-        }
     }
 
     private inner class ScreenStateReceiver : BroadcastReceiver() {
@@ -216,14 +228,14 @@ class BubbleService : Service() {
         private fun handleScreenOff() {
             Log.d(TAG, "Screen turned off")
             isBubbleVisible = false
-            bubbleViewManager?.hideViews()
+            bubbleManager.hideViews()
             updateNotificationState()
         }
 
         private fun handleScreenOn() {
             Log.d(TAG, "Screen unlocked")
             isBubbleVisible = true
-            bubbleViewManager?.showViews()
+            bubbleManager.showViews()
             updateNotificationState()
         }
     }

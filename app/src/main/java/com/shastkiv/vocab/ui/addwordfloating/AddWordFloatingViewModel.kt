@@ -18,7 +18,8 @@ import com.shastkiv.vocab.ui.addwordfloating.compose.state.AddWordUiState
 import com.shastkiv.vocab.ui.addwordfloating.compose.state.UserStatus
 import com.shastkiv.vocab.utils.TTSManager
 import com.shastkiv.vocab.utils.mapThrowableToUiError
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,10 +28,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class AddWordFloatingViewModel @Inject constructor(
+/**
+ * AddWordFloatingViewModel - Complex UI state management for word dialog.
+ * Uses AssistedFactory instead of @HiltViewModel for Service context compatibility.
+ *
+ * This class handles sophisticated UI state transitions, coordinates multiple UseCase,
+ * and manages reactive state for Compose UI - justifying ViewModel pattern over simple UseCase.
+ */
+class AddWordFloatingViewModel @AssistedInject constructor(
     private val application: Application,
     private val getWordInfoUseCase: GetWordInfoUseCase,
     private val addWordToDictionaryUseCase: AddWordToDictionaryUseCase,
@@ -38,12 +44,14 @@ class AddWordFloatingViewModel @Inject constructor(
     private val ttsManager: TTSManager,
     private val languageRepository: LanguageRepository,
     private val translateUseCase: TranslateUseCase,
-    themeRepository: ThemeRepository
+    private val themeRepository: ThemeRepository
 ) : ViewModel() {
 
-    // --- NEW: User Status ---
-    // For demonstration, we hardcode the user as Free.
-    // In a real app, you would get this from your authentication/subscription logic.
+    @AssistedFactory
+    interface Factory {
+        fun create(): AddWordFloatingViewModel
+    }
+
     private val _userStatus = MutableStateFlow<UserStatus>(UserStatus.Free)
     private val userStatus = _userStatus.asStateFlow()
 
@@ -70,10 +78,10 @@ class AddWordFloatingViewModel @Inject constructor(
             )
         )
 
-
     override fun onCleared() {
         super.onCleared()
-        ttsManager.shutdown() }
+        ttsManager.shutdown()
+    }
 
     fun onInputChange(newValue: TextFieldValue) {
         _inputWord.value = newValue
@@ -88,6 +96,11 @@ class AddWordFloatingViewModel @Inject constructor(
         }
     }
 
+    fun resetState() {
+        _uiState.value = AddWordUiState.Idle(userStatus = userStatus.value)
+        _inputWord.value = TextFieldValue("")
+    }
+
     fun onCheckWord() {
         val word = _inputWord.value.text
         if (word.isBlank()) return
@@ -95,7 +108,6 @@ class AddWordFloatingViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = AddWordUiState.Loading
 
-            // --- MODIFIED LOGIC ---
             when (userStatus.value) {
                 is UserStatus.Free -> fetchSimpleTranslation(word)
                 is UserStatus.Premium -> fetchFullWordInfo(word)
@@ -111,8 +123,8 @@ class AddWordFloatingViewModel @Inject constructor(
                 originalWord = word,
                 wordData = null,
                 simpleTranslation = translation,
-                isAlreadySaved = false, // In Free tier, we don't check this initially
-                isMainSectionExpanded = true // Always expanded for Free
+                isAlreadySaved = false,
+                isMainSectionExpanded = true
             )
         } catch (e: Exception) {
             val uiError = mapThrowableToUiError(e)
@@ -122,7 +134,7 @@ class AddWordFloatingViewModel @Inject constructor(
 
     private suspend fun fetchFullWordInfo(word: String) {
         getWordInfoUseCase(
-            word =  word,
+            word = word,
             sourceLanguage = languageSettings.value.sourceLanguage,
             targetLanguage = languageSettings.value.targetLanguage
         ).onSuccess { wordInfo ->
@@ -134,7 +146,7 @@ class AddWordFloatingViewModel @Inject constructor(
                 userStatus = UserStatus.Premium,
                 originalWord = word,
                 wordData = wordInfo,
-                simpleTranslation = wordInfo.translation, // Can use translation from full data
+                simpleTranslation = wordInfo.translation,
                 isAlreadySaved = isSaved
             )
         }.onFailure { error ->
@@ -191,34 +203,26 @@ class AddWordFloatingViewModel @Inject constructor(
                 _uiState.value = AddWordUiState.DialogShouldClose
             }
         } else if (currentState is AddWordUiState.Success && currentState.simpleTranslation != null) {
-            // Logic for Free user to save the word with minimal info if needed
             Toast.makeText(application, "Збереження простого перекладу...", Toast.LENGTH_SHORT).show()
-            // Here you could implement saving the word with only the simple translation
         }
     }
 
-    // --- NEW FUNCTION ---
     fun onGetFullInfoClicked() {
         if (userStatus.value is UserStatus.Free) {
             _uiState.value = AddWordUiState.ShowPaywall
         } else {
-            // For premium users, this button might not even be visible,
-            // but if it is, we can re-fetch the data.
             onCheckWord()
         }
     }
 
-    // --- NEW FUNCTION ---
     fun onPaywallDismissed() {
-        // Return to the previous Success state when the paywall is dismissed
         onCheckWord()
     }
-
 
     fun onMainInfoToggle() {
         _uiState.update {
             (it as? AddWordUiState.Success)?.let { state ->
-                if (state.userStatus is UserStatus.Free) return@let it // Cannot be toggled in Free
+                if (state.userStatus is UserStatus.Free) return@let it
                 val isOpening = !state.isMainSectionExpanded
                 state.copy(
                     isMainSectionExpanded = isOpening,
@@ -232,7 +236,7 @@ class AddWordFloatingViewModel @Inject constructor(
     fun onExamplesToggle() {
         _uiState.update {
             (it as? AddWordUiState.Success)?.let { state ->
-                if (state.userStatus is UserStatus.Free) return@let it // Cannot be toggled in Free
+                if (state.userStatus is UserStatus.Free) return@let it
                 val isOpening = !state.isExamplesSectionExpanded
                 state.copy(
                     isMainSectionExpanded = false,
@@ -246,7 +250,7 @@ class AddWordFloatingViewModel @Inject constructor(
     fun ontUsageInfoToggle() {
         _uiState.update {
             (it as? AddWordUiState.Success)?.let { state ->
-                if (state.userStatus is UserStatus.Free) return@let it // Cannot be toggled in Free
+                if (state.userStatus is UserStatus.Free) return@let it
                 val isOpening = !state.isUsageInfoSectionExpanded
                 state.copy(
                     isMainSectionExpanded = false,
@@ -258,6 +262,6 @@ class AddWordFloatingViewModel @Inject constructor(
     }
 
     fun onErrorShown() {
-
+        // Handle error shown state
     }
 }

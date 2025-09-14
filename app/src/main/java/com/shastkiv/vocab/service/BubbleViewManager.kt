@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
-import android.content.Intent
 import android.graphics.PixelFormat
 import android.graphics.Point
 import android.os.VibrationEffect
@@ -17,6 +16,7 @@ import android.view.WindowManager
 import android.view.animation.BounceInterpolator
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,10 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.shastkiv.vocab.domain.usecase.SaveBubblePositionUseCase
 import com.shastkiv.vocab.domain.model.BubblePosition
-import com.shastkiv.vocab.ui.addwordfloating.AddWordFloatingActivity
 import com.shastkiv.vocab.ui.bubble.compose.BubbleLayout
 import com.shastkiv.vocab.ui.bubble.compose.DeleteZoneLayout
 import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
@@ -36,18 +36,26 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
+/**
+ * BubbleViewManager - Pure bubble UI management, no dialog logic.
+ * Responsibilities: bubble display, positioning, drag&drop, delete zone.
+ *
+ * Clean separation: This class only handles bubble-specific UI operations.
+ * Dialog logic moved to separate DialogManager to maintain SRP.
+ */
 class BubbleViewManager(
     private val context: Context,
     private val coroutineScope: CoroutineScope,
     private val saveBubblePositionUseCase: SaveBubblePositionUseCase,
+    private val onBubbleClick: () -> Unit, // Callback to BubbleService
     private val onBubbleRemovedByUser: () -> Unit,
     initialSize: Dp,
     initialAlpha: Float
 ) {
     private var isDragging = false
     private var isDeleteZoneVisible = false
-
     private var isVibrationEnabled = false
+
     private val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
     private var bubbleView: View? = null
@@ -66,9 +74,7 @@ class BubbleViewManager(
     private val screenSize = Point()
 
     private val overlayLifecycleOwner = OverlayLifecycleOwner()
-
     private val positionManager: BubblePositionManager
-
     private var snapAnimator: ValueAnimator? = null
 
     init {
@@ -117,13 +123,11 @@ class BubbleViewManager(
         bubbleSizeState = newSize
         bubbleAlphaState = newAlpha
         setVibrationEnabled(isVibrationEnabled)
-        Log.d(TAG, "Bubble settings updated: size=${newSize}, alpha=${newAlpha}")
+        Log.d(TAG, "Bubble settings updated: size=$newSize, alpha=$newAlpha")
     }
-
 
     fun destroy() {
         Log.d(TAG, "Destroying BubbleViewManager")
-
         overlayLifecycleOwner.destroy()
         cleanupAnimators()
         removeViewsSafely()
@@ -135,24 +139,30 @@ class BubbleViewManager(
             setViewTreeSavedStateRegistryOwner(overlayLifecycleOwner)
 
             setContent {
-                BubbleLayout(
-                    size = bubbleSizeState,
-                    alpha = bubbleAlphaState,
-                    onClick = ::handleBubbleClick,
-                    onDragStart = { offset -> handleDragStart(offset) },
-                    onDrag = ::handleDrag,
-                    onDragEnd = { handleDragEnd() }
-                )
+                CompositionLocalProvider(
+                    LocalViewModelStoreOwner provides overlayLifecycleOwner
+                ) {
+                    BubbleLayout(
+                        size = bubbleSizeState,
+                        alpha = bubbleAlphaState,
+                        onClick = ::handleBubbleClick,
+                        onDragStart = { offset -> handleDragStart(offset) },
+                        onDrag = ::handleDrag,
+                        onDragEnd = { handleDragEnd() }
+                    )
+                }
             }
         }
     }
 
     private fun handleBubbleClick() {
+        Log.d("BubbleViewManager", "Bubble clicked, isDragging: $isDragging")
         if (!isDragging) {
             if (isVibrationEnabled) {
                 vibrateOnClick()
             }
-            openAddWordActivity()
+            Log.d("BubbleViewManager", "Calling onBubbleClick callback")
+            onBubbleClick() // Перевірте чи цей callback викликається
         }
     }
 
@@ -176,17 +186,6 @@ class BubbleViewManager(
             handleBubbleRemoval()
         } else {
             snapToEdge()
-        }
-    }
-
-    private fun openAddWordActivity() {
-        try {
-            val intent = Intent(context, AddWordFloatingActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to open AddWordFloatingActivity", e)
         }
     }
 
@@ -370,7 +369,6 @@ class BubbleViewManager(
         isVibrationEnabled = isEnabled
     }
 
-
     private fun removeViewsSafely() {
         bubbleView?.let { view ->
             if (view.isAttachedToWindow) {
@@ -410,11 +408,7 @@ class BubbleViewManager(
 
     companion object {
         private const val TAG = "BubbleViewManager"
-
-        // Bubble constants
         private const val BUBBLE_SIZE_DP = 40
-
-        // Delete zone constants
         private const val DELETE_ZONE_ALPHA_NORMAL = 0.7f
         private const val DELETE_ZONE_ALPHA_HIGHLIGHTED = 1.0f
         private const val DELETE_ZONE_SCALE_NORMAL = 0.7f
@@ -422,8 +416,6 @@ class BubbleViewManager(
         private const val DELETE_ZONE_BOTTOM_MARGIN = 100
         private const val DELETE_ZONE_ANIMATION_DURATION = 500
         private const val DELETE_ZONE_HIDE_DELAY = 300L
-
-        // Animation constants
         private const val SNAP_ANIMATION_DURATION = 300L
     }
 }
