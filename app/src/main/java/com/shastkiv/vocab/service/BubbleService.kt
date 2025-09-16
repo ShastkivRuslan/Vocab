@@ -13,7 +13,6 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.shastkiv.vocab.R
-import com.shastkiv.vocab.ui.addwordfloating.AddWordFloatingViewModel
 import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
 import com.shastkiv.vocab.ui.mainscreen.MainActivity
 import dagger.hilt.android.AndroidEntryPoint

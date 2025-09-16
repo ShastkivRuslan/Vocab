@@ -1,5 +1,6 @@
 package com.shastkiv.vocab.navigation
 
+import AddWordScreen
 import BubbleSettingsScreen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -24,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.Language
+import com.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
 import com.shastkiv.vocab.ui.allwords.AllWordsScreen
 import com.shastkiv.vocab.ui.mainscreen.MainViewModel
 import com.shastkiv.vocab.ui.mainscreen.compose.MainScreen
@@ -198,7 +200,14 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                 )
             }
 
-            composable(route = Screen.AddWord.route) { PlaceholderScreen(stringResource(R.string.placeholder_add_word)) }
+            composable(route = Screen.AddWord.route) {
+                val navigationViewModel: AddWordViewModelProvider = hiltViewModel()
+                AddWordScreen (
+                    viewModel = navigationViewModel.addWordViewModel,
+                    initialText = null,
+                    onFinish = { navController.popBackStack() }
+                )
+            }
             composable(route = Screen.Practice.route) {
                 PracticeScreen()
             }

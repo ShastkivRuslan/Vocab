@@ -16,10 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ThemeRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    private val dataStore: DataStore<Preferences>
 ) : ThemeRepository {
-
-    private val dataStore = context.themeDataStore
 
     override val themeMode: Flow<Int> = dataStore.data.map { preferences ->
         preferences[Keys.THEME_MODE] ?: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM

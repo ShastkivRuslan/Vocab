@@ -1,6 +1,6 @@
 package com.shastkiv.vocab.utils
 
-import com.shastkiv.vocab.ui.addwordfloating.compose.state.UiError
+import com.shastkiv.vocab.ui.addword.compose.state.UiError
 import retrofit2.HttpException
 import java.io.IOException
 import com.shastkiv.vocab.data.remote.client.WordInfoException

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.domain.model.Example
 import com.shastkiv.vocab.domain.model.WordData
-import com.shastkiv.vocab.ui.addwordfloating.compose.components.common.LevelBadge
+import com.shastkiv.vocab.ui.addword.compose.components.common.LevelBadge
 
 
 @Composable

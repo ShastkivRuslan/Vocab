@@ -2,7 +2,8 @@ package com.shastkiv.vocab.service
 
 import android.content.Context
 import android.util.Log
-import com.shastkiv.vocab.ui.addwordfloating.AddWordFloatingViewModel
+import com.shastkiv.vocab.ui.addword.overlay.DialogViewManager
+import com.shastkiv.vocab.ui.addword.shared.AddWordViewModel
 import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,11 +24,11 @@ import javax.inject.Singleton
  */
 @Singleton
 class DialogManager @Inject constructor(
-    private val addWordViewModelFactory: AddWordFloatingViewModel.Factory
+    private val addWordViewModelFactory: AddWordViewModel.Factory
 ) {
 
     private var dialogViewManager: DialogViewManager? = null
-    private val viewModel: AddWordFloatingViewModel by lazy {
+    private val viewModel: AddWordViewModel by lazy {
         addWordViewModelFactory.create()
     }
 

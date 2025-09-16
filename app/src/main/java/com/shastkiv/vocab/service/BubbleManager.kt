@@ -1,14 +1,11 @@
 package com.shastkiv.vocab.service
 
 import android.content.Context
-import android.graphics.Point
 import android.util.Log
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.shastkiv.vocab.domain.model.BubblePosition
 import com.shastkiv.vocab.domain.usecase.GetBubbleSettingsFlowUseCase
 import com.shastkiv.vocab.domain.usecase.SaveBubblePositionUseCase
-import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

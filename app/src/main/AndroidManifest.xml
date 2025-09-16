@@ -54,26 +54,22 @@
                 tools:node="remove" />
         </provider>
 
-        <activity android:name=".ui.addword.AddWordActivity" />
         <activity
-            android:theme="@style/Theme.Transparent"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:name=".ui.addwordfloating.AddWordFloatingActivity"
+            android:name=".ui.addword.external.ProcessTextActivity"
             android:exported="true"
-            android:label="Ask Vocab.AI"
-            android:icon="@mipmap/ic_launcher">
-
+            android:theme="@style/Theme.Transparent"
+            android:launchMode="singleTop"
+            android:label="Ask Vocab">
 
             <intent-filter>
                 <action android:name="android.intent.action.PROCESS_TEXT" />
-                <category android:name="android:intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-                <category android:name="android:intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>

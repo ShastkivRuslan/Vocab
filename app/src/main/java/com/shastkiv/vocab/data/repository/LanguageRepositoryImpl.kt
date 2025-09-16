@@ -1,31 +1,24 @@
 package com.shastkiv.vocab.data.repository
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.google.gson.Gson
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val Context.settingsDataStore: DataStore<Preferences> by preferencesDataStore(name = "global_settings")
-
 @Singleton
 class LanguageRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val dataStore: DataStore<Preferences>,
     private val gson: Gson
 ) : LanguageRepository {
-
-    private val dataStore = context.settingsDataStore
 
     override val languageSettings: Flow<LanguageSettings> = dataStore.data.map { preferences ->
         val appLangJson = preferences[Keys.APP_LANGUAGE]
@@ -68,7 +61,6 @@ class LanguageRepositoryImpl @Inject constructor(
     override suspend fun getLatestLanguageSettings(): LanguageSettings {
         return languageSettings.first()
     }
-
 
     private object Keys {
         val APP_LANGUAGE = stringPreferencesKey("app_language_json")

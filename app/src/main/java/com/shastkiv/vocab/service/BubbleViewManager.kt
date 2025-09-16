@@ -55,6 +55,7 @@ class BubbleViewManager(
     private var isDragging = false
     private var isDeleteZoneVisible = false
     private var isVibrationEnabled = false
+    private var lastUpdateTime = 0L
 
     private val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
@@ -162,7 +163,7 @@ class BubbleViewManager(
                 vibrateOnClick()
             }
             Log.d("BubbleViewManager", "Calling onBubbleClick callback")
-            onBubbleClick() // Перевірте чи цей callback викликається
+            onBubbleClick()
         }
     }
 
@@ -193,10 +194,17 @@ class BubbleViewManager(
         bubbleParams.x += dragAmount.x.roundToInt()
         bubbleParams.y += dragAmount.y.roundToInt()
 
-        try {
-            windowManager.updateViewLayout(bubbleView, bubbleParams)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to update bubble position", e)
+        val currentTime = System.currentTimeMillis()
+
+        if (currentTime - lastUpdateTime >= 8) {
+            try {
+                bubbleView?.let { view ->
+                    windowManager.updateViewLayout(view, bubbleParams)
+                }
+                lastUpdateTime = currentTime
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to update bubble position", e)
+            }
         }
     }
 
