@@ -152,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="@string/description_add_word_dialog"
+                android:text="@string/description_free_add_word"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/checkBtn"

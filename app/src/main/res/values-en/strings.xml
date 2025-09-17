@@ -6,7 +6,7 @@
     <string name="origin_word">Enter a word</string>
     <string name="translation_word">Translation</string>
     <string name="add_word_button_text">Look up word</string>
-    <string name="description_add_word_dialog">The AI assistant will show information about this word along with usage examples and translations.</string>
+    <string name="description_free_add_word">The AI assistant will show information about this word along with usage examples and translations.</string>
     <string name="change_theme">Change Theme</string>
     <string name="head_text">My Dictionary</string>
     <string name="description_head_text">Learn English easily</string>
@@ -63,7 +63,7 @@
     <string name="example_translation_2">Example sentence translation #2.</string>
     <string name="example_sentence_3">Example sentence #3.</string>
     <string name="example_translation_3">Example sentence translation #3.</string>
-    <string name="thinking">Thinking...</string>
+    <string name="thinking">Thinking…</string>
     <string name="thinking_animation">Thinking animation</string>
     <string name="generating_examples">Generating examples</string>
     <string name="add_to_vocab">Add to vocabulary</string>
@@ -171,4 +171,35 @@
     <string name="error_failed_to_update_bubble_settings">Failed to update bubble settings</string>
     <string name="error_failed_to_save_theme">Failed to save theme settings</string>
     <string name="error_failed_to_save_language">Failed to save language settings</string>
+
+    <string name="retry">Retry</string>
+    <string name="widget_description">Widget description</string>
+    <string name="error_no_words_for_language">No words found for the selected language, let\'s add some!\n</string>
+    <string name="vocab_empty">Dictionary is empty</string>
+    <string name="add_new_words_widget">Add new words</string>
+    <string name="examples">Examples</string>
+    <string name="additional_info">Additional Information</string>
+    <string name="main_info">Main Information</string>
+    <string name="translation">Translation:</string>
+    <string name="description_pro_add_word">You are using the free version of the app. You will only be provided with the word translation, detailed information requires a PRO subscription.</string>
+    <string name="saving_in_process">Saving word…</string>
+    <string name="word_successfully_added">Word added to dictionary!</string>
+    <string name="get_full_info">Get full information ✨</string>
+    <string name="get_full_info_description">Unlock examples and context with Premium subscription.</string>
+    <string name="colapse">Collapse</string>
+    <string name="expand">Expand</string>
+    <string name="continue_text">Continue</string>
+    <string name="close">Close</string>
+    <string name="add_new_word_title">Add new word</string>
+    <string name="close_dialog">Close dialog</string>
+    <string name="unlock_all_features">Unlock all features</string>
+    <string name="premium_description">Get access to detailed word information, usage examples and context with Premium subscription.</string>
+    <string name="monthly_subscription">Monthly subscription - $4.99</string>
+    <string name="try_premium">Try Premium</string>
+    <string name="not_now">Not now</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="get_premium">Get Premium</string>
+    <string name="add_word_screen_title">Add word</string>
+    <string name="process_text_screen_title">Add new word</string>
 </resources>

@@ -6,7 +6,7 @@
     <string name="origin_word">Saisir un mot</string>
     <string name="translation_word">Traduction</string>
     <string name="add_word_button_text">Vérifier le mot</string>
-    <string name="description_add_word_dialog">L\'assistant IA affichera des informations sur ce mot avec des exemples d\'utilisation et des traductions.</string>
+    <string name="description_free_add_word">L\'assistant IA affichera des informations sur ce mot avec des exemples d\'utilisation et des traductions.</string>
     <string name="change_theme">Changer de thème</string>
     <string name="head_text">Mon dictionnaire</string>
     <string name="description_head_text">Apprenez l\'anglais facilement</string>
@@ -63,7 +63,7 @@
     <string name="example_translation_2">Exemple de traduction de phrase n°2.</string>
     <string name="example_sentence_3">Exemple de phrase n°3.</string>
     <string name="example_translation_3">Exemple de traduction de phrase n°3.</string>
-    <string name="thinking">Réflexion...</string>
+    <string name="thinking">Réflexion…</string>
     <string name="thinking_animation">Animation de réflexion</string>
     <string name="generating_examples">Génération d\'exemples</string>
     <string name="add_to_vocab">Ajouter au vocabulaire</string>
@@ -171,4 +171,35 @@
     <string name="error_failed_to_update_bubble_settings">Échec de la mise à jour des paramètres de la bulle</string>
     <string name="error_failed_to_save_theme">Échec de l\'enregistrement des paramètres du thème</string>
     <string name="error_failed_to_save_language">Échec de l\'enregistrement des paramètres de langue</string>
+
+    <string name="retry">Réessayer</string>
+    <string name="widget_description">Description du widget</string>
+    <string name="error_no_words_for_language">Aucun mot trouvé pour la langue sélectionnée, ajoutons-en !\n</string>
+    <string name="vocab_empty">Le dictionnaire est vide</string>
+    <string name="add_new_words_widget">Ajouter de nouveaux mots</string>
+    <string name="examples">Exemples</string>
+    <string name="additional_info">Informations supplémentaires</string>
+    <string name="main_info">Informations principales</string>
+    <string name="translation">Traduction :</string>
+    <string name="description_pro_add_word">Vous utilisez la version gratuite de l\'application. Seule la traduction du mot vous sera fournie, des informations détaillées nécessitent un abonnement PRO.</string>
+    <string name="saving_in_process">Sauvegarde du mot…</string>
+    <string name="word_successfully_added">Mot ajouté au dictionnaire !</string>
+    <string name="get_full_info">Obtenir des informations complètes ✨</string>
+    <string name="get_full_info_description">Débloquez les exemples et le contexte avec l\'abonnement Premium.</string>
+    <string name="colapse">Réduire</string>
+    <string name="expand">Développer</string>
+    <string name="continue_text">Continuer</string>
+    <string name="close">Fermer</string>
+    <string name="add_new_word_title">Ajouter un nouveau mot</string>
+    <string name="close_dialog">Fermer le dialogue</string>
+    <string name="unlock_all_features">Débloquer toutes les fonctionnalités</string>
+    <string name="premium_description">Obtenez l\'accès aux informations détaillées sur les mots, aux exemples d\'utilisation et au contexte avec l\'abonnement Premium.</string>
+    <string name="monthly_subscription">Abonnement mensuel - 4,99€</string>
+    <string name="try_premium">Essayer Premium</string>
+    <string name="not_now">Pas maintenant</string>
+    <string name="dismiss">Ignorer</string>
+    <string name="subscribe">S\'abonner</string>
+    <string name="get_premium">Obtenir Premium</string>
+    <string name="add_word_screen_title">Ajouter un mot</string>
+    <string name="process_text_screen_title">Ajouter un nouveau mot</string>
 </resources>

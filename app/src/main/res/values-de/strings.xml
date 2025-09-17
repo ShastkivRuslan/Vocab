@@ -6,7 +6,7 @@
     <string name="origin_word">Wort eingeben</string>
     <string name="translation_word">Übersetzung</string>
     <string name="add_word_button_text">Wort prüfen</string>
-    <string name="description_add_word_dialog">Der KI-Assistent zeigt Informationen zu diesem Wort mit Anwendungsbeispielen und Übersetzungen an.</string>
+    <string name="description_free_add_word">Der KI-Assistent zeigt Informationen zu diesem Wort mit Anwendungsbeispielen und Übersetzungen an.</string>
     <string name="change_theme">Thema ändern</string>
     <string name="head_text">Mein Wörterbuch</string>
     <string name="description_head_text">Lerne Englisch mit Leichtigkeit</string>
@@ -63,7 +63,7 @@
     <string name="example_translation_2">Übersetzung des Beispielsatzes Nr. 2.</string>
     <string name="example_sentence_3">Beispielsatz Nr. 3.</string>
     <string name="example_translation_3">Übersetzung des Beispielsatzes Nr. 3.</string>
-    <string name="thinking">Denke...</string>
+    <string name="thinking">Denke…</string>
     <string name="thinking_animation">Denkanimation</string>
     <string name="generating_examples">Generiere Beispiele</string>
     <string name="add_to_vocab">Zum Vokabular hinzufügen</string>
@@ -171,4 +171,35 @@
     <string name="error_failed_to_update_bubble_settings">Blaseneinstellungen konnten nicht aktualisiert werden</string>
     <string name="error_failed_to_save_theme">Themeneinstellungen konnten nicht gespeichert werden</string>
     <string name="error_failed_to_save_language">Spracheinstellungen konnten nicht gespeichert werden</string>
+
+    <string name="retry">Wiederholen</string>
+    <string name="widget_description">Widget-Beschreibung</string>
+    <string name="error_no_words_for_language">Für die ausgewählte Sprache wurden keine Wörter gefunden, fügen wir welche hinzu!\n</string>
+    <string name="vocab_empty">Wörterbuch ist leer</string>
+    <string name="add_new_words_widget">Neue Wörter hinzufügen</string>
+    <string name="examples">Beispiele</string>
+    <string name="additional_info">Zusätzliche Informationen</string>
+    <string name="main_info">Hauptinformationen</string>
+    <string name="translation">Übersetzung:</string>
+    <string name="description_pro_add_word">Sie verwenden die kostenlose Version der App. Ihnen wird nur die Wortübersetzung zur Verfügung gestellt, für detaillierte Informationen ist ein PRO-Abonnement erforderlich.</string>
+    <string name="saving_in_process">Wort wird gespeichert…</string>
+    <string name="word_successfully_added">Wort zum Wörterbuch hinzugefügt!</string>
+    <string name="get_full_info">Vollständige Informationen erhalten ✨</string>
+    <string name="get_full_info_description">Schalten Sie Beispiele und Kontext mit Premium-Abonnement frei.</string>
+    <string name="colapse">Zusammenklappen</string>
+    <string name="expand">Erweitern</string>
+    <string name="continue_text">Fortfahren</string>
+    <string name="close">Schließen</string>
+    <string name="add_new_word_title">Neues Wort hinzufügen</string>
+    <string name="close_dialog">Dialog schließen</string>
+    <string name="unlock_all_features">Alle Funktionen freischalten</string>
+    <string name="premium_description">Erhalten Sie Zugang zu detaillierten Wortinformationen, Anwendungsbeispielen und Kontext mit Premium-Abonnement.</string>
+    <string name="monthly_subscription">Monatsabonnement - 4,99€</string>
+    <string name="try_premium">Premium ausprobieren</string>
+    <string name="not_now">Nicht jetzt</string>
+    <string name="dismiss">Verwerfen</string>
+    <string name="subscribe">Abonnieren</string>
+    <string name="get_premium">Premium erhalten</string>
+    <string name="add_word_screen_title">Wort hinzufügen</string>
+    <string name="process_text_screen_title">Neues Wort hinzufügen</string>
 </resources>
