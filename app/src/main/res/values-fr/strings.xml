@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Error titles -->
+    <string name="error_network_title">Pas de connexion</string>
+    <string name="error_timeout_title">Temps écoulé</string>
+    <string name="error_not_found_title">Non trouvé</string>
+    <string name="error_database_title">Erreur d\'enregistrement</string>
+    <string name="error_empty_title">Aucune donnée</string>
+    <string name="error_parsing_title">Erreur de traitement</string>
+    <string name="error_unknown_title">Quelque chose s\'est mal passé</string>
+
+    <!-- Error descriptions -->
+    <string name="error_network_description">Vérifiez votre connexion Internet</string>
+    <string name="error_timeout_description">Le serveur ne répond pas. Réessayez plus tard</string>
+    <string name="error_not_found_description">Impossible de trouver les informations</string>
+    <string name="error_database_description">Impossible d\'enregistrer les modifications</string>
+    <string name="error_empty_description">Votre dictionnaire est vide. Ajoutez le premier mot !</string>
+    <string name="error_parsing_description">Impossible de traiter les données reçues</string>
+    <string name="error_unknown_description">Réessayez</string>
+
+    <!-- Actions -->
+    <string name="try_again">Réessayer</string>
+
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Ajouter un nouveau mot :)</string>
     <string name="add_new_word">Nouveau mot</string>
@@ -103,13 +124,6 @@
     <string name="bubble_active">Bulle flottante active</string>
     <string name="bubble_paused">Bulle flottante en pause</string>
     <string name="add_to_dictionary">Vérifier le mot</string>
-    <string name="error_network_title">Pas de connexion Internet</string>
-    <string name="error_network_description">Veuillez vérifier si les données mobiles ou le Wi-Fi sont activés</string>
-    <string name="error_not_found_title">Mot non trouvé</string>
-    <string name="error_not_found_description">Veuillez vérifier l\'orthographe de votre mot</string>
-    <string name="error_unknown_title">Une erreur s\'est produite</string>
-    <string name="error_unknown_description">Nous travaillons déjà à la résolution de ce problème</string>
-    <string name="try_again">Réessayer</string>
     <string name="request_notification_permission_dialog_text">Les notifications sont une partie importante de la fonctionnalité de la bulle flottante. Lorsque le système voit une notification active de notre application, il n\'arrête pas son fonctionnement pour l\'optimiser, ce qui permet à la bulle de fonctionner de manière stable et sans interruption. Cette autorisation est également requise pour envoyer des rappels d\'apprentissage utiles et des répétitions espacées.</string>
     <string name="request_notification_permission_dialog_title">Autorisation de notification</string>
     <string name="request_overlay_permission_dialog_text">Cette autorisation permet d\'afficher la fonctionnalité principale de l\'application — la bulle flottante pour ajouter rapidement des mots. L\'apparence de la bulle peut être personnalisée de manière flexible pour être aussi pratique et discrète que possible. Vous pouvez toujours la désactiver temporairement ou modifier d\'autres paramètres dans les réglages. **Après avoir cliqué sur \"Continuer\", une liste d\'applications s\'ouvrira où vous devrez trouver Vocab. et accorder l\'autorisation manuellement.**</string>
@@ -202,4 +216,65 @@
     <string name="get_premium">Obtenir Premium</string>
     <string name="add_word_screen_title">Ajouter un mot</string>
     <string name="process_text_screen_title">Ajouter un nouveau mot</string>
+
+    <string name="onboarding_title">Appuyer → Apprendre → Retenir</string>
+    <string name="onboarding_subtitle">Transformez chaque mot inconnu d\'Instagram, YouTube ou actualités en partie de votre vocabulaire</string>
+    <string name="continue_button">Continuer</string>
+
+    <!-- Benefits -->
+    <string name="benefit_vocab_quick_title">Vocab Quick</string>
+    <string name="benefit_vocab_quick_desc">Bouton toujours au-dessus de toutes les apps — aucun mot manqué!</string>
+
+    <string name="benefit_ai_title">AI — information maximale</string>
+    <string name="benefit_ai_desc">Traduction, transcription, exemples, grammaire et bien plus!</string>
+
+    <string name="benefit_widget_title">Widget interactif</string>
+    <string name="benefit_widget_desc">Vous ne remarquez même pas comment le mot se mémorise</string>
+
+    <string name="benefit_quiz_title">Répétitions intelligentes</string>
+    <string name="benefit_quiz_desc">Quiz seulement les mots qui ont besoin d\'être renforcés</string>
+
+    <string name="benefit_important_title">Seulement les mots importants</string>
+    <string name="benefit_important_desc">Apprenez ce que vous avez réellement rencontré et choisi</string>
+    <string name="app_name_without_dot">Vocab</string>
+
+    <!-- Notifications -->
+    <string name="initial_setup_notification_title">Notifications</string>
+    <string name="initial_setup_notification_sub_title">Ne manquez pas les mots importants</string>
+    <string name="notification_stay_informed">Restez informé</string>
+    <string name="notification_description">Recevez des rappels sur la répétition des mots et des informations sur votre progression d\'apprentissage.</string>
+    <string name="notification_benefits_title">📈 Ce que vous obtiendrez :</string>
+    <string name="notification_benefits_list">• Rappels sur la répétition des mots\n• Statistiques de votre progression\n• Soutien motivationnel quotidien\n• Paramètres de notification flexibles pour qu\'elles ne dérangent pas et restent utiles</string>
+    <string name="notification_skip_button">Ignorer (j\'activerai plus tard)</string>
+    <string name="notification_enable_button">Activer les notifications</string>
+    <string name="notification_bubble_stability_title">⚙️ Important pour la stabilité de la bulle</string>
+    <string name="notification_bubble_stability_description">L\'autorisation de notification est requise pour le fonctionnement stable du bouton flottant sur Android 13+. Les notifications elles-mêmes peuvent être configurées de manière flexible ou complètement désactivées dans les paramètres de l\'application, tout en maintenant Vocab Quick fonctionnel.</string>
+
+    <!-- Overlay -->
+    <string name="initial_setup_overlay_title">Vocab Quick</string>
+    <string name="initial_setup_overlay_sub_title">Bouton flottant pour un accès rapide</string>
+    <string name="overlay_how_it_works">Comment ça marche ?</string>
+    <string name="overlay_description">Vous lisez Instagram, des actualités ou des articles ? Rencontré un mot inconnu ? Appuyez simplement sur le bouton flottant et ajoutez-le — sans changer d\'application.</string>
+    <string name="overlay_permission_required">⚠️ Permission requise</string>
+    <string name="overlay_permission_description">Pour afficher le bouton au-dessus d\'autres applications (Instagram, Chrome, etc.), l\'autorisation système \"Afficher au-dessus d\'autres fenêtres\" est requise.</string>
+    <string name="overlay_skip_button">Ignorer (j\'activerai plus tard)</string>
+    <string name="overlay_grant_button">Accorder la permission</string>
+
+    <!-- Translation Languages -->
+    <string name="initial_setup_translation_languages_title">Choisir les langues</string>
+    <string name="initial_setup_translation_languages_sub_title">Sélectionnez de quelle langue traduire</string>
+    <string name="source_language_subtitle">Sélectionnez de quelle langue traduire</string>
+    <string name="target_language_subtitle">Langue vers laquelle traduire</string>
+
+    <string name="overlay_permission_denied_title">Permission non accordée</string>
+    <string name="overlay_permission_denied_description">Le bouton flottant nécessite la permission de s\'afficher au-dessus d\'autres applications.</string>
+    <string name="overlay_permission_why_important_title">Pourquoi est-ce important ?</string>
+    <string name="overlay_permission_why_important_description">Sans cette permission, vous ne pourrez pas ajouter rapidement des mots en lisant dans d\'autres applications. C\'est la fonctionnalité principale de Vocab Quick !</string>
+    <string name="overlay_permission_safety_title">✓ C\'est totalement sûr</string>
+    <string name="overlay_permission_safety_description">Vocab Quick utilise cette permission uniquement pour afficher un petit bouton. Nous ne lisons pas le contenu d\'autres applications et ne collectons aucune donnée.</string>
+    <string name="overlay_permission_try_again">Réessayer</string>
+    <string name="overlay_permission_skip_for_now">Ignorer pour l\'instant</string>
+    <string name="overlay_alternative_methods_title">💡 Méthodes alternatives</string>
+    <string name="overlay_alternative_methods_description">Si vous ne souhaitez pas accorder la permission, vous pouvez ajouter des mots via :\n• Text Processing — sélectionnez du texte dans n\'importe quelle application, appuyez sur "Plus" dans le menu contextuel → "Ask Vocab"\n• Directement dans l\'application — ouvrez Vocab Quick et entrez le mot manuellement</string>
+    <string name="error_same_languages">Les langues source et cible doivent être différentes</string>
 </resources>

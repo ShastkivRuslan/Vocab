@@ -80,8 +80,7 @@ fun RepetitionContentPreview() {
         correctAnswerCount = 12,
         wrongAnswerCount = 3,
         sourceLanguageCode = "en",
-        targetLanguageCode = "uk",
-        wordLevel = "A1"
+        targetLanguageCode = "uk"
     )
     val sampleOptions = listOf("Евристичний", "Спорадичний", "Еклектичний", "Емпіричний")
 

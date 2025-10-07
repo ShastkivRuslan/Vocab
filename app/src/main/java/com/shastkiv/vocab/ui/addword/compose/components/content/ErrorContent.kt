@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.*
 import com.shastkiv.vocab.R
+import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.ui.addword.compose.components.common.PrimaryButton
-import com.shastkiv.vocab.ui.addword.compose.state.UiError
 
 @Composable
 fun ErrorContent(

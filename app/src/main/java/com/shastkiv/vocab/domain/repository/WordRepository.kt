@@ -1,6 +1,7 @@
 package com.shastkiv.vocab.domain.repository
 
 import com.shastkiv.vocab.domain.model.Word
+import com.shastkiv.vocab.domain.model.WordType
 import kotlinx.coroutines.flow.Flow
 
 interface WordRepository {
@@ -27,4 +28,14 @@ interface WordRepository {
     suspend fun getWordForRepetition(sourceLanguageCode: String): Word?
 
     suspend fun getAnswerOptionsForWord(wordToRepeat: Word, targetLanguageCode: String): List<String>
+
+    suspend fun getCachedWord(sourceWord: String, sourceLanguageCode: String): Word?
+
+    suspend fun getWordById(id: Int): Word?
+
+    suspend fun upgradeWordToAI(wordId: Int, aiDataJson: String, wordType: WordType)
+
+    suspend fun getWordCountByType(wordType: WordType): Int
+
+    suspend fun updateToUserDictionary(wordId: Int, wordType: WordType)
 }

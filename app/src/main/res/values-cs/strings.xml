@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Error titles -->
+    <string name="error_network_title">Žádné připojení</string>
+    <string name="error_timeout_title">Čas vypršel</string>
+    <string name="error_not_found_title">Nenalezeno</string>
+    <string name="error_database_title">Chyba uložení</string>
+    <string name="error_empty_title">Žádná data</string>
+    <string name="error_parsing_title">Chyba zpracování</string>
+    <string name="error_unknown_title">Něco se pokazilo</string>
+
+    <!-- Error descriptions -->
+    <string name="error_network_description">Zkontrolujte připojení k internetu</string>
+    <string name="error_timeout_description">Server neodpovídá. Zkuste to později</string>
+    <string name="error_not_found_description">Nepodařilo se najít informace</string>
+    <string name="error_database_description">Nepodařilo se uložit změny</string>
+    <string name="error_empty_description">Váš slovník je prázdný. Přidejte první slovo!</string>
+    <string name="error_parsing_description">Nepodařilo se zpracovat přijatá data</string>
+    <string name="error_unknown_description">Zkuste to znovu</string>
+
+    <!-- Actions -->
+    <string name="try_again">Opakovat</string>
+
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Přidat nové slovo :)</string>
     <string name="add_new_word">Nové slovo</string>
@@ -103,13 +124,6 @@
     <string name="bubble_active">Vocab. Quick aktivní</string>
     <string name="bubble_paused">Vocab. Quick pozastaveno</string>
     <string name="add_to_dictionary">Co je to za slovo?</string>
-    <string name="error_network_title">Chybí internetové připojení</string>
-    <string name="error_network_description">Zkontrolujte, zda jsou povolena mobilní data nebo Wi-Fi</string>
-    <string name="error_not_found_title">Slovo nebylo nalezeno</string>
-    <string name="error_not_found_description">Zkontrolujte pravopis vašeho slova</string>
-    <string name="error_unknown_title">Něco se pokazilo</string>
-    <string name="error_unknown_description">Již pracujeme na vyřešení tohoto problému</string>
-    <string name="try_again">Zkusit znovu</string>
     <string name="request_notification_permission_dialog_text">Oznámení jsou důležitou částí funkčnosti plovoucího tlačítka. Když systém vidí aktivní oznámení z naší aplikace, nezastaví její provoz kvůli optimalizaci, což umožňuje tlačítku fungovat stabilně a bez přerušení. Toto povolení je také potřebné pro odesílání užitečných připomínek o učení a intervalových opakováních.</string>
     <string name="request_notification_permission_dialog_title">Povolení pro oznámení</string>
     <string name="request_overlay_permission_dialog_text">Toto povolení umožňuje zobrazit hlavní funkci aplikace — plovoucí tlačítko pro rychlé přidávání slov. Vzhled tlačítka lze flexibilně přizpůsobit, aby bylo co nejpohodlnější a nejméně nápadné. Vždy jej můžete dočasně vypnout nebo změnit další parametry v nastavení. **Po kliknutí na \"Pokračovat\" se otevře seznam aplikací, kde musíte najít Vocab. a ručně udělit povolení.**</string>
@@ -202,4 +216,66 @@
     <string name="get_premium">Získat Premium</string>
     <string name="add_word_screen_title">Přidat slovo</string>
     <string name="process_text_screen_title">Přidat nové slovo</string>
+
+    <string name="onboarding_title">Stisknout → Naučit → Zapamatovat</string>
+    <string name="onboarding_subtitle">Proměňte každé neznámé slovo z Instagram, YouTube nebo zpráv na součást svého slovníku</string>
+    <string name="continue_button">Pokračovat</string>
+
+    <!-- Benefits -->
+    <string name="benefit_vocab_quick_title">Vocab Quick</string>
+    <string name="benefit_vocab_quick_desc">Tlačítko vždy nad všemi aplikacemi — žádné slovo neunikne!</string>
+
+    <string name="benefit_ai_title">AI — maximum informací</string>
+    <string name="benefit_ai_desc">Překlad, transkripce, příklady, gramatika a mnoho dalšího!</string>
+
+    <string name="benefit_widget_title">Interaktivní widget</string>
+    <string name="benefit_widget_desc">Ani si nevšimnete, jak se slovo zapamatuje</string>
+
+    <string name="benefit_quiz_title">Chytré opakování</string>
+    <string name="benefit_quiz_desc">Kvíz pouze těch slov, která potřebují upevnění</string>
+
+    <string name="benefit_important_title">Pouze důležitá slova</string>
+    <string name="benefit_important_desc">Učte se to, co jste sami narazili a vybrali</string>
+    <string name="app_name_without_dot">Vocab</string>
+
+    <!-- Notifications -->
+    <string name="initial_setup_notification_title">Oznámení</string>
+    <string name="initial_setup_notification_sub_title">Nepropásněte důležitá slova</string>
+    <string name="notification_stay_informed">Zůstaňte informováni</string>
+    <string name="notification_description">Získejte připomínky k opakování slov a informace o vašem pokroku v učení.</string>
+    <string name="notification_benefits_title">📈 Co získáte:</string>
+    <string name="notification_benefits_list">• Připomínky k opakování slov\n• Statistiky vašeho pokroku\n• Každodenní motivační podporu\n• Flexibilní nastavení oznámení, aby nerušila a byla užitečná</string>
+    <string name="notification_skip_button">Přeskočit (zapnu později)</string>
+    <string name="notification_enable_button">Povolit oznámení</string>
+    <string name="notification_bubble_stability_title">⚙️ Důležité pro stabilitu bubliny</string>
+    <string name="notification_bubble_stability_description">Oprávnění k oznámením je vyžadováno pro stabilní provoz plovoucího tlačítka na Android 13+. Samotná oznámení lze flexibilně nakonfigurovat nebo zcela vypnout v nastavení aplikace, přičemž Vocab Quick zůstane funkční.</string>
+
+    <!-- Overlay -->
+    <string name="initial_setup_overlay_title">Vocab Quick</string>
+    <string name="initial_setup_overlay_sub_title">Plovoucí tlačítko pro rychlý přístup</string>
+    <string name="overlay_how_it_works">Jak to funguje?</string>
+    <string name="overlay_description">Čtete Instagram, zprávy nebo články? Narazili jste na neznámé slovo? Jednoduše klepněte na plovoucí tlačítko a přidejte ho — bez přepínání mezi aplikacemi.</string>
+    <string name="overlay_permission_required">⚠️ Vyžadováno oprávnění</string>
+    <string name="overlay_permission_description">Pro zobrazení tlačítka nad jinými aplikacemi (Instagram, Chrome atd.) je vyžadováno systémové oprávnění \"Zobrazení přes jiná okna\".</string>
+    <string name="overlay_skip_button">Přeskočit (zapnu později)</string>
+    <string name="overlay_grant_button">Udělit oprávnění</string>
+
+    <!-- Translation Languages -->
+    <string name="initial_setup_translation_languages_title">Vyberte jazyky</string>
+    <string name="initial_setup_translation_languages_sub_title">Vyberte z jakého jazyka překládat</string>
+    <string name="source_language_subtitle">Vyberte z jakého jazyka překládat</string>
+    <string name="target_language_subtitle">Jazyk do kterého překládat</string>
+
+    <string name="overlay_permission_denied_title">Oprávnění nebylo uděleno</string>
+    <string name="overlay_permission_denied_description">Plovoucí tlačítko vyžaduje oprávnění k zobrazení nad jinými aplikacemi.</string>
+    <string name="overlay_permission_why_important_title">Proč je to důležité?</string>
+    <string name="overlay_permission_why_important_description">Bez tohoto oprávnění nebudete moci rychle přidávat slova při čtení v jiných aplikacích. To je hlavní funkce Vocab Quick!</string>
+    <string name="overlay_permission_safety_title">✓ Je to naprosto bezpečné</string>
+    <string name="overlay_permission_safety_description">Vocab Quick používá toto oprávnění pouze k zobrazení malého tlačítka. Nečteme obsah jiných aplikací a neshromažďujeme žádná data.</string>
+    <string name="overlay_permission_try_again">Zkusit znovu</string>
+    <string name="overlay_permission_skip_for_now">Přeskočit prozatím</string>
+    <string name="overlay_alternative_methods_title">💡 Alternativní metody</string>
+    <string name="overlay_alternative_methods_description">Pokud nechcete udělit oprávnění, můžete přidávat slova pomocí:\n• Text Processing — vyberte text v jakékoli aplikaci, klepněte na "Více" v kontextové nabídce → "Ask Vocab"\n• Přímo v aplikaci — otevřete Vocab Quick a zadejte slovo ručně</string>
+    <string name="error_same_languages">Zdrojový a cílový jazyk se musí lišit</string>
+
 </resources>

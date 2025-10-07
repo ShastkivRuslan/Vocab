@@ -3,22 +3,20 @@ package com.shastkiv.vocab.ui.allwords
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shastkiv.vocab.domain.model.Language
+import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.model.Word
 import com.shastkiv.vocab.domain.model.WordData
+import com.shastkiv.vocab.domain.model.WordType
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.WordRepository
 import com.shastkiv.vocab.domain.usecase.GetWordInfoUseCase
+import com.shastkiv.vocab.ui.allwords.compose.state.AllWordsUiState
+import com.shastkiv.vocab.utils.mapThrowableToUiError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-sealed interface AllWordsUiState {
-    object Loading : AllWordsUiState
-    data class Success(val words: List<Word>) : AllWordsUiState
-    data class Error(val message: String) : AllWordsUiState
-}
 
 enum class SortType {
     BY_DATE_NEWEST,
@@ -72,31 +70,36 @@ class AllWordsViewModel @Inject constructor(
         }.combine(searchQuery) { words, query ->
             Pair(words, query)
         }.combine(sortType) { (allWords, query), sort ->
-            if (allWords.isEmpty() && query.isBlank()) {
-                if (_languageFilter.value == "all") {
-                    AllWordsUiState.Error("Ваш словник порожній.\nДодайте перше слово через плаваючу кнопку!")
+            try {
+                if (allWords.isEmpty() && query.isBlank()) {
+                    AllWordsUiState.Error(UiError.EmptyData)
                 } else {
-                    AllWordsUiState.Success(emptyList())
-                }
-            } else {
-                val sortedList = when (sort) {
-                    SortType.BY_DATE_NEWEST -> allWords.sortedByDescending { it.addedAt }
-                    SortType.BY_DATE_OLDEST -> allWords.sortedBy { it.addedAt }
-                    SortType.ALPHABETICALLY_AZ -> allWords.sortedBy { it.sourceWord }
-                    SortType.ALPHABETICALLY_ZA -> allWords.sortedByDescending { it.sourceWord }
-                }
-
-                val filteredList = if (query.isBlank()) {
-                    sortedList
-                } else {
-                    sortedList.filter {
-                        it.sourceWord.contains(query, ignoreCase = true) ||
-                                it.translation.contains(query, ignoreCase = true)
+                    val sortedList = when (sort) {
+                        SortType.BY_DATE_NEWEST -> allWords.sortedByDescending { it.addedAt }
+                        SortType.BY_DATE_OLDEST -> allWords.sortedBy { it.addedAt }
+                        SortType.ALPHABETICALLY_AZ -> allWords.sortedBy { it.sourceWord }
+                        SortType.ALPHABETICALLY_ZA -> allWords.sortedByDescending { it.sourceWord }
                     }
+
+                    val filteredList = if (query.isBlank()) {
+                        sortedList
+                    } else {
+                        sortedList.filter {
+                            it.sourceWord.contains(query, ignoreCase = true) ||
+                                    it.translation.contains(query, ignoreCase = true)
+                        }
+                    }
+                    AllWordsUiState.Success(filteredList)
                 }
-                AllWordsUiState.Success(filteredList)
+            } catch (e: Exception) {
+                AllWordsUiState.Error(mapThrowableToUiError(e))
             }
         }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = AllWordsUiState.Loading
+            )
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
@@ -126,15 +129,17 @@ class AllWordsViewModel @Inject constructor(
         if (currentlyExpandedId == word.id) {
             _expandedWordId.value = null
             _expandedWordDetails.value = null
-        } else {
-            _expandedWordId.value = word.id
-            _expandedWordDetails.value = null
-            _isDetailsLoading.value = true
+            return
+        }
 
+        _expandedWordId.value = word.id
+        _expandedWordDetails.value = null
+
+        if (word.wordType == WordType.PRO) {
+            _isDetailsLoading.value = true
             viewModelScope.launch {
                 val sourceLang = AVAILABLE_LANGUAGES.find { it.code == word.sourceLanguageCode }
                     ?: Language(word.sourceLanguageCode, word.sourceLanguageCode.uppercase(), "❓")
-
                 val targetLang = AVAILABLE_LANGUAGES.find { it.code == word.targetLanguageCode }
                     ?: Language(word.targetLanguageCode, word.targetLanguageCode.uppercase(), "❓")
 
@@ -142,6 +147,18 @@ class AllWordsViewModel @Inject constructor(
                 _expandedWordDetails.value = result
                 _isDetailsLoading.value = false
             }
+        } else {
+            _expandedWordDetails.value = Result.success(
+                WordData(
+                    originalWord = word.sourceWord,
+                    translation = word.translation,
+                    transcription = "",
+                    partOfSpeech = "",
+                    level = "",
+                    usageInfo = "",
+                    examples = emptyList()
+                )
+            )
         }
     }
 }

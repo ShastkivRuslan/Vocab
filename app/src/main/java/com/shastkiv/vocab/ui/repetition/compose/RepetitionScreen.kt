@@ -18,6 +18,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.DailyStatistic
 import com.shastkiv.vocab.domain.model.Word
+import com.shastkiv.vocab.ui.common.compose.ErrorContent
 import com.shastkiv.vocab.ui.repetition.RepetitionEvent
 import com.shastkiv.vocab.ui.repetition.state.RepetitionUiState
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
@@ -75,28 +76,11 @@ fun RepetitionScreen(
                     )
                 }
                 is RepetitionUiState.Error -> {
-                    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.error))
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(32.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            LottieAnimation(
-                                composition = composition,
-                                modifier = Modifier.size(200.dp)
-                            )
-                            Spacer(modifier = Modifier.height(24.dp))
-                            Text(
-                                text = uiState.message,
-                                style = MaterialTheme.typography.headlineSmall,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    }
+                    ErrorContent(
+                        error = uiState.error,
+                        onRetry = { onEvent(RepetitionEvent.OnNextWordClicked) },
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
@@ -125,8 +109,7 @@ fun RepetitionScreenPreview_Content() {
         correctAnswerCount = 12,
         wrongAnswerCount = 3,
         sourceLanguageCode = "en",
-        targetLanguageCode = "uk",
-        wordLevel = "A1"
+        targetLanguageCode = "uk"
     )
     val sampleOptions = listOf("Евристичний", "Спорадичний", "Еклектичний", "Емпіричний")
     val sampleStats = DailyStatistic(
@@ -147,18 +130,6 @@ fun RepetitionScreenPreview_Content() {
     LearnWordsTrainerTheme {
         RepetitionScreen(
             uiState = sampleState,
-            onEvent = {},
-            onBackPressed = {}
-        )
-    }
-}
-
-@Preview(name = "Error State", showBackground = true)
-@Composable
-fun RepetitionScreenPreview_Error() {
-    LearnWordsTrainerTheme {
-        RepetitionScreen(
-            uiState = RepetitionUiState.Error("Failed to load words. Please try again."),
             onEvent = {},
             onBackPressed = {}
         )

@@ -19,8 +19,8 @@ private val DarkColorScheme = darkColorScheme(
     surface = DarkSurface,
     onPrimary = White, // Текст на primary кнопках
     onSecondary = White,
-    onBackground = DarkTextPrimary, // Основний текст
-    onSurface = DarkTextPrimary, // Текст на картках
+    onBackground = DarkTextPrimary,
+    onSurface = DarkTextPrimary,
     error = DarkError,
     onError = White
 )

@@ -1,16 +1,11 @@
 package com.shastkiv.vocab.domain.usecase
 
-import com.shastkiv.vocab.di.IoDispatcher // HОВИЙ ІМПОРТ
-import com.shastkiv.vocab.domain.model.Word
+import com.shastkiv.vocab.di.IoDispatcher
+import com.shastkiv.vocab.domain.model.RepetitionData
 import com.shastkiv.vocab.domain.repository.WordRepository
-import kotlinx.coroutines.CoroutineDispatcher // HОВИЙ ІМПОРТ
-import kotlinx.coroutines.withContext // HОВИЙ ІМПОРТ
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
-data class RepetitionData(
-    val word: Word,
-    val options: List<String>
-)
 
 class GetRepetitionWordUseCase @Inject constructor(
     private val repository: WordRepository,

@@ -7,14 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.di.IoDispatcher
 import com.shastkiv.vocab.domain.model.DailyStatistic
+import com.shastkiv.vocab.domain.model.StatType
+import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.repository.ThemeRepository
 import com.shastkiv.vocab.domain.usecase.GetRepetitionWordUseCase
 import com.shastkiv.vocab.domain.usecase.GetTodayStatsUseCase
-import com.shastkiv.vocab.domain.usecase.StatType
 import com.shastkiv.vocab.domain.usecase.UpdateDailyStatsUseCase
 import com.shastkiv.vocab.domain.usecase.UpdateWordScoreUseCase
 import com.shastkiv.vocab.ui.repetition.state.RepetitionUiState
 import com.shastkiv.vocab.utils.TTSManager
+import com.shastkiv.vocab.utils.mapThrowableToUiError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -106,7 +108,7 @@ class RepetitionViewModel @Inject constructor(
                     }
                 } catch (e: Exception) {
                     if (e is CancellationException) throw e
-                    _uiState.value = RepetitionUiState.Error(context.getString(R.string.error_failed_to_save_answer))
+                    _uiState.value = RepetitionUiState.Error(mapThrowableToUiError(e))
                 } finally {
                     isProcessingAnswer = false
                 }
@@ -118,7 +120,6 @@ class RepetitionViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             _uiState.value = RepetitionUiState.Loading
             try {
-                // Виклик юзкейса залишається тим самим, але тепер він враховує мову
                 val repetitionData = getRepetitionWordUseCase()
                 if (repetitionData != null) {
                     val currentStats = dailyStatisticFlow.firstOrNull()
@@ -130,12 +131,11 @@ class RepetitionViewModel @Inject constructor(
                         dailyStats = currentStats
                     )
                 } else {
-                    // ЗМІНА: Показуємо більш конкретну помилку, якщо для обраної мови немає слів
-                    _uiState.value = RepetitionUiState.Error(context.getString(R.string.error_no_words_for_language))
+                    _uiState.value = RepetitionUiState.Error(UiError.EmptyData)
                 }
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
-                _uiState.value = RepetitionUiState.Error(context.getString(R.string.error_failed_to_load_word))
+                _uiState.value = RepetitionUiState.Error(mapThrowableToUiError(e))
             }
         }
     }

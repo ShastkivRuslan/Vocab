@@ -2,8 +2,8 @@ package com.shastkiv.vocab.data.repository
 
 import com.shastkiv.vocab.data.local.dao.DailyStatisticDao
 import com.shastkiv.vocab.domain.model.DailyStatistic
+import com.shastkiv.vocab.domain.model.StatType
 import com.shastkiv.vocab.domain.repository.DailyStatsRepository
-import com.shastkiv.vocab.domain.usecase.StatType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext

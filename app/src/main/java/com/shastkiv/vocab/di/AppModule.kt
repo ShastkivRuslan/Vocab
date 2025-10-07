@@ -7,8 +7,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.shastkiv.vocab.data.local.dao.DailyStatisticDao
 import com.shastkiv.vocab.data.local.dao.WordDao
-import com.shastkiv.vocab.data.local.dao.WordDetailsCacheDao
-import com.shastkiv.vocab.data.local.db.MIGRATION_7_8
 import com.shastkiv.vocab.data.local.db.WordDatabase
 import com.shastkiv.vocab.data.remote.api.OpenAIAPI
 import com.google.gson.Gson
@@ -44,8 +42,6 @@ object AppModule {
             WordDatabase::class.java,
             "words.db"
         )
-            .fallbackToDestructiveMigration()
-            .addMigrations(MIGRATION_7_8)
             .build()
     }
 
@@ -60,11 +56,6 @@ object AppModule {
         return appDatabase.dailyStatisticDao()
     }
 
-    @Provides
-    @Singleton
-    fun provideWordDetailsCacheDao(database: WordDatabase): WordDetailsCacheDao {
-        return database.wordDetailsCacheDao()
-    }
 
     @Provides
     @Singleton

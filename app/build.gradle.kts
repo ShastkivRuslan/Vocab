@@ -81,11 +81,17 @@ dependencies {
     implementation(libs.translate)
     implementation(libs.glance.appwidget)
 
+    implementation("androidx.compose.foundation:foundation:1.6.8")
+    implementation("androidx.compose.foundation:foundation-layout:1.6.8")
+
+    implementation("androidx.compose.animation:animation:1.6.8")
+    implementation("androidx.compose.animation:animation-core:1.6.8")
+
     implementation("androidx.work:work-runtime-ktx:2.10.4")
 
     implementation("androidx.hilt:hilt-work:1.2.0")
     implementation(libs.glance.preview)
-    ksp("androidx.hilt:hilt-compiler:1.2.0")
+    ksp(libs.androidx.hilt.compiler)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
 

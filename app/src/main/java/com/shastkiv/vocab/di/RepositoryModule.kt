@@ -7,7 +7,6 @@ import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.OnDeviceTranslator
 import com.shastkiv.vocab.domain.repository.SettingsRepository
 import com.shastkiv.vocab.domain.repository.ThemeRepository
-import com.shastkiv.vocab.domain.repository.WordDetailsCacheRepository
 import com.shastkiv.vocab.domain.repository.WordRepository
 import dagger.Binds
 import dagger.Module
@@ -37,11 +36,6 @@ abstract class RepositoryModule {
         onDeviceTranslatorRepository: OnDeviceTranslatorRepository
     ): OnDeviceTranslator
 
-    @Binds
-    @Singleton
-    abstract fun bindWordDetailsCacheRepository(
-        wordDetailsCacheRepositoryImpl: WordDetailsCacheRepositoryImpl
-    ): WordDetailsCacheRepository
 
     @Binds
     @Singleton

@@ -35,13 +35,13 @@ fun PracticeScreen(
     // Dummy state for demonstration. Replace with your ViewModel state.
     val words = remember {
         mutableStateListOf(
-            Word(id = 1, sourceWord = "Edfsfphemeral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1"),
-            Word(id = 1, sourceWord = "Ephemexcvxcral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1"),
-            Word(id = 1, sourceWord = "xcvxc", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1"),
-            Word(id = 1, sourceWord = "Ephemcxvcxveral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1"),
-            Word(id = 1, sourceWord = "Ephemcvxvcxeral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1"),
-            Word(id = 1, sourceWord = "Ephemxcvxcveral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1"),
-            Word(id = 1, sourceWord = "xcvxcvxc", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1")
+            Word(id = 1, sourceWord = "Edfsfphemeral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk"),
+            Word(id = 1, sourceWord = "Ephemexcvxcral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk"),
+            Word(id = 1, sourceWord = "xcvxc", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk",),
+            Word(id = 1, sourceWord = "Ephemcxvcxveral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk"),
+            Word(id = 1, sourceWord = "Ephemcvxvcxeral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk"),
+            Word(id = 1, sourceWord = "Ephemxcvxcveral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk"),
+            Word(id = 1, sourceWord = "xcvxcvxc", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk")
 
         )
     }

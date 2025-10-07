@@ -8,4 +8,8 @@ interface SettingsRepository {
 
     val hasDismissedOverlayPermission: Flow<Boolean>
     suspend fun setOverlayPermissionDismissed(dismissed: Boolean)
+
+    val hasCompletedInitialSetup: Flow<Boolean>
+    suspend fun setInitialSetupCompleted(completed: Boolean)
+
 }

@@ -1,6 +1,7 @@
 package com.shastkiv.vocab.ui.repetition.state
 
 import com.shastkiv.vocab.domain.model.DailyStatistic
+import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.model.Word
 
 sealed interface RepetitionUiState {
@@ -16,5 +17,5 @@ sealed interface RepetitionUiState {
         val dailyStats: DailyStatistic?
     ) : RepetitionUiState
 
-    data class Error(val message: String) : RepetitionUiState
+    data class Error(val error: UiError) : RepetitionUiState
 }

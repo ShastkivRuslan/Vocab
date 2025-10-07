@@ -40,7 +40,7 @@ class UpdateWidgetWorker @AssistedInject constructor(
                     updateAppWidgetState(context, glanceId) { prefs ->
                         val sourceText = randomWord?.sourceWord ?: context.getString(R.string.vocab_empty)
                         val translationText = randomWord?.translation ?: context.getString(R.string.add_new_words_widget)
-                        val wordLevel = randomWord?.wordLevel ?: ""
+                        val wordLevel = randomWord?.level ?: ""
                         val flagEmoji = sourceLanguage.flagEmoji
 
                         prefs[WidgetStateKeys.sourceWordKey] = sourceText
