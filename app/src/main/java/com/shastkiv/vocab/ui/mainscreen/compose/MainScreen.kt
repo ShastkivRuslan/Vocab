@@ -21,8 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.shastkiv.vocab.R
+import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
 import com.shastkiv.vocab.navigation.Screen
+import com.shastkiv.vocab.ui.common.compose.ErrorContent
 import com.shastkiv.vocab.ui.mainscreen.MainViewModel
 import com.shastkiv.vocab.ui.mainscreen.compose.components.AddWordCard
 import com.shastkiv.vocab.ui.mainscreen.compose.components.AllWordsCard
@@ -40,6 +42,7 @@ fun MainScreen(
 
     MainScreenLayout(
         modifier = modifier,
+        reloadStatistic = { viewModel.reloadStatistics() },
         statisticsState = statisticsState,
         languageSettings = languageSettings,
         onSettingsClick = { navController.navigate(Screen.Settings.route) },
@@ -53,6 +56,7 @@ fun MainScreen(
 @Composable
 fun MainScreenLayout(
     modifier: Modifier,
+    reloadStatistic: () -> Unit,
     statisticsState: MainViewModel.StatisticsUiState,
     languageSettings: LanguageSettings,
     onSettingsClick: () -> Unit,
@@ -73,10 +77,12 @@ fun MainScreenLayout(
 
         when {
             statisticsState.isLoading -> LoadingContent()
-            statisticsState.error != null -> ErrorContent(
-                error = statisticsState.error,
-                onRetry = { /* Could add retry logic */ }
-            )
+            statisticsState.error != null -> {
+                ErrorContent(
+                    error = statisticsState.error,
+                    onRetry = { reloadStatistic() }
+                )
+            }
             else -> MainContent(
                 totalWords = statisticsState.totalWordsCount,
                 learnedPercentage = statisticsState.learnedPercentage,
@@ -156,37 +162,6 @@ private fun LoadingContent() {
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun ErrorContent(
-    error: String,
-    onRetry: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer
-        )
-    ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = error,
-                color = MaterialTheme.colorScheme.onErrorContainer,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = onRetry) {
-                Text(stringResource(R.string.retry))
-            }
-        }
     }
 }
 
@@ -324,10 +299,11 @@ fun MainScreenPreview() {
         onRepetitionClick = {},
         onAllWordsClick = {},
         onPracticeClick = {},
+        reloadStatistic = {},
         languageSettings = LanguageSettings(
-            appLanguage = com.shastkiv.vocab.domain.model.Language("uk", "Українська", "🇺🇦"),
-            targetLanguage = com.shastkiv.vocab.domain.model.Language("pl", "Polski", "🇵🇱"),
-            sourceLanguage = com.shastkiv.vocab.domain.model.Language("en", "English", "🇬🇧")
+            appLanguage = Language("uk", "Українська", "🇺🇦"),
+            targetLanguage = Language("pl", "Polski", "🇵🇱"),
+            sourceLanguage = Language("en", "English", "🇬🇧")
         )
     )
 }
@@ -343,10 +319,11 @@ fun MainScreenLoadingPreview() {
         onRepetitionClick = {},
         onAllWordsClick = {},
         onPracticeClick = {},
+        reloadStatistic = {},
         languageSettings = LanguageSettings(
-            appLanguage = com.shastkiv.vocab.domain.model.Language("uk", "Українська", "🇺🇦"),
-            targetLanguage = com.shastkiv.vocab.domain.model.Language("uk", "Українська", "🇺🇦"),
-            sourceLanguage = com.shastkiv.vocab.domain.model.Language("en", "English", "🇬🇧")
+            appLanguage = Language("uk", "Українська", "🇺🇦"),
+            targetLanguage = Language("uk", "Українська", "🇺🇦"),
+            sourceLanguage = Language("en", "English", "🇬🇧")
         )
     )
 }

@@ -1,12 +1,14 @@
 package com.shastkiv.vocab.navigation
 
 sealed class Screen(val route: String) {
+    object Splash : Screen("splash")
     object Main : Screen("main_screen")
     object Settings : Screen("settings_screen")
     object Repetition : Screen("repetition_screen")
     object AddWord : Screen("add_word_screen")
     object Practice : Screen("practice_screen")
     object AllWords : Screen("all_words_screen")
+    object Onboarding : Screen(route = "onboarding_screen")
 
     object LanguageSettings : Screen("language_settings_screen")
     object BubbleSettings : Screen("bubble_settings_screen")

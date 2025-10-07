@@ -1,13 +1,13 @@
 package com.shastkiv.vocab.ui.addword.shared
 
-import android.app.Application
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
+import com.shastkiv.vocab.domain.model.WordData
+import com.shastkiv.vocab.domain.model.WordType
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.ThemeRepository
 import com.shastkiv.vocab.domain.usecase.AddWordToDictionaryUseCase
@@ -30,14 +30,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 /**
- * AddWordFloatingViewModel - Complex UI state management for word dialog.
+ * AddWordViewModel - Complex UI state management for word dialog.
  * Uses AssistedFactory instead of @HiltViewModel for Service context compatibility.
  *
  * This class handles sophisticated UI state transitions, coordinates multiple UseCase,
  * and manages reactive state for Compose UI - justifying ViewModel pattern over simple UseCase.
  */
 class AddWordViewModel @AssistedInject constructor(
-    private val application: Application,
     private val getWordInfoUseCase: GetWordInfoUseCase,
     private val addWordToDictionaryUseCase: AddWordToDictionaryUseCase,
     private val checkIfWordExistsUseCase: CheckIfWordExistsUseCase,
@@ -161,10 +160,13 @@ class AddWordViewModel @AssistedInject constructor(
 
     fun onAddWord() {
         val currentState = _uiState.value
-        if (currentState is AddWordUiState.Success && currentState.wordData != null) {
+
+        if (currentState is AddWordUiState.Success) {
             viewModelScope.launch {
+                val wordDataForUI = currentState.wordData ?: createBasicWordData(currentState)
+
                 _uiState.value = AddWordUiState.SavingWord(
-                    word = currentState.wordData,
+                    word = wordDataForUI,
                     isAlreadySaved = currentState.isAlreadySaved,
                     savingStep = AddWordUiState.SavingStep.CollapsingCards,
                     isMainSectionExpanded = currentState.isMainSectionExpanded,
@@ -173,7 +175,6 @@ class AddWordViewModel @AssistedInject constructor(
                 )
 
                 delay(100)
-
                 _uiState.update { state ->
                     (state as? AddWordUiState.SavingWord)?.copy(
                         savingStep = AddWordUiState.SavingStep.Saving
@@ -181,16 +182,30 @@ class AddWordViewModel @AssistedInject constructor(
                 }
 
                 val settings = languageRepository.getLatestLanguageSettings()
-                val sourceLangCode = settings.sourceLanguage.code
-                val targetLangCode = settings.targetLanguage.code
 
-                addWordToDictionaryUseCase(
-                    sourceWord = currentState.wordData.originalWord,
-                    translation = currentState.wordData.translation,
-                    sourceLanguageCode = sourceLangCode,
-                    targetLanguageCode = targetLangCode,
-                    wordLevel = currentState.wordData.level
-                )
+                when (currentState.userStatus) {
+                    is UserStatus.Premium -> {
+                        addWordToDictionaryUseCase(
+                            sourceWord = currentState.wordData!!.originalWord,
+                            translation = currentState.wordData.translation,
+                            sourceLanguageCode = settings.sourceLanguage.code,
+                            targetLanguageCode = settings.targetLanguage.code,
+                            wordType = WordType.PRO,
+                            wordData = currentState.wordData
+                        )
+                    }
+
+                    is UserStatus.Free -> {
+                        addWordToDictionaryUseCase(
+                            sourceWord = currentState.originalWord,
+                            translation = currentState.simpleTranslation!!,
+                            sourceLanguageCode = settings.sourceLanguage.code,
+                            targetLanguageCode = settings.targetLanguage.code,
+                            wordType = WordType.FREE,
+                            wordData = null
+                        )
+                    }
+                }
 
                 _uiState.update { state ->
                     (state as? AddWordUiState.SavingWord)?.copy(
@@ -199,12 +214,21 @@ class AddWordViewModel @AssistedInject constructor(
                 }
 
                 delay(1200)
-
                 _uiState.value = AddWordUiState.DialogShouldClose
             }
-        } else if (currentState is AddWordUiState.Success && currentState.simpleTranslation != null) {
-            Toast.makeText(application, "Збереження простого перекладу...", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun createBasicWordData(state: AddWordUiState.Success): WordData {
+        return WordData(
+            originalWord = state.originalWord,
+            translation = state.simpleTranslation ?: "",
+            transcription = "",
+            partOfSpeech = "",
+            level = "Unknown",
+            usageInfo = "",
+            examples = emptyList()
+        )
     }
 
     fun onGetFullInfoClicked() {

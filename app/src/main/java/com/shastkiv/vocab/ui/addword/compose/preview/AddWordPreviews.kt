@@ -9,12 +9,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.shastkiv.vocab.domain.model.Example
+import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.model.WordData
 import com.shastkiv.vocab.ui.addword.compose.components.Content
 import com.shastkiv.vocab.ui.addword.overlay.compose.DialogContainer
 import com.shastkiv.vocab.ui.addword.compose.components.content.SuccessContent
 import com.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
-import com.shastkiv.vocab.ui.addword.compose.state.UiError
 import com.shastkiv.vocab.ui.addword.compose.state.UserStatus
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
 

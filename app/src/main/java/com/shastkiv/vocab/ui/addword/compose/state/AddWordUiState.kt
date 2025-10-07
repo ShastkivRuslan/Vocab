@@ -1,5 +1,6 @@
 package com.shastkiv.vocab.ui.addword.compose.state
 
+import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.model.WordData
 
 sealed interface UserStatus {

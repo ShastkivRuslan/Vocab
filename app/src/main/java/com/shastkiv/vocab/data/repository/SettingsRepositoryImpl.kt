@@ -16,7 +16,7 @@ class SettingsRepositoryImpl @Inject constructor(
 ) : SettingsRepository {
 
     override val hasDismissedNotificationPermission: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[Keys.DISMISSED_NOTIFICATION_REQUEST] ?: NOT_DISMISSED
+        preferences[Keys.DISMISSED_NOTIFICATION_REQUEST] ?: false
     }
 
     override suspend fun setNotificationPermissionDismissed(dismissed: Boolean) {
@@ -26,7 +26,7 @@ class SettingsRepositoryImpl @Inject constructor(
     }
 
     override val hasDismissedOverlayPermission: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[Keys.DISMISSED_OVERLAY_REQUEST] ?: NOT_DISMISSED
+        preferences[Keys.DISMISSED_OVERLAY_REQUEST] ?: false
     }
 
     override suspend fun setOverlayPermissionDismissed(dismissed: Boolean) {
@@ -35,12 +35,19 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
+    override val hasCompletedInitialSetup: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[Keys.COMPLETED_INITIAL_SETUP] ?: false
+    }
+
+    override suspend fun setInitialSetupCompleted(completed: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[Keys.COMPLETED_INITIAL_SETUP] = completed
+        }
+    }
+
     private object Keys {
         val DISMISSED_NOTIFICATION_REQUEST = booleanPreferencesKey("dismissed_notification_request")
         val DISMISSED_OVERLAY_REQUEST = booleanPreferencesKey("dismissed_overlay_request")
-    }
-
-    companion object {
-        const val NOT_DISMISSED = false
+        val COMPLETED_INITIAL_SETUP = booleanPreferencesKey("completed_initial_setup")
     }
 }

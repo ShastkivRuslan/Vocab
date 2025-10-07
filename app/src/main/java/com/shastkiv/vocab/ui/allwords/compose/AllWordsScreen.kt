@@ -19,17 +19,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.shastkiv.vocab.R
+import com.shastkiv.vocab.domain.model.AvailableLanguages.findByCode
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.Word
 import com.shastkiv.vocab.domain.model.WordData
+import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.ui.addword.compose.components.common.ProBadge
 import com.shastkiv.vocab.ui.allwords.compose.components.ExamplesItem
 import com.shastkiv.vocab.ui.allwords.compose.components.InfoItem
 import com.shastkiv.vocab.ui.allwords.compose.components.MainInfoItem
+import com.shastkiv.vocab.ui.allwords.compose.state.AllWordsUiState
+import com.shastkiv.vocab.ui.common.compose.ErrorContent
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
 
 @Composable
@@ -63,7 +69,6 @@ fun AllWordsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AllWordsContent(
     uiState: AllWordsUiState,
@@ -120,7 +125,11 @@ fun AllWordsContent(
                     }
                 }
                 is AllWordsUiState.Error -> {
-                    EmptyState(message = uiState.message)
+                    ErrorContent(
+                        error = uiState.error,
+                        onRetry = { /* reload */ },
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
                 is AllWordsUiState.Success -> {
                     OutlinedTextField(
@@ -147,6 +156,7 @@ fun AllWordsContent(
                                     isExpanded = word.id == expandedWordId,
                                     detailsResult = if (word.id == expandedWordId) expandedWordDetails else null,
                                     isLoading = isDetailsLoading && (word.id == expandedWordId),
+                                    isPro = word.wordType == WordType.PRO,
                                     onClick = { onWordClick(word) }
                                 )
                             }
@@ -159,11 +169,37 @@ fun AllWordsContent(
 }
 
 @Composable
+fun FreeWordContent(word: Word) {
+    Column {
+        Text(
+            text = "Переклад:",
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = word.translation,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Medium
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = "*Оновіться до PRO для детальної інформації про слово",
+            style = MaterialTheme.typography.titleSmall,
+            textAlign = TextAlign.Start,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+        )
+    }
+}
+
+@Composable
 fun WordItem(
     word: Word,
     isExpanded: Boolean,
     detailsResult: Result<WordData>?,
     isLoading: Boolean,
+    isPro: Boolean,
     onClick: () -> Unit
 ) {
     Card(
@@ -179,31 +215,29 @@ fun WordItem(
                 .fillMaxWidth()
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = word.sourceWord,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = word.translation,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Icon(
-                        imageVector = if (isExpanded)
-                            Icons.Default.KeyboardArrowUp
-                        else
-                            Icons.Default.KeyboardArrowDown,
-                        contentDescription = if (isExpanded) "Згорнути" else "Розгорнути"
-                    )
+                Text(
+                    text = "${word.sourceWord}  ${findByCode(word.sourceLanguageCode).flagEmoji}",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
 
+                Spacer(modifier = Modifier.weight(1f))
+
+                if (isPro) {
+                    ProBadge()
+                    Spacer(modifier = Modifier.width(8.dp))
                 }
+
+                Icon(
+                    imageVector = if (isExpanded)
+                        Icons.Default.KeyboardArrowUp
+                    else
+                        Icons.Default.KeyboardArrowDown,
+                    contentDescription = if (isExpanded) "Згорнути" else "Розгорнути"
+                )
             }
 
             if (isExpanded) {
@@ -211,15 +245,27 @@ fun WordItem(
 
                 when {
                     isLoading -> {
-                        Box(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp), contentAlignment = Alignment.Center) {
+                        Box(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                             CircularProgressIndicator()
                         }
                     }
                     detailsResult != null -> {
                         detailsResult.onSuccess { wordData ->
-                            WordDetailsContent(wordData = wordData)
+                            if (isPro) {
+                                // PRO слово - повні деталі
+                                ProWordDetailsContent(wordData = wordData)
+                            } else {
+                                // FREE слово - простий переклад
+                                FreeWordContent(word = word)
+                            }
                         }.onFailure {
-                            Text("Не вдалося завантажити деталі.", color = MaterialTheme.colorScheme.error)
+                            Text(
+                                "Не вдалося завантажити деталі.",
+                                color = MaterialTheme.colorScheme.error
+                            )
                         }
                     }
                 }
@@ -229,7 +275,7 @@ fun WordItem(
 }
 
 @Composable
-fun WordDetailsContent(wordData: WordData) {
+fun ProWordDetailsContent(wordData: WordData) {
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         MainInfoItem(word = wordData)
@@ -238,7 +284,6 @@ fun WordDetailsContent(wordData: WordData) {
     }
 }
 
-// ... решта коду (LanguageFilterMenu, SortMenu, EmptyState, Preview) ...
 @Composable
 fun LanguageFilterMenu(
     availableLanguages: List<Language>,
@@ -368,8 +413,24 @@ fun EmptyState(message: String) {
 @Composable
 fun AllWordsScreenPreview() {
     val mockWords = listOf(
-        Word(1, "Apple", "Яблуко", "en", "uk", "A1"),
-        Word(2, "Banana", "Банан", "en", "uk", "A1"),
+        Word(
+            id = 1,
+            sourceWord = "Apple",
+            translation = "Яблуко",
+            sourceLanguageCode = "en",
+            targetLanguageCode = "uk",
+            wordType = WordType.FREE,
+            isWordAdded = true
+        ),
+        Word(
+            id = 2,
+            sourceWord = "Banana",
+            translation = "Банан",
+            sourceLanguageCode = "en",
+            targetLanguageCode = "uk",
+            wordType = WordType.PRO,
+            isWordAdded = true
+        )
     )
     LearnWordsTrainerTheme(darkTheme = true) {
         Surface {

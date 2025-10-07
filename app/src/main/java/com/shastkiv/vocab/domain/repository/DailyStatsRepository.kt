@@ -1,7 +1,7 @@
 package com.shastkiv.vocab.domain.repository
 
 import com.shastkiv.vocab.domain.model.DailyStatistic
-import com.shastkiv.vocab.domain.usecase.StatType
+import com.shastkiv.vocab.domain.model.StatType
 import kotlinx.coroutines.flow.Flow
 
 interface DailyStatsRepository {

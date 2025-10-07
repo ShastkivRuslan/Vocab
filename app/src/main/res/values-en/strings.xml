@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Error titles -->
+    <string name="error_network_title">No connection</string>
+    <string name="error_timeout_title">Timeout</string>
+    <string name="error_not_found_title">Not found</string>
+    <string name="error_database_title">Save error</string>
+    <string name="error_empty_title">No data</string>
+    <string name="error_parsing_title">Processing error</string>
+    <string name="error_unknown_title">Something went wrong</string>
+
+    <!-- Error descriptions -->
+    <string name="error_network_description">Check your internet connection</string>
+    <string name="error_timeout_description">Server is not responding. Try again later</string>
+    <string name="error_not_found_description">Could not find information</string>
+    <string name="error_database_description">Could not save changes</string>
+    <string name="error_empty_description">Your dictionary is empty. Add the first word!</string>
+    <string name="error_parsing_description">Could not process received data</string>
+    <string name="error_unknown_description">Try again</string>
+
+    <!-- Actions -->
+    <string name="try_again">Retry</string>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Add a new word :)</string>
     <string name="add_new_word">New Word</string>
@@ -103,13 +123,6 @@
     <string name="bubble_active">Floating bubble is active</string>
     <string name="bubble_paused">Floating bubble is paused</string>
     <string name="add_to_dictionary">Look up word</string>
-    <string name="error_network_title">No Internet Connection</string>
-    <string name="error_network_description">Please check if mobile data or Wi-Fi is enabled</string>
-    <string name="error_not_found_title">Word Not Found</string>
-    <string name="error_not_found_description">Please check the spelling of your word</string>
-    <string name="error_unknown_title">Something Went Wrong</string>
-    <string name="error_unknown_description">We are already working on resolving this issue</string>
-    <string name="try_again">Try Again</string>
     <string name="request_notification_permission_dialog_text">Notifications are an important part of the floating bubble\'s functionality. When the system sees an active notification from our app, it does not stop its operation for optimization, allowing the bubble to work stably and without interruptions. This permission is also required to send useful learning reminders and spaced repetitions.</string>
     <string name="request_notification_permission_dialog_title">Notification Permission</string>
     <string name="request_overlay_permission_dialog_text">This permission allows displaying the app\'s main feature — the floating bubble for quickly adding words. The bubble\'s appearance can be flexibly customized to be as convenient and unobtrusive as possible. You can always temporarily disable it or change other parameters in the settings. **After clicking \"Continue\", a list of applications will open where you need to find Vocab. and grant the permission manually.**</string>
@@ -202,4 +215,65 @@
     <string name="get_premium">Get Premium</string>
     <string name="add_word_screen_title">Add word</string>
     <string name="process_text_screen_title">Add new word</string>
+
+    <string name="onboarding_title">Tap → Learn → Remember</string>
+    <string name="onboarding_subtitle">Turn every unknown word from Instagram, YouTube or news into part of your vocabulary</string>
+    <string name="continue_button">Continue</string>
+
+    <!-- Benefits -->
+    <string name="benefit_vocab_quick_title">Vocab Quick</string>
+    <string name="benefit_vocab_quick_desc">Button always on top of all apps — never miss a word!</string>
+
+    <string name="benefit_ai_title">AI — maximum information</string>
+    <string name="benefit_ai_desc">Translation, transcription, examples, grammar and much more!</string>
+
+    <string name="benefit_widget_title">Interactive widget</string>
+    <string name="benefit_widget_desc">You don\'t even notice how the word is memorized</string>
+
+    <string name="benefit_quiz_title">Smart repetitions</string>
+    <string name="benefit_quiz_desc">Quiz only the words that need reinforcement</string>
+
+    <string name="benefit_important_title">Only important words</string>
+    <string name="benefit_important_desc">Learn what you actually encountered and chose</string>
+    <string name="app_name_without_dot">Vocab</string>
+
+    <!-- Notifications -->
+    <string name="initial_setup_notification_title">Notifications</string>
+    <string name="initial_setup_notification_sub_title">Don\'t miss important words</string>
+    <string name="notification_stay_informed">Stay informed</string>
+    <string name="notification_description">Receive reminders about word repetition and information about your learning progress.</string>
+    <string name="notification_benefits_title">📈 What you\'ll get:</string>
+    <string name="notification_benefits_list">• Reminders about word repetition\n• Your progress statistics\n• Daily motivation support\n• Flexible notification settings so they don\'t disturb and stay useful</string>
+    <string name="notification_bubble_stability_title">⚙️ Important for bubble stability</string>
+    <string name="notification_bubble_stability_description">Notification permission is required for stable operation of the floating button on Android 13+. The notifications themselves can be flexibly configured or completely disabled in app settings, while keeping Vocab Quick functional.</string><string name="notification_skip_button">Skip (I\'ll enable later)</string>
+    <string name="notification_enable_button">Enable notifications</string>
+
+    <!-- Overlay -->
+    <string name="initial_setup_overlay_title">Vocab Quick</string>
+    <string name="initial_setup_overlay_sub_title">Floating button for quick access</string>
+    <string name="overlay_how_it_works">How does it work?</string>
+    <string name="overlay_description">Reading Instagram, news or articles? Encountered an unfamiliar word? Just tap the floating button and add it — without switching between apps.</string>
+    <string name="overlay_permission_required">⚠️ Permission required</string>
+    <string name="overlay_permission_description">To display the button over other apps (Instagram, Chrome, etc.), the system permission \"Display over other windows\" is required.</string>
+    <string name="overlay_skip_button">Skip (I\'ll enable later)</string>
+    <string name="overlay_grant_button">Grant permission</string>
+
+    <!-- Translation Languages -->
+    <string name="initial_setup_translation_languages_title">Choose languages</string>
+    <string name="initial_setup_translation_languages_sub_title">Select from which language to translate</string>
+    <string name="source_language_subtitle">Select from which language to translate</string>
+    <string name="target_language_subtitle">Language to translate to</string>
+
+    <string name="overlay_permission_denied_title">Permission not granted</string>
+    <string name="overlay_permission_denied_description">The floating button requires permission to display over other apps.</string>
+    <string name="overlay_permission_why_important_title">Why is this important?</string>
+    <string name="overlay_permission_why_important_description">Without this permission, you won\'t be able to quickly add words while reading in other apps. This is the main feature of Vocab Quick!</string>
+    <string name="overlay_permission_safety_title">✓ It\'s completely safe</string>
+    <string name="overlay_permission_safety_description">Vocab Quick uses this permission only to display a small button. We don\'t read content from other apps and don\'t collect any data.</string>
+    <string name="overlay_permission_try_again">Try again</string>
+    <string name="overlay_permission_skip_for_now">Skip for now</string>
+    <string name="overlay_alternative_methods_title">💡 Alternative methods</string>
+    <string name="overlay_alternative_methods_description">If you don\'t want to grant permission, you can add words via:\n• Text Processing — select text in any app, tap "More" in the context menu → "Ask Vocab"\n• Directly in the app — open Vocab Quick and enter the word manually</string>
+    <string name="error_same_languages">Source and target languages must be different</string>
+
 </resources>

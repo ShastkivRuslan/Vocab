@@ -22,9 +22,6 @@ data class Word(
     @ColumnInfo(name = "target_language_code")
     val targetLanguageCode: String,
 
-    @ColumnInfo(name = "word_level")
-    val wordLevel: String,
-
     @ColumnInfo(name = "correct_count")
     val correctAnswerCount: Int = 0,
 
@@ -32,5 +29,18 @@ data class Word(
     val wrongAnswerCount: Int = 0,
 
     @ColumnInfo(name = "added_at")
-    val addedAt: Long = System.currentTimeMillis()
-)
+    val addedAt: Long = System.currentTimeMillis(),
+
+    @ColumnInfo(name = "word_type")
+    val wordType: WordType = WordType.FREE,
+
+    @ColumnInfo(name = "is_word_added")
+    val isWordAdded: Boolean = true,
+
+    @ColumnInfo(name = "ai_data_json")
+    val aiDataJson: String? = null
+) {
+    fun hasAIData(): Boolean = aiDataJson != null
+    fun getAIData(): WordData? = aiDataJson?.let { WordData.fromJson(it) }
+}
+

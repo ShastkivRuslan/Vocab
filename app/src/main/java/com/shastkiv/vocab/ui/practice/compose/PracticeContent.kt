@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.shastkiv.vocab.domain.model.Word
+import com.shastkiv.vocab.domain.model.WordType
 import com.shastkiv.vocab.ui.practice.PracticeEvent
 import com.shastkiv.vocab.ui.practice.PracticeUiState
 import com.shastkiv.vocab.ui.practice.compose.components.AiChatView
@@ -27,8 +28,24 @@ fun PracticeContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        val fakeWord1 = Word(id = 1, sourceWord = "Ephemeral22", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1")
-        val fakeWord = Word(id = 1, sourceWord = "Ephemeral", translation = "Ефемерний", sourceLanguageCode = "en", targetLanguageCode = "uk", wordLevel = "C1")
+        val fakeWord1 = Word(
+                id = 2,
+        sourceWord = "Banana",
+        translation = "Банан",
+        sourceLanguageCode = "en",
+        targetLanguageCode = "uk",
+        wordType = WordType.FREE,
+        isWordAdded = true
+        )
+        val fakeWord = Word(
+            id = 1,
+            sourceWord = "Apple",
+            translation = "Яблуко",
+            sourceLanguageCode = "en",
+            targetLanguageCode = "uk",
+            wordType = WordType.FREE,
+            isWordAdded = true
+        )
         // Анімована колода карток зі словом
         WordCardDeck(
             currentWord = state.currentWord,

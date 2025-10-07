@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Error titles -->
+    <string name="error_network_title">Keine Verbindung</string>
+    <string name="error_timeout_title">Zeit abgelaufen</string>
+    <string name="error_not_found_title">Nicht gefunden</string>
+    <string name="error_database_title">Speicherfehler</string>
+    <string name="error_empty_title">Keine Daten</string>
+    <string name="error_parsing_title">Verarbeitungsfehler</string>
+    <string name="error_unknown_title">Etwas ist schiefgelaufen</string>
+
+    <!-- Error descriptions -->
+    <string name="error_network_description">Überprüfen Sie Ihre Internetverbindung</string>
+    <string name="error_timeout_description">Server antwortet nicht. Versuchen Sie es später</string>
+    <string name="error_not_found_description">Informationen konnten nicht gefunden werden</string>
+    <string name="error_database_description">Änderungen konnten nicht gespeichert werden</string>
+    <string name="error_empty_description">Ihr Wörterbuch ist leer. Fügen Sie das erste Wort hinzu!</string>
+    <string name="error_parsing_description">Empfangene Daten konnten nicht verarbeitet werden</string>
+    <string name="error_unknown_description">Versuchen Sie es erneut</string>
+
+    <!-- Actions -->
+    <string name="try_again">Wiederholen</string>
+
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Neues Wort hinzufügen :)</string>
     <string name="add_new_word">Neues Wort</string>
@@ -103,13 +124,6 @@
     <string name="bubble_active">Schwebende Schaltfläche aktiv</string>
     <string name="bubble_paused">Schwebende Schaltfläche angehalten</string>
     <string name="add_to_dictionary">Wort prüfen</string>
-    <string name="error_network_title">Keine Internetverbindung</string>
-    <string name="error_network_description">Überprüfe, ob mobile Daten oder WLAN aktiviert sind</string>
-    <string name="error_not_found_title">Wort nicht gefunden</string>
-    <string name="error_not_found_description">Überprüfe die Rechtschreibung deines Wortes</string>
-    <string name="error_unknown_title">Etwas ist schiefgegangen</string>
-    <string name="error_unknown_description">Wir arbeiten bereits daran, dieses Problem zu beheben</string>
-    <string name="try_again">Erneut versuchen</string>
     <string name="request_notification_permission_dialog_text">Benachrichtigungen sind ein wichtiger Teil der Funktionalität der schwebenden Schaltfläche. Wenn das System eine aktive Benachrichtigung von unserer App sieht, stoppt es deren Betrieb nicht zur Optimierung, was einen stabilen und unterbrechungsfreien Betrieb der Schaltfläche ermöglicht. Diese Berechtigung ist auch erforderlich, um nützliche Lernerinnerungen und Wiederholungen in Intervallen zu senden.</string>
     <string name="request_notification_permission_dialog_title">Berechtigung für Benachrichtigungen</string>
     <string name="request_overlay_permission_dialog_text">Diese Berechtigung ermöglicht die Anzeige der Hauptfunktion der App – der schwebenden Schaltfläche zum schnellen Hinzufügen von Wörtern. Das Aussehen der Schaltfläche kann flexibel angepasst werden, um sie so bequem und unauffällig wie möglich zu machen. Du kannst sie jederzeit vorübergehend deaktivieren oder andere Parameter in den Einstellungen ändern. **Nachdem du auf \"Weiter\" geklickt hast, öffnet sich eine Liste von Apps, in der du Vocab. finden und die Berechtigung manuell erteilen musst.**</string>
@@ -202,4 +216,65 @@
     <string name="get_premium">Premium erhalten</string>
     <string name="add_word_screen_title">Wort hinzufügen</string>
     <string name="process_text_screen_title">Neues Wort hinzufügen</string>
+
+    <string name="onboarding_title">Tippen → Lernen → Merken</string>
+    <string name="onboarding_subtitle">Verwandle jedes unbekannte Wort aus Instagram, YouTube oder Nachrichten in Teil deines Vokabulars</string>
+    <string name="continue_button">Weiter</string>
+
+    <!-- Benefits -->
+    <string name="benefit_vocab_quick_title">Vocab Quick</string>
+    <string name="benefit_vocab_quick_desc">Button immer über allen Apps — kein Wort wird verpasst!</string>
+
+    <string name="benefit_ai_title">AI — maximale Information</string>
+    <string name="benefit_ai_desc">Übersetzung, Transkription, Beispiele, Grammatik und vieles mehr!</string>
+
+    <string name="benefit_widget_title">Interaktives Widget</string>
+    <string name="benefit_widget_desc">Du merkst gar nicht, wie das Wort gespeichert wird</string>
+
+    <string name="benefit_quiz_title">Intelligente Wiederholungen</string>
+    <string name="benefit_quiz_desc">Quiz nur die Wörter, die gefestigt werden müssen</string>
+
+    <string name="benefit_important_title">Nur wichtige Wörter</string>
+    <string name="benefit_important_desc">Lerne was du selbst angetroffen und ausgewählt hast</string>
+    <string name="app_name_without_dot">Vocab</string>
+
+    <!-- Notifications -->
+    <string name="initial_setup_notification_title">Benachrichtigungen</string>
+    <string name="initial_setup_notification_sub_title">Verpassen Sie keine wichtigen Wörter</string>
+    <string name="notification_stay_informed">Bleiben Sie informiert</string>
+    <string name="notification_description">Erhalten Sie Erinnerungen zur Wortwiederholung und Informationen über Ihren Lernfortschritt.</string>
+    <string name="notification_benefits_title">📈 Was Sie erhalten:</string>
+    <string name="notification_benefits_list">• Erinnerungen zur Wortwiederholung\n• Statistiken Ihres Fortschritts\n• Tägliche Motivationsunterstützung\n• Flexible Benachrichtigungseinstellungen, damit sie nicht stören und nützlich bleiben</string>
+    <string name="notification_skip_button">Überspringen (ich aktiviere später)</string>
+    <string name="notification_enable_button">Benachrichtigungen aktivieren</string>
+    <string name="notification_bubble_stability_title">⚙️ Wichtig für die Blasenstabilität</string>
+    <string name="notification_bubble_stability_description">Die Benachrichtigungsberechtigung ist für den stabilen Betrieb der schwebenden Taste auf Android 13+ erforderlich. Die Benachrichtigungen selbst können in den App-Einstellungen flexibel konfiguriert oder vollständig deaktiviert werden, während Vocab Quick funktionsfähig bleibt.</string>
+
+    <!-- Overlay -->
+    <string name="initial_setup_overlay_title">Vocab Quick</string>
+    <string name="initial_setup_overlay_sub_title">Schwebende Taste für schnellen Zugriff</string>
+    <string name="overlay_how_it_works">Wie funktioniert es?</string>
+    <string name="overlay_description">Lesen Sie Instagram, Nachrichten oder Artikel? Ein unbekanntes Wort gefunden? Tippen Sie einfach auf die schwebende Taste und fügen Sie es hinzu — ohne zwischen Apps zu wechseln.</string>
+    <string name="overlay_permission_required">⚠️ Berechtigung erforderlich</string>
+    <string name="overlay_permission_description">Um die Taste über anderen Apps anzuzeigen (Instagram, Chrome usw.), ist die Systemberechtigung \"Über anderen Fenstern anzeigen\" erforderlich.</string>
+    <string name="overlay_skip_button">Überspringen (ich aktiviere später)</string>
+    <string name="overlay_grant_button">Berechtigung erteilen</string>
+
+    <!-- Translation Languages -->
+    <string name="initial_setup_translation_languages_title">Sprachen wählen</string>
+    <string name="initial_setup_translation_languages_sub_title">Wählen Sie aus welcher Sprache übersetzen</string>
+    <string name="source_language_subtitle">Wählen Sie aus welcher Sprache übersetzen</string>
+    <string name="target_language_subtitle">Sprache zum Übersetzen</string>
+
+    <string name="overlay_permission_denied_title">Berechtigung nicht erteilt</string>
+    <string name="overlay_permission_denied_description">Die schwebende Taste benötigt die Berechtigung zur Anzeige über anderen Apps.</string>
+    <string name="overlay_permission_why_important_title">Warum ist das wichtig?</string>
+    <string name="overlay_permission_why_important_description">Ohne diese Berechtigung können Sie beim Lesen in anderen Apps keine Wörter schnell hinzufügen. Das ist die Hauptfunktion von Vocab Quick!</string>
+    <string name="overlay_permission_safety_title">✓ Das ist völlig sicher</string>
+    <string name="overlay_permission_safety_description">Vocab Quick verwendet diese Berechtigung nur zur Anzeige einer kleinen Taste. Wir lesen keine Inhalte aus anderen Apps und sammeln keine Daten.</string>
+    <string name="overlay_permission_try_again">Erneut versuchen</string>
+    <string name="overlay_permission_skip_for_now">Jetzt überspringen</string>
+    <string name="overlay_alternative_methods_title">💡 Alternative Methoden</string>
+    <string name="overlay_alternative_methods_description">Wenn Sie die Berechtigung nicht erteilen möchten, können Sie Wörter hinzufügen über:\n• Text Processing — wählen Sie Text in einer beliebigen App aus und tippen Sie auf "Teilen" → Vocab Quick\n• Direkt in der App — öffnen Sie Vocab Quick und geben Sie das Wort manuell ein</string>
+    <string name="error_same_languages">Quell- und Zielsprache müssen unterschiedlich sein</string>
 </resources>

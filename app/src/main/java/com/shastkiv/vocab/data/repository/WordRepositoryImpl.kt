@@ -2,6 +2,7 @@ package com.shastkiv.vocab.data.repository
 
 import com.shastkiv.vocab.data.local.dao.WordDao
 import com.shastkiv.vocab.domain.model.Word
+import com.shastkiv.vocab.domain.model.WordType
 import com.shastkiv.vocab.domain.repository.WordRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,6 @@ import javax.inject.Inject
 class WordRepositoryImpl @Inject constructor(
     private val wordDao: WordDao
 ) : WordRepository {
-
 
     override suspend fun addWord(word: Word) {
         withContext(Dispatchers.IO) {
@@ -39,7 +39,7 @@ class WordRepositoryImpl @Inject constructor(
 
     override suspend fun wordExists(sourceWord: String, sourceLanguageCode: String): Boolean {
         return withContext(Dispatchers.IO) {
-            wordDao.wordExists(sourceWord)
+            wordDao.wordExists(sourceWord, sourceLanguageCode)
         }
     }
 
@@ -87,6 +87,40 @@ class WordRepositoryImpl @Inject constructor(
                 excludeId = wordToRepeat.id,
                 targetLanguageCode = targetLanguageCode
             )
+        }
+    }
+
+    override suspend fun getCachedWord(sourceWord: String, sourceLanguageCode: String): Word? {
+        return withContext(Dispatchers.IO) {
+            wordDao.getCachedWord(sourceWord, sourceLanguageCode)
+        }
+    }
+
+    override suspend fun getWordById(id: Int): Word? {
+        return withContext(Dispatchers.IO) {
+            wordDao.getWordById(id)
+        }
+    }
+
+    override suspend fun upgradeWordToAI(wordId: Int, aiDataJson: String, wordType: WordType) {
+        withContext(Dispatchers.IO) {
+            wordDao.updateWordWithAIData(
+                id = wordId,
+                wordType = wordType,
+                aiDataJson = aiDataJson
+            )
+        }
+    }
+
+    override suspend fun getWordCountByType(wordType: WordType): Int {
+        return withContext(Dispatchers.IO) {
+            wordDao.getWordCountByType(wordType)
+        }
+    }
+
+    override suspend fun updateToUserDictionary(wordId: Int, wordType: WordType) {
+        withContext(Dispatchers.IO) {
+            wordDao.updateToUserDictionary(wordId, true, wordType)
         }
     }
 }

@@ -11,8 +11,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -25,10 +29,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.Language
+import com.shastkiv.vocab.ui.SplashScreen
 import com.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
 import com.shastkiv.vocab.ui.allwords.AllWordsScreen
+import com.shastkiv.vocab.ui.initialsetup.AppStartViewModel
 import com.shastkiv.vocab.ui.mainscreen.MainViewModel
 import com.shastkiv.vocab.ui.mainscreen.compose.MainScreen
+import com.shastkiv.vocab.ui.initialsetup.compose.InitialSetupScreen
 import com.shastkiv.vocab.ui.practice.compose.PracticeScreen
 import com.shastkiv.vocab.ui.repetition.RepetitionViewModel
 import com.shastkiv.vocab.ui.repetition.compose.RepetitionScreen
@@ -40,8 +47,11 @@ import com.shastkiv.vocab.ui.settings.language.compose.LanguageSettingsScreen
 import com.shastkiv.vocab.ui.settings.main.SettingsViewModel
 import com.shastkiv.vocab.ui.settings.main.compose.SettingsScreen
 import com.shastkiv.vocab.ui.settings.main.compose.ThemeSelectionBottomSheet
+import com.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
+import kotlinx.coroutines.delay
 
 private const val NAVIGATION_ANIMATION_DURATION = 400
+private const val SPLASH_SCREEN_DURATION = 1300L
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +79,7 @@ fun AppNavigation(mainViewModel: MainViewModel) {
 
         NavHost(
             navController = navController,
-            startDestination = Screen.Main.route,
+            startDestination = Screen.Splash.route,
             enterTransition = {
                 fadeIn(animationSpec = tween(durationMillis = NAVIGATION_ANIMATION_DURATION)) +
                         slideInVertically(
@@ -91,6 +101,29 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                         )
             }
         ) {
+            // Splash Screen Route
+            composable(route = Screen.Splash.route) {
+                val appStartViewModel: AppStartViewModel = hiltViewModel()
+                val isSetupCompleted by appStartViewModel.isSetupCompleted.collectAsState()
+
+                LaunchedEffect(isSetupCompleted) {
+                    if (isSetupCompleted != null) {
+                        delay(SPLASH_SCREEN_DURATION)
+
+                        val destination = if (isSetupCompleted == true) {
+                            Screen.Main.route
+                        } else {
+                            Screen.Onboarding.route
+                        }
+
+                        navController.navigate(destination) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                }
+
+                SplashScreen()
+            }
             composable(route = Screen.Main.route) {
                 MainScreen(
                     viewModel = mainViewModel,
@@ -220,6 +253,17 @@ fun AppNavigation(mainViewModel: MainViewModel) {
             composable(route = Screen.About.route) { PlaceholderScreen(stringResource(R.string.placeholder_about)) }
             composable(route = Screen.AboutBubble.route) { PlaceholderScreen(stringResource(R.string.placeholder_about_bubble)) }
             composable(route = Screen.AutoHideSettings.route) { PlaceholderScreen(stringResource(R.string.placeholder_auto_hide)) }
+            composable(route = Screen.Onboarding.route) {
+                val initialSetupViewModel: InitialSetupViewModel = hiltViewModel()
+                InitialSetupScreen(
+                    viewModel = initialSetupViewModel,
+                    onComplete = {
+                        navController.navigate(Screen.Main.route) {
+                            popUpTo(Screen.Onboarding.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
         }
     }
 }
