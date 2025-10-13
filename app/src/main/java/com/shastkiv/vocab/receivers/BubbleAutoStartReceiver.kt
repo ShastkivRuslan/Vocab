@@ -6,7 +6,7 @@ import android.content.Intent
 import android.provider.Settings
 import android.util.Log
 import com.shastkiv.vocab.domain.repository.BubbleSettingsRepository
-import com.shastkiv.vocab.service.BubbleService
+import com.shastkiv.vocab.service.bubble.BubbleService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first

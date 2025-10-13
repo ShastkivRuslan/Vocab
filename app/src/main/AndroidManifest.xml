@@ -84,7 +84,7 @@
         </activity>
 
         <service
-            android:name=".service.BubbleService"
+            android:name=".service.bubble.BubbleService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync" />

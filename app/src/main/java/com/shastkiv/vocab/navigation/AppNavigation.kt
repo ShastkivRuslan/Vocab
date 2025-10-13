@@ -48,6 +48,8 @@ import com.shastkiv.vocab.ui.settings.main.SettingsViewModel
 import com.shastkiv.vocab.ui.settings.main.compose.SettingsScreen
 import com.shastkiv.vocab.ui.settings.main.compose.ThemeSelectionBottomSheet
 import com.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
+import com.shastkiv.vocab.ui.settings.notification.NotificationSettingsScreen
+import com.shastkiv.vocab.ui.settings.notification.NotificationSettingsViewModel
 import kotlinx.coroutines.delay
 
 private const val NAVIGATION_ANIMATION_DURATION = 400
@@ -249,7 +251,16 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                     onBackPressed = { navController.popBackStack() }
                 )
             }
-            composable(route = Screen.NotificationSettings.route) { PlaceholderScreen(stringResource(R.string.placeholder_notification_settings)) }
+            composable(route = Screen.NotificationSettings.route) {
+                val notificationSettingsViewModel: NotificationSettingsViewModel = hiltViewModel()
+                NotificationSettingsScreen(
+                    onEchoClick = { notificationSettingsViewModel.callEcho() },
+                    onBackPressed = { navController.popBackStack()},
+                    onGentleClick = { notificationSettingsViewModel.callGentle()},
+                    onStreakClick = { notificationSettingsViewModel.callStreak()},
+                    onSuccessClick = { notificationSettingsViewModel.callSuccess()}
+                )
+            }
             composable(route = Screen.About.route) { PlaceholderScreen(stringResource(R.string.placeholder_about)) }
             composable(route = Screen.AboutBubble.route) { PlaceholderScreen(stringResource(R.string.placeholder_about_bubble)) }
             composable(route = Screen.AutoHideSettings.route) { PlaceholderScreen(stringResource(R.string.placeholder_auto_hide)) }
