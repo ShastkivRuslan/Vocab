@@ -276,4 +276,26 @@
     <string name="overlay_alternative_methods_title">💡 Alternative Methoden</string>
     <string name="overlay_alternative_methods_description">Wenn Sie die Berechtigung nicht erteilen möchten, können Sie Wörter hinzufügen über:\n• Text Processing — wählen Sie Text in einer beliebigen App aus, tippen Sie auf "Mehr" im Kontextmenü → "Ask Vocab"\n• Direkt in der App — öffnen Sie Vocab Quick und geben Sie das Wort manuell ein</string>
     <string name="error_same_languages">Język źródłowy i docelowy muszą być różne</string>
+
+    <!-- Notification States -->
+    <string name="notification_idle_title">Vocab+ gotowy</string>
+    <string name="notification_idle_text">Dotknij, aby szybko przetłumaczyć</string>
+
+    <string name="notification_gentle_nudge_title">%d słów czeka</string>
+    <string name="notification_gentle_nudge_text">Gdy znajdziesz wolną chwilę 📚</string>
+
+    <string name="notification_word_echo_added">Dodano %d dni temu</string>
+
+    <string name="notification_streak_title">🔥 Seria %d dni</string>
+    <string name="notification_streak_text">Utrzymaj tempo!</string>
+
+    <string name="notification_success_title">Słowo zapisane ✓</string>
+    <string name="notification_success_text">"%s" dodano do słownika</string>
+
+    <!-- Notification Actions -->
+    <string name="start">Start</string>
+    <string name="later">Później</string>
+    <string name="practice_now">Ćwicz teraz</string>
+    <string name="words_to_learn">Słowa do nauczenia</string>
+    <string name="added_today">Dodano dziś</string>
 </resources>

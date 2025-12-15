@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.di.IoDispatcher
-import com.shastkiv.vocab.domain.model.ThemeMode
+import com.shastkiv.vocab.domain.model.enums.ThemeMode
 import com.shastkiv.vocab.domain.repository.ThemeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

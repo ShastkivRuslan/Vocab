@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.domain.model
+package com.shastkiv.vocab.domain.model.enums
 
 enum class StatType {
     WORD_ASKED,

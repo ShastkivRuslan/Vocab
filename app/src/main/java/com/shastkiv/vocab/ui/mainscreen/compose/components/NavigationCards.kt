@@ -1,123 +1,79 @@
 package com.shastkiv.vocab.ui.mainscreen.compose.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.Quiz
+import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationCard(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    iconRes: Int,
-    decorativeImageRes: Int,
-    title: String,
-    description: String
-) {
-    Card(
-        onClick = onClick,
-        modifier = modifier
-            .width(270.dp)
-            .height(170.dp)
-            .padding(vertical = 16.dp),
-        shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                painter = painterResource(id = decorativeImageRes),
-                contentDescription = null,
-                alpha = 0.1f,
-                modifier = Modifier
-                    .size(150.dp)
-                    .align(Alignment.BottomEnd)
-                    .offset(x = 40.dp, y = 40.dp)
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(20.dp)
-            ) {
-                Card(
-                    shape = RoundedCornerShape(14.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-                ) {
-                    Box(
-                        modifier = Modifier.size(54.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = iconRes),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(text = title, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(text = description, fontSize = 14.sp, color = MaterialTheme.colorScheme.secondary)
-            }
-        }
-    }
-}
+fun AddWordCard(onClick: () -> Unit) {
+    val card = NavigationCardData(
+            title = stringResource(R.string.add_new_word_button),
+            description = stringResource(R.string.add_card_description),
+            icon = Icons.Default.Add,
+            colorGradient = listOf(Color(0x335EEAD4), Color(0x1A22D3EE)),
+            iconBgColor = Color(0x335EEAD4),
+            iconColor = Color(0xFF99F6E4)
+        )
 
-// Специфічні картки, що викликають універсальну
-@Composable
-fun AddWordCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    NavigationCard(
-        onClick = onClick,
-        modifier = modifier,
-        iconRes = R.drawable.ic_add_new,
-        decorativeImageRes = R.drawable.shape_plus_decor,
-        title = stringResource(R.string.add_new_word_button),
-        description = stringResource(R.string.add_card_description)
+    NavigationCardItem(
+        card,
+        onClick = onClick
     )
 }
 
 @Composable
-fun RepetitionCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    NavigationCard(
-        onClick = onClick,
-        modifier = modifier,
-        iconRes = R.drawable.ic_repetition,
-        decorativeImageRes = R.drawable.shape_repeat_decor,
+fun QuizCard(onClick: () -> Unit) {
+    val card = NavigationCardData(
         title = stringResource(R.string.repeat_mode),
-        description = stringResource(R.string.repetition_card_description)
+        description = stringResource(R.string.repetition_card_description),
+        icon = Icons.Default.Quiz,
+        colorGradient = listOf(Color(0x33C084FC), Color(0x1AC084FC)),
+        iconBgColor = Color(0x33C084FC),
+        iconColor = Color(0xFFC4B5FD) // violet-300
+    )
+
+    NavigationCardItem(
+        card,
+        onClick = onClick
     )
 }
 
 @Composable
-fun AllWordsCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    NavigationCard(
-        onClick = onClick,
-        modifier = modifier,
-        iconRes = R.drawable.ic_all_words,
-        decorativeImageRes = R.drawable.list_shape,
+fun AllWordsCard(onClick: () -> Unit) {
+    val card = NavigationCardData(
         title = stringResource(R.string.all_words_btn),
-        description = stringResource(R.string.all_words_card_description)
+        description = stringResource(R.string.all_words_card_description),
+        icon = Icons.Default.Checklist,
+        colorGradient = listOf(Color(0x3393C5FD), Color(0x1A60A5FA)),
+        iconBgColor = Color(0x3393C5FD),
+        iconColor = Color(0xFFA5B4FC)
+    )
+
+    NavigationCardItem(
+        card,
+        onClick = onClick
     )
 }
 
 @Composable
-fun PracticeCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    NavigationCard(
-        onClick = onClick,
-        modifier = modifier,
-        iconRes = R.drawable.ic_practice,
-        decorativeImageRes = R.drawable.shape_practice_decor,
+fun PracticeCard(onClick: () -> Unit) {
+    val card = NavigationCardData(
         title = stringResource(R.string.practice_type),
-        description = stringResource(R.string.practice_card_description)
+        description = stringResource(R.string.practice_card_description),
+        icon = Icons.Default.Repeat,
+        colorGradient = listOf(Color(0x33F472B6), Color(0x1AFB7185)),
+        iconBgColor = Color(0x33F472B6),
+        iconColor = Color(0xFFF9A8D4) // pink-300
+    )
+
+    NavigationCardItem(
+        card,
+        onClick = onClick
     )
 }

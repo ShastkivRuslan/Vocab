@@ -278,4 +278,26 @@
     <string name="overlay_alternative_methods_description">Pokud nechcete udělit oprávnění, můžete přidávat slova pomocí:\n• Text Processing — vyberte text v jakékoli aplikaci, klepněte na "Více" v kontextové nabídce → "Ask Vocab"\n• Přímo v aplikaci — otevřete Vocab Quick a zadejte slovo ručně</string>
     <string name="error_same_languages">Zdrojový a cílový jazyk se musí lišit</string>
 
+    <!-- Notification States -->
+    <string name="notification_idle_title">Vocab+ připraven</string>
+    <string name="notification_idle_text">Klepněte pro rychlý překlad</string>
+
+    <string name="notification_gentle_nudge_title">%d slov čeká</string>
+    <string name="notification_gentle_nudge_text">Až budete mít chvilku 📚</string>
+
+    <string name="notification_word_echo_added">Přidáno před %d dny</string>
+
+    <string name="notification_streak_title">🔥 Série %d dní</string>
+    <string name="notification_streak_text">Udržte tempo!</string>
+
+    <string name="notification_success_title">Slovo uloženo ✓</string>
+    <string name="notification_success_text">"%s" přidáno do slovníku</string>
+
+    <!-- Notification Actions -->
+    <string name="start">Začít</string>
+    <string name="later">Později</string>
+    <string name="practice_now">Procvičit teď</string>
+    <string name="words_to_learn">Slova k naučení</string>
+    <string name="added_today">Přidáno dnes</string>
+
 </resources>

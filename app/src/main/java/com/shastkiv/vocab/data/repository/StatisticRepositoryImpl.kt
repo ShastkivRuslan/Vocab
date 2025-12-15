@@ -2,17 +2,18 @@ package com.shastkiv.vocab.data.repository
 
 import com.shastkiv.vocab.data.local.dao.DailyStatisticDao
 import com.shastkiv.vocab.domain.model.DailyStatistic
-import com.shastkiv.vocab.domain.model.StatType
-import com.shastkiv.vocab.domain.repository.DailyStatsRepository
+import com.shastkiv.vocab.domain.model.enums.StatType
+import com.shastkiv.vocab.domain.repository.StatisticRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
 
-class StatsRepositoryImpl @Inject constructor(
+class StatisticRepositoryImpl @Inject constructor(
     private val statsDao: DailyStatisticDao
-) : DailyStatsRepository {
+) : StatisticRepository {
 
     private fun getTodayDateString(): String = LocalDate.now().toString()
 
@@ -32,5 +33,36 @@ class StatsRepositoryImpl @Inject constructor(
 
             statsDao.upsertStatistic(newStats)
         }
+    }
+
+    override suspend fun getTodayStatisticOnce(): DailyStatistic? {
+        return getTodayStatistic().first()
+    }
+
+    override suspend fun getCurrentStreak(): Int {
+        return withContext(Dispatchers.IO) {
+            val allStats = statsDao.getAllStatistics()
+
+            var streak = 0
+            var currentDate = LocalDate.now()
+
+            while (true) {
+                val stat = allStats.find { it.date == currentDate.toString() }
+
+                if (stat != null && (stat.correctAnswers > 0 || stat.wrongAnswers > 0)) {
+                    streak++
+                    currentDate = currentDate.minusDays(1)
+                } else {
+                    break
+                }
+            }
+
+            streak
+        }
+    }
+
+    override suspend fun wasUserActiveToday(): Boolean {
+        val today = getTodayStatisticOnce()
+        return today != null && (today.correctAnswers > 0 || today.wrongAnswers > 0)
     }
 }

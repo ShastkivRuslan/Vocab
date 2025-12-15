@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.ui.lifecycle
+package com.shastkiv.vocab.service.bubble.lifecycle
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner

@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.service
+package com.shastkiv.vocab.service.bubble
 
 import android.content.Context
 import android.util.Log

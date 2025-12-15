@@ -7,12 +7,13 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.shastkiv.vocab.navigation.AppNavigation
-import com.shastkiv.vocab.service.BubbleService
+import com.shastkiv.vocab.service.bubble.BubbleService
 import com.shastkiv.vocab.ui.base.BaseActivity
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
 import com.shastkiv.vocab.ui.widget.UpdateWidgetWorker
@@ -27,7 +28,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         scheduleWidgetUpdates()
 
         setContent {

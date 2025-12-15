@@ -1,20 +1,34 @@
 package com.shastkiv.vocab.ui.settings.main.compose
 
 import SettingItem
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.shastkiv.vocab.R
+import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
 fun SettingsScreen(
@@ -28,6 +42,7 @@ fun SettingsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .systemBarsPadding()
             .verticalScroll(rememberScrollState())
     ) {
         Row(
@@ -36,41 +51,52 @@ fun SettingsScreen(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                onClick = onBackPressed,
-                modifier = Modifier.size(48.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_left_chevron),
-                    contentDescription = stringResource(R.string.back_button_description),
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.ChevronLeft,
+                contentDescription = "Navigate",
+                tint = MaterialTheme.customColors.cardTitleText,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clickable { onBackPressed() }
+            )
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
                 text = stringResource(R.string.settings_screen_title),
                 style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.customColors.cardTitleText
             )
         }
 
         Text(
             modifier = Modifier.padding(start = 26.dp),
             text = stringResource(R.string.settings_screen_subtitle),
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.customColors.cardDescriptionText,
             style = MaterialTheme.typography.bodyLarge
         )
 
-        Card(
+
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp, start = 16.dp, end = 16.dp),
-            elevation = CardDefaults.cardElevation(7.dp),
-            shape = RoundedCornerShape(20.dp)
+                .padding(top = 24.dp, start = 16.dp, end = 16.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .background(
+                    color = MaterialTheme.customColors.cardBackground,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.customColors.cardBorder,
+                    shape = MaterialTheme.shapes.medium
+                )
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
                 SettingItem(
                     title = stringResource(R.string.settings_item_theme_title),
                     description = stringResource(R.string.settings_item_theme_description),

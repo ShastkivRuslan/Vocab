@@ -52,7 +52,6 @@
     <string name="answer_3">Option 3</string>
     <string name="num_4">4</string>
     <string name="answer_4">Option 4</string>
-    <string name="next_word">Next Word</string>
     <string name="todo">TODO</string>
     <string name="wrong">Try again</string>
     <string name="all_words_btn">All Words</string>
@@ -275,5 +274,28 @@
     <string name="overlay_alternative_methods_title">💡 Alternative methods</string>
     <string name="overlay_alternative_methods_description">If you don\'t want to grant permission, you can add words via:\n• Text Processing — select text in any app, tap "More" in the context menu → "Ask Vocab"\n• Directly in the app — open Vocab Quick and enter the word manually</string>
     <string name="error_same_languages">Source and target languages must be different</string>
+
+    <!-- Notification States -->
+    <string name="notification_idle_title">Vocab+ ready</string>
+    <string name="notification_idle_text">Tap for quick translation</string>
+
+    <string name="notification_gentle_nudge_title">%d words waiting</string>
+    <string name="notification_gentle_nudge_text">When you have a moment 📚</string>
+
+    <string name="notification_word_echo_added">Added %d days ago</string>
+
+    <string name="notification_streak_title">🔥 %d-day streak</string>
+    <string name="notification_streak_text">Keep the momentum going!</string>
+
+    <string name="notification_success_title">Word saved ✓</string>
+    <string name="notification_success_text">"%s" added to dictionary</string>
+
+    <!-- Notification Actions -->
+    <string name="start">Start</string>
+    <string name="later">Later</string>
+    <string name="next_word">Next word</string>
+    <string name="practice_now">Practice now</string>
+    <string name="words_to_learn">Words to Learn</string>
+    <string name="added_today">Added today</string>
 
 </resources>

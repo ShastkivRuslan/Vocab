@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.service
+package com.shastkiv.vocab.service.bubble
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -30,7 +30,7 @@ import com.shastkiv.vocab.domain.usecase.SaveBubblePositionUseCase
 import com.shastkiv.vocab.domain.model.BubblePosition
 import com.shastkiv.vocab.ui.bubble.compose.BubbleLayout
 import com.shastkiv.vocab.ui.bubble.compose.DeleteZoneLayout
-import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
+import com.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -147,7 +147,7 @@ class BubbleViewManager(
                         size = bubbleSizeState,
                         alpha = bubbleAlphaState,
                         onClick = ::handleBubbleClick,
-                        onDragStart = { offset -> handleDragStart(offset) },
+                        onDragStart = { handleDragStart() },
                         onDrag = ::handleDrag,
                         onDragEnd = { handleDragEnd() }
                     )
@@ -167,7 +167,7 @@ class BubbleViewManager(
         }
     }
 
-    private fun handleDragStart(offset: androidx.compose.ui.geometry.Offset) {
+    private fun handleDragStart() {
         isDragging = true
         showDeleteZone()
     }

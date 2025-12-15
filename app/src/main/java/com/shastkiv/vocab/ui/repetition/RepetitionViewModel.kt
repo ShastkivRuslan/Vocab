@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shastkiv.vocab.R
 import com.shastkiv.vocab.di.IoDispatcher
 import com.shastkiv.vocab.domain.model.DailyStatistic
-import com.shastkiv.vocab.domain.model.StatType
+import com.shastkiv.vocab.domain.model.enums.StatType
 import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.repository.ThemeRepository
 import com.shastkiv.vocab.domain.usecase.GetRepetitionWordUseCase
@@ -27,8 +26,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepetitionViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    themeRepository: ThemeRepository,
     private val getRepetitionWordUseCase: GetRepetitionWordUseCase,
     private val updateWordScoreUseCase: UpdateWordScoreUseCase,
     private val updateDailyStatsUseCase: UpdateDailyStatsUseCase,
@@ -36,13 +33,6 @@ class RepetitionViewModel @Inject constructor(
     getTodayStatsUseCase: GetTodayStatsUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-
-    val currentTheme: StateFlow<Int> = themeRepository.themeMode
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        )
 
     private val dailyStatisticFlow: Flow<DailyStatistic?> = getTodayStatsUseCase()
 

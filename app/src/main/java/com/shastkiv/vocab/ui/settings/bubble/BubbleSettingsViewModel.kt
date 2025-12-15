@@ -9,7 +9,7 @@ import com.shastkiv.vocab.R
 import com.shastkiv.vocab.di.IoDispatcher
 import com.shastkiv.vocab.domain.repository.BubbleSettingsRepository
 import com.shastkiv.vocab.domain.repository.ThemeRepository
-import com.shastkiv.vocab.service.BubbleService
+import com.shastkiv.vocab.service.bubble.BubbleService
 import com.shastkiv.vocab.ui.bubble.BubbleSettingsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
