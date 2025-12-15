@@ -6,7 +6,7 @@ import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.model.Word
 import com.shastkiv.vocab.domain.model.WordData
-import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.domain.model.enums.WordType
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.WordRepository
 import com.shastkiv.vocab.domain.usecase.GetWordInfoUseCase
@@ -28,7 +28,6 @@ enum class SortType {
 @HiltViewModel
 class AllWordsViewModel @Inject constructor(
     private val wordRepository: WordRepository,
-    private val languageRepository: LanguageRepository,
     private val getWordInfoUseCase: GetWordInfoUseCase
 ) : ViewModel() {
 

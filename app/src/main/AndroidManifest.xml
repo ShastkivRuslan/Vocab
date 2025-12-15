@@ -27,7 +27,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LearnWordsTrainer"
+        android:theme="@style/Theme.Vocab"
         android:windowSoftInputMode="adjustResize"
         android:localeConfig="@xml/locales_config"
         tools:targetApi="33">
@@ -57,7 +57,7 @@
         <activity
             android:name=".ui.addword.external.ProcessTextActivity"
             android:exported="true"
-            android:theme="@style/Theme.Transparent"
+            android:theme="@style/Theme.ProcessTextTransparent"
             android:launchMode="singleTop"
             android:label="Ask Vocab">
 

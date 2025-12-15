@@ -7,7 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
 import android.util.Log
-import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
+import com.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject

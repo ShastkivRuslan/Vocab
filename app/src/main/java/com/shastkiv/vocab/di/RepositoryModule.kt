@@ -2,7 +2,7 @@ package com.shastkiv.vocab.di
 
 import com.shastkiv.vocab.data.repository.*
 import com.shastkiv.vocab.domain.repository.BubbleSettingsRepository
-import com.shastkiv.vocab.domain.repository.DailyStatsRepository
+import com.shastkiv.vocab.domain.repository.StatisticRepository
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.OnDeviceTranslator
 import com.shastkiv.vocab.domain.repository.SettingsRepository
@@ -51,9 +51,9 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindStatsRepository(
-        statsRepositoryImpl: StatsRepositoryImpl
-    ): DailyStatsRepository
+    abstract fun bindStatisticRepository(
+        statisticRepositoryImpl: StatisticRepositoryImpl
+    ): StatisticRepository
 
     @Binds
     @Singleton

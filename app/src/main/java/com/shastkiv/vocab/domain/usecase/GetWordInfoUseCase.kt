@@ -4,7 +4,7 @@ import com.shastkiv.vocab.data.remote.client.OpenAIClient
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.Word
 import com.shastkiv.vocab.domain.model.WordData
-import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.domain.model.enums.WordType
 import com.shastkiv.vocab.domain.repository.WordRepository
 import javax.inject.Inject
 

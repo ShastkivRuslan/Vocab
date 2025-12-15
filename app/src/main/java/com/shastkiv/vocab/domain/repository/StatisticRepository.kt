@@ -1,12 +1,16 @@
 package com.shastkiv.vocab.domain.repository
 
 import com.shastkiv.vocab.domain.model.DailyStatistic
-import com.shastkiv.vocab.domain.model.StatType
+import com.shastkiv.vocab.domain.model.enums.StatType
 import kotlinx.coroutines.flow.Flow
 
-interface DailyStatsRepository {
+interface StatisticRepository {
 
     fun getTodayStatistic(): Flow<DailyStatistic?>
 
     suspend fun updateStatistic(type: StatType)
+
+    suspend fun getTodayStatisticOnce(): DailyStatistic?
+    suspend fun getCurrentStreak(): Int
+    suspend fun wasUserActiveToday(): Boolean
 }
