@@ -277,4 +277,26 @@
     <string name="overlay_alternative_methods_title">💡 Alternative Methoden</string>
     <string name="overlay_alternative_methods_description">Wenn Sie die Berechtigung nicht erteilen möchten, können Sie Wörter hinzufügen über:\n• Text Processing — wählen Sie Text in einer beliebigen App aus und tippen Sie auf "Teilen" → Vocab Quick\n• Direkt in der App — öffnen Sie Vocab Quick und geben Sie das Wort manuell ein</string>
     <string name="error_same_languages">Quell- und Zielsprache müssen unterschiedlich sein</string>
+
+    <!-- Notification States -->
+    <string name="notification_idle_title">Vocab+ bereit</string>
+    <string name="notification_idle_text">Tippen für schnelle Übersetzung</string>
+
+    <string name="notification_gentle_nudge_title">%d Wörter warten</string>
+    <string name="notification_gentle_nudge_text">Wenn Sie einen Moment haben 📚</string>
+
+    <string name="notification_word_echo_added">Vor %d Tagen hinzugefügt</string>
+
+    <string name="notification_streak_title">🔥 %d-Tage-Serie</string>
+    <string name="notification_streak_text">Halten Sie das Tempo!</string>
+
+    <string name="notification_success_title">Wort gespeichert ✓</string>
+    <string name="notification_success_text">"%s" zum Wörterbuch hinzugefügt</string>
+
+    <!-- Notification Actions -->
+    <string name="start">Start</string>
+    <string name="later">Später</string>
+    <string name="practice_now">Jetzt üben</string>
+    <string name="words_to_learn">Ungelernte Wörter</string>
+    <string name="added_today">Heute hinzugefügt</string>
 </resources>

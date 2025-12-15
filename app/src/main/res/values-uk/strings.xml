@@ -51,7 +51,6 @@
     <string name="answer_3">Варіант 3</string>
     <string name="num_4">4</string>
     <string name="answer_4">Варіант 4</string>
-    <string name="next_word">Наступне слово</string>
     <string name="todo">TODO</string>
     <string name="wrong">Спробуйте ще раз</string>
     <string name="all_words_btn">Всі слова</string>
@@ -271,4 +270,27 @@
     <string name="overlay_alternative_methods_title">💡 Альтернативні способи</string>
     <string name="overlay_alternative_methods_description">Якщо не хочете надавати дозвіл, можете додавати слова через:\n• Text Processing — виділіть текст в будь-якому додатку, натисніть "Ще/Більше" в контекстному меню → "Ask Vocab"\n• Безпосередньо в додатку — відкрийте Vocab Quick і введіть слово вручну</string>
     <string name="error_same_languages">Мови повинні відрізнятись</string>
+
+    <!-- Notification States -->
+    <string name="notification_idle_title">Vocab+ готовий</string>
+    <string name="notification_idle_text">Торкніться для швидкого перекладу</string>
+
+    <string name="notification_gentle_nudge_title">%d слів чекають</string>
+    <string name="notification_gentle_nudge_text">Коли знайдете вільну хвилинку 📚</string>
+
+    <string name="notification_word_echo_added">Додано %d днів тому</string>
+
+    <string name="notification_streak_title">🔥 Серія %d днів</string>
+    <string name="notification_streak_text">Не втрачайте темп!</string>
+
+    <string name="notification_success_title">Слово збережено ✓</string>
+    <string name="notification_success_text">"%s" додано до словника</string>
+
+    <!-- Notification Actions -->
+    <string name="start">Почати</string>
+    <string name="later">Пізніше</string>
+    <string name="next_word">Наступне слово</string>
+    <string name="practice_now">Повторити зараз</string>
+    <string name="words_to_learn">Слів не вивчено</string>
+    <string name="added_today">Додано сьогодні</string>
 </resources>

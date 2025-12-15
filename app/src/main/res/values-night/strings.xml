@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="words_to_learn">Слів не вивчено</string>
+    <string name="added_today">Додано сьогодні</string>
 </resources>

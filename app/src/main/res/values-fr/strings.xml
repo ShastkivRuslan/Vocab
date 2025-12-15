@@ -277,4 +277,26 @@
     <string name="overlay_alternative_methods_title">💡 Méthodes alternatives</string>
     <string name="overlay_alternative_methods_description">Si vous ne souhaitez pas accorder la permission, vous pouvez ajouter des mots via :\n• Text Processing — sélectionnez du texte dans n\'importe quelle application, appuyez sur "Plus" dans le menu contextuel → "Ask Vocab"\n• Directement dans l\'application — ouvrez Vocab Quick et entrez le mot manuellement</string>
     <string name="error_same_languages">Les langues source et cible doivent être différentes</string>
+
+    <!-- Notification States -->
+    <string name="notification_idle_title">Vocab+ prêt</string>
+    <string name="notification_idle_text">Appuyez pour une traduction rapide</string>
+
+    <string name="notification_gentle_nudge_title">%d mots en attente</string>
+    <string name="notification_gentle_nudge_text">Quand vous aurez un moment 📚</string>
+
+    <string name="notification_word_echo_added">Ajouté il y a %d jours</string>
+
+    <string name="notification_streak_title">🔥 Série de %d jours</string>
+    <string name="notification_streak_text">Gardez le rythme !</string>
+
+    <string name="notification_success_title">Mot enregistré ✓</string>
+    <string name="notification_success_text">"%s" ajouté au dictionnaire</string>
+
+    <!-- Notification Actions -->
+    <string name="start">Commencer</string>
+    <string name="later">Plus tard</string>
+    <string name="practice_now">Pratiquer maintenant</string>
+    <string name="words_to_learn">Mots à apprendre</string>
+    <string name="added_today">Ajoutés aujourd\'hui</string>
 </resources>
