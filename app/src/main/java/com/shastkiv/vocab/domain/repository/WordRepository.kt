@@ -1,8 +1,9 @@
 package com.shastkiv.vocab.domain.repository
 
 import com.shastkiv.vocab.domain.model.Word
-import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.domain.model.enums.WordType
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 interface WordRepository {
     suspend fun addWord(word: Word)
@@ -13,9 +14,9 @@ interface WordRepository {
 
     suspend fun wordExists(sourceWord: String, sourceLanguageCode: String): Boolean
 
-    suspend fun getWordCount(): Int
+    fun getWordCount(): Flow<Int>
 
-    suspend fun getLearnedWordsCount(): Int
+    fun getLearnedWordsCount(): Flow<Int>
 
     suspend fun updateScore(id: Int, correctCount: Int, wrongCount: Int)
 
@@ -38,4 +39,9 @@ interface WordRepository {
     suspend fun getWordCountByType(wordType: WordType): Int
 
     suspend fun updateToUserDictionary(wordId: Int, wordType: WordType)
+
+    fun getWordsNeedingRepetition(): Flow<Int>
+
+    fun getWordsAddedBetween(startDate: LocalDateTime, endDate: LocalDateTime): Flow<List<Word>>
+
 }

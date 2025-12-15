@@ -1,44 +1,42 @@
-package com.shastkiv.vocab.ui.repetition.compose.components
+package com.example.languageapp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.shastkiv.vocab.R
 import com.shastkiv.vocab.ui.mainscreen.compose.components.ProgressCircle
 import com.shastkiv.vocab.ui.theme.customColors
 
-data class ProgressStatItem(
+data class StatItem(
     val label: String,
-    val value: String
+    val value: Int
 )
 
 @Composable
-fun ProgressCard(
-    correctCount: Int,
-    wrongCount: Int
-) {
-    val total = correctCount + wrongCount
-    val correctPercentage = if (total > 0) ((correctCount.toFloat() / total) * 100).toInt() else 0
-
+fun UserStatsCard(
+    totalWordsCount: Int,
+    notLearnedWordsCount: Int,
+    todayWordsCount: Int,
+    learnedPercentage: Int) {
     val stats = listOf(
-        ProgressStatItem("Правильні відповіді", correctCount.toString()),
-        ProgressStatItem("Неправильні відповіді", wrongCount.toString()),
-        ProgressStatItem("Усього спроб", total.toString())
+        StatItem(stringResource(R.string.count_words), totalWordsCount),
+        StatItem(stringResource(R.string.words_to_learn), notLearnedWordsCount),
+        StatItem(stringResource(R.string.added_today), todayWordsCount)
     )
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(
                 color = MaterialTheme.customColors.cardBackground,
@@ -70,7 +68,7 @@ fun ProgressCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProgressCircle(progress = correctPercentage)
+            ProgressCircle(progress = learnedPercentage)
 
             Spacer(modifier = Modifier.width(24.dp))
 
@@ -87,8 +85,8 @@ fun ProgressCard(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = stat.value,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                            text = stat.value.toString(),
+                            style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.customColors.statsValueText
                         )
                     }

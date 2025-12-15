@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.shastkiv.vocab.R
-import com.shastkiv.vocab.domain.model.ThemeMode
+import com.shastkiv.vocab.domain.model.enums.ThemeMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

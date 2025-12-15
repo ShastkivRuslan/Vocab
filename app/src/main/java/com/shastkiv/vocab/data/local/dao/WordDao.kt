@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.shastkiv.vocab.domain.model.Word
-import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.domain.model.enums.WordType
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -27,10 +27,10 @@ interface WordDao {
     suspend fun wordExists(sourceWord: String, sourceLanguageCode: String): Boolean
 
     @Query("SELECT COUNT(*) FROM words WHERE is_word_added = 1")
-    suspend fun getWordCount(): Int
+    fun getWordCount(): Flow<Int>
 
     @Query("SELECT COUNT(*) FROM words WHERE correct_count > 10 AND is_word_added = 1")
-    suspend fun getLearnedWordsCount(): Int
+    fun getLearnedWordsCount(): Flow<Int>
 
     @Query("UPDATE words SET correct_count = :correctCount, wrong_count = :wrongCount WHERE _id = :id")
     suspend fun updateScore(id: Int, correctCount: Int, wrongCount: Int)
@@ -67,4 +67,10 @@ interface WordDao {
 
     @Query("UPDATE words SET is_word_added = :isWordAdded, word_type = :wordType WHERE _id = :id")
     suspend fun updateToUserDictionary(id: Int, isWordAdded: Boolean, wordType: WordType)
+
+    @Query(" SELECT * FROM words WHERE added_at BETWEEN :startDateMillis AND :endDateMillis")
+    fun getWordsAddedBetween(startDateMillis: Long, endDateMillis: Long): Flow<List<Word>>
+
+    @Query("SELECT COUNT(*) FROM words WHERE correct_count <=10 AND is_word_added = 1")
+    fun getWordsNeedingRepetition(): Flow<Int>
 }

@@ -1,25 +1,45 @@
 package com.shastkiv.vocab.ui.mainscreen.compose
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.languageapp.UserStatsCard
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
@@ -29,7 +49,8 @@ import com.shastkiv.vocab.ui.mainscreen.MainViewModel
 import com.shastkiv.vocab.ui.mainscreen.compose.components.AddWordCard
 import com.shastkiv.vocab.ui.mainscreen.compose.components.AllWordsCard
 import com.shastkiv.vocab.ui.mainscreen.compose.components.PracticeCard
-import com.shastkiv.vocab.ui.mainscreen.compose.components.RepetitionCard
+import com.shastkiv.vocab.ui.mainscreen.compose.components.QuizCard
+import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
 fun MainScreen(
@@ -42,7 +63,6 @@ fun MainScreen(
 
     MainScreenLayout(
         modifier = modifier,
-        reloadStatistic = { viewModel.reloadStatistics() },
         statisticsState = statisticsState,
         languageSettings = languageSettings,
         onSettingsClick = { navController.navigate(Screen.Settings.route) },
@@ -56,7 +76,6 @@ fun MainScreen(
 @Composable
 fun MainScreenLayout(
     modifier: Modifier,
-    reloadStatistic: () -> Unit,
     statisticsState: MainViewModel.StatisticsUiState,
     languageSettings: LanguageSettings,
     onSettingsClick: () -> Unit,
@@ -68,6 +87,7 @@ fun MainScreenLayout(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .systemBarsPadding()
             .verticalScroll(rememberScrollState())
     ) {
         MainScreenHeader(
@@ -80,11 +100,13 @@ fun MainScreenLayout(
             statisticsState.error != null -> {
                 ErrorContent(
                     error = statisticsState.error,
-                    onRetry = { reloadStatistic() }
+                    onRetry = { }
                 )
             }
             else -> MainContent(
                 totalWords = statisticsState.totalWordsCount,
+                notLearnedWords = statisticsState.notLearnedWordsCount,
+                todayWordsCount = statisticsState.todayWordsCount,
                 learnedPercentage = statisticsState.learnedPercentage,
                 onAddWordClick = onAddWordClick,
                 onRepetitionClick = onRepetitionClick,
@@ -119,12 +141,12 @@ private fun HeaderTitle(languageSettings: LanguageSettings) {
             Text(
                 text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.customColors.cardTitleText
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = "${languageSettings.sourceLanguage.flagEmoji} -> ${languageSettings.targetLanguage.flagEmoji}",
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.customColors.cardTitleText,
                 style = MaterialTheme.typography.headlineSmall
             )
         }
@@ -132,24 +154,35 @@ private fun HeaderTitle(languageSettings: LanguageSettings) {
         Text(
             text = stringResource(R.string.description_head_text),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+            color = MaterialTheme.customColors.cardDescriptionText
         )
     }
 }
 
 @Composable
 private fun SettingsButton(onClick: () -> Unit) {
-    Card(modifier = Modifier.size(64.dp)) {
-        IconButton(
-            onClick = onClick,
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Settings,
-                contentDescription = stringResource(R.string.settings_screen_title),
-                tint = MaterialTheme.colorScheme.primary
+    IconButton(
+        onClick = onClick ,
+        modifier = Modifier
+            .statusBarsPadding()
+            .size(64.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(
+                color = MaterialTheme.customColors.cardBackground,
+                shape = RoundedCornerShape(12.dp)
             )
-        }
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.customColors.cardBorder,
+                shape = RoundedCornerShape(12.dp)
+            )
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Settings,
+            contentDescription = "Switch to light mode",
+            tint = Color(0xFF5EEAD4),
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
 
@@ -168,66 +201,23 @@ private fun LoadingContent() {
 @Composable
 private fun MainContent(
     totalWords: Int,
+    notLearnedWords: Int,
+    todayWordsCount: Int,
     learnedPercentage: Int,
     onAddWordClick: () -> Unit,
     onRepetitionClick: () -> Unit,
     onAllWordsClick: () -> Unit,
     onPracticeClick: () -> Unit
 ) {
-    StatisticsCard(totalWords, learnedPercentage)
+    UserStatsCard(totalWords, notLearnedWords, todayWordsCount, learnedPercentage)
+
     ActionSection(
         title = stringResource(R.string.head_text),
         onAddWordClick = onAddWordClick,
         onRepetitionClick = onRepetitionClick,
-        onAllWordsClick = onAllWordsClick
-    )
-    PracticeSection(
-        title = stringResource(R.string.practice_mode),
+        onAllWordsClick = onAllWordsClick,
         onPracticeClick = onPracticeClick
     )
-}
-
-@Composable
-private fun StatisticsCard(totalWords: Int, learnedPercentage: Int) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        shape = MaterialTheme.shapes.large
-    ) {
-        Row(
-            modifier = Modifier.padding(24.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            StatItem(
-                label = stringResource(R.string.count_words),
-                value = totalWords.toString(),
-                modifier = Modifier.weight(1f)
-            )
-            StatItem(
-                label = stringResource(R.string.learned),
-                value = stringResource(R.string.percentage_format, learnedPercentage),
-                modifier = Modifier.weight(1f)
-            )
-        }
-    }
-}
-
-@Composable
-private fun StatItem(label: String, value: String, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        shape = MaterialTheme.shapes.medium,
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = label, style = MaterialTheme.typography.labelMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = value, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-        }
-    }
 }
 
 @Composable
@@ -235,31 +225,21 @@ private fun ActionSection(
     title: String,
     onAddWordClick: () -> Unit,
     onRepetitionClick: () -> Unit,
-    onAllWordsClick: () -> Unit
+    onAllWordsClick: () -> Unit,
+    onPracticeClick: () -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        SectionHeader(title = title)
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
-        ) {
-            AddWordCard(onClick = onAddWordClick, modifier = Modifier.padding(end = 16.dp))
-            RepetitionCard(onClick = onRepetitionClick, modifier = Modifier.padding(end = 16.dp))
-            AllWordsCard(onClick = onAllWordsClick)
-        }
-    }
-}
+    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
-@Composable
-private fun PracticeSection(title: String, onPracticeClick: () -> Unit) {
-    Column(modifier = Modifier.fillMaxWidth()) {
         SectionHeader(title = title)
-        Row(
+        Column (
             modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
         ) {
+            AddWordCard(onClick = onAddWordClick)
+            HorizontalDivider(modifier = Modifier.size(10.dp))
+            QuizCard(onClick = onRepetitionClick)
+            HorizontalDivider(modifier = Modifier.size(10.dp))
+            AllWordsCard(onClick = onAllWordsClick)
+            HorizontalDivider(modifier = Modifier.size(10.dp))
             PracticeCard(onClick = onPracticeClick)
         }
     }
@@ -299,7 +279,6 @@ fun MainScreenPreview() {
         onRepetitionClick = {},
         onAllWordsClick = {},
         onPracticeClick = {},
-        reloadStatistic = {},
         languageSettings = LanguageSettings(
             appLanguage = Language("uk", "Українська", "🇺🇦"),
             targetLanguage = Language("pl", "Polski", "🇵🇱"),
@@ -319,7 +298,6 @@ fun MainScreenLoadingPreview() {
         onRepetitionClick = {},
         onAllWordsClick = {},
         onPracticeClick = {},
-        reloadStatistic = {},
         languageSettings = LanguageSettings(
             appLanguage = Language("uk", "Українська", "🇺🇦"),
             targetLanguage = Language("uk", "Українська", "🇺🇦"),

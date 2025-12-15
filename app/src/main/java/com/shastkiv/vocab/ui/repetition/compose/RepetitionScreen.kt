@@ -1,20 +1,26 @@
 package com.shastkiv.vocab.ui.repetition.compose
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.DailyStatistic
 import com.shastkiv.vocab.domain.model.Word
@@ -22,6 +28,7 @@ import com.shastkiv.vocab.ui.common.compose.ErrorContent
 import com.shastkiv.vocab.ui.repetition.RepetitionEvent
 import com.shastkiv.vocab.ui.repetition.state.RepetitionUiState
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
+import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
 fun RepetitionScreen(
@@ -30,27 +37,30 @@ fun RepetitionScreen(
     onBackPressed: () -> Unit
 ) {
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .systemBarsPadding()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onBackPressed, modifier = Modifier.size(48.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_left_chevron),
-                    contentDescription = stringResource(R.string.back_button_description),
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.ChevronLeft,
+                contentDescription = "Navigate",
+                tint = MaterialTheme.customColors.cardTitleText,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clickable { onBackPressed() }
+            )
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
                 text = stringResource(R.string.repeat_mode),
                 style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.customColors.cardTitleText
             )
         }
 

@@ -2,11 +2,14 @@ package com.shastkiv.vocab.data.repository
 
 import com.shastkiv.vocab.data.local.dao.WordDao
 import com.shastkiv.vocab.domain.model.Word
-import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.domain.model.enums.WordType
 import com.shastkiv.vocab.domain.repository.WordRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 class WordRepositoryImpl @Inject constructor(
@@ -43,17 +46,9 @@ class WordRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getWordCount(): Int {
-        return withContext(Dispatchers.IO) {
-            wordDao.getWordCount()
-        }
-    }
+    override fun getWordCount(): Flow<Int> = wordDao.getWordCount().flowOn(Dispatchers.IO)
 
-    override suspend fun getLearnedWordsCount(): Int {
-        return withContext(Dispatchers.IO) {
-            wordDao.getLearnedWordsCount()
-        }
-    }
+    override fun getLearnedWordsCount(): Flow<Int> = wordDao.getLearnedWordsCount().flowOn(Dispatchers.IO)
 
     override suspend fun updateScore(id: Int, correctCount: Int, wrongCount: Int) {
         withContext(Dispatchers.IO) {
@@ -122,5 +117,24 @@ class WordRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             wordDao.updateToUserDictionary(wordId, true, wordType)
         }
+    }
+
+    override fun getWordsNeedingRepetition(): Flow<Int> = wordDao.getWordsNeedingRepetition().flowOn(Dispatchers.IO)
+
+    override fun getWordsAddedBetween(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): Flow<List<Word>> {
+        val startMillis = startDate
+            .atZone(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli()
+
+        val endMillis = endDate
+            .atZone(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli()
+
+        return wordDao.getWordsAddedBetween(startMillis, endMillis).flowOn(Dispatchers.IO)
     }
 }

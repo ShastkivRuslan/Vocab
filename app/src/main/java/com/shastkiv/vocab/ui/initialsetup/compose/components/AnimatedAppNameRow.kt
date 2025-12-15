@@ -67,12 +67,12 @@ fun AnimatedAppNameRow() {
                     )
                 ) + fadeIn(
                     animationSpec = tween(
-                        durationMillis = 700,  // Збільшено з 500 до 700
+                        durationMillis = 700,
                         delayMillis = index * 60,
-                        easing = FastOutSlowInEasing  // Додано easing для плавності
+                        easing = FastOutSlowInEasing
                     )
                 ) + scaleIn(
-                    initialScale = 0.5f,  // Змінено з 0.3f на 0.5f для плавнішого масштабування
+                    initialScale = 0.5f,
                     animationSpec = tween(
                         durationMillis = 500,
                         delayMillis = index * 60,
@@ -84,7 +84,7 @@ fun AnimatedAppNameRow() {
                     text = char.toString(),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.displayLarge.copy(
                         shadow = Shadow(
                             color = Color.Black.copy(alpha = 0.25f),
@@ -109,7 +109,7 @@ fun AnimatedAppNameRow() {
                 )
             ) + fadeIn(
                 animationSpec = tween(
-                    durationMillis = 600,  // Збільшено для плавності
+                    durationMillis = 600,
                     delayMillis = appName.length * 80 + 200,
                     easing = FastOutSlowInEasing
                 )

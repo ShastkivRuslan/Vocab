@@ -26,7 +26,7 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.shastkiv.vocab.ui.addword.shared.AddWordViewModel
 import com.shastkiv.vocab.ui.addword.overlay.compose.AddWordDialog
 import com.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
-import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
+import com.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
 import com.shastkiv.vocab.ui.theme.VocabAppCoreTheme
 import kotlinx.coroutines.delay
 

@@ -104,7 +104,8 @@ fun InterfaceLanguageContent(
             } else {
                 Text(
                     text = stringResource(R.string.continue_button),
-                    fontSize = 18.sp
+                    fontSize = 18.sp,
+
                 )
             }
         }

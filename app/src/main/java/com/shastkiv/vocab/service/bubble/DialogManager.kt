@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.shastkiv.vocab.ui.addword.overlay.DialogViewManager
 import com.shastkiv.vocab.ui.addword.shared.AddWordViewModel
-import com.shastkiv.vocab.ui.lifecycle.OverlayLifecycleOwner
+import com.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
 import javax.inject.Inject
 import javax.inject.Singleton
 

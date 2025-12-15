@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
 import com.shastkiv.vocab.domain.model.WordData
-import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.domain.model.enums.WordType
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.ThemeRepository
 import com.shastkiv.vocab.domain.usecase.AddWordToDictionaryUseCase
@@ -43,7 +43,7 @@ class AddWordViewModel @AssistedInject constructor(
     private val ttsManager: TTSManager,
     private val languageRepository: LanguageRepository,
     private val translateUseCase: TranslateUseCase,
-    private val themeRepository: ThemeRepository
+    themeRepository: ThemeRepository
 ) : ViewModel() {
 
     @AssistedFactory

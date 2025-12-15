@@ -51,15 +51,12 @@ fun TranslationLanguagesContent(
     var targetLanguage by remember { mutableStateOf(AvailableLanguages.DEFAULT_UKRAINIAN) }
     var showValidationError by remember { mutableStateOf(false) }
 
-    // Show validation error when languages are the same
     LaunchedEffect(sourceLanguage, targetLanguage) {
         showValidationError = sourceLanguage.code == targetLanguage.code
     }
 
-    // Clear error when dismissed
     LaunchedEffect(error) {
         if (error != null) {
-            // Auto-dismiss error after 3 seconds
             kotlinx.coroutines.delay(3000)
             onErrorDismissed()
         }

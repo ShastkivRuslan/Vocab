@@ -1,6 +1,7 @@
 package com.shastkiv.vocab.ui.repetition.compose.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.shastkiv.vocab.ui.theme.GreenSuccess
 import com.shastkiv.vocab.ui.theme.RedError
+import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
 fun AnswerOptions(
@@ -39,13 +39,6 @@ fun AnswerOptions(
             val isSelected = selectedAnswerIndex == index
             val isCorrect = correctAnswerIndex == index
 
-            val backgroundColor = when {
-                isSelected && isAnswerCorrect == false -> RedError.copy(alpha = 0.2f)
-                isSelected && isAnswerCorrect == true -> GreenSuccess.copy(alpha = 0.2f)
-                isAnswerCorrect == true -> GreenSuccess.copy(alpha = 0.2f)
-                else -> MaterialTheme.colorScheme.surfaceVariant
-            }
-
             val numberBackgroundColor = when {
                 isSelected && isAnswerCorrect == false -> RedError
                 isSelected && isAnswerCorrect == true -> GreenSuccess
@@ -54,14 +47,23 @@ fun AnswerOptions(
             }
 
 
-            Card(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(MaterialTheme.shapes.medium)
+                    .background(
+                        color = MaterialTheme.customColors.cardBackground,
+                        shape = MaterialTheme.shapes.medium
+                    )
                     .clickable(enabled = selectedAnswerIndex == null) {
                         onAnswerClick(index)
-                    },
-                colors = CardDefaults.cardColors(containerColor = backgroundColor),
+                    }
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.customColors.cardBorder,
+                        shape = MaterialTheme.shapes.medium
+                    ),
+
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -80,6 +82,7 @@ fun AnswerOptions(
                     Text(
                         text = text,
                         style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.customColors.cardTitleText,
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }

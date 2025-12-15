@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shastkiv.vocab.R
 import com.shastkiv.vocab.di.IoDispatcher
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
@@ -17,21 +16,23 @@ import com.shastkiv.vocab.domain.model.UiError
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.ThemeRepository
 import com.shastkiv.vocab.domain.repository.WordRepository
-import com.shastkiv.vocab.utils.mapThrowableToUiError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.concurrent.CancellationException
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 enum class ServiceType {
     NOTIFICATION, BUBBLE
@@ -69,28 +70,25 @@ class MainViewModel @Inject constructor(
 
     data class StatisticsUiState(
         val totalWordsCount: Int = 0,
+        val notLearnedWordsCount: Int = 0,
+        val todayWordsCount: Int = 0,
         val learnedPercentage: Int = 0,
         val isLoading: Boolean = true,
         val error: UiError? = null
     )
 
-    private val _statisticsState = MutableStateFlow(StatisticsUiState())
-    val statisticsState: StateFlow<StatisticsUiState> = _statisticsState.asStateFlow()
-
     private val _effect = Channel<MainScreenEffect>(Channel.BUFFERED)
     val effect = _effect.receiveAsFlow()
 
     init {
-        loadStatistics()
+        startServicesIfPermissionsGranted()
     }
 
     fun onResume() {
-        loadStatistics()
         startServicesIfPermissionsGranted()
     }
 
     private fun startServicesIfPermissionsGranted() = viewModelScope.launch(ioDispatcher) {
-
         val hasNotificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 context,
@@ -114,33 +112,44 @@ class MainViewModel @Inject constructor(
         _effect.send(effectToSend)
     }
 
-    fun loadStatistics() = viewModelScope.launch(ioDispatcher) {
-        _statisticsState.update { it.copy(isLoading = true, error = null) }
-        try {
-            val total = wordRepository.getWordCount()
-            val learned = wordRepository.getLearnedWordsCount()
-            val percentage = if (total > 0) (learned * 100) / total else 0
-            _statisticsState.update {
-                it.copy(
-                    totalWordsCount = total,
-                    learnedPercentage = percentage,
-                    isLoading = false
-                )
-            }
-        } catch (e: Exception) {
-            if (e is CancellationException) throw e
-            _statisticsState.update {
-                it.copy(
-                    isLoading = false,
-                    error = mapThrowableToUiError(e)
-                )
-            }
-        }
+    private fun calculateWordsForTodayFlow(): Flow<Int> {
+        val now = ZonedDateTime.now(ZoneId.systemDefault())
+        val startOfTodayZoned = now
+            .toLocalDate()
+            .atStartOfDay(ZoneId.systemDefault())
+
+        val startDate: LocalDateTime = startOfTodayZoned.toLocalDateTime()
+        val endDate: LocalDateTime = now.toLocalDateTime()
+
+        return wordRepository.getWordsAddedBetween(startDate, endDate)
+            .map { it.size }
     }
 
-    fun reloadStatistics() {
-        loadStatistics()
-    }
+    val statisticsState: StateFlow<StatisticsUiState> = combine(
+        wordRepository.getWordCount(),
+        wordRepository.getLearnedWordsCount(),
+        wordRepository.getWordsNeedingRepetition(),
+        calculateWordsForTodayFlow()
+    ) { totalWords, learnedWords, notLearnedWords, todayWordsCount ->
+
+        val percentage: Int = if (totalWords > 0) {
+            ((learnedWords.toDouble() / totalWords) * 100).roundToInt()
+        } else {
+            0
+        }
+
+        StatisticsUiState(
+            totalWordsCount = totalWords,
+            learnedPercentage = percentage,
+            todayWordsCount = todayWordsCount,
+            notLearnedWordsCount = notLearnedWords,
+            isLoading = false
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = StatisticsUiState(isLoading = true)
+    )
 
     override fun onCleared() {
         super.onCleared()
