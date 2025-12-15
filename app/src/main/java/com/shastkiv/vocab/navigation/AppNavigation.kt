@@ -8,21 +8,22 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,9 +34,10 @@ import com.shastkiv.vocab.ui.SplashScreen
 import com.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
 import com.shastkiv.vocab.ui.allwords.AllWordsScreen
 import com.shastkiv.vocab.ui.initialsetup.AppStartViewModel
+import com.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
+import com.shastkiv.vocab.ui.initialsetup.compose.InitialSetupScreen
 import com.shastkiv.vocab.ui.mainscreen.MainViewModel
 import com.shastkiv.vocab.ui.mainscreen.compose.MainScreen
-import com.shastkiv.vocab.ui.initialsetup.compose.InitialSetupScreen
 import com.shastkiv.vocab.ui.practice.compose.PracticeScreen
 import com.shastkiv.vocab.ui.repetition.RepetitionViewModel
 import com.shastkiv.vocab.ui.repetition.compose.RepetitionScreen
@@ -47,9 +49,9 @@ import com.shastkiv.vocab.ui.settings.language.compose.LanguageSettingsScreen
 import com.shastkiv.vocab.ui.settings.main.SettingsViewModel
 import com.shastkiv.vocab.ui.settings.main.compose.SettingsScreen
 import com.shastkiv.vocab.ui.settings.main.compose.ThemeSelectionBottomSheet
-import com.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
 import com.shastkiv.vocab.ui.settings.notification.NotificationSettingsScreen
 import com.shastkiv.vocab.ui.settings.notification.NotificationSettingsViewModel
+import com.shastkiv.vocab.ui.theme.appGradientColors
 import kotlinx.coroutines.delay
 
 private const val NAVIGATION_ANIMATION_DURATION = 400
@@ -59,22 +61,32 @@ private const val SPLASH_SCREEN_DURATION = 1300L
 @Composable
 fun AppNavigation(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
+    val gradientColors = MaterialTheme.appGradientColors
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        gradientColors.color1,
+                        gradientColors.color2,
+                        gradientColors.color3
+                    )
+                )
+            )
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
+                .fillMaxSize()
                 .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.primary,
-                            MaterialTheme.colorScheme.background
-                        )
+                    brush = Brush.radialGradient(
+                        colors =
+                            listOf(
+                                gradientColors.color4,
+                                Color.Transparent
+                            ),
+                        radius = 800f
                     )
                 )
         )

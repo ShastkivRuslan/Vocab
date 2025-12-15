@@ -1,25 +1,53 @@
 package com.shastkiv.vocab.ui.allwords
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Sort
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -29,7 +57,7 @@ import com.shastkiv.vocab.domain.model.AvailableLanguages.findByCode
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.Word
 import com.shastkiv.vocab.domain.model.WordData
-import com.shastkiv.vocab.domain.model.WordType
+import com.shastkiv.vocab.domain.model.enums.WordType
 import com.shastkiv.vocab.ui.addword.compose.components.common.ProBadge
 import com.shastkiv.vocab.ui.allwords.compose.components.ExamplesItem
 import com.shastkiv.vocab.ui.allwords.compose.components.InfoItem
@@ -37,6 +65,7 @@ import com.shastkiv.vocab.ui.allwords.compose.components.MainInfoItem
 import com.shastkiv.vocab.ui.allwords.compose.state.AllWordsUiState
 import com.shastkiv.vocab.ui.common.compose.ErrorContent
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
+import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
 fun AllWordsScreen(
@@ -85,24 +114,27 @@ fun AllWordsContent(
     onWordClick: (Word) -> Unit,
     onBackPressed: () -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .systemBarsPadding()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onBackPressed) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.ChevronLeft,
+                contentDescription = "Navigate",
+                tint = MaterialTheme.customColors.cardTitleText,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clickable { onBackPressed() }
+            )
             Text(
                 text = "Мій словник",
                 style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.customColors.cardTitleText,
                 modifier = Modifier.weight(1f)
             )
             if (uiState is AllWordsUiState.Success) {
@@ -202,12 +234,22 @@ fun WordItem(
     isPro: Boolean,
     onClick: () -> Unit
 ) {
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .animateContentSize(),
-        onClick = onClick,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            //.padding(top = 24.dp)
+            .clip(MaterialTheme.shapes.medium)
+            .background(
+                color = MaterialTheme.customColors.cardBackground,
+                shape = MaterialTheme.shapes.medium
+            )
+            .clickable { onClick() }
+            .animateContentSize()
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.customColors.cardBorder,
+                shape = MaterialTheme.shapes.medium
+            )
     ) {
         Column(
             modifier = Modifier
@@ -221,7 +263,8 @@ fun WordItem(
                 Text(
                     text = "${word.sourceWord}  ${findByCode(word.sourceLanguageCode).flagEmoji}",
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.customColors.cardTitleText
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -337,7 +380,7 @@ fun SortMenu(
     Box {
         IconButton(onClick = { expanded = true }) {
             Icon(
-                imageVector = Icons.Default.Sort,
+                imageVector = Icons.AutoMirrored.Filled.Sort,
                 contentDescription = "Sort words",
                 tint = MaterialTheme.colorScheme.onPrimary
             )

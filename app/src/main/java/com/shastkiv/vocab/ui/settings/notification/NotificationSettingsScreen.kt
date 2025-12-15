@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.ui.settings.language.compose
+package com.shastkiv.vocab.ui.settings.notification
 
 import SettingItem
 import androidx.compose.foundation.background
@@ -24,24 +24,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.R
-import com.shastkiv.vocab.domain.model.Language
-import com.shastkiv.vocab.domain.model.LanguageSettings
-import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
 import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
-fun LanguageSettingsScreen(
-    currentSettings: LanguageSettings,
+fun NotificationSettingsScreen(
+    onEchoClick: () -> Unit,
     onBackPressed: () -> Unit,
-    onAppLanguageClick: () -> Unit,
-    onTargetLanguageClick: () -> Unit,
-    onSourceLanguageClick: () -> Unit
+    onGentleClick: () -> Unit,
+    onSuccessClick: () -> Unit,
+    onStreakClick: () -> Unit
 ) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,18 +59,20 @@ fun LanguageSettingsScreen(
                     .clickable { onBackPressed() }
             )
             Text(
-                text = stringResource(R.string.language_settings),
-                fontSize = 32.sp,
-                color = MaterialTheme.customColors.cardTitleText,
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
+                text = "Сповіщення",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.customColors.cardTitleText
             )
         }
 
         Text(
             modifier = Modifier.padding(start = 26.dp),
-            text = stringResource(R.string.language_settings_description),
+            text = "Тестування сповіщень",
             color = MaterialTheme.customColors.cardDescriptionText,
-            fontSize = 16.sp
+            style = MaterialTheme.typography.bodyLarge
         )
 
         Box(
@@ -94,48 +92,63 @@ fun LanguageSettingsScreen(
         ) {
             Column(modifier = Modifier.padding(10.dp)) {
                 SettingItem(
-                    title = stringResource(R.string.ui_language),
-                    description = "${currentSettings.appLanguage.flagEmoji} ${currentSettings.appLanguage.name}",
-                    iconRes = R.drawable.ic_ui_language,
-                    onClick = onAppLanguageClick
+                    title = "Word Echo",
+                    description = "Показати слово для повторення",
+                    iconRes = R.drawable.ic_theme,
+                    onClick = { onEchoClick() }
                 )
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                SettingItem(
-                    title = stringResource(R.string.target_language),
-                    description = "${currentSettings.targetLanguage.flagEmoji} ${currentSettings.targetLanguage.name}",
-                    iconRes = R.drawable.ic_language,
-                    onClick = onTargetLanguageClick
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
                 )
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
                 SettingItem(
-                    title = stringResource(R.string.source_language),
-                    description = "${currentSettings.sourceLanguage.flagEmoji} ${currentSettings.sourceLanguage.name}",
+                    title = "Gentle Nudge",
+                    description = "М'яке нагадування",
                     iconRes = R.drawable.ic_language,
-                    onClick = onSourceLanguageClick
+                    onClick = { onGentleClick() }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+                )
+
+                SettingItem(
+                    title = "Success Moment",
+                    description = "Святкування успіху",
+                    iconRes = R.drawable.ic_add_floating,
+                    onClick = { onSuccessClick() }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+                )
+
+                SettingItem(
+                    title = "Streak Keeper",
+                    description = "Нагадування про серію",
+                    iconRes = R.drawable.ic_about_us,
+                    onClick = { onStreakClick() }
                 )
             }
         }
     }
 }
-@Preview()
+
+@Preview
 @Composable
-fun LanguageSettingsScreenPreview() {
-    val mockUkrainian = Language(code = "uk", name = "Українська", flagEmoji = "🇺🇦")
-    val mockEnglish = Language(code = "en", name = "English", flagEmoji = "🇬🇧")
-
-    val mockSettings = LanguageSettings(
-        appLanguage = mockUkrainian,
-        targetLanguage = mockUkrainian,
-        sourceLanguage = mockEnglish
+private fun Preview() {
+    NotificationSettingsScreen(
+        onEchoClick = {},
+        onBackPressed = {},
+        onSuccessClick = {},
+        onGentleClick = {},
+        onStreakClick = {}
     )
-
-    LearnWordsTrainerTheme {
-        LanguageSettingsScreen(
-            currentSettings = mockSettings,
-            onBackPressed = {},
-            onAppLanguageClick = {},
-            onTargetLanguageClick = {},
-            onSourceLanguageClick = {}
-        )
-    }
 }

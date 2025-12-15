@@ -1,9 +1,12 @@
 package com.shastkiv.vocab.ui.addword.compose.components.sections
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -11,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.Example
 import com.shastkiv.vocab.ui.addword.compose.components.common.ExpandableCard
+import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
 fun ExamplesSection(
@@ -44,11 +48,20 @@ private fun ExamplesContent(examples: List<Example>) {
 
 @Composable
 fun ExampleCard(example: Example) {
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+            .clip(MaterialTheme.shapes.medium)
+            .padding(vertical = 4.dp)
+            .background(
+                color = MaterialTheme.customColors.cardBackground,
+                shape = MaterialTheme.shapes.medium
+            )
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.customColors.cardBorder,
+                shape = MaterialTheme.shapes.medium
+            )
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
