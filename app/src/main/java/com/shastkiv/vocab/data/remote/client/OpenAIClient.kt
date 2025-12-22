@@ -1,5 +1,6 @@
 package com.shastkiv.vocab.data.remote.client
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.shastkiv.vocab.BuildConfig
 import com.shastkiv.vocab.data.remote.api.OpenAIAPI
 import com.shastkiv.vocab.data.remote.dto.ChatCompletionRequest
@@ -9,7 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 class OpenAIClient @Inject constructor(
-    private val openAiApi: OpenAIAPI
+    private val openAiApi: OpenAIAPI,
+    private val remoteConfig: FirebaseRemoteConfig
 ) {
     suspend fun fetchWordInfo(
         word: String,
@@ -17,7 +19,11 @@ class OpenAIClient @Inject constructor(
         targetLanguageName: String
     ): Result<WordData> {
         val request = createChatCompletionRequest(word, sourceLanguageName, targetLanguageName)
-        val authHeader = "Bearer ${BuildConfig.API_KEY}"
+
+        val remoteKey = remoteConfig.getString("openai_api_key")
+        val apiKey = remoteKey.ifBlank { /*BuildConfig.API_KEY*/ }
+
+        val authHeader = "Bearer $apiKey"
 
         return try {
             val response = openAiApi.getChatCompletion(authHeader, request)

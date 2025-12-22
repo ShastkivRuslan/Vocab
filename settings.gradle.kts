@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "LearnWordsTrainer"
+rootProject.name = "Vocab+"
 include(":app")
  

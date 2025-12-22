@@ -5,11 +5,17 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.shastkiv.vocab.data.local.dao.DailyStatisticDao
 import com.shastkiv.vocab.data.local.dao.WordDao
 import com.shastkiv.vocab.data.local.db.WordDatabase
 import com.shastkiv.vocab.data.remote.api.OpenAIAPI
 import com.google.gson.Gson
+import com.shastkiv.vocab.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +36,25 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
+        val remoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = if (BuildConfig.DEBUG) 0 else 3600
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+
+        val defaults = mapOf(
+            "openai_api_key" to ""
+        )
+        remoteConfig.setDefaultsAsync(defaults)
+
+        remoteConfig.fetchAndActivate()
+
+        return remoteConfig
+    }
+
+    @Provides
+    @Singleton
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return context.dataStore
     }
@@ -43,6 +68,12 @@ object AppModule {
             "words.db"
         )
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
+        return FirebaseAnalytics.getInstance(context)
     }
 
     @Provides

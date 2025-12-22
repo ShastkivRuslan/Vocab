@@ -23,13 +23,13 @@ val apiSystemPrompt: String = localProperties.getProperty("openai.system.prompt"
 
 android {
     namespace = "com.shastkiv.vocab"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.shastkiv.vocab"
         minSdk = 29
-        targetSdk = 34
-        versionCode = 1
+        targetSdk = 35
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -88,6 +88,7 @@ dependencies {
     implementation("androidx.compose.animation:animation-core:1.6.8")
 
     implementation("androidx.work:work-runtime-ktx:2.10.4")
+    implementation("com.google.firebase:firebase-config-ktx:22.1.2")
 
     implementation("androidx.hilt:hilt-work:1.2.0")
     implementation(libs.glance.preview)

@@ -4,13 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shastkiv.vocab.domain.model.AvailableLanguages
 import com.shastkiv.vocab.domain.model.Language
-import com.shastkiv.vocab.domain.repository.LanguageRepository
-import com.shastkiv.vocab.domain.repository.SettingsRepository
 import com.shastkiv.vocab.domain.usecase.CompleteInitialSetupUseCase
 import com.shastkiv.vocab.domain.usecase.GetAppLanguageUseCase
 import com.shastkiv.vocab.domain.usecase.SaveAppLanguageUseCase
-import com.shastkiv.vocab.domain.usecase.SaveNotificationPermissionDismissedUseCase
-import com.shastkiv.vocab.domain.usecase.SaveOverlayPermissionDismissedUseCase
 import com.shastkiv.vocab.domain.usecase.SaveTranslationLanguagesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

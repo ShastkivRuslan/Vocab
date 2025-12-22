@@ -1,9 +1,11 @@
 package com.shastkiv.vocab.ui.addword.shared
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
 import com.shastkiv.vocab.domain.model.WordData
@@ -43,6 +45,7 @@ class AddWordViewModel @AssistedInject constructor(
     private val ttsManager: TTSManager,
     private val languageRepository: LanguageRepository,
     private val translateUseCase: TranslateUseCase,
+    private val analytics: FirebaseAnalytics,
     themeRepository: ThemeRepository
 ) : ViewModel() {
 
@@ -103,6 +106,12 @@ class AddWordViewModel @AssistedInject constructor(
     fun onCheckWord() {
         val word = _inputWord.value.text
         if (word.isBlank()) return
+
+        val bundle = Bundle().apply {
+            putString("word_value", word)
+        }
+        analytics.logEvent("ai_word_search", bundle)
+
 
         viewModelScope.launch {
             _uiState.value = AddWordUiState.Loading
