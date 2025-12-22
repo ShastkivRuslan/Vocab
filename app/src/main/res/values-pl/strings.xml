@@ -298,4 +298,10 @@
     <string name="practice_now">Ćwicz teraz</string>
     <string name="words_to_learn">Słowa do nauczenia</string>
     <string name="added_today">Dodano dziś</string>
+
+    <string name="popup_channel_title">Vocab+ Reminders</string>
+    <string name="popup_channel_description">Important reminders and word echoes</string>
+    <string name="service_channel_title">Vocab+ Background Service</string>
+    <string name="service_channel_description">Keeps app running in background</string>
+
 </resources>
