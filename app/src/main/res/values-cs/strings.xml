@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Error titles -->
     <string name="error_network_title">Žádné připojení</string>
     <string name="error_timeout_title">Čas vypršel</string>
     <string name="error_not_found_title">Nenalezeno</string>
@@ -9,7 +8,6 @@
     <string name="error_parsing_title">Chyba zpracování</string>
     <string name="error_unknown_title">Něco se pokazilo</string>
 
-    <!-- Error descriptions -->
     <string name="error_network_description">Zkontrolujte připojení k internetu</string>
     <string name="error_timeout_description">Server neodpovídá. Zkuste to později</string>
     <string name="error_not_found_description">Nepodařilo se najít informace</string>
@@ -18,7 +16,6 @@
     <string name="error_parsing_description">Nepodařilo se zpracovat přijatá data</string>
     <string name="error_unknown_description">Zkuste to znovu</string>
 
-    <!-- Actions -->
     <string name="try_again">Opakovat</string>
 
     <string name="app_name">Vocab.</string>
@@ -66,9 +63,11 @@
     <string name="word_added_successfully">Slovo bylo úspěšně přidáno</string>
     <string name="cancel">Zrušit</string>
     <string name="add">Přidat</string>
-    <string name="enable_quick_add_bubble">Povolit plovoucí tlačítko</string>
-    <string name="enable_quick_add_bubble_summary">Zobrazit tlačítko rychlého přidávání nad jinými aplikacemi</string>
-    <string name="close_bubble">Zavřít bublinu</string>
+
+    <string name="enable_quick_add_bubble">Povolit Vocab+ Tlačítko</string>
+    <string name="enable_quick_add_bubble_summary">Zobrazit Vocab+ Tlačítko rychlého přidávání nad jinými aplikacemi</string>
+    <string name="close_bubble">Zavřít Vocab+ Tlačítko</string>
+
     <string name="search_word">Skenovat slovo</string>
     <string name="write_manually">Napsat ručně</string>
     <string name="percentage_format">%1$d%%</string>
@@ -99,34 +98,35 @@
     <string name="current_language">Vyberte jazyk aplikace</string>
     <string name="notifications">Oznámení</string>
     <string name="notifications_description">Spravujte oznámení z aplikace</string>
-    <string name="floating_add">Plovoucí tlačítko</string>
-    <string name="floating_add_description">Spravujte plovoucí tlačítko</string>
+    <string name="floating_add">Vocab+ Tlačítko</string>
+    <string name="floating_add_description">Spravujte Vocab+ Tlačítko</string>
     <string name="about_us">O nás</string>
     <string name="about_us_description">Právní informace</string>
-    <string name="size_of_bubble">Velikost plovoucího tlačítka</string>
-    <string name="bubble_settings_title">Plovoucí tlačítko</string>
-    <string name="bubble_settings_description">Přizpůsobte si plovoucí tlačítko</string>
-    <string name="bubble_settings_toggle">Plovoucí tlačítko</string>
-    <string name="bubble_settings_toggle_description">Zapněte nebo vypněte plovoucí tlačítko</string>
-    <string name="bubble_settings_size">Velikost plovoucího tlačítka</string>
+
+    <string name="size_of_bubble">Velikost Vocab+ Tlačítka</string>
+    <string name="bubble_settings_title">Vocab+ Tlačítko</string>
+    <string name="bubble_settings_description">Přizpůsobte si Vocab+ Tlačítko</string>
+    <string name="bubble_settings_toggle">Vocab+ Tlačítko</string>
+    <string name="bubble_settings_toggle_description">Zapněte nebo vypněte Vocab+ Tlačítko</string>
+    <string name="bubble_settings_size">Velikost Vocab+ Tlačítka</string>
     <string name="bubble_settings_size_description">Vyberte velikost, která vám vyhovuje</string>
     <string name="bubble_settings_transparency">Průhlednost tlačítka</string>
-    <string name="bubble_settings_transparency_description">Nastavte průhlednost plovoucího tlačítka</string>
+    <string name="bubble_settings_transparency_description">Nastavte průhlednost Vocab+ Tlačítka</string>
     <string name="bubble_settings_vibration">Vibrace při doteku</string>
-    <string name="bubble_settings_vibration_description">Vibrace při stisknutí bubliny</string>
+    <string name="bubble_settings_vibration_description">Vibrace při stisknutí Vocab+ Tlačítka</string>
     <string name="bubble_settings_auto_hide">Automatické skrývání</string>
     <string name="bubble_settings_autoHide_description">Automatické skrývání ve vybraných aplikacích</string>
-    <string name="bubble_settings_about">O bublině</string>
-    <string name="bubble_settings_about_description">Užitečné informace o plovoucím tlačítku</string>
+    <string name="bubble_settings_about">O Vocab+ Tlačítku</string>
+    <string name="bubble_settings_about_description">Užitečné informace o Vocab+ Tlačítku</string>
     <string name="stop">Zastavit</string>
     <string name="bubble_service_channel_name">Systémové oznámení</string>
-    <string name="bubble_service_channel_description">Systémové oznámení, které neumožňuje systému Android zastavit službu plovoucího tlačítka</string>
-    <string name="bubble_active">Vocab. Quick aktivní</string>
-    <string name="bubble_paused">Vocab. Quick pozastaveno</string>
+    <string name="bubble_service_channel_description">Systémové oznámení, které neumožňuje systému Android zastavit službu Vocab+ Tlačítka</string>
+    <string name="bubble_active">Vocab+ Tlačítko aktivní</string>
+    <string name="bubble_paused">Vocab+ Tlačítko pozastaveno</string>
     <string name="add_to_dictionary">Co je to za slovo?</string>
-    <string name="request_notification_permission_dialog_text">Oznámení jsou důležitou částí funkčnosti plovoucího tlačítka. Když systém vidí aktivní oznámení z naší aplikace, nezastaví její provoz kvůli optimalizaci, což umožňuje tlačítku fungovat stabilně a bez přerušení. Toto povolení je také potřebné pro odesílání užitečných připomínek o učení a intervalových opakováních.</string>
+    <string name="request_notification_permission_dialog_text">Oznámení jsou důležitou částí funkčnosti Vocab+ Tlačítka. Když systém vidí aktivní oznámení z naší aplikace, nezastaví její provoz kvůli optimalizaci, což umožňuje tlačítku fungovat stabilně a bez přerušení. Toto povolení je také potřebné pro odesílání užitečných připomínek o učení a intervalových opakováních.</string>
     <string name="request_notification_permission_dialog_title">Povolení pro oznámení</string>
-    <string name="request_overlay_permission_dialog_text">Toto povolení umožňuje zobrazit hlavní funkci aplikace — plovoucí tlačítko pro rychlé přidávání slov. Vzhled tlačítka lze flexibilně přizpůsobit, aby bylo co nejpohodlnější a nejméně nápadné. Vždy jej můžete dočasně vypnout nebo změnit další parametry v nastavení. **Po kliknutí na \"Pokračovat\" se otevře seznam aplikací, kde musíte najít Vocab. a ručně udělit povolení.**</string>
+    <string name="request_overlay_permission_dialog_text">Toto povolení umožňuje zobrazit hlavní funkci aplikace — Vocab+ Tlačítko pro rychlé přidávání slov. Vzhled tlačítka lze flexibilně přizpůsobit, aby bylo co nejpohodlnější a nejméně nápadné. Vždy jej můžete dočasně vypnout nebo změnit další parametry v nastavení. **Po kliknutí na \"Pokračovat\" se otevře seznam aplikací, kde musíte najít Vocab. a ručně udělit povolení.**</string>
     <string name="request_overlay_permission_dialog_title">Povolení k zobrazení nad ostatními aplikacemi</string>
     <string name="language_settings">Nastavení jazyka</string>
     <string name="language_settings_description">Vyberte jazyky pro aplikaci a překlad</string>
@@ -140,26 +140,26 @@
     <string name="settings_item_theme_title">Téma</string>
     <string name="settings_item_theme_description">Vyberte téma aplikace</string>
     <string name="settings_item_language_title">Jazyk</string>
-    <string name="settings_item_language_description">Změnit jazyk aplikace a překladu</string>
+    <string name="settings_item_language_description">Změnit jazyк aplikace a překladu</string>
     <string name="settings_item_notifications_title">Oznámení</string>
     <string name="settings_item_notifications_description">Správa oznámení</string>
-    <string name="settings_item_bubble_title">Plovoucí tlačítko</string>
+    <string name="settings_item_bubble_title">Vocab+ Tlačítko</string>
     <string name="settings_item_bubble_description">Nastavení rychlého přidávání</string>
     <string name="settings_item_about_title">O aplikaci</string>
     <string name="settings_item_about_description">Informace o aplikaci</string>
-    <string name="bubble_settings_screen_title">Nastavení bubliny</string>
-    <string name="bubble_settings_screen_subtitle">Přizpůsobte si plovoucí bublinu</string>
-    <string name="bubble_enable_title">Plovoucí bublina</string>
+    <string name="bubble_settings_screen_title">Nastavení Vocab+ Tlačítka</string>
+    <string name="bubble_settings_screen_subtitle">Přizpůsobte si Vocab+ Tlačítko</string>
+    <string name="bubble_enable_title">Vocab+ Tlačítko</string>
     <string name="bubble_enable_description">Zapnout pro rychlý přístup</string>
-    <string name="bubble_size_title">Velikost bubliny</string>
-    <string name="bubble_size_description">Upravte velikost bubliny</string>
+    <string name="bubble_size_title">Velikost Vocab+ Tlačítka</string>
+    <string name="bubble_size_description">Upravte velikost Vocab+ Tlačítka</string>
     <string name="bubble_transparency_title">Průhlednost</string>
-    <string name="bubble_transparency_description">Upravte průhlednost bubliny</string>
+    <string name="bubble_transparency_description">Upravte průhlednost Vocab+ Tlačítka</string>
     <string name="bubble_vibration_title">Vibrace</string>
     <string name="bubble_vibration_description">Zapnout vibrace při doteku</string>
     <string name="bubble_autohide_title">Automatické skrývání</string>
     <string name="bubble_autohide_description">Nakonfigurujte automatické skrývání</string>
-    <string name="bubble_about_title">O bublině</string>
+    <string name="bubble_about_title">O Vocab+ Tlačítku</string>
     <string name="bubble_about_description">Informace o funkci</string>
 
     <string name="theme_selection_dialog_title">Vyberte téma aplikace</string>
@@ -171,7 +171,7 @@
     <string name="placeholder_all_words">Obrazovka všech slov</string>
     <string name="placeholder_notification_settings">Obrazovka nastavení oznámení</string>
     <string name="placeholder_about">Obrazovka \"O aplikaci\"</string>
-    <string name="placeholder_about_bubble">Obrazovka \"O widgetu\"</string>
+    <string name="placeholder_about_bubble">Obrazovka \"O Vocab+ Tlačítku\"</string>
     <string name="placeholder_auto_hide">Obrazovka automatického skrývání</string>
     <string name="placeholder_for">Zástupný symbol pro\n%s</string>
     <string name="dont_ask_again">Už se neptat</string>
@@ -181,8 +181,8 @@
     <string name="error_failed_to_save_answer">Nepodařilo se uložit odpověď. Zkuste to znovu.</string>
     <string name="error_failed_to_save_settings">Nepodařilo se uložit nastavení</string>
     <string name="error_permission_check_failed">Kontrola povolení se nezdařila</string>
-    <string name="error_permission_handling_failed">Zpracování povolení se nezdařilo</string>
-    <string name="error_failed_to_update_bubble_settings">Nepodařilo se aktualizovat nastavení widgetu</string>
+    <string name="error_permission_handling_failed">Zpracování povolení se nezdařila</string>
+    <string name="error_failed_to_update_bubble_settings">Nepodařilo se aktualizovat nastavení Vocab+ Tlačítka</string>
     <string name="error_failed_to_save_theme">Nepodařilo se uložit nastavení tématu</string>
     <string name="error_failed_to_save_language">Nepodařilo se uložit nastavení jazyka</string>
 
@@ -220,25 +220,8 @@
     <string name="onboarding_title">Stisknout → Naučit → Zapamatovat</string>
     <string name="onboarding_subtitle">Proměňte každé neznámé slovo z Instagram, YouTube nebo zpráv na součást svého slovníku</string>
     <string name="continue_button">Pokračovat</string>
-
-    <!-- Benefits -->
-    <string name="benefit_vocab_quick_title">Vocab Quick</string>
-    <string name="benefit_vocab_quick_desc">Tlačítko vždy nad všemi aplikacemi — žádné slovo neunikne!</string>
-
-    <string name="benefit_ai_title">AI — maximum informací</string>
-    <string name="benefit_ai_desc">Překlad, transkripce, příklady, gramatika a mnoho dalšího!</string>
-
-    <string name="benefit_widget_title">Interaktivní widget</string>
-    <string name="benefit_widget_desc">Ani si nevšimnete, jak se slovo zapamatuje</string>
-
-    <string name="benefit_quiz_title">Chytré opakování</string>
-    <string name="benefit_quiz_desc">Kvíz pouze těch slov, která potřebují upevnění</string>
-
-    <string name="benefit_important_title">Pouze důležitá slova</string>
-    <string name="benefit_important_desc">Učte se to, co jste sami narazili a vybrali</string>
     <string name="app_name_without_dot">Vocab</string>
 
-    <!-- Notifications -->
     <string name="initial_setup_notification_title">Oznámení</string>
     <string name="initial_setup_notification_sub_title">Nepropásněte důležitá slova</string>
     <string name="notification_stay_informed">Zůstaňte informováni</string>
@@ -247,38 +230,35 @@
     <string name="notification_benefits_list">• Připomínky k opakování slov\n• Statistiky vašeho pokroku\n• Každodenní motivační podporu\n• Flexibilní nastavení oznámení, aby nerušila a byla užitečná</string>
     <string name="notification_skip_button">Přeskočit (zapnu později)</string>
     <string name="notification_enable_button">Povolit oznámení</string>
-    <string name="notification_bubble_stability_title">⚙️ Důležité pro stabilitu bubliny</string>
-    <string name="notification_bubble_stability_description">Oprávnění k oznámením je vyžadováno pro stabilní provoz plovoucího tlačítka na Android 13+. Samotná oznámení lze flexibilně nakonfigurovat nebo zcela vypnout v nastavení aplikace, přičemž Vocab Quick zůstane funkční.</string>
+    <string name="notification_bubble_stability_title">⚙️ Důležité pro stabilitu Vocab+ Tlačítka</string>
+    <string name="notification_bubble_stability_description">Oprávnění k oznámením je vyžadováno pro stabilní provoz Vocab+ Tlačítka na Android 13+. Samotná oznámení lze flexibilně nakonfigurovat nebo zcela vypnout v nastavení aplikace, přičemž Vocab+ Tlačítko zůstane funkční.</string>
 
-    <!-- Overlay -->
-    <string name="initial_setup_overlay_title">Vocab Quick</string>
-    <string name="initial_setup_overlay_sub_title">Plovoucí tlačítko pro rychlý přístup</string>
+    <string name="initial_setup_overlay_title">Vocab+ Tlačítko</string>
+    <string name="initial_setup_overlay_sub_title">Vocab+ Tlačítko pro rychlý přístup</string>
     <string name="overlay_how_it_works">Jak to funguje?</string>
-    <string name="overlay_description">Čtete Instagram, zprávy nebo články? Narazili jste na neznámé slovo? Jednoduše klepněte na plovoucí tlačítko a přidejte ho — bez přepínání mezi aplikacemi.</string>
+    <string name="overlay_description">Čtete Instagram, zprávy nebo články? Narazili jste na neznámé slovo? Jednoduše klepněte na Vocab+ Tlačítko a přidejte ho — bez přepínání mezi aplikacemi.</string>
     <string name="overlay_permission_required">⚠️ Vyžadováno oprávnění</string>
     <string name="overlay_permission_description">Pro zobrazení tlačítka nad jinými aplikacemi (Instagram, Chrome atd.) je vyžadováno systémové oprávnění \"Zobrazení přes jiná okna\".</string>
     <string name="overlay_skip_button">Přeskočit (zapnu později)</string>
     <string name="overlay_grant_button">Udělit oprávnění</string>
 
-    <!-- Translation Languages -->
     <string name="initial_setup_translation_languages_title">Vyberte jazyky</string>
     <string name="initial_setup_translation_languages_sub_title">Vyberte z jakého jazyka překládat</string>
     <string name="source_language_subtitle">Vyberte z jakého jazyka překládat</string>
     <string name="target_language_subtitle">Jazyk do kterého překládat</string>
 
     <string name="overlay_permission_denied_title">Oprávnění nebylo uděleno</string>
-    <string name="overlay_permission_denied_description">Plovoucí tlačítko vyžaduje oprávnění k zobrazení nad jinými aplikacemi.</string>
+    <string name="overlay_permission_denied_description">Vocab+ Tlačítko vyžaduje oprávnění k zobrazení nad jinými aplikacemi.</string>
     <string name="overlay_permission_why_important_title">Proč je to důležité?</string>
-    <string name="overlay_permission_why_important_description">Bez tohoto oprávnění nebudete moci rychle přidávat slova při čtení v jiných aplikacích. To je hlavní funkce Vocab Quick!</string>
+    <string name="overlay_permission_why_important_description">Bez tohoto oprávnění nebudete moci rychle přidávat slova při čtení v jiných aplikacích. To je hlavní funkce Vocab+ Tlačítka!</string>
     <string name="overlay_permission_safety_title">✓ Je to naprosto bezpečné</string>
-    <string name="overlay_permission_safety_description">Vocab Quick používá toto oprávnění pouze k zobrazení malého tlačítka. Nečteme obsah jiných aplikací a neshromažďujeme žádná data.</string>
+    <string name="overlay_permission_safety_description">Vocab+ Tlačítko používá toto oprávnění pouze k zobrazení tlačítka. Nečteme obsah jiných aplikací a neshromažďujeme žádná data.</string>
     <string name="overlay_permission_try_again">Zkusit znovu</string>
     <string name="overlay_permission_skip_for_now">Přeskočit prozatím</string>
     <string name="overlay_alternative_methods_title">💡 Alternativní metody</string>
-    <string name="overlay_alternative_methods_description">Pokud nechcete udělit oprávnění, můžete přidávat slova pomocí:\n• Text Processing — vyberte text v jakékoli aplikaci, klepněte na "Více" v kontextové nabídce → "Ask Vocab"\n• Přímo v aplikaci — otevřete Vocab Quick a zadejte slovo ručně</string>
+    <string name="overlay_alternative_methods_description">Pokud nechcete udělit oprávnění, můžete přidávat slova pomocí:\n• Text Processing — vyberte text v jakékoli aplikaci, klepněte na "Více" v kontextové nabídce → "Ask Vocab"\n• Přímo v aplikaci — otevřete Vocab+ Tlačítko a zadejte slovo ručně</string>
     <string name="error_same_languages">Zdrojový a cílový jazyk se musí lišit</string>
 
-    <!-- Notification States -->
     <string name="notification_idle_title">Vocab+ připraven</string>
     <string name="notification_idle_text">Klepněte pro rychlý překlad</string>
 
@@ -293,7 +273,6 @@
     <string name="notification_success_title">Slovo uloženo ✓</string>
     <string name="notification_success_text">"%s" přidáno do slovníku</string>
 
-    <!-- Notification Actions -->
     <string name="start">Začít</string>
     <string name="later">Později</string>
     <string name="practice_now">Procvičit teď</string>
@@ -305,4 +284,5 @@
     <string name="service_channel_title">Vocab+ Background Service</string>
     <string name="service_channel_description">Keeps app running in background</string>
 
+    <string name="add_word_title">Co to znamená?</string>
 </resources>

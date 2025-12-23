@@ -73,7 +73,7 @@ fun DialogContainer(
                                     RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
                                 )
                                 .pointerInput(Unit) {
-                                    detectDragGestures { change, dragAmount ->
+                                    detectDragGestures { _, dragAmount ->
                                         offset += dragAmount
                                     }
                                 }

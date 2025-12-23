@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Error titles -->
     <string name="error_network_title">Pas de connexion</string>
     <string name="error_timeout_title">Temps écoulé</string>
     <string name="error_not_found_title">Non trouvé</string>
@@ -9,7 +8,6 @@
     <string name="error_parsing_title">Erreur de traitement</string>
     <string name="error_unknown_title">Quelque chose s\'est mal passé</string>
 
-    <!-- Error descriptions -->
     <string name="error_network_description">Vérifiez votre connexion Internet</string>
     <string name="error_timeout_description">Le serveur ne répond pas. Réessayez plus tard</string>
     <string name="error_not_found_description">Impossible de trouver les informations</string>
@@ -18,7 +16,6 @@
     <string name="error_parsing_description">Impossible de traiter les données reçues</string>
     <string name="error_unknown_description">Réessayez</string>
 
-    <!-- Actions -->
     <string name="try_again">Réessayer</string>
 
     <string name="app_name">Vocab.</string>
@@ -66,9 +63,11 @@
     <string name="word_added_successfully">Mot ajouté avec succès</string>
     <string name="cancel">Annuler</string>
     <string name="add">Ajouter</string>
-    <string name="enable_quick_add_bubble">Activer la bulle flottante</string>
-    <string name="enable_quick_add_bubble_summary">Afficher la bulle d\'ajout rapide par-dessus les autres applications</string>
-    <string name="close_bubble">Fermer la bulle</string>
+
+    <string name="enable_quick_add_bubble">Activer le Vocab+ Bouton</string>
+    <string name="enable_quick_add_bubble_summary">Afficher le Vocab+ Bouton d\'ajout rapide par-dessus les autres applications</string>
+    <string name="close_bubble">Fermer le Vocab+ Bouton</string>
+
     <string name="search_word">Scanner le mot</string>
     <string name="write_manually">Écrire manuellement</string>
     <string name="percentage_format">%1$d%%</string>
@@ -99,34 +98,35 @@
     <string name="current_language">Choisissez la langue de l\'application</string>
     <string name="notifications">Notifications</string>
     <string name="notifications_description">Gérez les notifications de l\'application</string>
-    <string name="floating_add">Bouton flottant</string>
-    <string name="floating_add_description">Gérez le bouton flottant</string>
+    <string name="floating_add">Vocab+ Bouton</string>
+    <string name="floating_add_description">Gérez le Vocab+ Bouton</string>
     <string name="about_us">À propos</string>
     <string name="about_us_description">Informations légales</string>
-    <string name="size_of_bubble">Taille de la bulle flottante</string>
-    <string name="bubble_settings_title">Bouton flottant</string>
-    <string name="bubble_settings_description">Personnalisez le bouton flottant pour vous</string>
-    <string name="bubble_settings_toggle">Bouton flottant</string>
-    <string name="bubble_settings_toggle_description">Activez ou désactivez le bouton flottant</string>
-    <string name="bubble_settings_size">Taille de la bulle flottante</string>
+
+    <string name="size_of_bubble">Taille du Vocab+ Bouton</string>
+    <string name="bubble_settings_title">Vocab+ Bouton</string>
+    <string name="bubble_settings_description">Personnalisez le Vocab+ Bouton pour vous</string>
+    <string name="bubble_settings_toggle">Vocab+ Bouton</string>
+    <string name="bubble_settings_toggle_description">Activez ou désactivez le Vocab+ Bouton</string>
+    <string name="bubble_settings_size">Taille du Vocab+ Bouton</string>
     <string name="bubble_settings_size_description">Choisissez la taille qui vous convient</string>
     <string name="bubble_settings_transparency">Transparence du bouton</string>
-    <string name="bubble_settings_transparency_description">Réglez la transparence du bouton flottant</string>
+    <string name="bubble_settings_transparency_description">Réglez la transparence du Vocab+ Bouton</string>
     <string name="bubble_settings_vibration">Vibration au toucher</string>
-    <string name="bubble_settings_vibration_description">Vibration en appuyant sur la bulle</string>
+    <string name="bubble_settings_vibration_description">Vibration en appuyant sur le Vocab+ Bouton</string>
     <string name="bubble_settings_auto_hide">Masquage automatique</string>
     <string name="bubble_settings_autoHide_description">Masquer automatiquement dans les applications sélectionnées</string>
-    <string name="bubble_settings_about">À propos de la bulle</string>
-    <string name="bubble_settings_about_description">Informations utiles sur le bouton flottant</string>
+    <string name="bubble_settings_about">À propos du Vocab+ Bouton</string>
+    <string name="bubble_settings_about_description">Informations utiles sur le Vocab+ Bouton</string>
     <string name="stop">Arrêter</string>
     <string name="bubble_service_channel_name">Notification système</string>
-    <string name="bubble_service_channel_description">Notification système qui empêche le système Android d\'arrêter le service de la bulle flottante.</string>
-    <string name="bubble_active">Bulle flottante active</string>
-    <string name="bubble_paused">Bulle flottante en pause</string>
+    <string name="bubble_service_channel_description">Notification système qui empêche le système Android d\'arrêter le service du Vocab+ Bouton.</string>
+    <string name="bubble_active">Vocab+ Bouton actif</string>
+    <string name="bubble_paused">Vocab+ Bouton en pause</string>
     <string name="add_to_dictionary">Vérifier le mot</string>
-    <string name="request_notification_permission_dialog_text">Les notifications sont une partie importante de la fonctionnalité de la bulle flottante. Lorsque le système voit une notification active de notre application, il n\'arrête pas son fonctionnement pour l\'optimiser, ce qui permet à la bulle de fonctionner de manière stable et sans interruption. Cette autorisation est également requise pour envoyer des rappels d\'apprentissage utiles et des répétitions espacées.</string>
+    <string name="request_notification_permission_dialog_text">Les notifications sont une partie importante de la fonctionnalité du Vocab+ Bouton. Lorsque le système voit une notification active de notre application, il n\'arrête pas son fonctionnement pour l\'optimiser, ce qui permet au bouton de fonctionner de manière stable et sans interruption. Cette autorisation est également requise pour envoyer des rappels d\'apprentissage utiles et des répétitions espacées.</string>
     <string name="request_notification_permission_dialog_title">Autorisation de notification</string>
-    <string name="request_overlay_permission_dialog_text">Cette autorisation permet d\'afficher la fonctionnalité principale de l\'application — la bulle flottante pour ajouter rapidement des mots. L\'apparence de la bulle peut être personnalisée de manière flexible pour être aussi pratique et discrète que possible. Vous pouvez toujours la désactiver temporairement ou modifier d\'autres paramètres dans les réglages. **Après avoir cliqué sur \"Continuer\", une liste d\'applications s\'ouvrira où vous devrez trouver Vocab. et accorder l\'autorisation manuellement.**</string>
+    <string name="request_overlay_permission_dialog_text">Cette autorisation permet d\'afficher la fonctionnalité principale de l\'application — le Vocab+ Bouton pour ajouter rapidement des mots. L\'apparence du bouton peut être personnalisée de manière flexible pour être aussi pratique et discrète que possible. Vous pouvez toujours le désactiver temporairement ou modifier d\'autres paramètres dans les réglages. **Après avoir cliqué sur \"Continuer\", une liste d\'applications s\'ouvrira où vous devrez trouver Vocab. et accorder l\'autorisation manuellement.**</string>
     <string name="request_overlay_permission_dialog_title">Autorisation d\'affichage sur d\'autres applications</string>
     <string name="language_settings">Paramètres de langue</string>
     <string name="language_settings_description">Choisissez les langues pour l\'application et la traduction</string>
@@ -143,23 +143,23 @@
     <string name="settings_item_language_description">Changer la langue de l\'app et de la traduction</string>
     <string name="settings_item_notifications_title">Notifications</string>
     <string name="settings_item_notifications_description">Gérer les notifications</string>
-    <string name="settings_item_bubble_title">Bulle flottante</string>
+    <string name="settings_item_bubble_title">Vocab+ Bouton</string>
     <string name="settings_item_bubble_description">Paramètres d\'ajout rapide</string>
     <string name="settings_item_about_title">À propos</string>
     <string name="settings_item_about_description">Informations sur l\'application</string>
-    <string name="bubble_settings_screen_title">Paramètres de la bulle</string>
-    <string name="bubble_settings_screen_subtitle">Personnalisez la bulle flottante</string>
-    <string name="bubble_enable_title">Bulle flottante</string>
+    <string name="bubble_settings_screen_title">Paramètres du Vocab+ Bouton</string>
+    <string name="bubble_settings_screen_subtitle">Personnalisez le Vocab+ Bouton</string>
+    <string name="bubble_enable_title">Vocab+ Bouton</string>
     <string name="bubble_enable_description">Activer pour un accès rapide</string>
-    <string name="bubble_size_title">Taille de la bulle</string>
-    <string name="bubble_size_description">Ajustez la taille de la bulle</string>
+    <string name="bubble_size_title">Taille du bouton</string>
+    <string name="bubble_size_description">Ajustez la taille du bouton</string>
     <string name="bubble_transparency_title">Transparence</string>
-    <string name="bubble_transparency_description">Ajustez la transparence de la bulle</string>
+    <string name="bubble_transparency_description">Ajustez la transparence du bouton</string>
     <string name="bubble_vibration_title">Vibration</string>
     <string name="bubble_vibration_description">Activer la vibration au toucher</string>
     <string name="bubble_autohide_title">Masquage automatique</string>
     <string name="bubble_autohide_description">Configurer le masquage automatique</string>
-    <string name="bubble_about_title">À propos de la bulle</string>
+    <string name="bubble_about_title">À propos du Vocab+ Bouton</string>
     <string name="bubble_about_description">Informations sur la fonctionnalité</string>
 
     <string name="theme_selection_dialog_title">Sélectionner le thème de l\'application</string>
@@ -171,7 +171,7 @@
     <string name="placeholder_all_words">Écran de tous les mots</string>
     <string name="placeholder_notification_settings">Écran des paramètres de notification</string>
     <string name="placeholder_about">Écran "À propos"</string>
-    <string name="placeholder_about_bubble">Écran "À propos de la bulle"</string>
+    <string name="placeholder_about_bubble">Écran "À propos du Vocab+ Bouton"</string>
     <string name="placeholder_auto_hide">Écran de masquage automatique</string>
     <string name="placeholder_for">Espace réservé pour\n%s</string>
     <string name="dont_ask_again">Ne plus demander</string>
@@ -182,7 +182,7 @@
     <string name="error_failed_to_save_settings">Échec de l\'enregistrement des paramètres</string>
     <string name="error_permission_check_failed">Échec de la vérification des autorisations</string>
     <string name="error_permission_handling_failed">Échec du traitement des autorisations</string>
-    <string name="error_failed_to_update_bubble_settings">Échec de la mise à jour des paramètres de la bulle</string>
+    <string name="error_failed_to_update_bubble_settings">Échec de la mise à jour des paramètres du Vocab+ Bouton</string>
     <string name="error_failed_to_save_theme">Échec de l\'enregistrement des paramètres du thème</string>
     <string name="error_failed_to_save_language">Échec de l\'enregistrement des paramètres de langue</string>
 
@@ -220,25 +220,8 @@
     <string name="onboarding_title">Appuyer → Apprendre → Retenir</string>
     <string name="onboarding_subtitle">Transformez chaque mot inconnu d\'Instagram, YouTube ou actualités en partie de votre vocabulaire</string>
     <string name="continue_button">Continuer</string>
-
-    <!-- Benefits -->
-    <string name="benefit_vocab_quick_title">Vocab Quick</string>
-    <string name="benefit_vocab_quick_desc">Bouton toujours au-dessus de toutes les apps — aucun mot manqué!</string>
-
-    <string name="benefit_ai_title">AI — information maximale</string>
-    <string name="benefit_ai_desc">Traduction, transcription, exemples, grammaire et bien plus!</string>
-
-    <string name="benefit_widget_title">Widget interactif</string>
-    <string name="benefit_widget_desc">Vous ne remarquez même pas comment le mot se mémorise</string>
-
-    <string name="benefit_quiz_title">Répétitions intelligentes</string>
-    <string name="benefit_quiz_desc">Quiz seulement les mots qui ont besoin d\'être renforcés</string>
-
-    <string name="benefit_important_title">Seulement les mots importants</string>
-    <string name="benefit_important_desc">Apprenez ce que vous avez réellement rencontré et choisi</string>
     <string name="app_name_without_dot">Vocab</string>
 
-    <!-- Notifications -->
     <string name="initial_setup_notification_title">Notifications</string>
     <string name="initial_setup_notification_sub_title">Ne manquez pas les mots importants</string>
     <string name="notification_stay_informed">Restez informé</string>
@@ -247,38 +230,35 @@
     <string name="notification_benefits_list">• Rappels sur la répétition des mots\n• Statistiques de votre progression\n• Soutien motivationnel quotidien\n• Paramètres de notification flexibles pour qu\'elles ne dérangent pas et restent utiles</string>
     <string name="notification_skip_button">Ignorer (j\'activerai plus tard)</string>
     <string name="notification_enable_button">Activer les notifications</string>
-    <string name="notification_bubble_stability_title">⚙️ Important pour la stabilité de la bulle</string>
-    <string name="notification_bubble_stability_description">L\'autorisation de notification est requise pour le fonctionnement stable du bouton flottant sur Android 13+. Les notifications elles-mêmes peuvent être configurées de manière flexible ou complètement désactivées dans les paramètres de l\'application, tout en maintenant Vocab Quick fonctionnel.</string>
+    <string name="notification_bubble_stability_title">⚙️ Important pour la stabilité du Vocab+ Bouton</string>
+    <string name="notification_bubble_stability_description">L\'autorisation de notification est requise pour le fonctionnement stable du Vocab+ Bouton sur Android 13+. Les notifications elles-mêmes peuvent être configurées de manière flexible ou complètement désactivées dans les paramètres de l\'application, tout en maintenant le Vocab+ Bouton fonctionnel.</string>
 
-    <!-- Overlay -->
-    <string name="initial_setup_overlay_title">Vocab Quick</string>
-    <string name="initial_setup_overlay_sub_title">Bouton flottant pour un accès rapide</string>
+    <string name="initial_setup_overlay_title">Vocab+ Bouton</string>
+    <string name="initial_setup_overlay_sub_title">Vocab+ Bouton pour un accès rapide</string>
     <string name="overlay_how_it_works">Comment ça marche ?</string>
-    <string name="overlay_description">Vous lisez Instagram, des actualités ou des articles ? Rencontré un mot inconnu ? Appuyez simplement sur le bouton flottant et ajoutez-le — sans changer d\'application.</string>
+    <string name="overlay_description">Vous lisez Instagram, des actualités ou des articles ? Rencontré un mot inconnu ? Appuyez simplement sur le Vocab+ Bouton et ajoutez-le — sans changer d\'application.</string>
     <string name="overlay_permission_required">⚠️ Permission requise</string>
     <string name="overlay_permission_description">Pour afficher le bouton au-dessus d\'autres applications (Instagram, Chrome, etc.), l\'autorisation système \"Afficher au-dessus d\'autres fenêtres\" est requise.</string>
     <string name="overlay_skip_button">Ignorer (j\'activerai plus tard)</string>
     <string name="overlay_grant_button">Accorder la permission</string>
 
-    <!-- Translation Languages -->
     <string name="initial_setup_translation_languages_title">Choisir les langues</string>
     <string name="initial_setup_translation_languages_sub_title">Sélectionnez de quelle langue traduire</string>
     <string name="source_language_subtitle">Sélectionnez de quelle langue traduire</string>
     <string name="target_language_subtitle">Langue vers laquelle traduire</string>
 
     <string name="overlay_permission_denied_title">Permission non accordée</string>
-    <string name="overlay_permission_denied_description">Le bouton flottant nécessite la permission de s\'afficher au-dessus d\'autres applications.</string>
+    <string name="overlay_permission_denied_description">Le Vocab+ Bouton nécessite la permission de s\'afficher au-dessus d\'autres applications.</string>
     <string name="overlay_permission_why_important_title">Pourquoi est-ce important ?</string>
-    <string name="overlay_permission_why_important_description">Sans cette permission, vous ne pourrez pas ajouter rapidement des mots en lisant dans d\'autres applications. C\'est la fonctionnalité principale de Vocab Quick !</string>
+    <string name="overlay_permission_why_important_description">Sans cette permission, vous ne pourrez pas ajouter rapidement des mots en lisant dans d\'autres applications. C\'est la fonctionnalité principale du Vocab+ Bouton !</string>
     <string name="overlay_permission_safety_title">✓ C\'est totalement sûr</string>
-    <string name="overlay_permission_safety_description">Vocab Quick utilise cette permission uniquement pour afficher un petit bouton. Nous ne lisons pas le contenu d\'autres applications et ne collectons aucune donnée.</string>
+    <string name="overlay_permission_safety_description">Vocab+ utilise cette permission uniquement pour afficher le bouton. Nous ne lisons pas le contenu d\'autres applications et ne collectons aucune donnée.</string>
     <string name="overlay_permission_try_again">Réessayer</string>
     <string name="overlay_permission_skip_for_now">Ignorer pour l\'instant</string>
     <string name="overlay_alternative_methods_title">💡 Méthodes alternatives</string>
-    <string name="overlay_alternative_methods_description">Si vous ne souhaitez pas accorder la permission, vous pouvez ajouter des mots via :\n• Text Processing — sélectionnez du texte dans n\'importe quelle application, appuyez sur "Plus" dans le menu contextuel → "Ask Vocab"\n• Directement dans l\'application — ouvrez Vocab Quick et entrez le mot manuellement</string>
+    <string name="overlay_alternative_methods_description">Si vous ne souhaitez pas accorder la permission, vous pouvez ajouter des mots via :\n• Text Processing — sélectionnez du texte dans n\'importe quelle application, appuyez sur "Plus" dans le menu contextuel → "Ask Vocab"\n• Directement dans l\'application — ouvrez le Vocab+ Bouton et entrez le mot manuellement</string>
     <string name="error_same_languages">Les langues source et cible doivent être différentes</string>
 
-    <!-- Notification States -->
     <string name="notification_idle_title">Vocab+ prêt</string>
     <string name="notification_idle_text">Appuyez pour une traduction rapide</string>
 
@@ -293,7 +273,6 @@
     <string name="notification_success_title">Mot enregistré ✓</string>
     <string name="notification_success_text">"%s" ajouté au dictionnaire</string>
 
-    <!-- Notification Actions -->
     <string name="start">Commencer</string>
     <string name="later">Plus tard</string>
     <string name="practice_now">Pratiquer maintenant</string>
@@ -304,4 +283,6 @@
     <string name="popup_channel_description">Important reminders and word echoes</string>
     <string name="service_channel_title">Vocab+ Background Service</string>
     <string name="service_channel_description">Keeps app running in background</string>
+
+    <string name="add_word_title">Que signifie cela ?</string>
 </resources>

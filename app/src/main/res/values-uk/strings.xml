@@ -1,5 +1,4 @@
 <resources>
-    <!-- Error titles -->
     <string name="error_network_title">Немає з\'єднання</string>
     <string name="error_timeout_title">Час вичерпано</string>
     <string name="error_not_found_title">Не знайдено</string>
@@ -8,7 +7,6 @@
     <string name="error_parsing_title">Помилка обробки</string>
     <string name="error_unknown_title">Щось пішло не так</string>
 
-    <!-- Error descriptions -->
     <string name="error_network_description">Перевірте підключення до інтернету</string>
     <string name="error_timeout_description">Сервер не відповідає. Спробуйте пізніше</string>
     <string name="error_not_found_description">Не вдалося знайти інформацію</string>
@@ -17,15 +15,14 @@
     <string name="error_parsing_description">Не вдалося обробити отримані дані</string>
     <string name="error_unknown_description">Спробуйте ще раз</string>
 
-    <!-- Actions -->
     <string name="try_again">Повторити</string>
     <string name="app_name">Vocab.</string>
-    <string name="add_word_button">Add a new word:)</string>
+    <string name="add_word_button">Додати нове слово :)</string>
     <string name="add_new_word">Нове слово</string>
     <string name="origin_word">Введіть слово</string>
     <string name="translation_word">Переклад</string>
     <string name="add_word_button_text">Що це за слово?</string>
-    <string name="description_free_add_word">АІ асистент покаже інфомацію про це слово разом із прикладами використання та перекладами.</string>
+    <string name="description_free_add_word">AI асистент покаже інформацію про це слово разом із прикладами використання та перекладами.</string>
     <string name="change_theme">Змінити тему</string>
     <string name="head_text">Мій словник</string>
     <string name="description_head_text">Вивчайте англійську легко</string>
@@ -63,9 +60,11 @@
     <string name="word_added_successfully">Слово успішно додано</string>
     <string name="cancel">Скасувати</string>
     <string name="add">Додати</string>
-    <string name="enable_quick_add_bubble">Увімкнути плаваючу кнопку</string>
-    <string name="enable_quick_add_bubble_summary">Показувати кнопку швидкого додавання слів поверх інших додатків</string>
-    <string name="close_bubble">Close bubble</string>
+
+    <string name="enable_quick_add_bubble">Увімкнути Vocab+ Кнопку</string>
+    <string name="enable_quick_add_bubble_summary">Показувати Vocab+ Кнопку швидкого додавання слів поверх інших додатків</string>
+    <string name="close_bubble">Закрити Vocab+ Кнопку</string>
+
     <string name="search_word">Сканувати слово</string>
     <string name="write_manually">Написати вручну</string>
     <string name="percentage_format">%1$d%%</string>
@@ -86,7 +85,7 @@
     <string name="generating_examples">Генерую приклади</string>
     <string name="add_to_vocab">Додати до словника</string>
     <string name="word_to_know">Слово: %1$s</string>
-    <string name="tts_button">TTS button</string>
+    <string name="tts_button">Кнопка TTS</string>
     <string name="back">Назад</string>
     <string name="settings">Налаштування</string>
     <string name="settings_description">Налаштуй додаток під себе</string>
@@ -96,34 +95,35 @@
     <string name="current_language">Виберіть мову додатку</string>
     <string name="notifications">Сповіщення</string>
     <string name="notifications_description">Керуйте сповіщеннями з додатку</string>
-    <string name="floating_add">Плаваюча кнопка</string>
-    <string name="floating_add_description">Керуйте плаваючою кнопкою</string>
+    <string name="floating_add">Vocab+ Кнопка</string>
+    <string name="floating_add_description">Керуйте Vocab+ Кнопкою</string>
     <string name="about_us">Про нас</string>
     <string name="about_us_description">Правова інформація</string>
-    <string name="size_of_bubble">Розмір плаваючої кнопки</string>
-    <string name="bubble_settings_title">Плаваюча кнопка</string>
-    <string name="bubble_settings_description">Налаштуй плаваючу кнопку під себе</string>
-    <string name="bubble_settings_toggle">Плаваюча кнопка</string>
-    <string name="bubble_settings_toggle_description">Увімкніть чи вимкніть плаваючу кнопку</string>
-    <string name="bubble_settings_size">Розмір плаваючої кнопки</string>
-    <string name="bubble_settings_size_description">Виберіть розмір який вам підходить</string>
+
+    <string name="size_of_bubble">Розмір Vocab+ Кнопки</string>
+    <string name="bubble_settings_title">Vocab+ Кнопка</string>
+    <string name="bubble_settings_description">Налаштуй Vocab+ Кнопку під себе</string>
+    <string name="bubble_settings_toggle">Vocab+ Кнопка</string>
+    <string name="bubble_settings_toggle_description">Увімкніть чи вимкніть Vocab+ Кнопку</string>
+    <string name="bubble_settings_size">Розмір Vocab+ Кнопки</string>
+    <string name="bubble_settings_size_description">Виберіть розмір, який вам підходить</string>
     <string name="bubble_settings_transparency">Прозорість кнопки</string>
-    <string name="bubble_settings_transparency_description">Встановіть прозорість плаваючої кнопки</string>
+    <string name="bubble_settings_transparency_description">Встановіть прозорість Vocab+ Кнопки</string>
     <string name="bubble_settings_vibration">Вібрація при торканні</string>
-    <string name="bubble_settings_vibration_description">Вібрація при натисканні на бульбашку</string>
+    <string name="bubble_settings_vibration_description">Вібрація при натисканні на Vocab+ Кнопку</string>
     <string name="bubble_settings_auto_hide">Автоматичне приховування</string>
     <string name="bubble_settings_autoHide_description">Автоматичне приховування у вибраних додатках</string>
-    <string name="bubble_settings_about">Про бульбашку</string>
-    <string name="bubble_settings_about_description">Корисна інформація про плаваючу кнопку</string>
+    <string name="bubble_settings_about">Про Vocab+ Кнопку</string>
+    <string name="bubble_settings_about_description">Корисна інформація про Vocab+ Кнопку</string>
     <string name="stop">Зупинити</string>
     <string name="bubble_service_channel_name">Системне сповіщення</string>
-    <string name="bubble_service_channel_description">Системне сповіщення, яке не дозволяє системі андроід зупиняти сервіс плаваючої кнопки</string>
-    <string name="bubble_active">Vocab. Quick активний</string>
-    <string name="bubble_paused">Vocab. Quick зупиненй</string>
+    <string name="bubble_service_channel_description">Системне сповіщення, яке не дозволяє системі Android зупиняти сервіс Vocab+ Кнопки</string>
+    <string name="bubble_active">Vocab+ Кнопка активна</string>
+    <string name="bubble_paused">Vocab+ Кнопка зупинена</string>
     <string name="add_to_dictionary">Що це за слово?</string>
-    <string name="request_notification_permission_dialog_text">Сповіщення — важлива частина роботи плаваючої кнопки. Коли система бачить активне сповіщення від нашого додатку, вона не зупиняє його роботу для оптимізації, що дозволяє кнопці працювати стабільно і без перебоїв. Також цей дозвіл потрібен для надсилання корисних нагадувань про навчання та інтервальних повторень.</string>
+    <string name="request_notification_permission_dialog_text">Сповіщення — важлива частина роботи Vocab+ Кнопки. Коли система бачить активне сповіщення від нашого додатку, вона не зупиняє його роботу для оптимізації, що дозволяє кнопці працювати стабільно і без перебоїв. Також цей дозвіл потрібен для надсилання корисних нагадувань про навчання та інтервальних повторень.</string>
     <string name="request_notification_permission_dialog_title">Дозвіл на сповіщення</string>
-    <string name="request_overlay_permission_dialog_text">Цей дозвіл дозволяє показувати головну функцію додатку — плаваючу кнопку для швидкого додавання слів. Вигляд кнопки можна гнучко налаштувати, щоб вона була максимально зручною та непомітною. Ви завжди можете тимчасово вимкнути її або змінити інші параметри в налаштуваннях. **Після натискання \"Продовжити\" відкриється список додатків, де потрібно знайти Vocab. та надати дозвіл вручну.**</string>
+    <string name="request_overlay_permission_dialog_text">Цей дозвіл дозволяє показувати головну функцію додатку — Vocab+ Кнопку для швидкого додавання слів. Вигляд кнопки можна гнучко налаштувати, щоб вона була максимально зручною та непомітною. Ви завжди можете тимчасово вимкнути її або змінити інші параметри в налаштуваннях. **Після натискання \"Продовжити\" відкриється список додатків, де потрібно знайти Vocab. та надати дозвіл вручну.**</string>
     <string name="request_overlay_permission_dialog_title">Дозвіл на показ поверх інших вікон</string>
     <string name="language_settings">Налаштування мови</string>
     <string name="language_settings_description">Оберіть мови для додатку та перекладу</string>
@@ -140,23 +140,23 @@
     <string name="settings_item_language_description">Змінити мову додатку та перекладу</string>
     <string name="settings_item_notifications_title">Сповіщення</string>
     <string name="settings_item_notifications_description">Керування сповіщеннями</string>
-    <string name="settings_item_bubble_title">Плаваюча кнопка</string>
+    <string name="settings_item_bubble_title">Vocab+ Кнопка</string>
     <string name="settings_item_bubble_description">Налаштування швидкого додавання</string>
     <string name="settings_item_about_title">Про додаток</string>
     <string name="settings_item_about_description">Інформація про додаток</string>
-    <string name="bubble_settings_screen_title">Налаштування бульбашки</string>
-    <string name="bubble_settings_screen_subtitle">Персоналізуйте плаваючу бульбашку</string>
-    <string name="bubble_enable_title">Плаваюча бульбашка</string>
+    <string name="bubble_settings_screen_title">Налаштування Vocab+ Кнопки</string>
+    <string name="bubble_settings_screen_subtitle">Персоналізуйте Vocab+ Кнопку</string>
+    <string name="bubble_enable_title">Vocab+ Кнопка</string>
     <string name="bubble_enable_description">Увімкнути для швидкого доступу</string>
-    <string name="bubble_size_title">Розмір бульбашки</string>
-    <string name="bubble_size_description">Налаштуйте розмір бульбашки</string>
+    <string name="bubble_size_title">Розмір кнопки</string>
+    <string name="bubble_size_description">Налаштуйте розмір кнопки</string>
     <string name="bubble_transparency_title">Прозорість</string>
-    <string name="bubble_transparency_description">Налаштуйте прозорість бульбашки</string>
+    <string name="bubble_transparency_description">Налаштуйте прозорість кнопки</string>
     <string name="bubble_vibration_title">Вібрація</string>
     <string name="bubble_vibration_description">Увімкнути вібрацію при натисканні</string>
     <string name="bubble_autohide_title">Автоматичне приховування</string>
     <string name="bubble_autohide_description">Налаштуйте автоматичне приховування</string>
-    <string name="bubble_about_title">Про бульбашку</string>
+    <string name="bubble_about_title">Про Vocab+ Кнопку</string>
     <string name="bubble_about_description">Інформація про функцію</string>
 
     <string name="theme_selection_dialog_title">Виберіть тему додатку</string>
@@ -168,71 +168,55 @@
     <string name="placeholder_all_words">Екран усіх слів</string>
     <string name="placeholder_notification_settings">Екран налаштувань сповіщень</string>
     <string name="placeholder_about">Екран "Про додаток"</string>
-    <string name="placeholder_about_bubble">Екран "Про віджет"</string>
+    <string name="placeholder_about_bubble">Екран "Про Vocab+ Кнопку"</string>
     <string name="placeholder_auto_hide">Екран автоприховування</string>
     <string name="placeholder_for">Заглушка для\n%s</string>
     <string name="dont_ask_again">Більше не питати</string>
     <string name="error_failed_to_load_statistics">Не вдалося завантажити статистику</string>
-    <string name="error_empty_dictionary">Ваш словник порожній.\nДавай спочатку добавимо декілька слів :)</string>
+    <string name="error_empty_dictionary">Ваш словник порожній.\nДавай спочатку додамо декілька слів :)</string>
     <string name="error_failed_to_load_word">Не вдалося завантажити слово. Будь ласка, спробуйте знову.</string>
     <string name="error_failed_to_save_answer">Не вдалося зберегти відповідь. Будь ласка, спробуйте знову.</string>
     <string name="error_failed_to_save_settings">Не вдалося зберегти налаштування</string>
-    <string name="error_permission_check_failed">Перевірка дозволів не вдалась</string>
-    <string name="error_permission_handling_failed">Обробка дозволів не вдалась</string>
-    <string name="error_failed_to_update_bubble_settings">Не вдалося оновити налаштування віджету</string>
+    <string name="error_permission_check_failed">Перевірка дозволів не вдалася</string>
+    <string name="error_permission_handling_failed">Обробка дозволів не вдалася</string>
+    <string name="error_failed_to_update_bubble_settings">Не вдалося оновити налаштування Vocab+ Кнопки</string>
     <string name="error_failed_to_save_theme">Не вдалося зберегти налаштування теми</string>
     <string name="error_failed_to_save_language">Не вдалося зберегти налаштування мови</string>
 
-    <string name="retry">Retry</string>
-    <string name="widget_description">Widget description</string>
-    <string name="error_no_words_for_language">No words found for the selected language, let\'s add some!\n</string>
-    <string name="vocab_empty">Dictionary is empty</string>
-    <string name="add_new_words_widget">Add new words</string>
-    <string name="examples">Examples</string>
-    <string name="additional_info">Additional Information</string>
-    <string name="main_info">Main Information</string>
-    <string name="translation">Translation:</string>
-    <string name="description_pro_add_word">You are using the free version of the app. You will only be provided with the word translation, detailed information requires a PRO subscription.</string>
-    <string name="saving_in_process">Saving word…</string>
-    <string name="word_successfully_added">Word added to dictionary!</string>
-    <string name="get_full_info">Get full information ✨</string>
-    <string name="get_full_info_description">Unlock examples and context with Premium subscription.</string>
-    <string name="colapse">Collapse</string>
-    <string name="expand">Expand</string>
-    <string name="continue_text">Continue</string>
-    <string name="close">Close</string>
-    <string name="add_new_word_title">Add new word</string>
-    <string name="close_dialog">Close dialog</string>
-    <string name="unlock_all_features">Unlock all features</string>
-    <string name="premium_description">Get access to detailed word information, usage examples and context with Premium subscription.</string>
-    <string name="monthly_subscription">Monthly subscription - $4.99</string>
-    <string name="try_premium">Try Premium</string>
-    <string name="not_now">Not now</string>
-    <string name="dismiss">Dismiss</string>
-    <string name="subscribe">Subscribe</string>
-    <string name="get_premium">Get Premium</string>
-    <string name="add_word_screen_title">Add word</string>
-    <string name="process_text_screen_title">Add new word</string>
+    <string name="retry">Повторити</string>
+    <string name="widget_description">Опис віджету</string>
+    <string name="error_no_words_for_language">Не знайдено слів для обраної мови, давай додамо декілька!\n</string>
+    <string name="vocab_empty">Словник порожній</string>
+    <string name="add_new_words_widget">Додати нові слова</string>
+    <string name="examples">Приклади</string>
+    <string name="additional_info">Додаткова інформація</string>
+    <string name="main_info">Основна інформація</string>
+    <string name="translation">Переклад:</string>
+    <string name="description_pro_add_word">Ви використовуєте безкоштовну версію додатку. Вам буде надано лише переклад слова, детальна інформація потребує PRO підписки.</string>
+    <string name="saving_in_process">Збереження слова…</string>
+    <string name="word_successfully_added">Слово додано до словника!</string>
+    <string name="get_full_info">Отримати повну інформацію ✨</string>
+    <string name="get_full_info_description">Розблокуйте приклади та контекст із Premium підпискою.</string>
+    <string name="colapse">Згорнути</string>
+    <string name="expand">Розгорнути</string>
+    <string name="continue_text">Продовжити</string>
+    <string name="close">Закрити</string>
+    <string name="add_new_word_title">Додати нове слово</string>
+    <string name="close_dialog">Закрити діалог</string>
+    <string name="unlock_all_features">Розблокувати всі функції</string>
+    <string name="premium_description">Отримайте доступ до детальної інформації про слова, прикладів використання та контексту з Premium підпискою.</string>
+    <string name="monthly_subscription">Місячна підписка — $4.99</string>
+    <string name="try_premium">Спробувати Premium</string>
+    <string name="not_now">Не зараз</string>
+    <string name="dismiss">Відхилити</string>
+    <string name="subscribe">Підписатися</string>
+    <string name="get_premium">Отримати Premium</string>
+    <string name="add_word_screen_title">Додати слово</string>
+    <string name="process_text_screen_title">Додати нове слово</string>
 
     <string name="onboarding_title">Натиснув → Дізнався → Запам\'ятав</string>
     <string name="onboarding_subtitle">Перетворіть кожне незнайоме слово з Instagram, YouTube чи новин на частину вашого словника</string>
     <string name="continue_button">Продовжити</string>
-
-    <!-- Benefits -->
-    <string name="benefit_vocab_quick_title">Vocab Quick</string>
-    <string name="benefit_vocab_quick_desc">Кнопка яка завжди поверх всіх додатків — жодного пропущеного слова!</string>
-
-    <string name="benefit_ai_title">AI — максимум інформації</string>
-    <string name="benefit_ai_desc">Переклад, транскрипція, приклади, граматика та багато іншого!</string>
-
-    <string name="benefit_widget_title">Інтерактивний віджет</string>
-    <string name="benefit_widget_desc">Навіть не замічаєш, як слово запам\'ятовується</string>
-
-    <string name="benefit_quiz_title">Розумні повторення</string>
-    <string name="benefit_quiz_desc">Quiz тільки тих слів, які потрібно закріпити</string>
-
-    <string name="benefit_important_title">Тільки важливі слова</string>
-    <string name="benefit_important_desc">Вивчаєш те, що сам зустрів і вибрав</string>
     <string name="app_name_without_dot">Vocab</string>
 
     <string name="initial_setup_notification_title">Сповіщення</string>
@@ -240,38 +224,38 @@
     <string name="notification_stay_informed">Залишайтесь в курсі</string>
     <string name="notification_description">Отримуйте нагадування про повторення слів та інформацію про ваш прогрес у навчанні.</string>
     <string name="notification_benefits_title">📈 Що ви отримаєте:</string>
-    <string name="notification_benefits_list">• Нагадування про повторення слів\n• Статистику вашого прогресу\n• Підтримку мотивації щодня\n• Гнучкі налаштування сповіщень, щоб не заважали і були корисними</string>    <string name="notification_skip_button">Пропустити (увімкну пізніше)</string>
+    <string name="notification_benefits_list">• Нагадування про повторення слів\n• Статистику вашого прогресу\n• Підтримку мотивації щодня\n• Гнучкі налаштування сповіщень, щоб не заважали і були корисними</string>
+    <string name="notification_skip_button">Пропустити (увімкну пізніше)</string>
     <string name="notification_enable_button">Увімкнути сповіщення</string>
-    <string name="notification_bubble_stability_title">⚙️ Важливо для роботи бульбашки</string>
-    <string name="notification_bubble_stability_description">Дозвіл на сповіщення необхідний для стабільної роботи плаваючої кнопки на Android 13+. Самі сповіщення можна гнучко налаштувати або повністю вимкнути в налаштуваннях додатку, зберігши при цьому працездатність Vocab Quick.</string>
+    <string name="notification_bubble_stability_title">⚙️ Важливо для роботи Vocab+ Кнопки</string>
+    <string name="notification_bubble_stability_description">Дозвіл на сповіщення необхідний для стабільної роботи Vocab+ Кнопки на Android 13+. Самі сповіщення можна гнучко налаштувати або повністю вимкнути в налаштуваннях додатку, зберігши при цьому працездатність Vocab+ Кнопки.</string>
 
-    <string name="initial_setup_overlay_sub_title">Плаваюча кнопка для щвидкого доступу</string>
-    <string name="initial_setup_overlay_title">Vocab Quick</string>
+    <string name="initial_setup_overlay_sub_title">Vocab+ Кнопка для швидкого доступу</string>
+    <string name="initial_setup_overlay_title">Vocab+ Кнопка</string>
     <string name="overlay_how_it_works">Як це працює?</string>
-    <string name="overlay_description">Читаєте Instagram, новини чи статті? Побачили незнайоме слово? Просто натисніть на плаваючу кнопку і додайте його — без перемикання між додатками.</string>
+    <string name="overlay_description">Читаєте Instagram, новини чи статті? Побачили незнайоме слово? Просто натисніть на Vocab+ Кнопку і додайте його — без перемикання між додатками.</string>
     <string name="overlay_permission_required">⚠️ Потрібен дозвіл</string>
-    <string name="overlay_permission_description">Щоб кнопка відображалась поверх інших додатків (Instagram, Chrome, тощо), потрібен системний дозвіл «Показ поверх інших вікон».</string>
+    <string name="overlay_permission_description">Щоб кнопка відображалась поверх інших додатків (Instagram, Chrome тощо), потрібен системний дозвіл «Показ поверх інших вікон».</string>
     <string name="overlay_skip_button">Пропустити (увімкну пізніше)</string>
     <string name="overlay_grant_button">Надати дозвіл</string>
 
     <string name="initial_setup_translation_languages_title">Оберіть мови</string>
     <string name="initial_setup_translation_languages_sub_title">Виберіть з якої мови на яку перекладати</string>
     <string name="source_language_subtitle">Виберіть з якої мови на яку перекладати</string>
-    <string name="target_language_subtitle">Мова на яку перекладаємо</string>
+    <string name="target_language_subtitle">Мова, на яку перекладаємо</string>
 
     <string name="overlay_permission_denied_title">Дозвіл не надано</string>
-    <string name="overlay_permission_denied_description">Для роботи плаваючої кнопки потрібен дозвіл на показ поверх інших додатків.</string>
+    <string name="overlay_permission_denied_description">Для роботи Vocab+ Кнопки потрібен дозвіл на показ поверх інших додатків.</string>
     <string name="overlay_permission_why_important_title">Чому це важливо?</string>
-    <string name="overlay_permission_why_important_description">Без цього дозволу ви не зможете швидко додавати слова під час читання в інших додатках. Це основна функція Vocab Quick!</string>
+    <string name="overlay_permission_why_important_description">Без цього дозволу ви не зможете швидко додавати слова під час читання в інших додатках. Це основна функція Vocab+ Кнопки!</string>
     <string name="overlay_permission_safety_title">✓ Це абсолютно безпечно</string>
-    <string name="overlay_permission_safety_description">Vocab Quick використовує цей дозвіл лише для відображення маленької кнопки. Ми не читаємо вміст інших додатків і не збираємо жодних даних.</string>
+    <string name="overlay_permission_safety_description">Vocab+ Кнопка використовує цей дозвіл лише для відображення маленької кнопки. Ми не читаємо вміст інших додатків і не збираємо жодних даних.</string>
     <string name="overlay_permission_try_again">Спробувати ще раз</string>
     <string name="overlay_permission_skip_for_now">Пропустити зараз</string>
     <string name="overlay_alternative_methods_title">💡 Альтернативні способи</string>
-    <string name="overlay_alternative_methods_description">Якщо не хочете надавати дозвіл, можете додавати слова через:\n• Text Processing — виділіть текст в будь-якому додатку, натисніть "Ще/Більше" в контекстному меню → "Ask Vocab"\n• Безпосередньо в додатку — відкрийте Vocab Quick і введіть слово вручну</string>
+    <string name="overlay_alternative_methods_description">Якщо не хочете надавати дозвіл, можете додавати слова через:\n• Text Processing — виділіть текст у будь-якому додатку, натисніть \"Ще/Більше\" в контекстному меню → \"Ask Vocab\"\n• Безпосередньо в додатку — відкрийте Vocab+ Кнопку і введіть слово вручну</string>
     <string name="error_same_languages">Мови повинні відрізнятись</string>
 
-    <!-- Notification States -->
     <string name="notification_idle_title">Vocab+ готовий</string>
     <string name="notification_idle_text">Торкніться для швидкого перекладу</string>
 
@@ -284,9 +268,8 @@
     <string name="notification_streak_text">Не втрачайте темп!</string>
 
     <string name="notification_success_title">Слово збережено ✓</string>
-    <string name="notification_success_text">"%s" додано до словника</string>
+    <string name="notification_success_text">\"%s\" додано до словника</string>
 
-    <!-- Notification Actions -->
     <string name="start">Почати</string>
     <string name="later">Пізніше</string>
     <string name="next_word">Наступне слово</string>
@@ -298,4 +281,6 @@
     <string name="popup_channel_description">Important reminders and word echoes</string>
     <string name="service_channel_title">Vocab+ Background Service</string>
     <string name="service_channel_description">Keeps app running in background</string>
+
+    <string name="add_word_title">Що це означає?</string>
 </resources>

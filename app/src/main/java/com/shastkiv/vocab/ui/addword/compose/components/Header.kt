@@ -72,11 +72,12 @@ private fun CloseButton(onClick: () -> Unit) {
     }
 }
 
+@Composable
 private fun getHeaderTitle(uiState: AddWordUiState): String {
     return when (uiState) {
         is AddWordUiState.Success -> uiState.originalWord
         is AddWordUiState.SavingWord -> uiState.word.originalWord
-        else -> "Add new word"
+        else -> stringResource(R.string.add_word_title)
     }
 }
 
