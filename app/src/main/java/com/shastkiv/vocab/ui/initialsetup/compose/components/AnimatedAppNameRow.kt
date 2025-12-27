@@ -10,6 +10,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.shastkiv.vocab.R
+import com.shastkiv.vocab.ui.theme.customColors
 import kotlinx.coroutines.delay
 
 @Composable
@@ -126,10 +128,17 @@ fun AnimatedAppNameRow() {
                 modifier = Modifier
                     .size(32.dp)
                     .background(
-                        color = MaterialTheme.colorScheme.background,
+                        color = MaterialTheme.customColors.cardBackground,
                         shape = CircleShape
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.customColors.cardBorder,
+                        shape = MaterialTheme.shapes.medium
                     ),
+
                 contentAlignment = Alignment.Center
+
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
