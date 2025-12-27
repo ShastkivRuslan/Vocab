@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.AllInclusive
 import androidx.compose.material.icons.filled.AutoMode
 import androidx.compose.material.icons.filled.HistoryEdu
 import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.SettingsSuggest
 import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
