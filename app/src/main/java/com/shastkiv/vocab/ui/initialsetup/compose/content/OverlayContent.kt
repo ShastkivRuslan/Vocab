@@ -5,38 +5,23 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,6 +29,7 @@ import androidx.core.net.toUri
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.ui.initialsetup.compose.components.OverlayPermissionDeniedBottomSheet
 import com.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
+import com.shastkiv.vocab.ui.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,136 +56,177 @@ fun OverlayContent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        SetupHeader(
-            onBackPressed = onBackPressed,
-            title = stringResource(R.string.initial_setup_overlay_title),
-            subTitle = stringResource(R.string.initial_setup_overlay_sub_title)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            )
+        // Scrollable content area
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
         ) {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(60.dp)
-                        .background(
-                            MaterialTheme.colorScheme.primary,
-                            CircleShape
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary
+            SetupHeader(
+                onBackPressed = onBackPressed,
+                title = stringResource(R.string.initial_setup_overlay_title),
+                subTitle = stringResource(R.string.initial_setup_overlay_sub_title)
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Efficiency Card
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(
+                        color = MaterialTheme.customColors.cardBackground,
+                        shape = MaterialTheme.shapes.medium
                     )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = stringResource(R.string.overlay_how_it_works),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = stringResource(R.string.overlay_description),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
-            )
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = stringResource(R.string.overlay_permission_required),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = stringResource(R.string.overlay_permission_description),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer
-            )
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.customColors.cardBorder,
+                        shape = MaterialTheme.shapes.medium
+                    )
             ) {
-                Text(
-                    text = stringResource(R.string.overlay_alternative_methods_title),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.overlay_alternative_methods_description),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer
-                )
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.background,
+                                shape = CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Bubble",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = stringResource(R.string.overlay_feature_efficiency_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.customColors.cardTitleText
+                        )
+                        Text(
+                            text = stringResource(R.string.overlay_feature_efficiency_description),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.customColors.cardDescriptionText
+                        )
+                    }
+                }
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Info points
+            InfoPoint(
+                icon = Icons.Default.AutoMode,
+                title = stringResource(R.string.overlay_point_social_title),
+                description = stringResource(R.string.overlay_point_social_description)
+            )
+            InfoPoint(
+                icon = Icons.Default.AllInclusive,
+                title = stringResource(R.string.overlay_point_no_switch_title),
+                description = stringResource(R.string.overlay_point_no_switch_description)
+            )
+            InfoPoint(
+                icon = Icons.Default.Translate,
+                title = stringResource(R.string.overlay_point_context_title),
+                description = stringResource(R.string.overlay_point_context_description)
+            )
+            InfoPoint(
+                icon = Icons.Default.Psychology,
+                title = stringResource(R.string.overlay_point_ai_title),
+                description = stringResource(R.string.overlay_point_ai_description)
+            )
+            InfoPoint(
+                icon = Icons.Default.AdsClick,
+                title = stringResource(R.string.overlay_point_always_near_title),
+                description = stringResource(R.string.overlay_point_always_near_description)
+            )
+            InfoPoint(
+                icon = Icons.Default.HistoryEdu,
+                title = stringResource(R.string.overlay_point_no_loss_title),
+                description = stringResource(R.string.overlay_point_no_loss_description)
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        TextButton(
-            onClick = onSkipPressed,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(R.string.overlay_skip_button))
-        }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(
-            onClick = {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    "package:${context.packageName}".toUri()
-                )
-                overlayLauncher.launch(intent)
-            },
+        // Bottom fixed buttons
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(16.dp)
+                .padding(top = 8.dp)
         ) {
-            Text(
-                stringResource(R.string.overlay_grant_button),
-                fontSize = 18.sp
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(
+                        color = MaterialTheme.customColors.cardBackground,
+                        shape = MaterialTheme.shapes.medium
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.customColors.cardBorder,
+                        shape = MaterialTheme.shapes.medium
+                    )
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Default.SettingsSuggest,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.overlay_permission_footer_text),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.customColors.cardTitleText
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            TextButton(
+                onClick = onSkipPressed,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(R.string.overlay_skip_button))
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        "package:${context.packageName}".toUri()
+                    )
+                    overlayLauncher.launch(intent)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text(
+                    stringResource(R.string.overlay_grant_button),
+                    fontSize = 18.sp,
+                    color = MaterialTheme.customColors.cardTitleText
+                )
+            }
         }
     }
 
@@ -222,7 +249,43 @@ fun OverlayContent(
     }
 }
 
-@Preview
+@Composable
+fun InfoPoint(icon: ImageVector, title: String, description: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier.size(32.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Column {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
 @Composable
 private fun Preview() {
     OverlayContent(

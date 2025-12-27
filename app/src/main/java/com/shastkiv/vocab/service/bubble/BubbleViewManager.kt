@@ -86,7 +86,6 @@ class BubbleViewManager(
 
     fun show(initialPosition: BubblePosition) {
         if (bubbleView != null) {
-            Log.w(TAG, "Bubble already shown")
             return
         }
 
@@ -100,7 +99,6 @@ class BubbleViewManager(
             bubbleView = createBubbleView()
             windowManager.addView(bubbleView, bubbleParams)
 
-            Log.d(TAG, "Bubble shown at position (${initialPosition.x}, ${initialPosition.y})")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to show bubble", e)
             overlayLifecycleOwner.destroy()
@@ -110,13 +108,11 @@ class BubbleViewManager(
     fun hideViews() {
         bubbleView?.visibility = View.GONE
         hideDeleteZone()
-        Log.d(TAG, "Views hidden")
     }
 
     fun showViews() {
         if (bubbleView != null) {
             bubbleView?.visibility = View.VISIBLE
-            Log.d(TAG, "Views shown")
         }
     }
 
@@ -124,11 +120,9 @@ class BubbleViewManager(
         bubbleSizeState = newSize
         bubbleAlphaState = newAlpha
         setVibrationEnabled(isVibrationEnabled)
-        Log.d(TAG, "Bubble settings updated: size=$newSize, alpha=$newAlpha")
     }
 
     fun destroy() {
-        Log.d(TAG, "Destroying BubbleViewManager")
         overlayLifecycleOwner.destroy()
         cleanupAnimators()
         removeViewsSafely()
@@ -157,12 +151,10 @@ class BubbleViewManager(
     }
 
     private fun handleBubbleClick() {
-        Log.d("BubbleViewManager", "Bubble clicked, isDragging: $isDragging")
         if (!isDragging) {
             if (isVibrationEnabled) {
                 vibrateOnClick()
             }
-            Log.d("BubbleViewManager", "Calling onBubbleClick callback")
             onBubbleClick()
         }
     }
@@ -316,7 +308,6 @@ class BubbleViewManager(
         coroutineScope.launch {
             try {
                 saveBubblePositionUseCase(bubbleParams.x, bubbleParams.y)
-                Log.d(TAG, "Bubble position saved: (${bubbleParams.x}, ${bubbleParams.y})")
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to save bubble position", e)
             }
@@ -324,7 +315,6 @@ class BubbleViewManager(
     }
 
     private fun handleBubbleRemoval() {
-        Log.d(TAG, "Bubble removal requested by user")
         onBubbleRemovedByUser()
     }
 

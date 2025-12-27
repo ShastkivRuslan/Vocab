@@ -7,16 +7,17 @@ import android.provider.Settings
 import android.util.Log
 import com.shastkiv.vocab.domain.repository.BubbleSettingsRepository
 import com.shastkiv.vocab.service.bubble.BubbleService
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-class BubbleAutoStartReceiver @Inject constructor(
-    private val bubbleSettingsRepository: BubbleSettingsRepository
-) : BroadcastReceiver() {
+@AndroidEntryPoint
+class BubbleAutoStartReceiver : BroadcastReceiver() {
+    @Inject
+    lateinit var bubbleSettingsRepository: BubbleSettingsRepository
 
     companion object {
         private const val TAG = "BubbleAutoStartReceiver"
@@ -50,7 +51,6 @@ class BubbleAutoStartReceiver @Inject constructor(
     }
 
     private suspend fun startBubbleServiceIfAllowed(context: Context, reason: String) {
-
         if (!bubbleSettingsRepository.isBubbleEnabled.first()) {
             Log.d(TAG, "Bubble service is disabled in settings. Aborting.")
             return
@@ -62,11 +62,16 @@ class BubbleAutoStartReceiver @Inject constructor(
         }
 
         try {
+            Log.d(TAG, "Starting 10s safety delay for action: $reason")
+            kotlinx.coroutines.delay(10000)
+
             val serviceIntent = Intent(context, BubbleService::class.java)
+
             context.startForegroundService(serviceIntent)
-            Log.i(TAG, "Successfully requested to start bubble service. Reason: $reason")
+            Log.i(TAG, "Successfully started bubble service after 10s delay. Reason: $reason")
+
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to start bubble service", e)
+            Log.e(TAG, "Failed to start service after delay: ${e.message}")
         }
     }
 }

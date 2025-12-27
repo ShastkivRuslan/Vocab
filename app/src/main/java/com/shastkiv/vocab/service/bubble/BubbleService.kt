@@ -32,7 +32,6 @@ class BubbleService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "BubbleService onCreate")
 
         serviceNotificationManager.startForeground(this)
 
@@ -44,7 +43,6 @@ class BubbleService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return when (intent?.action) {
             ACTION_STOP_SERVICE -> {
-                Log.d(TAG, "Stop service requested")
                 stopSelf()
                 START_NOT_STICKY
             }
@@ -53,7 +51,6 @@ class BubbleService : Service() {
     }
 
     override fun onDestroy() {
-        Log.d(TAG, "BubbleService onDestroy")
         cleanupResources()
         super.onDestroy()
     }
@@ -79,7 +76,6 @@ class BubbleService : Service() {
     }
 
     private fun handleBubbleClick() {
-        Log.d(TAG, "handleBubbleClick called")
         dialogManager.showDialog(
             context = this,
             overlayLifecycleOwner = overlayLifecycleOwner
@@ -87,7 +83,6 @@ class BubbleService : Service() {
     }
 
     private fun handleBubbleRemoval() {
-        Log.d(TAG, "Bubble removed by user")
         stopSelf()
     }
 
@@ -120,13 +115,11 @@ class BubbleService : Service() {
         }
 
         private fun handleScreenOff() {
-            Log.d(TAG, "Screen turned off")
             isBubbleVisible = false
             bubbleManager.hideViews()
         }
 
         private fun handleScreenOn() {
-            Log.d(TAG, "Screen unlocked")
             isBubbleVisible = true
             bubbleManager.showViews()
         }

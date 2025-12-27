@@ -4,6 +4,8 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.service.common.NotificationChannelManager
@@ -31,7 +33,7 @@ class ServiceNotificationManager @Inject constructor(
             NotificationChannelManager.CHANNEL_SERVICE
         )
             .setSmallIcon(R.drawable.ic_add_floating)
-            .setContentTitle("Vocab+ working...")
+            .setContentTitle(context.getString(R.string.service_notification_title))
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_MIN)
             .setSilent(true)
@@ -41,7 +43,16 @@ class ServiceNotificationManager @Inject constructor(
             .setContentIntent(createMainActivityIntent())
             .build()
 
-        service.startForeground(FOREGROUND_NOTIFICATION_ID, notification)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            service.startForeground(
+                FOREGROUND_NOTIFICATION_ID,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE or
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+            )
+        } else {
+            service.startForeground(FOREGROUND_NOTIFICATION_ID, notification)
+        }
     }
 
     private fun createMainActivityIntent(): PendingIntent {
