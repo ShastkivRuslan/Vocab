@@ -1,10 +1,7 @@
 package com.shastkiv.vocab.ui.initialsetup.compose.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,12 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.domain.model.AvailableLanguages
 import com.shastkiv.vocab.domain.model.Language
+import com.shastkiv.vocab.ui.components.LiquidGlassCard
 import com.shastkiv.vocab.ui.settings.language.compose.LanguageSelectionBottomSheet
 import com.shastkiv.vocab.ui.theme.customColors
 
@@ -45,20 +42,7 @@ fun LanguagePickerCard(
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.medium)
-            .background(
-                color = MaterialTheme.customColors.cardBackground,
-                shape = MaterialTheme.shapes.medium
-            )
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.customColors.cardBorder,
-                shape = MaterialTheme.shapes.medium
-            )
-    ) {
+    LiquidGlassCard {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
@@ -85,20 +69,8 @@ fun LanguagePickerCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { showBottomSheet = true }
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(
-                        color = MaterialTheme.customColors.cardBackground,
-                        shape = MaterialTheme.shapes.medium
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.customColors.cardBorder,
-                        shape = MaterialTheme.shapes.medium
-                    )
+            LiquidGlassCard(
+                modifier = Modifier.clickable { showBottomSheet = true }
             ) {
                 Row(
                     modifier = Modifier

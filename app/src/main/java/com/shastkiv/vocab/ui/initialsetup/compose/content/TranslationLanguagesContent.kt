@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.AvailableLanguages
 import com.shastkiv.vocab.domain.model.Language
+import com.shastkiv.vocab.ui.components.LiquidGlassCard
 import com.shastkiv.vocab.ui.initialsetup.compose.components.LanguagePickerCard
 import com.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
 
@@ -75,7 +76,6 @@ fun TranslationLanguagesContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Error card
         if (error != null) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -140,7 +140,6 @@ fun TranslationLanguagesContent(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Validation warning
         if (showValidationError) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -157,12 +156,7 @@ fun TranslationLanguagesContent(
                 )
             }
         } else {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
-            ) {
+            LiquidGlassCard(){
                 Text(
                     text = buildAnnotatedString {
                         append(getGreeting(sourceLanguage.code))

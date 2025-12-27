@@ -22,11 +22,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.shastkiv.vocab.R
+import com.shastkiv.vocab.ui.components.LiquidGlassCard
 import com.shastkiv.vocab.ui.initialsetup.compose.components.OverlayPermissionDeniedBottomSheet
 import com.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
 import com.shastkiv.vocab.ui.theme.customColors
@@ -56,7 +58,6 @@ fun OverlayContent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Scrollable content area
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -70,30 +71,23 @@ fun OverlayContent(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Efficiency Card
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(
-                        color = MaterialTheme.customColors.cardBackground,
-                        shape = MaterialTheme.shapes.medium
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.customColors.cardBorder,
-                        shape = MaterialTheme.shapes.medium
-                    )
-            ) {
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+            LiquidGlassCard {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(64.dp)
                             .background(
-                                color = MaterialTheme.colorScheme.background,
+                                color = MaterialTheme.customColors.cardBackground,
+                                shape = CircleShape
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.customColors.cardBorder,
                                 shape = CircleShape
                             ),
                         contentAlignment = Alignment.Center
@@ -101,29 +95,35 @@ fun OverlayContent(
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Bubble",
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(32.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Column {
-                        Text(
-                            text = stringResource(R.string.overlay_feature_efficiency_title),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.customColors.cardTitleText
-                        )
-                        Text(
-                            text = stringResource(R.string.overlay_feature_efficiency_description),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.customColors.cardDescriptionText
-                        )
-                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = stringResource(R.string.overlay_feature_efficiency_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.customColors.cardTitleText,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = stringResource(R.string.overlay_feature_efficiency_description),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.customColors.cardDescriptionText,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(0.9f)
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Info points
             InfoPoint(
                 icon = Icons.Default.AutoMode,
                 title = stringResource(R.string.overlay_point_social_title),
@@ -158,26 +158,12 @@ fun OverlayContent(
             Spacer(modifier = Modifier.height(24.dp))
         }
 
-        // Bottom fixed buttons
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(
-                        color = MaterialTheme.customColors.cardBackground,
-                        shape = MaterialTheme.shapes.medium
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.customColors.cardBorder,
-                        shape = MaterialTheme.shapes.medium
-                    )
-            ) {
+            LiquidGlassCard {
                 Row(
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -224,7 +210,8 @@ fun OverlayContent(
                 Text(
                     stringResource(R.string.overlay_grant_button),
                     fontSize = 18.sp,
-                    color = MaterialTheme.customColors.cardTitleText
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

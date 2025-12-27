@@ -46,26 +46,7 @@ fun LanguageCard(
                 color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.customColors.cardBorder ,
                 shape = MaterialTheme.shapes.medium
             )
-    ) {
-
-//        Card(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .clickable(enabled = enabled) { onClick() }
-//                .alpha(if (enabled) 1f else 0.6f),
-//            colors = CardDefaults.cardColors(
-//                containerColor = if (isSelected)
-//                    MaterialTheme.colorScheme.surfaceContainer
-//                else
-//                    MaterialTheme.colorScheme.surface
-//            ),
-//            border = if (isSelected)
-//                BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
-//            else null,
-//            elevation = CardDefaults.cardElevation(
-//                defaultElevation = if (isSelected) 8.dp else 2.dp
-//            )
-//        ) {
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
