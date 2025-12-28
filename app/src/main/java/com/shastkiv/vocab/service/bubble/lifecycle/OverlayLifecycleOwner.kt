@@ -8,6 +8,11 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.lifecycle.ViewModelStoreOwner
 
+/**
+ * Custom LifecycleOwner for overlay views that exist outside of the standard Activity/Fragment context.
+ * It provides the necessary Lifecycle, ViewModelStore, and SavedStateRegistry for Compose and ViewModels
+ * to function correctly in a system window.
+ */
 class OverlayLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner, ViewModelStoreOwner {
 
     private val lifecycleRegistry = LifecycleRegistry(this)
@@ -23,12 +28,18 @@ class OverlayLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner, ViewModel
         savedStateRegistryController.performRestore(null)
     }
 
+    /**
+     * Transitions the lifecycle to the CREATED state.
+     */
     fun create() {
         if (lifecycleRegistry.currentState == Lifecycle.State.INITIALIZED) {
             lifecycleRegistry.currentState = Lifecycle.State.CREATED
         }
     }
 
+    /**
+     * Moves the lifecycle to the STARTED state.
+     */
     fun start() {
         when (lifecycleRegistry.currentState) {
             Lifecycle.State.INITIALIZED -> {
@@ -42,6 +53,9 @@ class OverlayLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner, ViewModel
         }
     }
 
+    /**
+     * Moves the lifecycle to the RESUMED state, enabling UI interactions and animations.
+     */
     fun resume() {
         when (lifecycleRegistry.currentState) {
             Lifecycle.State.INITIALIZED -> {
@@ -60,19 +74,16 @@ class OverlayLifecycleOwner : LifecycleOwner, SavedStateRegistryOwner, ViewModel
         }
     }
 
+    /**
+     * Safely destroys the lifecycle.
+     * Uses handleLifecycleEvent to prevent IllegalStateException by ensuring
+     * correct state transitions even if called before the view is fully initialized.
+     */
     fun destroy() {
-        if (lifecycleRegistry.currentState != Lifecycle.State.DESTROYED) {
-            lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
-            viewModelStore.clear()
-        }
-    }
+        val currentState = lifecycleRegistry.currentState
+        if (currentState == Lifecycle.State.DESTROYED) return
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
 
-    fun isActive(): Boolean {
-        return lifecycleRegistry.currentState.isAtLeast(Lifecycle.State.CREATED) &&
-                lifecycleRegistry.currentState != Lifecycle.State.DESTROYED
-    }
-
-    fun getCurrentState(): Lifecycle.State {
-        return lifecycleRegistry.currentState
+        viewModelStore.clear()
     }
 }

@@ -104,9 +104,9 @@ class BubbleSettingsRepositoryImpl @Inject constructor(
         private val Context.settingsDataStore: DataStore<Preferences> by preferencesDataStore(name = "bubble_settings_main")
 
         val DEFAULT_POSITION = BubblePosition(20, 100)
-        const val DEFAULT_IS_ENABLED = true
-        const val DEFAULT_SIZE = 40f
-        const val DEFAULT_TRANSPARENCY = 100f // 0-100%
+        const val DEFAULT_IS_ENABLED = false
+        const val DEFAULT_SIZE = 30f
+        const val DEFAULT_TRANSPARENCY = 70f // 0-100%
         const val DEFAULT_IS_VIBRATION_ENABLED = true
         val DEFAULT_AUTO_HIDE_APP_LIST = emptySet<String>()
     }

@@ -13,6 +13,7 @@ import com.shastkiv.vocab.di.IoDispatcher
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.domain.model.LanguageSettings
 import com.shastkiv.vocab.domain.model.UiError
+import com.shastkiv.vocab.domain.repository.BubbleSettingsRepository
 import com.shastkiv.vocab.domain.repository.LanguageRepository
 import com.shastkiv.vocab.domain.repository.ThemeRepository
 import com.shastkiv.vocab.domain.repository.WordRepository
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -48,6 +50,7 @@ class MainViewModel @Inject constructor(
     themeRepository: ThemeRepository,
     private val wordRepository: WordRepository,
     languageRepository: LanguageRepository,
+    private val bubbleSettingsRepository: BubbleSettingsRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -103,7 +106,8 @@ class MainViewModel @Inject constructor(
         }
 
         val hasOverlayPermission = Settings.canDrawOverlays(context)
-        if (hasOverlayPermission) {
+        val isBubbleEnabled = bubbleSettingsRepository.isBubbleEnabled.first()
+        if (hasOverlayPermission && isBubbleEnabled) {
             sendEffect(MainScreenEffect.StartService(ServiceType.BUBBLE))
         }
     }

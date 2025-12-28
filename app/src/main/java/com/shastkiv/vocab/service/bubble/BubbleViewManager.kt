@@ -151,10 +151,12 @@ class BubbleViewManager(
     }
 
     private fun handleBubbleClick() {
+        Log.d("BubbleViewManager", "Bubble clicked, isDragging: $isDragging")
         if (!isDragging) {
             if (isVibrationEnabled) {
                 vibrateOnClick()
             }
+            Log.d("BubbleViewManager", "Calling onBubbleClick callback")
             onBubbleClick()
         }
     }
@@ -308,6 +310,7 @@ class BubbleViewManager(
         coroutineScope.launch {
             try {
                 saveBubblePositionUseCase(bubbleParams.x, bubbleParams.y)
+                Log.d(TAG, "Bubble position saved: (${bubbleParams.x}, ${bubbleParams.y})")
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to save bubble position", e)
             }
@@ -315,6 +318,7 @@ class BubbleViewManager(
     }
 
     private fun handleBubbleRemoval() {
+        Log.d(TAG, "Bubble removal requested by user")
         onBubbleRemovedByUser()
     }
 

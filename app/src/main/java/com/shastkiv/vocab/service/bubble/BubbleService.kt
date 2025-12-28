@@ -12,6 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+/**
+ * Foreground Service responsible for maintaining the bubble's presence in the system.
+ * It coordinates the lifecycle of UI managers and handles system events like screen on/off.
+ */
 @AndroidEntryPoint
 class BubbleService : Service() {
 
@@ -32,8 +36,12 @@ class BubbleService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
         serviceNotificationManager.startForeground(this)
+
+
+        overlayLifecycleOwner.create()
+        overlayLifecycleOwner.start()
+        overlayLifecycleOwner.resume()
 
         isBubbleVisible = true
         registerScreenStateReceiver()
@@ -43,6 +51,7 @@ class BubbleService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return when (intent?.action) {
             ACTION_STOP_SERVICE -> {
+                Log.d(TAG, "Stop service requested")
                 stopSelf()
                 START_NOT_STICKY
             }
