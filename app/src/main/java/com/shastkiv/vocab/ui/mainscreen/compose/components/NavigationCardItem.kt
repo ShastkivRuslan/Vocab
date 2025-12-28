@@ -48,13 +48,11 @@ fun NavigationCardItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(
-
                 color = MaterialTheme.customColors.cardBackground,
                 shape = RoundedCornerShape(16.dp)
             )
             .border(
                 width = 1.dp,
-
                 color = MaterialTheme.customColors.cardBorder,
                 shape = RoundedCornerShape(16.dp)
             )

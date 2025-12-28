@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.R
@@ -105,7 +106,8 @@ fun InterfaceLanguageContent(
                 Text(
                     text = stringResource(R.string.continue_button),
                     fontSize = 18.sp,
-
+                    fontWeight = FontWeight.Bold, // Додаємо жирність для акценту
+                    color = MaterialTheme.colorScheme.onPrimary // Явно вказуємо колір з теми
                 )
             }
         }

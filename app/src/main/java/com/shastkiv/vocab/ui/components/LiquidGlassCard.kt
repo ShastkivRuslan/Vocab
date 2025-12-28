@@ -20,15 +20,15 @@ fun LiquidGlassCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(
                 color = MaterialTheme.customColors.cardBackground,
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(16.dp)
             )
             .border(
                 width = 1.dp,
                 color = MaterialTheme.customColors.cardBorder,
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(16.dp)
             )
     ) {
         content()
