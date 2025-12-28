@@ -306,4 +306,9 @@
 
     <string name="overlay_permission_footer_text">Vocab+ requires permission to display over other windows to function.</string>
     <string name="service_notification_title">Vocab+ is active</string>
+
+    <string name="feature_in_development_message">This feature is currently under development. Stay tuned to get all the app\'s features soon!</string>
+    <string name="autohide_title">Auto-hide</string>
+    <string name="autohide_subtitle">Choose apps where Vocab+ will be hidden</string>
+    <string name="feature_autohide_description">In this menu, you can select specific applications where the bubble will automatically hide. This ensures your experience remains uninterrupted and convenient.</string>
 </resources>

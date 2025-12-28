@@ -305,4 +305,8 @@
 
     <string name="overlay_permission_footer_text">Vocab+ benötigt die Berechtigung, über anderen Apps zu erscheinen, um zu funktionieren.</string>
     <string name="service_notification_title">Vocab+ ist aktiv</string>
+    <string name="feature_in_development_message">Diese Funktion befindet sich derzeit in der Entwicklung. Bleiben Sie dran, um bald alle Funktionen der App zu nutzen!</string>
+    <string name="autohide_title">Automatisches Ausblenden</string>
+    <string name="autohide_subtitle">Apps wählen, in denen Vocab+ ausgeblendet wird</string>
+    <string name="feature_autohide_description">In diesem Menü können Sie Apps auswählen, in denen die Schaltfläche automatisch ausgeblendet wird. Dies macht die Nutzung von Vocab+ so komfortabel wie möglich.</string>
 </resources>

@@ -305,4 +305,9 @@
 
     <string name="overlay_permission_footer_text">Vocab+ wymaga uprawnienia do wyświetlania nad innymi oknami, aby móc działać.</string>
     <string name="service_notification_title">Vocab+ jest aktywny</string>
+    <string name="feature_in_development_message">Ta funkcja jest obecnie w fazie rozwoju. Bądź na bieżąco, aby wkrótce korzystać ze wszystkich opcji aplikacji!</string>
+    <string name="autohide_title">Auto-ukrywanie</string>
+    <string name="autohide_subtitle">Wybierz aplikacje, w których Vocab+ będzie ukryty</string>
+    <string name="feature_autohide_description">W tym menu możesz wybrać aplikacje, w których przycisk będzie automatycznie ukrywany. Pomoże to uczynić Vocab+ maksymalnie wygodnym.</string>
+
 </resources>

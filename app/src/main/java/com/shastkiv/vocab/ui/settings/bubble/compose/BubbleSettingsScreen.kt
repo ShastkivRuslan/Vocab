@@ -140,8 +140,8 @@ fun BubbleSettingsScreen(
                 )
                 Divider()
                 BubbleSettingItem(
-                    title = stringResource(R.string.bubble_autohide_title),
-                    description = stringResource(R.string.bubble_autohide_description),
+                    title = stringResource(R.string.autohide_title),
+                    description = stringResource(R.string.autohide_subtitle),
                     onClick = onAutoHideClick
                 )
                 Divider()
@@ -184,13 +184,13 @@ fun BubbleSettingItem(
                 text = title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.customColors.cardTitleText
             )
 
             Text(
                 text = description,
                 fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                color = MaterialTheme.customColors.cardDescriptionText,
                 modifier = Modifier.padding(top = 4.dp)
             )
         }
@@ -225,13 +225,13 @@ fun BubbleSettingItemWithSwitch(
                 text = title,
                 fontSize = if (title == "Плаваюча бульбашка") 18.sp else 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.customColors.cardTitleText
             )
 
             Text(
                 text = description,
                 fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                color = MaterialTheme.customColors.cardDescriptionText,
                 modifier = Modifier.padding(top = 4.dp)
             )
         }
@@ -263,11 +263,22 @@ fun BubbleSettingsSlider(
     var sliderPosition by remember(currentValue) { mutableFloatStateOf(currentValue) }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        Text(text = description, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), modifier = Modifier.padding(top = 4.dp))
+        Text(
+            text = title,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.customColors.cardTitleText)
+
+        Text(
+            text = description,
+            fontSize = 14.sp,
+            color = MaterialTheme.customColors.cardDescriptionText,
+            modifier = Modifier.padding(top = 4.dp))
 
         Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = valueRange.start.toInt().toString())
+            Text(
+                text = valueRange.start.toInt().toString(),
+                color = MaterialTheme.customColors.cardDescriptionText)
             Slider(
                 value = sliderPosition,
                 onValueChange = { sliderPosition = it },
@@ -281,7 +292,8 @@ fun BubbleSettingsSlider(
                     inactiveTrackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
                 )
             )
-            Text(text = valueRange.endInclusive.toInt().toString())
+            Text(text = valueRange.endInclusive.toInt().toString(),
+                color = MaterialTheme.customColors.cardDescriptionText)
         }
     }
 }

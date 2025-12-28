@@ -307,5 +307,9 @@
     <string name="overlay_point_no_loss_description">Занотовуйте те, що важливо саме зараз. Ваш фокус залишається на контенті.</string>
 
     <string name="overlay_permission_footer_text">Для роботи Vocab+ потрібен дозвіл на відображення поверх інших вікон.</string>
-    <string name="service_notification_title">Vocab+ активний</string>
+    <string name="service_notification_title">Vocab+ активний</string>*
+    <string name="feature_in_development_message">Дана функція знаходиться в розробці. Залишайтесь з нами для отримання всіх функцій додатку</string>
+    <string name="autohide_title">Автоприховування</string>
+    <string name="autohide_subtitle">Виберіть додатки, в яких Vocab+ буде приховано</string>
+    <string name="feature_autohide_description">У цьому меню ви зможете обрати додатки, в яких кнопка буде автоматично приховуватись. Це допоможе зробити використання Vocab+ максимально зручним.</string>
 </resources>

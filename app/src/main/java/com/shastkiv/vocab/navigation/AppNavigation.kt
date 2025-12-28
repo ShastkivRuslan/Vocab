@@ -31,8 +31,10 @@ import androidx.navigation.compose.rememberNavController
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.ui.SplashScreen
+import com.shastkiv.vocab.ui.about.button.AboutButtonScreen
 import com.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
 import com.shastkiv.vocab.ui.allwords.AllWordsScreen
+import com.shastkiv.vocab.ui.common.compose.FeatureInDevelopScreen
 import com.shastkiv.vocab.ui.initialsetup.AppStartViewModel
 import com.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
 import com.shastkiv.vocab.ui.initialsetup.compose.InitialSetupScreen
@@ -274,8 +276,18 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                 )
             }
             composable(route = Screen.About.route) { PlaceholderScreen(stringResource(R.string.placeholder_about)) }
-            composable(route = Screen.AboutBubble.route) { PlaceholderScreen(stringResource(R.string.placeholder_about_bubble)) }
-            composable(route = Screen.AutoHideSettings.route) { PlaceholderScreen(stringResource(R.string.placeholder_auto_hide)) }
+            composable(route = Screen.AboutBubble.route) {
+                AboutButtonScreen(
+                    onBackClick = { navController.popBackStack() }
+                )
+            }
+            composable(route = Screen.AutoHideSettings.route) {
+                FeatureInDevelopScreen(
+                    onBackPressed = { navController.popBackStack() },
+                    title = stringResource(R.string.autohide_title),
+                    subtitle = stringResource(R.string.autohide_subtitle),
+                    featureDescription = stringResource(R.string.feature_autohide_description)
+                ) }
             composable(route = Screen.Onboarding.route) {
                 val initialSetupViewModel: InitialSetupViewModel = hiltViewModel()
                 InitialSetupScreen(

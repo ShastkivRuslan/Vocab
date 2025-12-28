@@ -305,4 +305,8 @@
 
     <string name="overlay_permission_footer_text">Pro fungování vyžaduje Vocab+ povolení k zobrazení nad ostatními okny.</string>
     <string name="service_notification_title">Vocab+ je aktivní</string>
+    <string name="feature_in_development_message">Tato funkce je momentálně ve vývoji. Zůstaňte s námi, abyste brzy získali všechny funkce aplikace!</string>
+    <string name="autohide_title">Automatické skrytí</string>
+    <string name="autohide_subtitle">Vyberte aplikace, ve kterých bude Vocab+ skryt</string>
+    <string name="feature_autohide_description">V této nabídce si můžete vybrat aplikace, ve kterých se tlačítko automaticky skryje. Pomůže to učinit Vocab+ maximálně pohodlným.</string>
 </resources>
