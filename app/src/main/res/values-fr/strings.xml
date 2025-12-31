@@ -69,8 +69,6 @@
     <string name="search_word">Scanner un mot</string>
     <string name="write_manually">Écrire manuellement</string>
     <string name="percentage_format">%1$d%%</string>
-    <string name="practice_type">Mode pratique</string>
-    <string name="practice_card_description">Réviser les phrases d\'exemple</string>
     <string name="practice_mode">Pratique</string>
     <string name="transcription">Transcription</string>
     <string name="part_of_speech">Nature grammaticale</string>
@@ -98,7 +96,7 @@
     <string name="notifications_description">Gérer les notifications</string>
     <string name="floating_add">Vocab+</string>
     <string name="floating_add_description">Gérer Vocab+</string>
-    <string name="about_us">À propos de Vocab.</string>
+    <string name="about_us">À propos de l\'application</string>
     <string name="about_us_description">Informations légales</string>
 
     <string name="size_of_bubble">Taille de Vocab+</string>
@@ -309,4 +307,10 @@
     <string name="autohide_title">Masquage automatique</string>
     <string name="autohide_subtitle">Choisissez les applis où Vocab+ sera masqué</string>
     <string name="feature_autohide_description">Dans ce menu, vous pouvez sélectionner les applications où le bouton se masquera automatiquement. Cela rendra l\'utilisation de Vocab+ aussi pratique que possible.</string>
+    <string name="practice_title">Mode Entraînement</string>
+    <string name="practice_subtitle">Maîtrisez les mots grâce à des exercices de phrases</string>
+    <string name="feature_practice_description">Dans ce mode, vous vous entraînerez à utiliser les mots dans des phrases réelles. Cela vous aide non seulement à mémoriser les traductions, mais aussi à utiliser le nouveau vocabulaire avec assurance à l\'oral.</string>
+    <string name="about_app_mission_title">Pourquoi cela va-t-il marcher ?</string>
+    <string name="about_app_full_story">Honnêtement : apprendre une langue est un véritable défi.\n\nNous sommes tous passés par là : vous téléchargez une application, vous vous promettez d\'étudier 30 minutes par jour, mais une semaine plus tard vous la supprimez car la vie s\'en mêle. Les réseaux sociaux et les contenus modernes dictent leurs propres règles, et chaque programme impose son propre système, souvent surchargé d\'informations inutiles.\n\nNous avons conçu Vocab. différemment. Il ne demande pas votre « temps précieux » ni des horaires stricts. Ici, c\'est vous qui choisissez quoi apprendre. C\'est simple : si vous tombez sur un mot que vous ne connaissez pas — c\'est celui-là qui mérite votre attention. Nous vous aidons simplement à ne pas le perdre et à le mémoriser.\n\nComment ça marche ? Notre méthodologie repose sur deux solutions fonctionnant en synergie :\n\n1. Vocab+ — votre souffleur personnel toujours à portée de main. Vous avez vu un mot inconnu sur Instagram, votre navigateur ou YouTube ? Pas besoin de changer d\'application. Un appui sur le bouton, tapez le mot — et la traduction s\'affiche devant vous. Vous pouvez l\'enregistrer instantanément dans votre dictionnaire sans interrompre votre navigation.\n\n2. La magie du widget — vous prenez votre smartphone plus de 100 fois par jour. À chaque fois, sur votre écran d\'accueil, un widget affichera vos mots. Même si vous ne le regardez pas spécifiquement, votre cerveau et votre vision périphérique enregistreront inconsciemment la traduction. Ce sont des centaines de répétitions « invisibles » par jour qui transforment la consultation passive en véritables connaissances.\n\nDe plus, des tests, des quiz et des cartes sont disponibles dans l\'application pour renforcer les résultats. Nous construisons Vocab+ sur la base de vos retours, en ne gardant que ce qui apporte réellement de la valeur.</string>
+    <string name="about_us_footer">Vocab. v1.0.0</string>
 </resources>

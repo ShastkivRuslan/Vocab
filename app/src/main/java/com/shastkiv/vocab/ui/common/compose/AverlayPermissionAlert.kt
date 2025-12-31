@@ -35,7 +35,7 @@ fun OverlayPermissionAlert() {
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = stringResource(R.string.overlay_permission_footer_text),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.customColors.cardTitleText
             )
         }

@@ -69,8 +69,6 @@
     <string name="search_word">Skanuj słowo</string>
     <string name="write_manually">Wpisz ręcznie</string>
     <string name="percentage_format">%1$d%%</string>
-    <string name="practice_type">Tryb ćwiczeń</string>
-    <string name="practice_card_description">Przejrzyj przykładowe zdania</string>
     <string name="practice_mode">Ćwiczenia</string>
     <string name="transcription">Transkrypcja</string>
     <string name="part_of_speech">Część mowy</string>
@@ -98,7 +96,7 @@
     <string name="notifications_description">Zarządzaj powiadomieniami</string>
     <string name="floating_add">Vocab+</string>
     <string name="floating_add_description">Zarządzaj Vocab+</string>
-    <string name="about_us">O aplikacji Vocab.</string>
+    <string name="about_us">O aplikacji</string>
     <string name="about_us_description">Informacje prawne</string>
 
     <string name="size_of_bubble">Wielkość Vocab+</string>
@@ -309,5 +307,10 @@
     <string name="autohide_title">Auto-ukrywanie</string>
     <string name="autohide_subtitle">Wybierz aplikacje, w których Vocab+ będzie ukryty</string>
     <string name="feature_autohide_description">W tym menu możesz wybrać aplikacje, w których przycisk będzie automatycznie ukrywany. Pomoże to uczynić Vocab+ maksymalnie wygodnym.</string>
-
+    <string name="practice_title">Tryb ćwiczeń</string>
+    <string name="practice_subtitle">Utrwalaj słowa poprzez ćwiczenia w zdaniach</string>
+    <string name="feature_practice_description">W tym trybie będziesz ćwiczyć używanie słów w realnych zdaniach. Pomoże Ci to nie tylko zapamiętać tłumaczenie, але również pewnie stosować nowe słownictwo w mowie.</string>
+    <string name="about_app_mission_title">Dlaczego to zadziała?</string>
+    <string name="about_app_full_story">Szczerze: nauka języka to prawdziwe wyzwanie.\n\nWszyscy przez to przechodziliśmy: pobierasz aplikację, obiecujesz sobie uczyć się przez 30 minut dziennie, ale tydzień później ją usuwasz, bo życie weryfikuje plany. Media społecznościowe i nowoczesne treści dyktują własne zasady, a każdy program narzuca własny system, który często jest przeładowany zbędnymi informacjami.\n\nStworzyliśmy Vocab. inaczej. Nie prosi o Twój „cenny czas” ani rygorystyczne grafiki. Tutaj to Ty wybierasz, czego chcesz się uczyć. To proste: jeśli spotkasz słowo i go nie znasz — to właśnie ono jest warte Twojej uwagi. My jedynie pomagamy Ci go nie zgubić i zapamiętać.\n\nJak to działa? Nasza metodyka opiera się na dwóch rozwiązaniach działających w synergii:\n\n1. Vocab+ — Twój osobisty sufler, który jest zawsze pod ręką. Zobaczyłeś nieznane słowo na Instagramie, w przeglądarce czy na YouTube? Nie musisz przełączać aplikacji. Jedno dotknięcie przycisku, wpisanie słowa — i tłumaczenie jest już przed Tobą. Możesz je natychmiast zapisać w swoim słowniku, nie przerywając przeglądania.\n\n2. Magia widgetu — bierzesz smartfon do ręki ponad 100 razy dziennie. Za każdym razem na Twoim ekranie głównym będzie widget z Twoimi słowami. Nawet jeśli nie patrzysz na niego celowo, Twój mózg i wzrok obwodowy podświadomie zarejestrują tłumaczenie. To setki „niewidzialnych” powtórzeń dziennie, które zamieniają pasywne patrzenie w realną wiedzę.\n\nPoza tym, w aplikacji dostępne są testy, quizy i karty dla utrwalenia efektów. Budujemy Vocab+ na podstawie Twoich opinii, zostawiając tylko to, co naprawdę przynosi korzyść.</string>
+    <string name="about_us_footer">Vocab. v1.0.0</string>
 </resources>

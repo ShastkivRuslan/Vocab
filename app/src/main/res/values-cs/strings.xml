@@ -69,8 +69,6 @@
     <string name="search_word">Skenovat slovo</string>
     <string name="write_manually">Psát ručně</string>
     <string name="percentage_format">%1$d%%</string>
-    <string name="practice_type">Režim procvičování</string>
-    <string name="practice_card_description">Projít si příkladové věty</string>
     <string name="practice_mode">Procvičování</string>
     <string name="transcription">Transkripce</string>
     <string name="part_of_speech">Slovní druh</string>
@@ -98,7 +96,7 @@
     <string name="notifications_description">Spravovat oznámení z aplikace</string>
     <string name="floating_add">Vocab+</string>
     <string name="floating_add_description">Spravovat Vocab+</string>
-    <string name="about_us">O aplikaci Vocab.</string>
+    <string name="about_us">O aplikaci</string>
     <string name="about_us_description">Právní informace</string>
 
     <string name="size_of_bubble">Velikost Vocab+</string>
@@ -309,4 +307,10 @@
     <string name="autohide_title">Automatické skrytí</string>
     <string name="autohide_subtitle">Vyberte aplikace, ve kterých bude Vocab+ skryt</string>
     <string name="feature_autohide_description">V této nabídce si můžete vybrat aplikace, ve kterých se tlačítko automaticky skryje. Pomůže to učinit Vocab+ maximálně pohodlným.</string>
+    <string name="practice_title">Režim procvičování</string>
+    <string name="practice_subtitle">Osvojte si slova pomocí cvičení ve větách</string>
+    <string name="feature_practice_description">V tomto režimu budete procvičovat používání slov v reálných větách. Pomůže vám to nejen si zapamatovat překlad, ale také sebevědomě používat novou slovní zásobu v mluveném projevu.</string>
+    <string name="about_app_mission_title">Proč to bude fungovat?</string>
+    <string name="about_app_full_story">Upřímně: učit se jazyk je skutečná výzva.\n\nVšichni jsme si tím prošli: stáhnete si aplikaci, slíbíte si, že se budete učit 30 minut denně, ale o týden později ji smažete, protože vám do toho vstoupí život. Sociální sítě a moderní obsah diktují svá vlastní pravidla a každý program vnucuje svůj vlastní systém, který je často přetížen zbytečnými informacemi.\n\nUdělali jsme Vocab. jinak. Nežádá o váš „drahocenný čas“ ani přísné rozvrhy. Zde si sami vybíráte, co se chcete učit. Je to jednoduché: pokud narazíte na slovo a neznáte ho — právě to stojí za vaši pozornost. My vám jen pomáháme ho neztratit a zapamatovat si ho.\n\nJak to funguje? Naše metodika je založena na dvou řešeních pracujících v synergii:\n\n1. Vocab+ — váš osobní nápověda, který je vždy nablízku. Viděli jste neznámé slovo na Instagramu, v prohlížeči nebo na YouTube? Nemusíte přepínat aplikace. Jedno klepnutí na tlačítko, zadání slova — a překlad je přímo před vámi. Můžete si ho okamžitě uložit do svého slovníku, aniž byste přerušili prohlížení.\n\n2. Magie widgetu — vezmete smartphone do ruky více než 100krát denně. Pokaždé bude na vaší domovské obrazovce widget s vašimi slovy. I když se na něj vyloženě nedíváte, váš mozek a periferní vidění podvědomě překlad zaznamenají. Jsou to stovky „neviditelných“ opakování denně, která mění pasivní sledování v reálné znalosti.\n\nKromě toho jsou v aplikaci k dispozici testy, kvízy a kartičky pro upevnění výsledků. Vocab+ stavíme na základě vaší zpětné vazby a ponecháváme jen to, co skutečně přináší užitek.</string>
+    <string name="about_us_footer">Vocab. v1.0.0</string>
 </resources>

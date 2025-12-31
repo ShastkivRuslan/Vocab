@@ -69,8 +69,6 @@
     <string name="search_word">Scan word</string>
     <string name="write_manually">Write manually</string>
     <string name="percentage_format">%1$d%%</string>
-    <string name="practice_type">Practice Mode</string>
-    <string name="practice_card_description">Review example sentences</string>
     <string name="practice_mode">Practice</string>
     <string name="transcription">Transcription</string>
     <string name="part_of_speech">Part of Speech</string>
@@ -98,7 +96,7 @@
     <string name="notifications_description">Manage notifications from the app</string>
     <string name="floating_add">Vocab+</string>
     <string name="floating_add_description">Manage Vocab+</string>
-    <string name="about_us">About Vocab.</string>
+    <string name="about_us">About the app</string>
     <string name="about_us_description">Legal information</string>
 
     <string name="size_of_bubble">Vocab+ size</string>
@@ -311,4 +309,10 @@
     <string name="autohide_title">Auto-hide</string>
     <string name="autohide_subtitle">Choose apps where Vocab+ will be hidden</string>
     <string name="feature_autohide_description">In this menu, you can select specific applications where the bubble will automatically hide. This ensures your experience remains uninterrupted and convenient.</string>
+    <string name="practice_title">Practice Mode</string>
+    <string name="practice_subtitle">Master words through sentence exercises</string>
+    <string name="feature_practice_description">In this mode, you will practice using words within real sentences. It helps you not just memorize translations, but confidently use new vocabulary in daily speech.</string>
+    <string name="about_app_mission_title">Why will this work?</string>
+    <string name="about_app_full_story">Honestly: learning a language is a real challenge.\n\nWe\'ve all been there: you download an app, promise yourself to study for 30 minutes every day, but a week later you delete it because life gets in the way. Social media and modern content dictate their own rules, and every program imposes its own system, which is often overloaded with useless information.\n\nWe made Vocab. different. It doesn\'t ask for your \"golden time\" or strict schedules. Here, you choose what to learn. It\'s simple: if you come across a word and don\'t know it — that\'s the one worth your attention. We just help you not to lose it and to remember it.\n\nHow does it work? Our methodology is based on two solutions working in synergy:\n\n1. Vocab+ — your personal prompter that\'s always near. Saw an unfamiliar word on Instagram, browser, or YouTube? No need to switch apps. One tap on the button, type the word — and the translation is right in front of you. You can instantly save it to your dictionary without interrupting your browsing.\n\n2. Widget Magic — you pick up your smartphone over 100 times a day. Every time on your home screen, there will be a widget with your words. Even if you don\'t look at it specifically, your brain and peripheral vision will subconsciously register the translation. These are hundreds of \"invisible\" repetitions a day that turn passive viewing into real knowledge.\n\nAdditionally, tests, quizzes, and cards are available in the app to reinforce the results. We build Vocab+ based on your feedback, keeping only what truly brings value.</string>
+    <string name="about_us_footer">Vocab. v1.0.0</string>
 </resources>

@@ -1,6 +1,7 @@
-package com.shastkiv.vocab.ui.about.button
+package com.shastkiv.vocab.ui.about.app
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,15 +22,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.shastkiv.vocab.R
-import com.shastkiv.vocab.ui.common.compose.AboutBubbleContent
-import com.shastkiv.vocab.ui.common.compose.OverlayPermissionAlert
+import com.shastkiv.vocab.ui.components.LiquidGlassCard
+import com.shastkiv.vocab.ui.initialsetup.compose.components.AnimatedAppNameRow
 import com.shastkiv.vocab.ui.theme.customColors
 
 @Composable
-fun AboutButtonScreen(
+fun AboutAppScreen(
     onBackClick: () -> Unit
 ) {
     Column(
@@ -56,26 +60,64 @@ fun AboutButtonScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                text = stringResource(R.string.bubble_settings_about),
-                style = MaterialTheme.typography.headlineLarge,
+                text = stringResource(R.string.about_us),
+                fontSize = 32.sp,
                 color = MaterialTheme.customColors.cardTitleText
             )
         }
-
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            AboutBubbleContent()
+            Box(modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                AnimatedAppNameRow()
+            }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
-            OverlayPermissionAlert()
+            LiquidGlassCard {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = stringResource(R.string.about_app_mission_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.customColors.cardTitleText
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = stringResource(R.string.about_app_full_story),
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Start,
+                        color = MaterialTheme.customColors.cardDescriptionText
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                text = stringResource(R.string.about_us_footer),
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp,
+                color = MaterialTheme.customColors.cardDescriptionText.copy(alpha = 0.5f)
+            )
         }
     }
 }
 
-@Composable
+
 @Preview
+@Composable
 private fun Preview() {
-    AboutButtonScreen(onBackClick = {})
+    AboutAppScreen(
+        onBackClick = {}
+    )
 }

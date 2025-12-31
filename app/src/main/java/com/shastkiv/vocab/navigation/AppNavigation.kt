@@ -12,18 +12,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.Language
 import com.shastkiv.vocab.ui.SplashScreen
+import com.shastkiv.vocab.ui.about.app.AboutAppScreen
 import com.shastkiv.vocab.ui.about.button.AboutButtonScreen
 import com.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
 import com.shastkiv.vocab.ui.allwords.AllWordsScreen
@@ -40,9 +38,8 @@ import com.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
 import com.shastkiv.vocab.ui.initialsetup.compose.InitialSetupScreen
 import com.shastkiv.vocab.ui.mainscreen.MainViewModel
 import com.shastkiv.vocab.ui.mainscreen.compose.MainScreen
-import com.shastkiv.vocab.ui.practice.compose.PracticeScreen
-import com.shastkiv.vocab.ui.repetition.RepetitionViewModel
-import com.shastkiv.vocab.ui.repetition.compose.RepetitionScreen
+import com.shastkiv.vocab.ui.quiz.RepetitionViewModel
+import com.shastkiv.vocab.ui.quiz.compose.RepetitionScreen
 import com.shastkiv.vocab.ui.settings.bubble.BubbleSettingsViewModel
 import com.shastkiv.vocab.ui.settings.language.LanguageDialogType
 import com.shastkiv.vocab.ui.settings.language.LanguageSettingsViewModel
@@ -258,7 +255,12 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                 )
             }
             composable(route = Screen.Practice.route) {
-                PracticeScreen()
+                FeatureInDevelopScreen(
+                    onBackPressed = { navController.popBackStack() },
+                    title = stringResource(R.string.practice_title),
+                    subtitle = stringResource(R.string.practice_subtitle),
+                    featureDescription = stringResource(R.string.feature_practice_description)
+                )
             }
             composable(route = Screen.AllWords.route) {
                 AllWordsScreen(
@@ -275,12 +277,18 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                     onSuccessClick = { notificationSettingsViewModel.callSuccess()}
                 )
             }
-            composable(route = Screen.About.route) { PlaceholderScreen(stringResource(R.string.placeholder_about)) }
+            composable(route = Screen.About.route) {
+                AboutAppScreen(
+                    onBackClick = {navController.popBackStack()}
+                )
+            }
+
             composable(route = Screen.AboutBubble.route) {
                 AboutButtonScreen(
                     onBackClick = { navController.popBackStack() }
                 )
             }
+
             composable(route = Screen.AutoHideSettings.route) {
                 FeatureInDevelopScreen(
                     onBackPressed = { navController.popBackStack() },
@@ -288,6 +296,7 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                     subtitle = stringResource(R.string.autohide_subtitle),
                     featureDescription = stringResource(R.string.feature_autohide_description)
                 ) }
+
             composable(route = Screen.Onboarding.route) {
                 val initialSetupViewModel: InitialSetupViewModel = hiltViewModel()
                 InitialSetupScreen(
@@ -300,16 +309,5 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun PlaceholderScreen(title: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(
-            text = stringResource(R.string.placeholder_for, title),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge
-        )
     }
 }

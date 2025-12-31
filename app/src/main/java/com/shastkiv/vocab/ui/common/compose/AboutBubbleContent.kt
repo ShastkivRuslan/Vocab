@@ -81,7 +81,7 @@ fun AboutBubbleContent() {
 
                 Text(
                     text = stringResource(R.string.overlay_feature_efficiency_description),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.customColors.cardDescriptionText,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(0.9f)
@@ -147,13 +147,13 @@ private fun InfoPoint(icon: ImageVector, title: String, description: String) {
         Column {
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
