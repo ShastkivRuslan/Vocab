@@ -64,8 +64,8 @@ fun AllWordsCard(onClick: () -> Unit) {
 @Composable
 fun PracticeCard(onClick: () -> Unit) {
     val card = NavigationCardData(
-        title = stringResource(R.string.practice_type),
-        description = stringResource(R.string.practice_card_description),
+        title = stringResource(R.string.practice_title),
+        description = stringResource(R.string.practice_subtitle),
         icon = Icons.Default.Repeat,
         colorGradient = listOf(Color(0x33F472B6), Color(0x1AFB7185)),
         iconBgColor = Color(0x33F472B6),
