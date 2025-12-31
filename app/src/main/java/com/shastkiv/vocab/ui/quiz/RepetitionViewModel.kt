@@ -1,23 +1,19 @@
-package com.shastkiv.vocab.ui.repetition
+package com.shastkiv.vocab.ui.quiz
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shastkiv.vocab.di.IoDispatcher
 import com.shastkiv.vocab.domain.model.DailyStatistic
 import com.shastkiv.vocab.domain.model.enums.StatType
 import com.shastkiv.vocab.domain.model.UiError
-import com.shastkiv.vocab.domain.repository.ThemeRepository
 import com.shastkiv.vocab.domain.usecase.GetRepetitionWordUseCase
 import com.shastkiv.vocab.domain.usecase.GetTodayStatsUseCase
 import com.shastkiv.vocab.domain.usecase.UpdateDailyStatsUseCase
 import com.shastkiv.vocab.domain.usecase.UpdateWordScoreUseCase
-import com.shastkiv.vocab.ui.repetition.state.RepetitionUiState
+import com.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import com.shastkiv.vocab.utils.TTSManager
 import com.shastkiv.vocab.utils.mapThrowableToUiError
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.ui.repetition.compose
+package com.shastkiv.vocab.ui.quiz.compose
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,8 +25,8 @@ import com.shastkiv.vocab.R
 import com.shastkiv.vocab.domain.model.DailyStatistic
 import com.shastkiv.vocab.domain.model.Word
 import com.shastkiv.vocab.ui.common.compose.ErrorContent
-import com.shastkiv.vocab.ui.repetition.RepetitionEvent
-import com.shastkiv.vocab.ui.repetition.state.RepetitionUiState
+import com.shastkiv.vocab.ui.quiz.RepetitionEvent
+import com.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
 import com.shastkiv.vocab.ui.theme.customColors
 

@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.ui.repetition.compose
+package com.shastkiv.vocab.ui.quiz.compose
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -7,14 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.shastkiv.vocab.ui.repetition.state.RepetitionUiState
+import com.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import androidx.compose.ui.tooling.preview.Preview
 import com.shastkiv.vocab.domain.model.DailyStatistic
 import com.shastkiv.vocab.domain.model.Word
-import com.shastkiv.vocab.ui.repetition.compose.components.AnswerOptions
-import com.shastkiv.vocab.ui.repetition.compose.components.ProgressCard
-import com.shastkiv.vocab.ui.repetition.compose.components.ResultFooter
-import com.shastkiv.vocab.ui.repetition.compose.components.WordCard
+import com.shastkiv.vocab.ui.quiz.compose.components.AnswerOptions
+import com.shastkiv.vocab.ui.quiz.compose.components.ProgressCard
+import com.shastkiv.vocab.ui.quiz.compose.components.ResultFooter
+import com.shastkiv.vocab.ui.quiz.compose.components.WordCard
 import com.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
 
 @Composable

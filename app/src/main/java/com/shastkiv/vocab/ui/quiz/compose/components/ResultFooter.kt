@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.ui.repetition.compose.components
+package com.shastkiv.vocab.ui.quiz.compose.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

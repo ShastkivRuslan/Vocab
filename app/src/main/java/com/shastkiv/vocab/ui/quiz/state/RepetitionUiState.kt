@@ -1,4 +1,4 @@
-package com.shastkiv.vocab.ui.repetition.state
+package com.shastkiv.vocab.ui.quiz.state
 
 import com.shastkiv.vocab.domain.model.DailyStatistic
 import com.shastkiv.vocab.domain.model.UiError
