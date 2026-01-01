@@ -22,14 +22,14 @@ val geminiApiKey: String = localProperties.getProperty("gemini.api.key", "")
 val apiSystemPrompt: String = localProperties.getProperty("openai.system.prompt", "")
 
 android {
-    namespace = "com.shastkiv.vocab"
+    namespace = "dev.shastkiv.vocab"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.shastkiv.vocab"
+        applicationId = "dev.shastkiv.vocab"
         minSdk = 29
         targetSdk = 35
-        versionCode = 2
+        versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

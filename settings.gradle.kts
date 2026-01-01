@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Vocab+"
+rootProject.name = "Vocab"
 include(":app")
  
