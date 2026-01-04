@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -41,59 +43,65 @@ fun InterfaceLanguageContent(
     val currentLanguage by viewModel.currentAppLanguage.collectAsState()
     val availableLanguages = remember { AvailableLanguages.list }
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.height(32.dp))
-
-        AnimatedAppNameRow()
-        Spacer(modifier = Modifier.height(20.dp))
-        AnimatedLanguagePrompt()
-        Spacer(modifier = Modifier.height(32.dp))
-
+    Column(modifier = Modifier.fillMaxSize()) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .weight(1f)
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            availableLanguages.forEach { language ->
-                LanguageCard(
-                    language = language,
-                    isSelected = currentLanguage.code == language.code,
-                    enabled = !isLoading,
-                    onClick = {
-                        if (currentLanguage.code != language.code) {
-                            viewModel.saveAppLanguage(language)
-                            Toast.makeText(
-                                context,
-                                when(language.code) {
-                                    "uk" -> "Мову змінено"
-                                    "en" -> "Language changed"
-                                    "pl" -> "Zmieniono język"
-                                    "de" -> "Sprache geändert"
-                                    "fr" -> "Langue changée"
-                                    "cs" -> "Jazyk změněn"
-                                    else -> "Language changed"
-                                },
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                )
-            }
-        }
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.weight(1f))
+            AnimatedAppNameRow()
+            Spacer(modifier = Modifier.height(20.dp))
+            AnimatedLanguagePrompt()
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                availableLanguages.forEach { language ->
+                    LanguageCard(
+                        language = language,
+                        isSelected = currentLanguage.code == language.code,
+                        enabled = !isLoading,
+                        onClick = {
+                            if (currentLanguage.code != language.code) {
+                                viewModel.saveAppLanguage(language)
+                                Toast.makeText(
+                                    context,
+                                    when(language.code) {
+                                        "uk" -> "Мову змінено"
+                                        "en" -> "Language changed"
+                                        "pl" -> "Zmieniono język"
+                                        "de" -> "Sprache geändert"
+                                        "fr" -> "Langue changée"
+                                        "cs" -> "Jazyk změněn"
+                                        else -> "Language changed"
+                                    },
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+        }
 
         Button(
             onClick = onContinue,
             enabled = !isLoading,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(56.dp)
+                .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
             if (isLoading) {

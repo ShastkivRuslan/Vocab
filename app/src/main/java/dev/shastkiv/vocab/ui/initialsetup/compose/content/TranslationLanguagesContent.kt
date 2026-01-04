@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.Error
@@ -51,6 +53,7 @@ fun TranslationLanguagesContent(
     var sourceLanguage by remember { mutableStateOf(AvailableLanguages.DEFAULT_ENGLISH) }
     var targetLanguage by remember { mutableStateOf(AvailableLanguages.DEFAULT_UKRAINIAN) }
     var showValidationError by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(sourceLanguage, targetLanguage) {
         showValidationError = sourceLanguage.code == targetLanguage.code
@@ -63,124 +66,128 @@ fun TranslationLanguagesContent(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        SetupHeader(
-            onBackPressed = onBackPressed,
-            title = stringResource(R.string.initial_setup_translation_languages_title),
-            subTitle = stringResource(R.string.initial_setup_translation_languages_sub_title)
-        )
+    Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .weight(1f)
+                .verticalScroll(scrollState)
+        ) {
+            SetupHeader(
+                onBackPressed = onBackPressed,
+                title = stringResource(R.string.initial_setup_translation_languages_title),
+                subTitle = stringResource(R.string.initial_setup_translation_languages_sub_title)
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        if (error != null) {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer
-                )
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Error,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onErrorContainer
+            if (error != null) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer
                     )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Error,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                        Text(
+                            text = error,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            LanguagePickerCard(
+                title = stringResource(R.string.source_language),
+                subtitle = stringResource(R.string.source_language_subtitle),
+                selectedLanguage = sourceLanguage,
+                onLanguageSelected = { sourceLanguage = it },
+                emoji = "📚"
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowDownward,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            LanguagePickerCard(
+                title = stringResource(R.string.target_language),
+                subtitle = stringResource(R.string.target_language_subtitle),
+                selectedLanguage = targetLanguage,
+                onLanguageSelected = { targetLanguage = it },
+                emoji = "🎯"
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            if (showValidationError) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer
+                    )
+                ) {
                     Text(
-                        text = error,
+                        text = stringResource(R.string.error_same_languages),
+                        modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onErrorContainer,
-                        modifier = Modifier.weight(1f)
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+            } else {
+                LiquidGlassCard(){
+                    Text(
+                        text = buildAnnotatedString {
+                            append(getGreeting(sourceLanguage.code))
+                            append(sourceLanguage.flagEmoji)
+                            append(" → ")
+                            append(getGreeting(targetLanguage.code))
+                            append(targetLanguage.flagEmoji)
+                        },
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
+
             Spacer(modifier = Modifier.height(16.dp))
         }
-
-        LanguagePickerCard(
-            title = stringResource(R.string.source_language),
-            subtitle = stringResource(R.string.source_language_subtitle),
-            selectedLanguage = sourceLanguage,
-            onLanguageSelected = { sourceLanguage = it },
-            emoji = "📚"
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowDownward,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LanguagePickerCard(
-            title = stringResource(R.string.target_language),
-            subtitle = stringResource(R.string.target_language_subtitle),
-            selectedLanguage = targetLanguage,
-            onLanguageSelected = { targetLanguage = it },
-            emoji = "🎯"
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        if (showValidationError) {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.error_same_languages),
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onErrorContainer
-                )
-            }
-        } else {
-            LiquidGlassCard(){
-                Text(
-                    text = buildAnnotatedString {
-                        append(getGreeting(sourceLanguage.code))
-                        append(sourceLanguage.flagEmoji)
-                        append(" → ")
-                        append(getGreeting(targetLanguage.code))
-                        append(targetLanguage.flagEmoji)
-                    },
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         Button(
             onClick = { onLanguagesSelected(sourceLanguage, targetLanguage) },
             enabled = !isLoading && !showValidationError,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(56.dp)
+                .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
             if (isLoading) {

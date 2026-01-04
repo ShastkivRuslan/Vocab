@@ -61,11 +61,11 @@ fun OverlayContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         Column(
             modifier = Modifier
                 .weight(1f)
+                .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             SetupHeader(
@@ -77,20 +77,22 @@ fun OverlayContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             AboutBubbleContent()
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OverlayPermissionAlert()
         }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp)
+                .padding(horizontal = 16.dp)
         ) {
-            OverlayPermissionAlert()
-
-            Spacer(modifier = Modifier.height(6.dp))
-
             TextButton(
                 onClick = onSkipPressed,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             ) {
                 Text(stringResource(R.string.overlay_skip_button))
             }
@@ -107,7 +109,8 @@ fun OverlayContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
+                    .height(56.dp)
+                    .padding(horizontal = 16.dp),
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Text(

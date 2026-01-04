@@ -46,34 +46,34 @@ fun LanguageCard(
                 color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.customColors.cardBorder ,
                 shape = MaterialTheme.shapes.medium
             )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(
-                    text = language.flagEmoji,
-                    fontSize = 24.sp
-                )
+            Text(
+                text = language.flagEmoji,
+                fontSize = 24.sp
+            )
 
-                Text(
-                    text = language.name,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
-                    modifier = Modifier.weight(1f),
-                    color = MaterialTheme.customColors.cardTitleText
-                )
+            Text(
+                text = language.name,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
+                modifier = Modifier.weight(1f),
+                color = MaterialTheme.customColors.cardTitleText
+            )
 
-                if (isSelected) {
-                    Icon(
-                        imageVector = Icons.Default.CheckCircle,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
+            if (isSelected) {
+                Icon(
+                    imageVector = Icons.Default.CheckCircle,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }
+}
