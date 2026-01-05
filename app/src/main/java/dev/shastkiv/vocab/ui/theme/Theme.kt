@@ -12,6 +12,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -82,6 +83,11 @@ val MaterialTheme.customColors: CustomAppColors
     @Composable
     get() = LocalCustomAppColors.current
 
+val MaterialTheme.dimensions: AppDimensions
+    @Composable
+    get() = LocalAppDimensions.current
+
+
 @Composable
 fun LearnWordsTrainerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -107,6 +113,12 @@ fun LearnWordsTrainerTheme(
     val customGradientColors = if (!isDark) DarkAppGradient else LightAppGradient
     val customAppColors = if (isDark) DarkCustomColors else LightCustomColors
 
+    val configuration = LocalConfiguration.current
+    val dimensions = when {
+        configuration.screenHeightDp < 720 -> smallDimensions
+        configuration.screenHeightDp < 820 -> mediumDimensions
+        else -> defaultDimensions
+    }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
@@ -119,7 +131,8 @@ fun LearnWordsTrainerTheme(
 
     CompositionLocalProvider(
         LocalAppGradientColors provides customGradientColors,
-                LocalCustomAppColors provides customAppColors
+                LocalCustomAppColors provides customAppColors,
+        LocalAppDimensions provides dimensions
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

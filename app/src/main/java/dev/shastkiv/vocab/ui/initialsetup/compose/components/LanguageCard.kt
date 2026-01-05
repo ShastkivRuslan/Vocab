@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
@@ -20,9 +21,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.domain.model.Language
 import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @Composable
 fun LanguageCard(
@@ -31,32 +32,36 @@ fun LanguageCard(
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
+    val dimensions = MaterialTheme.dimensions
+    val customColors = MaterialTheme.customColors
+    val defaultColors = MaterialTheme.colorScheme
+
     Box(
         modifier = Modifier
             .clickable(enabled = enabled) { onClick() }
             .fillMaxWidth()
             .alpha(if (enabled) 1f else 0.6f)
-            .clip(MaterialTheme.shapes.medium)
+            .clip(RoundedCornerShape(dimensions.cornerRadius))
             .background(
-                color = MaterialTheme.customColors.cardBackground,
-                shape = MaterialTheme.shapes.medium
+                color = customColors.cardBackground,
+                shape = RoundedCornerShape(dimensions.cornerRadius)
             )
             .border(
                 width = 1.dp,
-                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.customColors.cardBorder ,
-                shape = MaterialTheme.shapes.medium
+                color = if (isSelected) defaultColors.primary else customColors.cardBorder,
+                shape = RoundedCornerShape(dimensions.cornerRadius)
             )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(dimensions.largePadding),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensions.spacingMedium)
         ) {
             Text(
                 text = language.flagEmoji,
-                fontSize = 24.sp
+                fontSize = dimensions.emojiSize
             )
 
             Text(
@@ -64,14 +69,14 @@ fun LanguageCard(
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
                 modifier = Modifier.weight(1f),
-                color = MaterialTheme.customColors.cardTitleText
+                color = customColors.cardTitleText
             )
 
             if (isSelected) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = defaultColors.primary
                 )
             }
         }

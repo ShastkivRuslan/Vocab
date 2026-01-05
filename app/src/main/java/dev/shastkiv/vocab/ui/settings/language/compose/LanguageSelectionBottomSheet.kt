@@ -16,8 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.domain.model.Language
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,6 +29,7 @@ fun LanguageSelectionBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState
 ) {
+    val dimensions = MaterialTheme.dimensions
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
@@ -36,18 +37,16 @@ fun LanguageSelectionBottomSheet(
     ) {
         Column(
             modifier = Modifier
-                .padding(bottom = 32.dp) // Додаємо відступ знизу
+                .padding(bottom = dimensions.spacingExtraLarge)
                 .selectableGroup()
         ) {
-            // Заголовок
             Text(
                 text = title,
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(16.dp)
+                style = dimensions.promptTextStyle,
+                modifier = Modifier.padding(dimensions.mediumPadding)
             )
             HorizontalDivider()
 
-            // Список мов
             availableLanguages.forEach { language ->
                 Row(
                     modifier = Modifier
@@ -56,17 +55,17 @@ fun LanguageSelectionBottomSheet(
                             selected = (language.code == currentLanguage.code),
                             onClick = { onLanguageSelected(language) }
                         )
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                        .padding(horizontal = dimensions.mediumPadding, vertical = dimensions.cardItemSpacing),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
                         selected = (language.code == currentLanguage.code),
-                        onClick = null // Обробляється через Row's onClick
+                        onClick = null
                     )
                     Text(
                         text = "${language.flagEmoji} ${language.name}",
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(start = 16.dp)
+                        style = dimensions.subHeaderTextStyle,
+                        modifier = Modifier.padding(start = dimensions.mediumPadding)
                     )
                 }
             }

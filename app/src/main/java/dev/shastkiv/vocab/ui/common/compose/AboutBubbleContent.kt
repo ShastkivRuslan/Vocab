@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,20 +35,22 @@ import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
 import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @Composable
 fun AboutBubbleContent() {
+    val dimensions = MaterialTheme.dimensions
     Column {
         LiquidGlassCard {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(dimensions.mediumPadding)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(64.dp)
+                        .size(dimensions.iconSizeExtraLarge)
                         .background(
                             color = MaterialTheme.customColors.cardBackground,
                             shape = CircleShape
@@ -63,25 +66,25 @@ fun AboutBubbleContent() {
                         imageVector = Icons.Default.Add,
                         contentDescription = "Bubble",
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(dimensions.iconSizeLarge)
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
                 Text(
                     text = stringResource(R.string.overlay_feature_efficiency_title),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = dimensions.cardTitleStyle,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.customColors.cardTitleText,
                     textAlign = TextAlign.Center
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
                 Text(
                     text = stringResource(R.string.overlay_feature_efficiency_description),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = dimensions.cartDescriptionStyle,
                     color = MaterialTheme.customColors.cardDescriptionText,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(0.9f)
@@ -89,7 +92,7 @@ fun AboutBubbleContent() {
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingLarge))
 
         InfoPoint(
             icon = Icons.Default.AutoMode,
@@ -126,34 +129,35 @@ fun AboutBubbleContent() {
 
 @Composable
 private fun InfoPoint(icon: ImageVector, title: String, description: String) {
+    val dimensions = MaterialTheme.dimensions
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .padding(vertical = dimensions.extraSmallPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(dimensions.iconSizeLarge),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(dimensions.iconSizeMedium)
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(dimensions.spacingMedium))
         Column {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
+                style = dimensions.subHeaderTextStyle,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodyLarge,
+                style = dimensions.cartDescriptionStyle,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

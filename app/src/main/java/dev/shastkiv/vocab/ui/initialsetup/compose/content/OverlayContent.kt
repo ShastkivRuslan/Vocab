@@ -37,6 +37,7 @@ import dev.shastkiv.vocab.ui.common.compose.AboutBubbleContent
 import dev.shastkiv.vocab.ui.common.compose.OverlayPermissionAlert
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.OverlayPermissionDeniedBottomSheet
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +48,7 @@ fun OverlayContent(
     val context = LocalContext.current
     var showDeniedSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val dimensions = MaterialTheme.dimensions
 
     val overlayLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -61,11 +63,11 @@ fun OverlayContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(dimensions.mediumPadding)
     ) {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             SetupHeader(
@@ -74,11 +76,11 @@ fun OverlayContent(
                 subTitle = stringResource(R.string.initial_setup_overlay_sub_title)
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
 
             AboutBubbleContent()
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             OverlayPermissionAlert()
         }
@@ -86,18 +88,17 @@ fun OverlayContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
         ) {
             TextButton(
                 onClick = onSkipPressed,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = dimensions.mediumPadding)
             ) {
                 Text(stringResource(R.string.overlay_skip_button))
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             Button(
                 onClick = {
@@ -109,13 +110,12 @@ fun OverlayContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(16.dp)
+                    .height(dimensions.buttonHeight),
+                shape = RoundedCornerShape(dimensions.cornerRadius)
             ) {
                 Text(
                     stringResource(R.string.overlay_grant_button),
-                    fontSize = 18.sp,
+                    fontSize = dimensions.buttonTextSize,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

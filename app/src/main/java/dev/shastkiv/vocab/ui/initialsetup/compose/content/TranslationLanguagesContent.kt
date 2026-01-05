@@ -34,13 +34,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.domain.model.AvailableLanguages
 import dev.shastkiv.vocab.domain.model.Language
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.LanguagePickerCard
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
+import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @Composable
 fun TranslationLanguagesContent(
@@ -55,6 +56,10 @@ fun TranslationLanguagesContent(
     var showValidationError by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
 
+    val dimensions = MaterialTheme.dimensions
+    val customColors = MaterialTheme.customColors
+    val defaultColors = MaterialTheme.colorScheme
+
     LaunchedEffect(sourceLanguage, targetLanguage) {
         showValidationError = sourceLanguage.code == targetLanguage.code
     }
@@ -66,11 +71,13 @@ fun TranslationLanguagesContent(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(dimensions.mediumPadding)
+    ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .fillMaxWidth()
                 .weight(1f)
                 .verticalScroll(scrollState)
         ) {
@@ -80,7 +87,7 @@ fun TranslationLanguagesContent(
                 subTitle = stringResource(R.string.initial_setup_translation_languages_sub_title)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingExtraLarge))
 
             if (error != null) {
                 Card(
@@ -92,8 +99,8 @@ fun TranslationLanguagesContent(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            .padding(dimensions.spacingMedium),
+                        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
@@ -109,7 +116,7 @@ fun TranslationLanguagesContent(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.spacingMedium))
             }
 
             LanguagePickerCard(
@@ -120,7 +127,7 @@ fun TranslationLanguagesContent(
                 emoji = "📚"
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -130,11 +137,11 @@ fun TranslationLanguagesContent(
                     imageVector = Icons.Default.ArrowDownward,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(dimensions.iconSizeMedium)
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             LanguagePickerCard(
                 title = stringResource(R.string.target_language),
@@ -155,7 +162,7 @@ fun TranslationLanguagesContent(
                 ) {
                     Text(
                         text = stringResource(R.string.error_same_languages),
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(dimensions.extraSmallPadding),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onErrorContainer
@@ -171,7 +178,7 @@ fun TranslationLanguagesContent(
                             append(getGreeting(targetLanguage.code))
                             append(targetLanguage.flagEmoji)
                         },
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(dimensions.largePadding),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -179,27 +186,26 @@ fun TranslationLanguagesContent(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
         }
         Button(
             onClick = { onLanguagesSelected(sourceLanguage, targetLanguage) },
             enabled = !isLoading && !showValidationError,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
-                .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(16.dp)
+                .height(dimensions.buttonHeight),
+            shape = RoundedCornerShape(dimensions.cornerRadius)
         ) {
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(dimensions.loadingIndicatorSize),
                     color = MaterialTheme.colorScheme.onPrimary,
                     strokeWidth = 2.dp
                 )
             } else {
                 Text(
                     text = stringResource(R.string.continue_button),
-                    fontSize = 18.sp
+                    fontSize = dimensions.buttonTextSize
                 )
             }
         }

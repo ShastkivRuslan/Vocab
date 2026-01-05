@@ -17,9 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,6 +27,8 @@ fun OverlayPermissionDeniedBottomSheet(
     onTryAgain: () -> Unit,
     sheetState: SheetState
 ) {
+    val dimensions = MaterialTheme.dimensions
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState
@@ -35,74 +36,71 @@ fun OverlayPermissionDeniedBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp)
+                .padding(dimensions.largePadding)
         ) {
             Text(
                 text = stringResource(R.string.overlay_permission_denied_title),
-                style = MaterialTheme.typography.headlineSmall,
+                style = dimensions.cardLargeTitleStyle,
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
             Text(
                 text = stringResource(R.string.overlay_permission_denied_description),
-                style = MaterialTheme.typography.bodyMedium,
+                style = dimensions.cartDescriptionStyle,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
 
-            // Чому це важливо
             Text(
                 text = stringResource(R.string.overlay_permission_why_important_title),
-                style = MaterialTheme.typography.titleMedium,
+                style = dimensions.cardTitleStyle,
                 fontWeight = FontWeight.SemiBold
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             Text(
                 text = stringResource(R.string.overlay_permission_why_important_description),
-                style = MaterialTheme.typography.bodyMedium,
+                style = dimensions.cartDescriptionStyle,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
 
-            // Безпека
             Text(
                 text = stringResource(R.string.overlay_permission_safety_title),
-                style = MaterialTheme.typography.titleMedium,
+                style = dimensions.cartDescriptionStyle,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             Text(
                 text = stringResource(R.string.overlay_permission_safety_description),
-                style = MaterialTheme.typography.bodyMedium,
+                style = dimensions.cartDescriptionStyle,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingExtraLarge))
 
-            // Кнопки
             Button(
                 onClick = onTryAgain,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(16.dp)
+                    .height(dimensions.buttonHeight),
+                shape = RoundedCornerShape(dimensions.cornerRadius)
             ) {
                 Text(
                     text = stringResource(R.string.overlay_permission_try_again),
-                    fontSize = 18.sp
+                    fontSize = dimensions.buttonTextSize
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             TextButton(
                 onClick = onDismiss,
@@ -111,7 +109,7 @@ fun OverlayPermissionDeniedBottomSheet(
                 Text(stringResource(R.string.overlay_permission_skip_for_now))
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
         }
     }
 }

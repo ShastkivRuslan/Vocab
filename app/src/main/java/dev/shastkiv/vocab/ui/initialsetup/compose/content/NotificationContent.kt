@@ -29,6 +29,7 @@ import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
 import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @Composable
 fun NotificationContent(
@@ -46,12 +47,15 @@ fun NotificationContent(
         }
     }
     val scrollState = rememberScrollState()
+    val dimensions = MaterialTheme.dimensions
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(dimensions.mediumPadding)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
                 .weight(1f)
                 .verticalScroll(scrollState)
         ) {
@@ -60,71 +64,71 @@ fun NotificationContent(
                 title = stringResource(R.string.initial_setup_notification_title),
                 subTitle = stringResource(R.string.initial_setup_notification_sub_title)
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
             LiquidGlassCard {
                 Column(
-                    modifier = Modifier.padding(24.dp),
+                    modifier = Modifier.padding(dimensions.largePadding),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "🔔",
-                        fontSize = 60.sp
+                        style = dimensions.headerTextStyle
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
                     Text(
                         text = stringResource(R.string.notification_stay_informed),
-                        style = MaterialTheme.typography.titleMedium,
+                        style = dimensions.cardTitleStyle,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.customColors.cardTitleText
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
                     Text(
                         text = stringResource(R.string.notification_description),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = dimensions.cartDescriptionStyle,
                         color = MaterialTheme.customColors.cardDescriptionText
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
 
             LiquidGlassCard {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.mediumPadding)) {
                     Text(
                         text = stringResource(R.string.notification_benefits_title),
-                        style = MaterialTheme.typography.titleSmall,
+                        style = dimensions.cardTitleStyle,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.customColors.cardTitleText
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         text = stringResource(R.string.notification_benefits_list),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = dimensions.cartDescriptionStyle,
                         color = MaterialTheme.customColors.cardDescriptionText
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
             LiquidGlassCard {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.mediumPadding)) {
                     Text(
                         text = stringResource(R.string.notification_bubble_stability_title),
-                        style = MaterialTheme.typography.titleSmall,
+                        style = dimensions.cardTitleStyle,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.customColors.cardTitleText
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
                     Text(
                         text = stringResource(R.string.notification_bubble_stability_description),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = dimensions.cartDescriptionStyle,
                         color = MaterialTheme.customColors.cardDescriptionText
                     )
                 }
@@ -135,12 +139,12 @@ fun NotificationContent(
             onClick = onSkipPressed,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = dimensions.mediumPadding)
         ) {
             Text(stringResource(R.string.notification_skip_button))
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
         Button(
             onClick = {
@@ -152,11 +156,10 @@ fun NotificationContent(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
-                .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(16.dp)
+                .height(dimensions.buttonHeight),
+            shape = RoundedCornerShape(dimensions.cornerRadius)
         ) {
-            Text(stringResource(R.string.notification_enable_button), fontSize = 18.sp)
+            Text(stringResource(R.string.notification_enable_button), fontSize = dimensions.buttonTextSize)
         }
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,13 +24,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.StrokeCap
 import dev.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
 import dev.shastkiv.vocab.ui.initialsetup.compose.content.InterfaceLanguageContent
 import dev.shastkiv.vocab.ui.initialsetup.compose.content.NotificationContent
 import dev.shastkiv.vocab.ui.initialsetup.compose.content.OverlayContent
 import dev.shastkiv.vocab.ui.initialsetup.compose.content.TranslationLanguagesContent
 import dev.shastkiv.vocab.ui.initialsetup.compose.state.SetupStep
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @Composable
 fun InitialSetupScreen(
@@ -52,6 +54,9 @@ fun InitialSetupScreen(
         animationSpec = tween(durationMillis = 400),
         label = "progress"
     )
+
+    val dimensions = MaterialTheme.dimensions
+    val defaultColors = MaterialTheme.colorScheme
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -141,7 +146,11 @@ fun InitialSetupScreen(
             progress = { progress },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = dimensions.mediumPadding)
+                .padding(bottom = dimensions.spacingMedium),
+            color = defaultColors.primary,
+            trackColor = defaultColors.primary.copy(alpha = 0.1f),
+            strokeCap = StrokeCap.Round
         )
     }
 }

@@ -7,7 +7,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,12 +18,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import dev.shastkiv.vocab.ui.theme.dimensions
 import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedLanguagePrompt() {
     var currentPhraseIndex by remember { mutableIntStateOf(0) }
+
+    val dimensions = MaterialTheme.dimensions
+    val defaultColors = MaterialTheme.colorScheme
 
     val phrases = remember {
         listOf(
@@ -54,12 +57,12 @@ fun AnimatedLanguagePrompt() {
     ) { phrase ->
         Text(
             text = phrase,
-            style = MaterialTheme.typography.headlineSmall,
+            style = dimensions.promptTextStyle,
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = defaultColors.onSurfaceVariant,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(32.dp)
+                .padding(horizontal = dimensions.mediumPadding)
         )
     }
 }

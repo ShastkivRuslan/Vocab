@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions // Імпортуємо наші розміри
 
 @Composable
 fun SetupHeader(
@@ -26,6 +27,9 @@ fun SetupHeader(
     title: String,
     subTitle: String
 ) {
+    val dimensions = MaterialTheme.dimensions
+    val customColors = MaterialTheme.customColors
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -35,27 +39,28 @@ fun SetupHeader(
         Icon(
             imageVector = Icons.Default.ChevronLeft,
             contentDescription = "Navigate",
-            tint = MaterialTheme.customColors.cardTitleText,
+            tint = customColors.cardTitleText,
             modifier = Modifier
-                .size(48.dp)
+                .size(dimensions.headerIconSize)
                 .clickable { onBackPressed() }
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(dimensions.spacingMedium))
 
         Column {
             Text(
                 text = title,
-                style = MaterialTheme.typography.headlineLarge,
+                style = dimensions.headerTextStyle,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.customColors.cardTitleText
+                color = customColors.cardTitleText
             )
-            Spacer(modifier = Modifier.height(8.dp))
+
+            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
 
             Text(
                 text = subTitle,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.customColors.cardDescriptionText
+                style = dimensions.subHeaderTextStyle,
+                color = customColors.cardDescriptionText
             )
         }
     }

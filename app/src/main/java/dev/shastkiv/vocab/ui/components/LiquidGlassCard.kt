@@ -11,24 +11,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @Composable
 fun LiquidGlassCard(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
+    val dimensions = MaterialTheme.dimensions
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(dimensions.cornerRadius))
             .background(
                 color = MaterialTheme.customColors.cardBackground,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cornerRadius)
             )
             .border(
                 width = 1.dp,
                 color = MaterialTheme.customColors.cardBorder,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensions.cornerRadius)
             )
     ) {
         content()

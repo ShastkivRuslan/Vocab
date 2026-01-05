@@ -23,13 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.domain.model.AvailableLanguages
 import dev.shastkiv.vocab.domain.model.Language
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
 import dev.shastkiv.vocab.ui.settings.language.compose.LanguageSelectionBottomSheet
 import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,33 +40,37 @@ fun LanguagePickerCard(
     emoji: String
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
+    val dimensions = MaterialTheme.dimensions
+    val typography = MaterialTheme.typography
+    val customColors = MaterialTheme.customColors
+    val defaultColors = MaterialTheme.colorScheme
 
     LiquidGlassCard {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(dimensions.largePadding)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
             ) {
-                Text(text = emoji, fontSize = 18.sp)
+                Text(text = emoji, style = typography.titleMedium)
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = typography.titleMedium,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.customColors.cardTitleText
+                    color = customColors.cardTitleText
                 )
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
 
             Text(
                 text = subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = typography.bodySmall,
+                color = defaultColors.onSurfaceVariant
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
 
             LiquidGlassCard(
                 modifier = Modifier.clickable { showBottomSheet = true }
@@ -75,18 +78,19 @@ fun LanguagePickerCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(dimensions.mediumPadding),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall)
                     ) {
-                        Text(text = selectedLanguage.flagEmoji, fontSize = 20.sp)
+                        Text(text = selectedLanguage.flagEmoji, style = typography.titleMedium)
                         Text(
                             text = selectedLanguage.name,
-                            color = MaterialTheme.customColors.cardTitleText)
+                            color = customColors.cardTitleText,
+                            style = typography.titleMedium)
                     }
                     Icon(
                         imageVector = Icons.Default.ExpandMore,

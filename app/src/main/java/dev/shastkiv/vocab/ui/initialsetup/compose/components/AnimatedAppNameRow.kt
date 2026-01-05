@@ -40,11 +40,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.dimensions
 import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedAppNameRow() {
     var isVisible by remember { mutableStateOf(false) }
+
+    val dimensions = MaterialTheme.dimensions
+    val defaultColors = MaterialTheme.colorScheme
+    val customColors = MaterialTheme.customColors
 
     LaunchedEffect(Unit) {
         delay(200)
@@ -52,7 +57,7 @@ fun AnimatedAppNameRow() {
     }
 
     Row(
-        modifier = Modifier.height(100.dp),
+        modifier = Modifier.height(dimensions.appNameHeight),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val appName = stringResource(R.string.app_name_without_dot)
@@ -86,7 +91,7 @@ fun AnimatedAppNameRow() {
                     text = char.toString(),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = defaultColors.onSurface,
                     style = MaterialTheme.typography.displayLarge.copy(
                         shadow = Shadow(
                             color = Color.Black.copy(alpha = 0.25f),
@@ -126,24 +131,23 @@ fun AnimatedAppNameRow() {
         ) {
             Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(dimensions.headerIconSize * 0.6f)
                     .background(
-                        color = MaterialTheme.customColors.cardBackground,
+                        color = customColors.cardBackground,
                         shape = CircleShape
                     )
                     .border(
                         width = 1.dp,
-                        color = MaterialTheme.customColors.cardBorder,
-                        shape = MaterialTheme.shapes.medium
+                        color = customColors.cardBorder,
+                        shape = CircleShape
                     ),
-
                 contentAlignment = Alignment.Center
-
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Bubble",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = defaultColors.primary,
+                    modifier = Modifier.size(dimensions.spacingLarge)
                 )
             }
         }
