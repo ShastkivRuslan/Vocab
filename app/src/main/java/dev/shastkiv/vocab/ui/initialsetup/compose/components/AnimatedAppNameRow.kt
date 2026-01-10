@@ -31,25 +31,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.R
-import dev.shastkiv.vocab.ui.theme.customColors
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedAppNameRow() {
     var isVisible by remember { mutableStateOf(false) }
 
-    val dimensions = MaterialTheme.dimensions
-    val defaultColors = MaterialTheme.colorScheme
-    val customColors = MaterialTheme.customColors
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+    val typography = MaterialTheme.appTypography
 
     LaunchedEffect(Unit) {
         delay(200)
@@ -91,19 +89,13 @@ fun AnimatedAppNameRow() {
                     text = char.toString(),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
-                    color = defaultColors.onSurface,
-                    style = MaterialTheme.typography.displayLarge.copy(
-                        shadow = Shadow(
-                            color = Color.Black.copy(alpha = 0.25f),
-                            offset = Offset(4f, 4f),
-                            blurRadius = 8f
-                        )
-                    )
+                    color = colors.textMain,
+                    style = typography.animatedAppName
                 )
             }
         }
 
-        Spacer(modifier = Modifier.width(6.dp))
+        Spacer(modifier = Modifier.width(dimensions.smallSpacing))
 
         AnimatedVisibility(
             visible = isVisible,
@@ -133,12 +125,12 @@ fun AnimatedAppNameRow() {
                 modifier = Modifier
                     .size(dimensions.headerIconSize * 0.6f)
                     .background(
-                        color = customColors.cardBackground,
+                        color = colors.cardBackground,
                         shape = CircleShape
                     )
                     .border(
                         width = 1.dp,
-                        color = customColors.cardBorder,
+                        color = colors.cardBorder,
                         shape = CircleShape
                     ),
                 contentAlignment = Alignment.Center
@@ -146,8 +138,8 @@ fun AnimatedAppNameRow() {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Bubble",
-                    tint = defaultColors.primary,
-                    modifier = Modifier.size(dimensions.spacingLarge)
+                    tint = colors.accent,
+                    modifier = Modifier.size(dimensions.largeSpacing)
                 )
             }
         }

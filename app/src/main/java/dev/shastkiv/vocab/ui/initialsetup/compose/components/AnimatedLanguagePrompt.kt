@@ -18,20 +18,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedLanguagePrompt() {
     var currentPhraseIndex by remember { mutableIntStateOf(0) }
 
-    val dimensions = MaterialTheme.dimensions
-    val defaultColors = MaterialTheme.colorScheme
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
 
     val phrases = remember {
         listOf(
-            "Оберіть мову додатку",
             "Choose app language",
+            "Оберіть мову додатку",
             "Wählen Sie die App-Sprache",
             "Choisissez la langue de l'app",
             "Wybierz język aplikacji",
@@ -57,9 +60,9 @@ fun AnimatedLanguagePrompt() {
     ) { phrase ->
         Text(
             text = phrase,
-            style = dimensions.promptTextStyle,
+            style = typography.prompt,
             textAlign = TextAlign.Center,
-            color = defaultColors.onSurfaceVariant,
+            color = colors.textSecondary,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = dimensions.mediumPadding)

@@ -18,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import dev.shastkiv.vocab.R
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,7 +29,9 @@ fun OverlayPermissionDeniedBottomSheet(
     onTryAgain: () -> Unit,
     sheetState: SheetState
 ) {
-    val dimensions = MaterialTheme.dimensions
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -40,67 +44,67 @@ fun OverlayPermissionDeniedBottomSheet(
         ) {
             Text(
                 text = stringResource(R.string.overlay_permission_denied_title),
-                style = dimensions.cardLargeTitleStyle,
+                style = typography.cardTitleLarge,
                 fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             Text(
                 text = stringResource(R.string.overlay_permission_denied_description),
-                style = dimensions.cartDescriptionStyle,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = typography.cardDescriptionMedium,
+                color = colors.textSecondary
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
+            Spacer(modifier = Modifier.height(dimensions.largeSpacing))
 
             Text(
                 text = stringResource(R.string.overlay_permission_why_important_title),
-                style = dimensions.cardTitleStyle,
+                style = typography.cardTitleMedium,
                 fontWeight = FontWeight.SemiBold
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             Text(
                 text = stringResource(R.string.overlay_permission_why_important_description),
-                style = dimensions.cartDescriptionStyle,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = typography.cardDescriptionMedium,
+                color = colors.textSecondary
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
+            Spacer(modifier = Modifier.height(dimensions.largeSpacing))
 
             Text(
                 text = stringResource(R.string.overlay_permission_safety_title),
-                style = dimensions.cartDescriptionStyle,
+                style = typography.cardTitleMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.primary
+                color = colors.accent
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             Text(
                 text = stringResource(R.string.overlay_permission_safety_description),
-                style = dimensions.cartDescriptionStyle,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = dimensions.cartDescriptionMediumStyle,
+                color = colors.textSecondary
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingExtraLarge))
+            Spacer(modifier = Modifier.height(dimensions.extraLargeSpacing))
 
             Button(
                 onClick = onTryAgain,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(dimensions.buttonHeight),
-                shape = RoundedCornerShape(dimensions.cornerRadius)
+                shape = RoundedCornerShape(dimensions.mediumCornerRadius)
             ) {
                 Text(
                     text = stringResource(R.string.overlay_permission_try_again),
-                    fontSize = dimensions.buttonTextSize
+                    fontSize = typography.buttonTextSize
                 )
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             TextButton(
                 onClick = onDismiss,
@@ -109,7 +113,7 @@ fun OverlayPermissionDeniedBottomSheet(
                 Text(stringResource(R.string.overlay_permission_skip_for_now))
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingExtraSmall))
+            Spacer(modifier = Modifier.height(dimensions.extraSmallSpacing))
         }
     }
 }

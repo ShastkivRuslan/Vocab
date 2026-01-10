@@ -23,13 +23,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
-import dev.shastkiv.vocab.ui.theme.customColors
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun NotificationContent(
@@ -47,7 +46,9 @@ fun NotificationContent(
         }
     }
     val scrollState = rememberScrollState()
-    val dimensions = MaterialTheme.dimensions
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -64,7 +65,7 @@ fun NotificationContent(
                 title = stringResource(R.string.initial_setup_notification_title),
                 subTitle = stringResource(R.string.initial_setup_notification_sub_title)
             )
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             LiquidGlassCard {
                 Column(
@@ -76,60 +77,60 @@ fun NotificationContent(
                         style = dimensions.headerTextStyle
                     )
 
-                    Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+                    Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
                     Text(
                         text = stringResource(R.string.notification_stay_informed),
-                        style = dimensions.cardTitleStyle,
+                        style = typography.cardTitleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.customColors.cardTitleText
+                        color = colors.cardTitleText
                     )
 
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
                     Text(
                         text = stringResource(R.string.notification_description),
                         textAlign = TextAlign.Center,
-                        style = dimensions.cartDescriptionStyle,
-                        color = MaterialTheme.customColors.cardDescriptionText
+                        style = dimensions.cartDescriptionMediumStyle,
+                        color = colors.cardDescriptionText
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
+            Spacer(modifier = Modifier.height(dimensions.largeSpacing))
 
             LiquidGlassCard {
                 Column(modifier = Modifier.padding(dimensions.mediumPadding)) {
                     Text(
                         text = stringResource(R.string.notification_benefits_title),
-                        style = dimensions.cardTitleStyle,
+                        style = dimensions.cardTitleMediumStyle,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.customColors.cardTitleText
+                        color = colors.cardTitleText
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(dimensions.smallSpacing))
                     Text(
                         text = stringResource(R.string.notification_benefits_list),
-                        style = dimensions.cartDescriptionStyle,
-                        color = MaterialTheme.customColors.cardDescriptionText
+                        style = dimensions.cartDescriptionMediumStyle,
+                        color = colors.cardDescriptionText
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             LiquidGlassCard {
                 Column(modifier = Modifier.padding(dimensions.mediumPadding)) {
                     Text(
                         text = stringResource(R.string.notification_bubble_stability_title),
-                        style = dimensions.cardTitleStyle,
+                        style = dimensions.cardTitleMediumStyle,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.customColors.cardTitleText
+                        color = colors.cardTitleText
                     )
-                    Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+                    Spacer(modifier = Modifier.height(dimensions.smallSpacing))
                     Text(
                         text = stringResource(R.string.notification_bubble_stability_description),
-                        style = dimensions.cartDescriptionStyle,
-                        color = MaterialTheme.customColors.cardDescriptionText
+                        style = dimensions.cartDescriptionMediumStyle,
+                        color = colors.cardDescriptionText
                     )
                 }
             }
@@ -144,7 +145,7 @@ fun NotificationContent(
             Text(stringResource(R.string.notification_skip_button))
         }
 
-        Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+        Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
         Button(
             onClick = {
@@ -157,9 +158,12 @@ fun NotificationContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(dimensions.buttonHeight),
-            shape = RoundedCornerShape(dimensions.cornerRadius)
+            shape = RoundedCornerShape(dimensions.mediumCornerRadius)
         ) {
-            Text(stringResource(R.string.notification_enable_button), fontSize = dimensions.buttonTextSize)
+            Text(
+                stringResource(R.string.notification_enable_button),
+                fontSize = dimensions.buttonTextSize
+            )
         }
     }
 }

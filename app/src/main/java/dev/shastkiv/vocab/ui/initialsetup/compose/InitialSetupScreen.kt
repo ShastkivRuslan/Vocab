@@ -31,7 +31,8 @@ import dev.shastkiv.vocab.ui.initialsetup.compose.content.NotificationContent
 import dev.shastkiv.vocab.ui.initialsetup.compose.content.OverlayContent
 import dev.shastkiv.vocab.ui.initialsetup.compose.content.TranslationLanguagesContent
 import dev.shastkiv.vocab.ui.initialsetup.compose.state.SetupStep
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @Composable
 fun InitialSetupScreen(
@@ -55,8 +56,8 @@ fun InitialSetupScreen(
         label = "progress"
     )
 
-    val dimensions = MaterialTheme.dimensions
-    val defaultColors = MaterialTheme.colorScheme
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -147,9 +148,9 @@ fun InitialSetupScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = dimensions.mediumPadding)
-                .padding(bottom = dimensions.spacingMedium),
-            color = defaultColors.primary,
-            trackColor = defaultColors.primary.copy(alpha = 0.1f),
+                .padding(bottom = dimensions.mediumSpacing),
+            color = colors.accent,
+            trackColor = colors.accentSoft,
             strokeCap = StrokeCap.Round
         )
     }

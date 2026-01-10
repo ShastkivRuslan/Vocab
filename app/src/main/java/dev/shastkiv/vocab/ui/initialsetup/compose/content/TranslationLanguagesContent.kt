@@ -40,8 +40,9 @@ import dev.shastkiv.vocab.domain.model.Language
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.LanguagePickerCard
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
-import dev.shastkiv.vocab.ui.theme.customColors
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun TranslationLanguagesContent(
@@ -56,9 +57,9 @@ fun TranslationLanguagesContent(
     var showValidationError by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
 
-    val dimensions = MaterialTheme.dimensions
-    val customColors = MaterialTheme.customColors
-    val defaultColors = MaterialTheme.colorScheme
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+    val typography = MaterialTheme.appTypography
 
     LaunchedEffect(sourceLanguage, targetLanguage) {
         showValidationError = sourceLanguage.code == targetLanguage.code
@@ -87,36 +88,36 @@ fun TranslationLanguagesContent(
                 subTitle = stringResource(R.string.initial_setup_translation_languages_sub_title)
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingExtraLarge))
+            Spacer(modifier = Modifier.height(dimensions.extraLargeSpacing))
 
             if (error != null) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer
+                        containerColor = colors.errorContainer
                     )
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(dimensions.spacingMedium),
-                        horizontalArrangement = Arrangement.spacedBy(dimensions.spacingSmall),
+                            .padding(dimensions.mediumSpacing),
+                        horizontalArrangement = Arrangement.spacedBy(dimensions.smallSpacing),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             imageVector = Icons.Default.Error,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onErrorContainer
+                            tint = colors.onErrorContainer
                         )
                         Text(
                             text = error,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onErrorContainer,
+                            style = typography.cardDescriptionMedium,
+                            color = colors.onErrorContainer,
                             modifier = Modifier.weight(1f)
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+                Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
             }
 
             LanguagePickerCard(
@@ -127,7 +128,7 @@ fun TranslationLanguagesContent(
                 emoji = "📚"
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -136,12 +137,12 @@ fun TranslationLanguagesContent(
                 Icon(
                     imageVector = Icons.Default.ArrowDownward,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = colors.accent,
                     modifier = Modifier.size(dimensions.iconSizeMedium)
                 )
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             LanguagePickerCard(
                 title = stringResource(R.string.target_language),
@@ -157,15 +158,15 @@ fun TranslationLanguagesContent(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer
+                        containerColor = colors.errorContainer
                     )
                 ) {
                     Text(
                         text = stringResource(R.string.error_same_languages),
                         modifier = Modifier.padding(dimensions.extraSmallPadding),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = typography.cardDescriptionMedium,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onErrorContainer
+                        color = colors.onErrorContainer
                     )
                 }
             } else {
@@ -179,14 +180,14 @@ fun TranslationLanguagesContent(
                             append(targetLanguage.flagEmoji)
                         },
                         modifier = Modifier.padding(dimensions.largePadding),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = typography.cardDescriptionMedium,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = colors.accentContainer
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
         }
         Button(
             onClick = { onLanguagesSelected(sourceLanguage, targetLanguage) },
@@ -194,18 +195,18 @@ fun TranslationLanguagesContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(dimensions.buttonHeight),
-            shape = RoundedCornerShape(dimensions.cornerRadius)
+            shape = RoundedCornerShape(dimensions.mediumCornerRadius)
         ) {
             if (isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(dimensions.loadingIndicatorSize),
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = colors.onAccent,
                     strokeWidth = 2.dp
                 )
             } else {
                 Text(
                     text = stringResource(R.string.continue_button),
-                    fontSize = dimensions.buttonTextSize
+                    fontSize = typography.buttonTextSize
                 )
             }
         }

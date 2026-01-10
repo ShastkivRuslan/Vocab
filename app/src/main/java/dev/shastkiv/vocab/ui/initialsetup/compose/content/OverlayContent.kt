@@ -29,15 +29,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.common.compose.AboutBubbleContent
 import dev.shastkiv.vocab.ui.common.compose.OverlayPermissionAlert
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.OverlayPermissionDeniedBottomSheet
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.SetupHeader
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +47,9 @@ fun OverlayContent(
     val context = LocalContext.current
     var showDeniedSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val dimensions = MaterialTheme.dimensions
+
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
 
     val overlayLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -76,11 +77,11 @@ fun OverlayContent(
                 subTitle = stringResource(R.string.initial_setup_overlay_sub_title)
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingLarge))
+            Spacer(modifier = Modifier.height(dimensions.largeSpacing))
 
             AboutBubbleContent()
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             OverlayPermissionAlert()
         }
@@ -98,7 +99,7 @@ fun OverlayContent(
                 Text(stringResource(R.string.overlay_skip_button))
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             Button(
                 onClick = {
@@ -111,13 +112,13 @@ fun OverlayContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(dimensions.buttonHeight),
-                shape = RoundedCornerShape(dimensions.cornerRadius)
+                shape = RoundedCornerShape(dimensions.mediumCornerRadius)
             ) {
                 Text(
                     stringResource(R.string.overlay_grant_button),
                     fontSize = dimensions.buttonTextSize,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = colors.onAccent
                 )
             }
         }

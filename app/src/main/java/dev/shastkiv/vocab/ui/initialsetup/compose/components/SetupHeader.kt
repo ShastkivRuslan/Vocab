@@ -17,9 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import dev.shastkiv.vocab.ui.theme.customColors
-import dev.shastkiv.vocab.ui.theme.dimensions // Імпортуємо наші розміри
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun SetupHeader(
@@ -27,8 +27,9 @@ fun SetupHeader(
     title: String,
     subTitle: String
 ) {
-    val dimensions = MaterialTheme.dimensions
-    val customColors = MaterialTheme.customColors
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+    val typography = MaterialTheme.appTypography
 
     Row(
         modifier = Modifier
@@ -39,28 +40,28 @@ fun SetupHeader(
         Icon(
             imageVector = Icons.Default.ChevronLeft,
             contentDescription = "Navigate",
-            tint = customColors.cardTitleText,
+            tint = colors.cardTitleText,
             modifier = Modifier
                 .size(dimensions.headerIconSize)
                 .clickable { onBackPressed() }
         )
 
-        Spacer(modifier = Modifier.width(dimensions.spacingMedium))
+        Spacer(modifier = Modifier.width(dimensions.mediumSpacing))
 
         Column {
             Text(
                 text = title,
-                style = dimensions.headerTextStyle,
+                style = typography.header,
                 fontWeight = FontWeight.Bold,
-                color = customColors.cardTitleText
+                color = colors.cardTitleText
             )
 
-            Spacer(modifier = Modifier.height(dimensions.spacingSmall))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             Text(
                 text = subTitle,
-                style = dimensions.subHeaderTextStyle,
-                color = customColors.cardDescriptionText
+                style = typography.subHeader,
+                color = colors.cardDescriptionText
             )
         }
     }

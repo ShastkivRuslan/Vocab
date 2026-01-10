@@ -19,7 +19,8 @@ import dev.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.AnimatedAppNameRow
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.AnimatedLanguagePrompt
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.LanguageCard
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @Composable
 fun InterfaceLanguageContent(
@@ -31,8 +32,8 @@ fun InterfaceLanguageContent(
     val availableLanguages = remember { AvailableLanguages.list }
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    val dimensions = MaterialTheme.dimensions
-    val color = MaterialTheme.colorScheme
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
 
     Column(
         modifier = Modifier
@@ -46,15 +47,15 @@ fun InterfaceLanguageContent(
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(dimensions.spacingExtraLarge))
+            Spacer(modifier = Modifier.height(dimensions.extraLargeSpacing))
 
             AnimatedAppNameRow()
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             AnimatedLanguagePrompt()
 
-            Spacer(modifier = Modifier.height(dimensions.spacingExtraLarge))
+            Spacer(modifier = Modifier.height(dimensions.extraLargeSpacing))
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(dimensions.cardItemSpacing),
@@ -83,7 +84,7 @@ fun InterfaceLanguageContent(
                 }
             }
 
-            Spacer(modifier = Modifier.height(dimensions.spacingMedium))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
         }
 
         Button(
@@ -92,20 +93,20 @@ fun InterfaceLanguageContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(dimensions.buttonHeight),
-            shape = RoundedCornerShape(dimensions.cornerRadius)
+            shape = RoundedCornerShape(dimensions.mediumCornerRadius)
         ) {
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(dimensions.spacingLarge),
-                    color = color.onPrimary,
-                    strokeWidth = (dimensions.spacingSmall.value / 4).coerceAtLeast(2f).dp
+                    modifier = Modifier.size(dimensions.largeSpacing),
+                    color = colors.onAccent,
+                    strokeWidth = (dimensions.smallSpacing.value / 4).coerceAtLeast(2f).dp
                 )
             } else {
                 Text(
                     text = stringResource(R.string.continue_button),
                     fontSize = dimensions.buttonTextSize,
                     fontWeight = FontWeight.Bold,
-                    color = color.onPrimary
+                    color = colors.onAccent
                 )
             }
         }
