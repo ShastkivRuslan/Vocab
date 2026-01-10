@@ -26,7 +26,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 data class NavigationCardData(
     val title: String,
@@ -42,24 +44,27 @@ fun NavigationCardItem(
     card: NavigationCardData,
     onClick: () -> Unit
 ) {
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(dimensions.mediumCornerRadius))
             .background(
-                color = MaterialTheme.customColors.cardBackground,
-                shape = RoundedCornerShape(16.dp)
+                color = colors.cardBackground,
+                shape = RoundedCornerShape(dimensions.mediumCornerRadius)
             )
             .border(
                 width = 1.dp,
-                color = MaterialTheme.customColors.cardBorder,
-                shape = RoundedCornerShape(16.dp)
+                color = colors.cardBorder,
+                shape = RoundedCornerShape(dimensions.mediumCornerRadius)
             )
             .clickable {
                 onClick()
             }
-            .padding(20.dp)
+            .padding(dimensions.mediumPadding)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -68,60 +73,61 @@ fun NavigationCardItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(56.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .size(dimensions.cardIconBoxSize)
+                    .clip(RoundedCornerShape(dimensions.smallCornerRadius))
                     .background(
                         color = card.iconBgColor,
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(dimensions.smallCornerRadius)
                     )
                     .border(
                         width = 1.dp,
-                        color = MaterialTheme.customColors.cardBorder,
-                        shape = RoundedCornerShape(12.dp)
+                        color = colors.cardBorder,
+                        shape = RoundedCornerShape(dimensions.smallCornerRadius)
                     ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = card.icon,
                     contentDescription = card.title,
-                    tint = MaterialTheme.customColors.cardIconTintLight,
-                    modifier = Modifier.size(24.dp)
+                    tint = colors.cardIconTintLight,
+                    modifier = Modifier
+                        .size(dimensions.iconSizeMedium)
                 )
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(dimensions.mediumSpacing))
 
             Column(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = card.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.customColors.cardTitleText
+                    style = typography.cardTitleMedium,
+                    color = colors.cardTitleText
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(dimensions.extraSmallSpacing))
                 Text(
                     text = card.description,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.customColors.cardDescriptionText
+                    style = typography.cardDescriptionSmall,
+                    color = colors.cardDescriptionText
                 )
             }
 
             Box(
                 modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                    .size(dimensions.cardArrowBoxSize)
+                    .clip(RoundedCornerShape(dimensions.extraSmallCornerRadius))
                     .background(
-                        color = MaterialTheme.customColors.cardArrowBackground,
-                        shape = RoundedCornerShape(8.dp)
+                        color = colors.cardArrowBackground,
+                        shape = RoundedCornerShape(dimensions.extraSmallCornerRadius)
                     ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "Navigate",
-                    tint = MaterialTheme.customColors.cardArrowTint,
-                    modifier = Modifier.size(16.dp)
+                    tint = colors.cardArrowTint,
+                    modifier = Modifier.size(dimensions.cardArrowIconSize)
                 )
             }
         }
