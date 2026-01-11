@@ -180,9 +180,9 @@ fun TranslationLanguagesContent(
                             append(targetLanguage.flagEmoji)
                         },
                         modifier = Modifier.padding(dimensions.largePadding),
-                        style = typography.cardDescriptionMedium,
+                        style = typography.cardTitleMedium,
                         textAlign = TextAlign.Center,
-                        color = colors.accentContainer
+                        color = colors.cardTitleText
                     )
                 }
             }

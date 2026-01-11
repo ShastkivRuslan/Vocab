@@ -25,17 +25,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
 import dev.shastkiv.vocab.ui.initialsetup.compose.components.AnimatedAppNameRow
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun AboutAppScreen(
     onBackClick: () -> Unit
 ) {
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+    val typography = MaterialTheme.appTypography
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,30 +49,30 @@ fun AboutAppScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(horizontal = dimensions.mediumPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Default.ChevronLeft,
                 contentDescription = "Navigate",
-                tint = MaterialTheme.customColors.cardTitleText,
+                tint = colors.cardTitleText,
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(dimensions.headerIconSize)
                     .clickable { onBackClick() }
             )
             Text(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(dimensions.mediumPadding),
                 text = stringResource(R.string.about_us),
-                fontSize = 32.sp,
-                color = MaterialTheme.customColors.cardTitleText
+                style = typography.header,
+                color = colors.cardTitleText
             )
         }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(dimensions.mediumPadding)
         ) {
             Box(modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
@@ -76,38 +80,38 @@ fun AboutAppScreen(
                 AnimatedAppNameRow()
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
             LiquidGlassCard {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(dimensions.mediumPadding)) {
                     Text(
                         text = stringResource(R.string.about_app_mission_title),
-                        style = MaterialTheme.typography.titleMedium,
+                        style = typography.cardTitleLarge,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.customColors.cardTitleText
+                        color = colors.cardTitleText
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
                     Text(
                         text = stringResource(R.string.about_app_full_story),
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = typography.cardDescriptionMedium,
                         textAlign = TextAlign.Start,
-                        color = MaterialTheme.customColors.cardDescriptionText
+                        color = colors.cardDescriptionText
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dimensions.extraLargeSpacing))
 
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = dimensions.mediumPadding),
                 text = stringResource(R.string.about_us_footer),
                 textAlign = TextAlign.Center,
-                fontSize = 12.sp,
-                color = MaterialTheme.customColors.cardDescriptionText.copy(alpha = 0.5f)
+                style = typography.cardDescriptionSmall,
+                color = colors.cardDescriptionText.copy(alpha = 0.5f)
             )
         }
     }

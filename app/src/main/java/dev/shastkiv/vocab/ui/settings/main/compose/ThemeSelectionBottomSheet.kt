@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
@@ -18,9 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.domain.model.enums.ThemeMode
+import dev.shastkiv.vocab.ui.settings.components.SettingsItemDivider
+import dev.shastkiv.vocab.ui.theme.Black
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,24 +40,36 @@ fun ThemeSelectionBottomSheet(
         ThemeMode.DARK to stringResource(R.string.theme_dark)
     )
 
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+    val typography = MaterialTheme.appTypography
+
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = colors.cardBackground,
+        scrimColor = Black.copy(alpha = 0.32f),
+        dragHandle = {
+            BottomSheetDefaults.DragHandle(
+                color = colors.cardBorder
+            )
+        }
     ) {
         Column(
             modifier = Modifier
-                .padding(bottom = 32.dp)
+                .padding(bottom = dimensions.extraLargeSpacing)
                 .selectableGroup()
         ) {
             Text(
                 text = stringResource(R.string.theme_selection_dialog_title),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(16.dp)
+                style = typography.sectionHeader,
+                modifier = Modifier.padding(dimensions.mediumPadding),
+                color = colors.textMain
             )
-            HorizontalDivider()
 
-            // Список тем
+            SettingsItemDivider()
+
             themes.forEach { (themeMode, title) ->
                 val isSelected = when (themeMode) {
                     ThemeMode.SYSTEM -> currentTheme == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
@@ -67,7 +83,10 @@ fun ThemeSelectionBottomSheet(
                             selected = isSelected,
                             onClick = { onThemeSelected(themeMode) }
                         )
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                        .padding(
+                            horizontal = dimensions.mediumPadding,
+                            vertical = dimensions.smallPadding
+                        ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
@@ -76,8 +95,9 @@ fun ThemeSelectionBottomSheet(
                     )
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(start = 16.dp)
+                        style = typography.cardTitleMedium,
+                        modifier = Modifier.padding(start = dimensions.mediumPadding),
+                        color = colors.textMain
                     )
                 }
             }

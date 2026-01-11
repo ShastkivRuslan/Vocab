@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.components.LiquidGlassCard
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
 
 @Composable
 fun FeatureInDevelopScreen(
@@ -62,14 +62,14 @@ fun FeatureInDevelopScreen(
                     .fillMaxWidth(),
                 text = title,
                 fontSize = 32.sp,
-                color = MaterialTheme.customColors.cardTitleText
+                color = MaterialTheme.appColors.cardTitleText
             )
         }
 
         Text(
             modifier = Modifier.padding(start = 56.dp, top = 4.dp),
             text = subtitle,
-            color = MaterialTheme.customColors.cardDescriptionText,
+            color = MaterialTheme.appColors.cardDescriptionText,
             fontSize = 16.sp
         )
 
@@ -79,7 +79,7 @@ fun FeatureInDevelopScreen(
             Text(
                 text = featureDescription,
                 modifier = Modifier.padding(16.dp),
-                color = MaterialTheme.customColors.cardTitleText,
+                color = MaterialTheme.appColors.cardTitleText,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center
             )
@@ -101,7 +101,7 @@ fun FeatureInDevelopScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = stringResource(R.string.feature_in_development_message),
-                    color = MaterialTheme.customColors.cardTitleText,
+                    color = MaterialTheme.appColors.cardTitleText,
                     textAlign = TextAlign.Center
                 )
             }

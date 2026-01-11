@@ -3,32 +3,35 @@ package dev.shastkiv.vocab.ui.settings.main.compose
 import SettingItem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.AddCircleOutline
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.EditNotifications
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.R
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.settings.components.SettingsItemDivider
+import dev.shastkiv.vocab.ui.settings.components.SettingsHeader
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @Composable
 fun SettingsScreen(
@@ -39,120 +42,83 @@ fun SettingsScreen(
     onBubbleSettingsClick: () -> Unit,
     onAboutClick: () -> Unit
 ) {
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.ChevronLeft,
-                contentDescription = "Navigate",
-                tint = MaterialTheme.customColors.cardTitleText,
-                modifier = Modifier
-                    .size(48.dp)
-                    .clickable { onBackPressed() }
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp),
-                text = stringResource(R.string.settings_screen_title),
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.customColors.cardTitleText
-            )
-        }
-
-        Text(
-            modifier = Modifier.padding(start = 26.dp),
-            text = stringResource(R.string.settings_screen_subtitle),
-            color = MaterialTheme.customColors.cardDescriptionText,
-            style = MaterialTheme.typography.bodyLarge
+        SettingsHeader(
+            onBackPressed = { onBackPressed() },
+            title = stringResource(R.string.settings_screen_title),
+            subTitle = stringResource(R.string.settings_screen_subtitle)
         )
 
+        Spacer(Modifier.height(dimensions.smallSpacing))
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp, start = 16.dp, end = 16.dp)
-                .clip(MaterialTheme.shapes.medium)
+                .padding(horizontal = dimensions.mediumPadding)
+                .clip(RoundedCornerShape(dimensions.mediumCornerRadius))
                 .background(
-                    color = MaterialTheme.customColors.cardBackground,
-                    shape = MaterialTheme.shapes.medium
+                    color = colors.cardBackground,
+                    shape = RoundedCornerShape(dimensions.mediumCornerRadius)
                 )
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.customColors.cardBorder,
-                    shape = MaterialTheme.shapes.medium
+                    color = colors.cardBorder,
+                    shape = RoundedCornerShape(dimensions.mediumCornerRadius)
                 )
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
+                    .padding(dimensions.smallPadding)
             ) {
                 SettingItem(
                     title = stringResource(R.string.settings_item_theme_title),
                     description = stringResource(R.string.settings_item_theme_description),
-                    iconRes = R.drawable.ic_theme,
+                    imageVector = Icons.Filled.DarkMode,
                     onClick = onThemeClick
                 )
 
-                HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                )
+                SettingsItemDivider()
 
                 SettingItem(
                     title = stringResource(R.string.settings_item_language_title),
                     description = stringResource(R.string.language_settings_item_description),
-                    iconRes = R.drawable.ic_language,
+                    imageVector = Icons.Filled.Language,
                     onClick = onLanguageClick
                 )
 
-                HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                )
+                SettingsItemDivider()
 
                 SettingItem(
                     title = stringResource(R.string.settings_item_notifications_title),
                     description = stringResource(R.string.settings_item_notifications_description),
-                    iconRes = R.drawable.ic_notification,
+                    imageVector = Icons.Filled.EditNotifications,
                     onClick = onNotificationClick,
                 )
 
-                HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                )
+                SettingsItemDivider()
 
                 SettingItem(
                     title = stringResource(R.string.settings_item_bubble_title),
                     description = stringResource(R.string.settings_item_bubble_description),
-                    iconRes = R.drawable.ic_add_floating,
+                    imageVector = Icons.Filled.AddCircleOutline,
                     onClick = onBubbleSettingsClick
                 )
 
-                HorizontalDivider(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
-                )
+                SettingsItemDivider()
 
                 SettingItem(
                     title = stringResource(R.string.settings_item_about_title),
                     description = stringResource(R.string.settings_item_about_description),
-                    iconRes = R.drawable.ic_about_us,
+                    imageVector = Icons.Filled.Info,
                     onClick = onAboutClick
                 )
             }

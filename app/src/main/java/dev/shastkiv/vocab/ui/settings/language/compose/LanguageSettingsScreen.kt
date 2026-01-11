@@ -3,36 +3,36 @@ package dev.shastkiv.vocab.ui.settings.language.compose
 import SettingItem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Splitscreen
+import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.domain.model.Language
 import dev.shastkiv.vocab.domain.model.LanguageSettings
+import dev.shastkiv.vocab.ui.settings.components.SettingsHeader
+import dev.shastkiv.vocab.ui.settings.components.SettingsItemDivider
 import dev.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @Composable
 fun LanguageSettingsScreen(
@@ -42,75 +42,63 @@ fun LanguageSettingsScreen(
     onTargetLanguageClick: () -> Unit,
     onSourceLanguageClick: () -> Unit
 ) {
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+    val cornerRadius = RoundedCornerShape(dimensions.mediumCornerRadius)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Default.ChevronLeft,
-                contentDescription = "Navigate",
-                tint = MaterialTheme.customColors.cardTitleText,
-                modifier = Modifier
-                    .size(48.dp)
-                    .clickable { onBackPressed() }
-            )
-            Text(
-                text = stringResource(R.string.language_settings),
-                fontSize = 32.sp,
-                color = MaterialTheme.customColors.cardTitleText,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
-
-        Text(
-            modifier = Modifier.padding(start = 26.dp),
-            text = stringResource(R.string.language_settings_description),
-            color = MaterialTheme.customColors.cardDescriptionText,
-            fontSize = 16.sp
+        SettingsHeader(
+            onBackPressed = { onBackPressed() },
+            title = stringResource(R.string.language_settings),
+            subTitle = stringResource(R.string.language_settings_description)
         )
+
+        Spacer(Modifier.height(dimensions.mediumSpacing))
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp, start = 16.dp, end = 16.dp)
-                .clip(MaterialTheme.shapes.medium)
+                .padding(horizontal = dimensions.mediumPadding)
+                .clip(cornerRadius)
                 .background(
-                    color = MaterialTheme.customColors.cardBackground,
-                    shape = MaterialTheme.shapes.medium
+                    color = colors.cardBackground,
+                    shape = cornerRadius
                 )
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.customColors.cardBorder,
-                    shape = MaterialTheme.shapes.medium
+                    color = colors.cardBorder,
+                    shape = cornerRadius
                 )
         ) {
-            Column(modifier = Modifier.padding(10.dp)) {
+            Column(modifier = Modifier.padding(dimensions.smallPadding)
+            ) {
                 SettingItem(
                     title = stringResource(R.string.ui_language),
                     description = "${currentSettings.appLanguage.flagEmoji} ${currentSettings.appLanguage.name}",
-                    iconRes = R.drawable.ic_ui_language,
+                    imageVector = Icons.Filled.Splitscreen,
                     onClick = onAppLanguageClick
                 )
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+                SettingsItemDivider()
+
                 SettingItem(
                     title = stringResource(R.string.target_language),
                     description = "${currentSettings.targetLanguage.flagEmoji} ${currentSettings.targetLanguage.name}",
-                    iconRes = R.drawable.ic_language,
+                    imageVector = Icons.Filled.Translate,
                     onClick = onTargetLanguageClick
                 )
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+                SettingsItemDivider()
+
                 SettingItem(
                     title = stringResource(R.string.source_language),
                     description = "${currentSettings.sourceLanguage.flagEmoji} ${currentSettings.sourceLanguage.name}",
-                    iconRes = R.drawable.ic_language,
+                    imageVector = Icons.Filled.Language,
                     onClick = onSourceLanguageClick
                 )
             }

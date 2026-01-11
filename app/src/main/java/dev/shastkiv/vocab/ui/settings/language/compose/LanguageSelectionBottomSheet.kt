@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
@@ -17,7 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import dev.shastkiv.vocab.domain.model.Language
-import dev.shastkiv.vocab.ui.theme.dimensions
+import dev.shastkiv.vocab.ui.settings.components.SettingsItemDivider
+import dev.shastkiv.vocab.ui.theme.Black
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,23 +33,35 @@ fun LanguageSelectionBottomSheet(
     onDismissRequest: () -> Unit,
     sheetState: SheetState
 ) {
-    val dimensions = MaterialTheme.dimensions
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
+
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = colors.cardBackground,
+        scrimColor = Black.copy(alpha = 0.32f),
+        dragHandle = {
+            BottomSheetDefaults.DragHandle(
+                color = colors.cardBorder
+            )
+        }
     ) {
         Column(
             modifier = Modifier
-                .padding(bottom = dimensions.spacingExtraLarge)
+                .padding(bottom = dimensions.extraLargeSpacing)
                 .selectableGroup()
         ) {
             Text(
                 text = title,
-                style = dimensions.promptTextStyle,
+                style = typography.sectionHeader,
+                color = colors.textMain,
                 modifier = Modifier.padding(dimensions.mediumPadding)
             )
-            HorizontalDivider()
+
+            SettingsItemDivider()
 
             availableLanguages.forEach { language ->
                 Row(
@@ -55,7 +71,10 @@ fun LanguageSelectionBottomSheet(
                             selected = (language.code == currentLanguage.code),
                             onClick = { onLanguageSelected(language) }
                         )
-                        .padding(horizontal = dimensions.mediumPadding, vertical = dimensions.cardItemSpacing),
+                        .padding(
+                            horizontal = dimensions.mediumPadding,
+                            vertical = dimensions.cardItemSpacing
+                        ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
@@ -64,8 +83,11 @@ fun LanguageSelectionBottomSheet(
                     )
                     Text(
                         text = "${language.flagEmoji} ${language.name}",
-                        style = dimensions.subHeaderTextStyle,
-                        modifier = Modifier.padding(start = dimensions.mediumPadding)
+                        style = typography.cardTitleMedium,
+                        modifier = Modifier.padding(
+                            start = dimensions.mediumPadding
+                        ),
+                        color = colors.textMain
                     )
                 }
             }
