@@ -1,16 +1,21 @@
 package dev.shastkiv.vocab.ui.addword.compose.components.common
 
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun DescriptionText(text: String) {
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
+
     Text(
         text = text,
-        fontSize = 14.sp,
+        style = typography.cardDescriptionSmall,
         textAlign = TextAlign.Center,
-        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+        color = colors.textSecondary
     )
 }

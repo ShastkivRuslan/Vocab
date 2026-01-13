@@ -14,6 +14,7 @@ import dev.shastkiv.vocab.ui.addword.external.compose.ProcessTextScreen
 import dev.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
 import dev.shastkiv.vocab.ui.theme.VocabAppCoreTheme
 import dagger.hilt.android.AndroidEntryPoint
+import dev.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
 
 @AndroidEntryPoint
 class ProcessTextActivity : ComponentActivity() {
@@ -30,7 +31,9 @@ class ProcessTextActivity : ComponentActivity() {
         setContent {
             val currentTheme by viewModelProvider.addWordViewModel.themeMode.collectAsState()
 
-            VocabAppCoreTheme(themeMode = currentTheme) {
+            LearnWordsTrainerTheme(
+                themeMode = currentTheme
+            ) {
                 ProcessTextScreen(
                     viewModel = viewModelProvider.addWordViewModel,
                     initialText = processedText,

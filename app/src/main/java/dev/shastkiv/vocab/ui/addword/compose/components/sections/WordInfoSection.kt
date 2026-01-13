@@ -1,8 +1,17 @@
 package dev.shastkiv.vocab.ui.addword.compose.components.sections
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.domain.model.WordData
-import dev.shastkiv.vocab.ui.addword.compose.components.common.*
+import dev.shastkiv.vocab.ui.addword.compose.components.common.ExpandableCard
+import dev.shastkiv.vocab.ui.addword.compose.components.common.LevelBadge
+import dev.shastkiv.vocab.ui.addword.compose.components.common.ProFeatureLock
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
+
 @Composable
 fun WordInfoSection(
     originalWord: String,
@@ -27,8 +42,8 @@ fun WordInfoSection(
     ExpandableCard(
         isExpanded = isExpanded,
         onToggle = onToggle,
-        title = if (isExpanded || isLocked) stringResource(R.string.main_info) else originalWord,
-        showArrow = !isLocked && !isExpanded,
+        title = stringResource(R.string.main_info),
+        showArrow = !isLocked,
         isLocked = false
     ) {
         WordInfoContent(originalWord, translation, wordData, isLocked)
@@ -42,8 +57,12 @@ private fun WordInfoContent(
     wordData: WordData?,
     isLocked: Boolean
 ) {
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
+
     Column {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -52,13 +71,13 @@ private fun WordInfoContent(
         ) {
             Text(
                 text = originalWord,
-                fontSize = 24.sp,
+                style = typography.wordHeadLine,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
+                color = colors.accent,
                 modifier = Modifier.weight(1f, fill = false)
             )
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dimensions.smallSpacing))
 
             if(!isLocked) {
                 LevelBadge(level = wordData?.level ?: "[...]")
@@ -69,9 +88,9 @@ private fun WordInfoContent(
 
         if (!isLocked) {
             Text(
-                text = wordData?.transcription ?: "[...]",
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                text = "[ ${wordData?.transcription ?: "..."} ]",
+                style = typography.cardTitleMedium,
+                color = colors.cardDescriptionText
             )
         }
 
@@ -79,26 +98,27 @@ private fun WordInfoContent(
 
         Text(
             text = stringResource(R.string.translation),
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium
+            style = typography.cardTitleMedium,
+            fontWeight = FontWeight.Medium,
+            color = colors.textMain
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(dimensions.extraSmallSpacing))
 
         Text(
             text = translation ?: "...",
-            fontSize = 24.sp,
+            style = typography.wordHeadLine,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            color = colors.accent
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(dimensions.extraSmallSpacing))
 
         if (!isLocked) {
             Text(
                 text = wordData?.partOfSpeech ?: "...",
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                style = typography.cardTitleMedium,
+                color = colors.cardDescriptionText,
                 modifier = Modifier.padding(top = 4.dp)
             )
         }

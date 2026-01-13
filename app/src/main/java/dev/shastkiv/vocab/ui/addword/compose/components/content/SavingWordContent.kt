@@ -1,25 +1,50 @@
 package dev.shastkiv.vocab.ui.addword.compose.components.content
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.addword.compose.components.common.PrimaryButton
-import dev.shastkiv.vocab.ui.addword.compose.components.sections.*
+import dev.shastkiv.vocab.ui.addword.compose.components.sections.ExamplesSection
+import dev.shastkiv.vocab.ui.addword.compose.components.sections.UsageInfoSection
+import dev.shastkiv.vocab.ui.addword.compose.components.sections.WordInfoSection
 import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun SavingWordContent(
@@ -28,7 +53,8 @@ fun SavingWordContent(
     isExamplesSectionExpanded: Boolean,
     isContextSectionExpanded: Boolean
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    val dimensions = MaterialTheme.appDimensions
+    Column(verticalArrangement = Arrangement.spacedBy(dimensions.mediumSpacing)) {
         AnimatedVisibility(
             visible = state.shouldShowSections,
             exit = fadeOut(animationSpec = tween(500)) +
@@ -44,7 +70,7 @@ fun SavingWordContent(
                     onToggle = {}
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
                 ExamplesSection(
                     examples = state.word.examples,
@@ -53,7 +79,7 @@ fun SavingWordContent(
                     onToggle = {}
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
                 UsageInfoSection(
                     context = state.word.usageInfo,
@@ -62,7 +88,7 @@ fun SavingWordContent(
                     onToggle = {}
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
 
                 PrimaryButton(
@@ -93,33 +119,35 @@ fun SavingWordContent(
 
 @Composable
 private fun SavingIndicator() {
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(dimensions.smallCornerRadius),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = colors.accentContainer
         )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(dimensions.mediumPadding),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             CircularProgressIndicator(
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(dimensions.iconSizeMedium),
                 strokeWidth = 3.dp,
-                color = MaterialTheme.colorScheme.primary
+                color = colors.accent
             )
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(dimensions.smallSpacing))
 
             Text(
                 text = stringResource(R.string.saving_in_process),
-                fontSize = 16.sp,
+                style = MaterialTheme.appTypography.cardTitleMedium,
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = colors.onAccent
             )
         }
     }
@@ -127,17 +155,20 @@ private fun SavingIndicator() {
 
 @Composable
 private fun SuccessMessage() {
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(dimensions.smallCornerRadius),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF4CAF50).copy(alpha = 0.1f)
+            containerColor = colors.accentSoft
         )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(dimensions.mediumPadding),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -152,22 +183,22 @@ private fun SuccessMessage() {
             Icon(
                 imageVector = Icons.Default.CheckCircle,
                 contentDescription = null,
-                tint = Color(0xFF4CAF50),
+                tint = colors.greenSuccess,
                 modifier = Modifier
-                    .size(28.dp)
+                    .size(dimensions.iconSizeMedium)
                     .graphicsLayer {
                         scaleX = scale
                         scaleY = scale
                     }
             )
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(dimensions.smallSpacing))
 
             Text(
                 text = stringResource(R.string.word_successfully_added),
-                fontSize = 16.sp,
+                fontSize = dimensions.buttonTextSize,
                 fontWeight = FontWeight.SemiBold,
-                color = Color(0xFF2E7D32)
+                color = colors.textMain
             )
         }
     }

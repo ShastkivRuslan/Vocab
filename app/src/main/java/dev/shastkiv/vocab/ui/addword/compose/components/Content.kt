@@ -1,10 +1,13 @@
 package dev.shastkiv.vocab.ui.addword.compose.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.ui.addword.compose.components.content.ErrorContent
 import dev.shastkiv.vocab.ui.addword.compose.components.content.IdleContent
 import dev.shastkiv.vocab.ui.addword.compose.components.content.LoadingContent
@@ -12,6 +15,7 @@ import dev.shastkiv.vocab.ui.addword.compose.components.content.SavingWordConten
 import dev.shastkiv.vocab.ui.addword.compose.components.content.SuccessContent
 import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
 import dev.shastkiv.vocab.ui.addwordfloating.compose.components.PaywallDialog
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @Composable
 fun Content(
@@ -29,7 +33,9 @@ fun Content(
     onSubscribe: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    Column(modifier = Modifier.padding(16.dp)) {
+    val dimensions = MaterialTheme.appDimensions
+
+    Column(modifier = Modifier.padding(dimensions.mediumPadding)) {
         if (uiState is AddWordUiState.ShowPaywall) {
             PaywallDialog(
                 onDismiss = onPaywallDismissed,
@@ -42,7 +48,7 @@ fun Content(
                 onDismiss = onDismiss
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             when (uiState) {
                 is AddWordUiState.Idle -> {

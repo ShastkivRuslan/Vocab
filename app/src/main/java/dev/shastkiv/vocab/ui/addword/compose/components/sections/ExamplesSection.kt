@@ -2,19 +2,26 @@ package dev.shastkiv.vocab.ui.addword.compose.components.sections
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.domain.model.Example
 import dev.shastkiv.vocab.ui.addword.compose.components.common.ExpandableCard
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun ExamplesSection(
@@ -39,7 +46,7 @@ fun ExamplesSection(
 @Composable
 private fun ExamplesContent(examples: List<Example>) {
     Column {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.appDimensions.smallSpacing))
         examples.forEach { example ->
             ExampleCard(example = example)
         }
@@ -48,32 +55,38 @@ private fun ExamplesContent(examples: List<Example>) {
 
 @Composable
 fun ExampleCard(example: Example) {
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
+    val dimensions = MaterialTheme.appDimensions
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.medium)
-            .padding(vertical = 4.dp)
+            .clip(MaterialTheme.shapes.small)
+            .padding(vertical = dimensions.extraSmallPadding)
             .background(
-                color = MaterialTheme.customColors.cardBackground,
-                shape = MaterialTheme.shapes.medium
+                color = colors.cardBackground,
+                shape = MaterialTheme.shapes.small
             )
             .border(
                 width = 1.dp,
-                color = MaterialTheme.customColors.cardBorder,
-                shape = MaterialTheme.shapes.medium
+                color = colors.cardBorder,
+                shape = MaterialTheme.shapes.small
             )
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(dimensions.smallPadding)) {
             Text(
                 text = example.sentence,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
+                style = typography.cardDescriptionMedium,
+                fontWeight = FontWeight.Medium,
+                color = colors.cardTitleText
             )
+
+            Spacer(Modifier.height(dimensions.microSpacing))
+
             Text(
                 text = example.translation,
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                modifier = Modifier.padding(top = 2.dp)
+                style = typography.cardDescriptionMedium,
+                color = colors.cardDescriptionText,
             )
         }
     }

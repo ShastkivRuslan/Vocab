@@ -1,14 +1,15 @@
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Icon
@@ -20,14 +21,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.addword.compose.components.Content
 import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
 import dev.shastkiv.vocab.ui.addword.shared.AddWordViewModel
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.components.LiquidGlassCard
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun AddWordScreen(
@@ -37,6 +39,10 @@ fun AddWordScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val inputWord by viewModel.inputWord.collectAsState()
+
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
+    val dimensions = MaterialTheme.appDimensions
 
     LaunchedEffect(initialText) {
         if (!initialText.isNullOrBlank()) {
@@ -52,42 +58,35 @@ fun AddWordScreen(
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .statusBarsPadding()) {
+        .statusBarsPadding()
+        .verticalScroll(rememberScrollState())
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 4.dp, vertical = 8.dp),
+                .padding(dimensions.mediumPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Default.ChevronLeft,
                 contentDescription = "Navigate",
-                tint = MaterialTheme.customColors.cardTitleText,
+                tint = colors.cardTitleText,
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(dimensions.headerIconSize)
                     .clickable { onFinish() }
             )
+
+            Spacer(modifier = Modifier.width(dimensions.mediumSpacing))
+
             Text(
                 text = stringResource(R.string.add_new_word),
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.customColors.cardTitleText,
+                style = typography.header,
+                color = colors.cardTitleText,
                 modifier = Modifier.weight(1f)
             )
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, start = 16.dp, end = 16.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .background(
-                    color = MaterialTheme.customColors.cardBackground,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.customColors.cardBorder,
-                    shape = MaterialTheme.shapes.medium
-                )
+
+        LiquidGlassCard(modifier = Modifier.padding(horizontal = dimensions.mediumPadding)
         ) {
             Content(
                 uiState = uiState,

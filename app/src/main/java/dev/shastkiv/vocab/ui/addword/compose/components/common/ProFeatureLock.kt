@@ -1,24 +1,27 @@
 package dev.shastkiv.vocab.ui.addword.compose.components.common
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @Composable
-fun ProFeatureLock(
-    modifier: Modifier = Modifier
-) {
+fun ProFeatureLock(modifier: Modifier = Modifier) {
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.3f)),
+            .clip(RoundedCornerShape(dimensions.mediumCornerRadius))
+            .background(colors.expandableCardBackground),
         contentAlignment = Alignment.Center,
     ) {
         ProBadge()

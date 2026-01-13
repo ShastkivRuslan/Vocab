@@ -1,19 +1,26 @@
 package dev.shastkiv.vocab.ui.addword.compose.components.content
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.addword.compose.components.common.PrimaryButton
-import dev.shastkiv.vocab.ui.addword.compose.components.sections.*
+import dev.shastkiv.vocab.ui.addword.compose.components.sections.ExamplesSection
+import dev.shastkiv.vocab.ui.addword.compose.components.sections.UsageInfoSection
+import dev.shastkiv.vocab.ui.addword.compose.components.sections.WordInfoSection
 import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
 import dev.shastkiv.vocab.ui.addword.compose.state.UserStatus
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun SuccessContent(
@@ -24,6 +31,10 @@ fun SuccessContent(
     onExamplesToggle: () -> Unit,
     onUsageInfoToggle: () -> Unit
 ) {
+
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+    val colors = MaterialTheme.appColors
 
     LaunchedEffect(state.userStatus) {
         if (state.userStatus is UserStatus.Premium && !state.isMainSectionExpanded && !state.isExamplesSectionExpanded && !state.isUsageInfoSectionExpanded) {
@@ -41,7 +52,7 @@ fun SuccessContent(
             onToggle = onMainInfoToggle
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
         ExamplesSection(
             examples = state.wordData?.examples,
@@ -50,7 +61,7 @@ fun SuccessContent(
             onToggle = onExamplesToggle
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.smallSpacing))
 
         UsageInfoSection(
             context = state.wordData?.usageInfo,
@@ -59,7 +70,7 @@ fun SuccessContent(
             onToggle = onUsageInfoToggle
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
         PrimaryButton(
             text = stringResource(R.string.add_to_vocab),
@@ -67,17 +78,17 @@ fun SuccessContent(
         )
 
         if (state.userStatus is UserStatus.Free) {
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
             PrimaryButton(
                 text = stringResource(R.string.get_full_info),
                 onClick = onGetFullInfoClick
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(dimensions.smallSpacing))
             Text(
                 text = stringResource(R.string.get_full_info_description),
-                fontSize = 12.sp,
+                style = typography.cardDescriptionMedium,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                color = colors.cardDescriptionText,
                 modifier = Modifier.fillMaxWidth()
             )
         }
