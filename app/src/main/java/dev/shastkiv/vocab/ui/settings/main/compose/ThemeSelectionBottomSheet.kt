@@ -48,7 +48,6 @@ fun ThemeSelectionBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         modifier = Modifier.fillMaxWidth(),
-        containerColor = colors.cardBackground,
         scrimColor = Black.copy(alpha = 0.32f),
         dragHandle = {
             BottomSheetDefaults.DragHandle(
