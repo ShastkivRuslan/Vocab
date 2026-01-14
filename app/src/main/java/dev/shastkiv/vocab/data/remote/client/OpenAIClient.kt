@@ -56,22 +56,42 @@ class OpenAIClient @Inject constructor(
         val messages = listOf(
             ChatCompletionRequest.Message(
                 role = "system",
-                content = "You are a language assistant expert in linguistics. Your task is to provide structured data about words for a language learner. You must respond only with a single, valid JSON object and nothing else. The JSON structure is: " +
-                        "{originalWord: string, translation: \"string (1-3 comma-separated translations)\", transcription: string, partOfSpeech: string, level: string, usageInfo: string, examples: [{sentence: string, translation: string}]}"
+                content = """
+                        You are a professional linguistic assistant . 
+                        Your strict duty is to return data in a valid JSON format.
+                        
+                        CRITICAL RULES:
+                        1. Always return ONLY a JSON object. No preamble, no markdown blocks.
+                        2. LANGUAGE SCOPE: You MUST analyze the word ONLY within the context of the specified Source Language. Even if the word exists in other languages with different meanings, ignore them.
+                        3. TYPO CORRECTION: If the input has a typo, find the closest word ONLY in the Source Language.
+                        4. Use the CEFR scale (A1-C2) for the 'level' field.
+                        5. Structure for 'usageInfo': Use '\n' for line breaks. Translate labels (Synonyms, Forms, Note) into the target language.
+                        
+                        JSON Schema:
+                        {
+                          "originalWord": "string",
+                          "translation": "string",
+                          "transcription": "string",
+                          "partOfSpeech": "string",
+                          "level": "string",
+                          "usageInfo": "string",
+                          "examples": [{"sentence": "string", "translation": "string"}]
+                        }
+                    """
             ),
             ChatCompletionRequest.Message(
                 role = "user",
-                content = "Provide a complete JSON object for the $sourceLanguage word: \"$input\".\n" +
-                        "Follow these detailed instructions for each field, with all translations targeting the $targetLanguage language:\n" +
-                        "- `translation`: Provide 1-3 common $targetLanguage translations as a single string, separated by commas.\n" +
-                        "- `level`: Assign the word's difficulty level strictly according to the CEFR scale. The value MUST BE one of: \"A1\", \"A2\", \"B1\", \"B2\", \"C1\", or \"C2\".\n" +
-                        "- `usageInfo`: Create a single, well-formatted $targetLanguage string. It MUST include the following, clearly labeled in $targetLanguage:\n" +
-                        "  1. 'Синоніми:' (or its equivalent in $targetLanguage): List 2-3 common synonyms, each formatted as '$sourceLanguage word – $targetLanguage translation'.\n" +
-                        "  2. 'Форми слова:' (or its equivalent in $targetLanguage): List the main grammatical forms, each formatted as '$sourceLanguage word – $targetLanguage translation'.\n" +
-                        "  3. 'Примітка:' (or its equivalent in $targetLanguage): Add a brief usage note (1-2 sentences), ONLY if the word is not simple. If the word is simple, omit this label and note.\n" +
-                        "- `examples`: Provide exactly 3 distinct, simple example sentences in $sourceLanguage, each with its $targetLanguage translation.\n" +
-                        "- Provide all other fields (`originalWord`, `transcription`, `partOfSpeech`) as specified in the system prompt.\n" +
-                        "Your entire response must be only the JSON object."
+                content = """
+                        Analyze the word/phrase: "$input" 
+                        Source Language: $sourceLanguage
+                        Target Language: $targetLanguage
+                    
+                        Instructions:
+                        - 'translation': Provide the most accurate translation. Use 2-3 only if the word is multi-meaning and common. If one word covers it, use only one.
+                        - 'partOfSpeech': Provide the name of the part of speech in $targetLanguage.
+                        - 'usageInfo': Provide synonyms, grammatical forms, and a usage note if the word is complex. Everything in $targetLanguage.
+                        - 'examples': Exactly 3 simple, high-frequency sentences in $sourceLanguage with translations in $targetLanguage.
+                """
             )
         )
         return ChatCompletionRequest(

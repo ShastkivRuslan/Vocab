@@ -69,17 +69,6 @@ class AddWordViewModel @AssistedInject constructor(
         initialValue = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     )
 
-    private val languageSettings: StateFlow<LanguageSettings> = languageRepository.languageSettings
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = LanguageSettings(
-                appLanguage = Language("uk", "Українська", "🇺🇦"),
-                targetLanguage = Language("uk", "Українська", "🇺🇦"),
-                sourceLanguage = Language("en", "English", "🇬🇧")
-            )
-        )
-
     override fun onCleared() {
         super.onCleared()
         ttsManager.shutdown()
@@ -141,18 +130,19 @@ class AddWordViewModel @AssistedInject constructor(
     }
 
     private suspend fun fetchFullWordInfo(word: String) {
+        val settings = languageRepository.getLatestLanguageSettings()
         getWordInfoUseCase(
             word = word,
-            sourceLanguage = languageSettings.value.sourceLanguage,
-            targetLanguage = languageSettings.value.targetLanguage
+            sourceLanguage = settings.sourceLanguage,
+            targetLanguage = settings.targetLanguage
         ).onSuccess { wordInfo ->
             val isSaved = checkIfWordExistsUseCase(
-                sourceWord = word,
-                sourceLanguageCode = languageSettings.value.sourceLanguage.code
+                sourceWord = wordInfo.originalWord,
+                sourceLanguageCode = settings.sourceLanguage.code
             )
             _uiState.value = AddWordUiState.Success(
                 userStatus = UserStatus.Premium,
-                originalWord = word,
+                originalWord = wordInfo.originalWord,
                 wordData = wordInfo,
                 simpleTranslation = wordInfo.translation,
                 isAlreadySaved = isSaved
@@ -292,9 +282,5 @@ class AddWordViewModel @AssistedInject constructor(
                 )
             } ?: it
         }
-    }
-
-    fun onErrorShown() {
-        // Handle error shown state
     }
 }

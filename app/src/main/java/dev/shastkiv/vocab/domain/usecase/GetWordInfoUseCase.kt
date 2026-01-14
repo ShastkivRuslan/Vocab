@@ -30,7 +30,7 @@ class GetWordInfoUseCase @Inject constructor(
 
         apiResult.onSuccess { wordData ->
             val cacheWord = Word(
-                sourceWord = word,
+                sourceWord = wordData.originalWord,
                 translation = wordData.translation,
                 sourceLanguageCode = sourceLanguage.code,
                 targetLanguageCode = targetLanguage.code,
