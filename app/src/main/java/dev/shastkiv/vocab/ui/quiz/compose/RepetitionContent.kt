@@ -1,43 +1,43 @@
 package dev.shastkiv.vocab.ui.quiz.compose
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import dev.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import androidx.compose.ui.tooling.preview.Preview
 import dev.shastkiv.vocab.domain.model.DailyStatistic
 import dev.shastkiv.vocab.domain.model.Word
 import dev.shastkiv.vocab.ui.quiz.compose.components.AnswerOptions
-import dev.shastkiv.vocab.ui.quiz.compose.components.ProgressCard
 import dev.shastkiv.vocab.ui.quiz.compose.components.ResultFooter
 import dev.shastkiv.vocab.ui.quiz.compose.components.WordCard
-import dev.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
+import dev.shastkiv.vocab.ui.quiz.state.RepetitionUiState
+import dev.shastkiv.vocab.ui.theme.appDimensions
 
 @Composable
 fun RepetitionContent(
     state: RepetitionUiState.Content,
     onAnswerClick: (Int) -> Unit,
     onNextWordClick: () -> Unit,
-    onListenClick: () -> Unit,
-    dailyCorrectCount: Int,
-    dailyWrongCount: Int
+    onListenClick: () -> Unit
 ) {
+    val dimensions = MaterialTheme.appDimensions
+
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensions.smallSpacing)
     ) {
-        ProgressCard(
-            correctCount = dailyCorrectCount,
-            wrongCount = dailyWrongCount
-        )
-
         WordCard(
             word = state.word.sourceWord,
             correctCount = state.correctCount,
@@ -99,14 +99,10 @@ fun RepetitionContentPreview() {
         wrongCount = 11
     )
 
-    LearnWordsTrainerTheme {
         RepetitionContent(
             state = sampleState,
-            dailyCorrectCount = sampleStats.correctAnswers,
-            dailyWrongCount = sampleStats.wrongAnswers,
             onAnswerClick = {},
             onNextWordClick = {},
             onListenClick = {}
         )
-    }
 }

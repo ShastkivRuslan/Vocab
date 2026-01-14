@@ -240,6 +240,7 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                 val uiState by repetitionViewModel.uiState.collectAsState()
 
                 RepetitionScreen(
+                    viewModel = repetitionViewModel,
                     uiState = uiState,
                     onEvent = repetitionViewModel::onEvent,
                     onBackPressed = { navController.popBackStack() }

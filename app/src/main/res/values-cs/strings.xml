@@ -318,4 +318,5 @@
 
     <string name="error_wrong_lang_title">Nesprávný jazyk</string>
     <string name="error_wrong_lang_description">Slovo neodpovídá zvolenému jazyku. Zkontrolujte nastavení nebo napište slovo ve správném jazyce.</string>
+    <string name="accuracy">Přesnost</string>
 </resources>

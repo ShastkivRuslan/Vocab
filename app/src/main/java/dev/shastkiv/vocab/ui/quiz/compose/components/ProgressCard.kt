@@ -2,7 +2,15 @@ package dev.shastkiv.vocab.ui.quiz.compose.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,10 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.mainscreen.compose.components.ProgressCircle
 import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 data class ProgressStatItem(
     val label: String,
@@ -36,20 +47,24 @@ fun ProgressCard(
         ProgressStatItem("Усього спроб", total.toString())
     )
 
+    val colors = MaterialTheme.appColors
+    val dimensions = MaterialTheme.appDimensions
+    val typography = MaterialTheme.appTypography
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(dimensions.largeCornerRadius))
             .background(
-                color = MaterialTheme.appColors.cardBackground,
-                shape = RoundedCornerShape(24.dp)
+                color = colors.cardBackground,
+                shape = RoundedCornerShape(dimensions.largeCornerRadius)
             )
             .border(
                 width = 1.dp,
-                color = MaterialTheme.appColors.cardBorder,
-                shape = RoundedCornerShape(24.dp)
+                color = colors.cardBorder,
+                shape = RoundedCornerShape(dimensions.largeCornerRadius)
             )
-            .padding(24.dp)
+            .padding(dimensions.largePadding)
     ) {
         Box(
             modifier = Modifier
@@ -57,11 +72,11 @@ fun ProgressCard(
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
-                            MaterialTheme.appColors.statsGlowStartColor,
+                            colors.statsGlowStartColor,
                             Color.Transparent
                         )
                     ),
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(dimensions.largeCornerRadius)
                 )
         )
 
@@ -70,26 +85,29 @@ fun ProgressCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProgressCircle(progress = correctPercentage)
+            ProgressCircle(
+                progress = correctPercentage,
+                title = stringResource(R.string.accuracy)
+            )
 
-            Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(dimensions.largeSpacing))
 
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(dimensions.mediumSpacing)
             ) {
                 stats.forEach { stat ->
                     Column {
                         Text(
                             text = stat.label,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.appColors.statsLabelText
+                            style = typography.cardDescriptionSmall,
+                            color = colors.statsLabelText
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = stat.value,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.appColors.statsValueText
+                            style = typography.cardDescriptionSmall,
+                            color = colors.statsValueText
                         )
                     }
                 }

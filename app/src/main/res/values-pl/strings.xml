@@ -318,4 +318,5 @@
 
     <string name="error_wrong_lang_title">Błędny język</string>
     <string name="error_wrong_lang_description">Słowo nie pasuje do wybranego języka. Sprawdź ustawienia lub wpisz słowo w odpowiednim języku.</string>
+    <string name="accuracy">Dokładność</string>
 </resources>

@@ -1,82 +1,107 @@
 package dev.shastkiv.vocab.ui.quiz.compose.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.rememberLottieComposition
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.theme.GreenSuccess
 import dev.shastkiv.vocab.ui.theme.RedError
+import dev.shastkiv.vocab.ui.theme.appColors
+import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
 fun ResultFooter(
     isCorrect: Boolean,
     onNextWordClick: () -> Unit
 ) {
-    val lottieComposition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(if (isCorrect) R.raw.correct_anim else R.raw.wrong_anim)
-    )
+    val dimensions = MaterialTheme.appDimensions
+    val colors = MaterialTheme.appColors
+    val typography = MaterialTheme.appTypography
 
-    Card(
+    val stateColor = if (isCorrect) GreenSuccess else RedError
+
+    val shape = RoundedCornerShape(dimensions.largeCornerRadius)
+
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(
-            containerColor = if (isCorrect) GreenSuccess.copy(alpha = 0.9f) else RedError.copy(alpha = 0.9f)
-        )
+            .navigationBarsPadding()
+            .clip(shape)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(stateColor.copy(alpha = 0.35f), Color.Transparent),
+                    startY = 0f,
+                    endY = 500f
+                )
+            )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                LottieAnimation(
-                    composition = lottieComposition,
-                    iterations = 1,
-                    modifier = Modifier.size(80.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Transparent)
+                .border(
+                    width = 1.dp,
+                    brush = Brush.verticalGradient(
+                        colors = listOf(stateColor.copy(alpha = 0.4f), Color.Transparent)
+                    ),
+                    shape = shape
                 )
+                .padding(dimensions.mediumPadding),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = dimensions.smallSpacing)
+            ) {
                 Text(
                     text = if (isCorrect) stringResource(R.string.correct) else stringResource(R.string.wrong),
-                    fontSize = 22.sp,
-                    color = Color.White,
-                    modifier = Modifier.padding(start = 8.dp)
+                    style = typography.wordHeadLine,
+                    color = colors.textMain,
+                    modifier = Modifier.padding(start = dimensions.smallSpacing)
                 )
             }
-            Spacer(modifier = Modifier.height(12.dp))
+
             Button(
                 onClick = onNextWordClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
-                shape = CircleShape,
+                    .height(dimensions.buttonHeight)
+                    .shadow(
+                        elevation = 8.dp,
+                        spotColor = stateColor.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(dimensions.largeCornerRadius)
+                    ),
+                shape = RoundedCornerShape(dimensions.largeCornerRadius),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = if (isCorrect) GreenSuccess else RedError
+                    containerColor = stateColor,
+                    contentColor = Color.White
                 )
             ) {
-                Text(text = stringResource(R.string.next_word))
+                Text(
+                    text = stringResource(R.string.next_word),
+                    style = typography.cardTitleMedium
+                )
             }
         }
     }

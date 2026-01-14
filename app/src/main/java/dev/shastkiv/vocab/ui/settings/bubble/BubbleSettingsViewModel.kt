@@ -62,11 +62,8 @@ class BubbleSettingsViewModel @Inject constructor(
         initialValue = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     )
 
-    fun clearError() {
-        _error.value = null
-    }
-
     fun onBubbleEnabledChange(isEnabled: Boolean) = viewModelScope.launch(ioDispatcher) {
+        //TODO: implement overlay permission request if not granted and user want turn on vocab+
         try {
             repository.setBubbleEnabled(isEnabled)
             if (isEnabled) {

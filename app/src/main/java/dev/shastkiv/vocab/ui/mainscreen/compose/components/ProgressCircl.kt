@@ -23,15 +23,15 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.res.stringResource
-import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.theme.appColors
 import dev.shastkiv.vocab.ui.theme.appDimensions
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 @Composable
-fun ProgressCircle(progress: Int) {
+fun ProgressCircle(
+    progress: Int,
+    title: String) {
     val targetProgress = progress / 100f
     val animatedProgress = remember { Animatable(0f) }
 
@@ -113,7 +113,7 @@ fun ProgressCircle(progress: Int) {
                 color = colors.progressCenterTextTitle
             )
             Text(
-                text = stringResource(R.string.learned),
+                text = title,
                 style = dimensions.progressLabelStyle,
                 color = colors.progressCenterTextSubtitle
             )

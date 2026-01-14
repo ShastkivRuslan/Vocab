@@ -31,6 +31,12 @@ class RepetitionViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val dailyStatisticFlow: Flow<DailyStatistic?> = getTodayStatsUseCase()
+    val dailyStats: StateFlow<DailyStatistic?> = dailyStatisticFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
 
     private val _uiState = MutableStateFlow<RepetitionUiState>(RepetitionUiState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -66,38 +72,43 @@ class RepetitionViewModel @Inject constructor(
     }
 
     private fun handleAnswerSelection(selectedIndex: Int) {
-        val currentState = _uiState.value
-        if (currentState is RepetitionUiState.Content &&
-            currentState.selectedAnswerIndex == null &&
-            selectedIndex < currentState.answerOptions.size) {
+        val currentState = _uiState.value as? RepetitionUiState.Content ?: return
 
-            isProcessingAnswer = true
-            val selectedOption = currentState.answerOptions[selectedIndex]
-            val isCorrect = selectedOption == currentState.word.translation
+        if (currentState.selectedAnswerIndex != null || selectedIndex >= currentState.answerOptions.size) return
 
-            viewModelScope.launch(ioDispatcher) {
-                try {
-                    updateWordScoreUseCase(
-                        wordId = currentState.word.id,
-                        currentCorrectCount = currentState.word.correctAnswerCount,
-                        currentWrongCount = currentState.word.wrongAnswerCount,
-                        wasAnswerCorrect = isCorrect
-                    )
-                    val statType = if (isCorrect) StatType.CORRECT_ANSWER else StatType.WRONG_ANSWER
-                    updateDailyStatsUseCase(statType)
+        isProcessingAnswer = true
+        val selectedOption = currentState.answerOptions[selectedIndex]
+        val isCorrect = selectedOption == currentState.word.translation
 
-                    _uiState.update {
-                        (it as RepetitionUiState.Content).copy(
-                            selectedAnswerIndex = selectedIndex,
-                            isAnswerCorrect = isCorrect
-                        )
-                    }
-                } catch (e: Exception) {
-                    if (e is CancellationException) throw e
-                    _uiState.value = RepetitionUiState.Error(mapThrowableToUiError(e))
-                } finally {
-                    isProcessingAnswer = false
-                }
+        val updatedState = currentState.copy(
+            selectedAnswerIndex = selectedIndex,
+            isAnswerCorrect = isCorrect,
+            correctCount = if (isCorrect) currentState.correctCount + 1 else currentState.correctCount,
+            wrongCount = if (!isCorrect) currentState.wrongCount + 1 else currentState.wrongCount,
+            dailyStats = currentState.dailyStats?.let { stats ->
+                stats.copy(
+                    correctAnswers = if (isCorrect) stats.correctAnswers + 1 else stats.correctAnswers,
+                    wrongAnswers = if (!isCorrect) stats.wrongAnswers + 1 else stats.wrongAnswers
+                )
+            }
+        )
+        _uiState.value = updatedState
+
+        viewModelScope.launch(ioDispatcher) {
+            try {
+                updateWordScoreUseCase(
+                    wordId = currentState.word.id,
+                    currentCorrectCount = currentState.word.correctAnswerCount,
+                    currentWrongCount = currentState.word.wrongAnswerCount,
+                    wasAnswerCorrect = isCorrect
+                )
+                val statType = if (isCorrect) StatType.CORRECT_ANSWER else StatType.WRONG_ANSWER
+                updateDailyStatsUseCase(statType)
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                _uiState.value = RepetitionUiState.Error(mapThrowableToUiError(e))
+            } finally {
+                isProcessingAnswer = false
             }
         }
     }
@@ -107,8 +118,9 @@ class RepetitionViewModel @Inject constructor(
             _uiState.value = RepetitionUiState.Loading
             try {
                 val repetitionData = getRepetitionWordUseCase()
+                //TODO:implement load quiz words based on selected target language from settings
                 if (repetitionData != null) {
-                    val currentStats = dailyStatisticFlow.firstOrNull()
+                    val currentStats = dailyStats.value
                     _uiState.value = RepetitionUiState.Content(
                         word = repetitionData.word,
                         answerOptions = repetitionData.options,

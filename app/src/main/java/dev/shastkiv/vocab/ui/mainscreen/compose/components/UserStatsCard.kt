@@ -65,7 +65,9 @@ fun UserStatsCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProgressCircle(progress = learnedPercentage)
+            ProgressCircle(
+                progress = learnedPercentage,
+                title = stringResource(R.string.learned))
 
             Spacer(modifier = Modifier.width(dimensions.largeSpacing))
 

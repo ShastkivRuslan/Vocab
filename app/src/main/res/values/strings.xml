@@ -330,4 +330,5 @@
     <string name="err_name">Що ти бред пишеш</string>
     <string name="err1">Неправильна мова</string>
     <string name="err2">Переглян налаштування</string>
+    <string name="accuracy">Accuracy</string>
 </resources>

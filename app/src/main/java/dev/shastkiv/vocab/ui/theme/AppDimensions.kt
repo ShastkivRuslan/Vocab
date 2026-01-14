@@ -27,7 +27,9 @@ data class AppDimensions(
 
     val buttonHeight: Dp,
     val buttonTextSize: TextUnit,
+
     val loadingIndicatorSize: Dp,
+    val resultFooterAnimationSize: Dp,
 
     val cardItemSpacing: Dp,
     val cardTitleLargeStyle: TextStyle,
@@ -85,7 +87,10 @@ val defaultDimensions = AppDimensions(
 
     buttonHeight = 56.dp,
     buttonTextSize = 18.sp,
+
     loadingIndicatorSize = 24.dp,
+    resultFooterAnimationSize = 100.dp,
+
 
     cardItemSpacing = 12.dp,
 
@@ -146,7 +151,9 @@ val mediumDimensions = AppDimensions(
 
     buttonHeight = 52.dp,
     buttonTextSize = 17.sp,
+
     loadingIndicatorSize = 22.dp,
+    resultFooterAnimationSize = 90.dp,
 
     cardItemSpacing = 10.dp,
     cardTitleLargeStyle = Typography.headlineSmall,
@@ -205,7 +212,9 @@ val smallDimensions = AppDimensions(
 
     buttonHeight = 48.dp,
     buttonTextSize = 16.sp,
+
     loadingIndicatorSize = 20.dp,
+    resultFooterAnimationSize = 80.dp,
 
     cardItemSpacing = 8.dp,
     cardTitleLargeStyle = Typography.titleLarge,

@@ -322,4 +322,5 @@
 
     <string name="error_wrong_lang_title">Неправильна мова</string>
     <string name="error_wrong_lang_description">Слово не відповідає вибраній мові. Перевірте налаштування мови або напишіть слово відповідною мовою.</string>
+    <string name="accuracy">Точність</string>
 </resources>

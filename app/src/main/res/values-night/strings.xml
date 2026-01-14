@@ -2,4 +2,5 @@
 <resources>
     <string name="words_to_learn">Слів не вивчено</string>
     <string name="added_today">Додано сьогодні</string>
+    <string name="accuracy">Accuracy</string>
 </resources>

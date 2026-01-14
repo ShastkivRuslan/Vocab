@@ -19,7 +19,7 @@ class GetWordInfoUseCase @Inject constructor(
         targetLanguage: Language
     ): Result<WordData> {
         if (word.isBlank()) {
-            return Result.failure(IllegalArgumentException("Слово не може бути порожнім"))
+            return Result.failure(IllegalArgumentException())
         }
 
         val cachedWord = wordRepository.getCachedWord(word, sourceLanguage.code)
