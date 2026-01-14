@@ -13,6 +13,7 @@ data class CustomTypography(
     // === BUTTONS & INPUTS ===
     val buttonTextSize: TextUnit,
     val prompt: TextStyle,
+    val wordHeadLine: TextStyle,
 
     // === CARDS ===
     val cardTitleLarge: TextStyle,
@@ -39,6 +40,7 @@ private val base = Typography()
 val defaultTypography = CustomTypography(
     buttonTextSize = 18.sp,
     prompt = base.headlineSmall,
+    wordHeadLine = base.headlineSmall,
     cardTitleLarge = base.headlineMedium,
     cardTitleMedium = base.titleMedium,
     cardDescriptionMedium = base.bodyLarge,
@@ -62,6 +64,7 @@ val defaultTypography = CustomTypography(
 val mediumTypography = CustomTypography(
     buttonTextSize = 17.sp,
     prompt = base.titleLarge,
+    wordHeadLine = base.titleLarge,
     cardTitleLarge = base.headlineSmall,
     cardTitleMedium = base.titleMedium,
     cardDescriptionMedium = base.bodyLarge,
@@ -85,6 +88,7 @@ val mediumTypography = CustomTypography(
 val smallTypography = CustomTypography(
     buttonTextSize = 16.sp,
     prompt = base.titleMedium,
+    wordHeadLine = base.titleMedium,
     cardTitleLarge = base.titleLarge,
     cardTitleMedium = base.titleSmall,
     cardDescriptionMedium = base.bodyMedium,

@@ -114,7 +114,8 @@ fun ProcessTextScreen(
                     onUsageInfoToggle = viewModel::ontUsageInfoToggle,
                     onPaywallDismissed = viewModel::onPaywallDismissed,
                     onSubscribe = { isVisible = false },
-                    onDismiss = { isVisible = false }
+                    onDismiss = { isVisible = false },
+                    onRetryManual = viewModel::onRetryToIdle
                 )
             }
         }

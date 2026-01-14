@@ -31,7 +31,8 @@ fun Content(
     onUsageInfoToggle: () -> Unit,
     onPaywallDismissed: () -> Unit,
     onSubscribe: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onRetryManual: () -> Unit
 ) {
     val dimensions = MaterialTheme.appDimensions
 
@@ -76,20 +77,25 @@ fun Content(
                 }
 
                 is AddWordUiState.SavingWord -> {
-                    if (uiState.word != null) {
-                        SavingWordContent(
-                            state = uiState,
-                            isMainSectionExpanded = uiState.isMainSectionExpanded,
-                            isExamplesSectionExpanded = uiState.isExamplesSectionExpanded,
-                            isContextSectionExpanded = uiState.isUsageInfoSectionExpanded
-                        )
-                    }
+                    SavingWordContent(
+                        state = uiState,
+                        isMainSectionExpanded = uiState.isMainSectionExpanded,
+                        isExamplesSectionExpanded = uiState.isExamplesSectionExpanded,
+                        isContextSectionExpanded = uiState.isUsageInfoSectionExpanded
+                    )
                 }
 
                 is AddWordUiState.Error -> {
                     ErrorContent(
                         error = uiState.type,
                         onRetry = onCheckWord
+                    )
+                }
+
+                is AddWordUiState.Warning -> {
+                    ErrorContent(
+                        error = uiState.type,
+                        onRetry = onRetryManual
                     )
                 }
 

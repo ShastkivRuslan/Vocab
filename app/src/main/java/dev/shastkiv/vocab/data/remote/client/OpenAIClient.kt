@@ -57,7 +57,7 @@ class OpenAIClient @Inject constructor(
             ChatCompletionRequest.Message(
                 role = "system",
                 content = """
-                        You are a professional linguistic assistant . 
+                        You are a professional linguistic $sourceLanguage assistant . 
                         Your strict duty is to return data in a valid JSON format.
                         
                         CRITICAL RULES:
@@ -66,7 +66,11 @@ class OpenAIClient @Inject constructor(
                         3. TYPO CORRECTION: If the input has a typo, find the closest word ONLY in the Source Language.
                         4. Use the CEFR scale (A1-C2) for the 'level' field.
                         5. Structure for 'usageInfo': Use '\n' for line breaks. Translate labels (Synonyms, Forms, Note) into the target language.
-                        
+                        VALIDATION RULES:
+                        If you cannot process the word "$input" in $sourceLanguage, use these error codes in the 'translation' field:
+                        1. If the word is gibberish or doesn't exist: "ERROR_INVALID_WORD".
+                        2. If the word belongs to a different language than $sourceLanguage: "ERROR_WRONG_LANGUAGE".
+                            
                         JSON Schema:
                         {
                           "originalWord": "string",

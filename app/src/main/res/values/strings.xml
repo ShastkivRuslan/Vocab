@@ -315,4 +315,19 @@
     <string name="about_app_mission_title">Why will this work?</string>
     <string name="about_app_full_story">Honestly: learning a language is a real challenge.\n\nWe\'ve all been there: you download an app, promise yourself to study for 30 minutes every day, but a week later you delete it because life gets in the way. Social media and modern content dictate their own rules, and every program imposes its own system, which is often overloaded with useless information.\n\nWe made Vocab. different. It doesn\'t ask for your \"golden time\" or strict schedules. Here, you choose what to learn. It\'s simple: if you come across a word and don\'t know it — that\'s the one worth your attention. We just help you not to lose it and to remember it.\n\nHow does it work? Our methodology is based on two solutions working in synergy:\n\n1. Vocab+ — your personal prompter that\'s always near. Saw an unfamiliar word on Instagram, browser, or YouTube? No need to switch apps. One tap on the button, type the word — and the translation is right in front of you. You can instantly save it to your dictionary without interrupting your browsing.\n\n2. Widget Magic — you pick up your smartphone over 100 times a day. Every time on your home screen, there will be a widget with your words. Even if you don\'t look at it specifically, your brain and peripheral vision will subconsciously register the translation. These are hundreds of \"invisible\" repetitions a day that turn passive viewing into real knowledge.\n\nAdditionally, tests, quizzes, and cards are available in the app to reinforce the results. We build Vocab+ based on your feedback, keeping only what truly brings value.</string>
     <string name="about_us_footer">Vocab. v1.0.0</string>
+    <string name="error_invalid_word_title">Word not found</string>
+    <string name="error_invalid_word_description">We couldn\'t recognize this word. Please check the spelling or try another one.</string>
+
+    <string name="error_wrong_lang_title">Wrong language</string>
+    <string name="error_wrong_lang_description">The word doesn\'t match the selected language. Check your settings or write the word in the correct language.</string>
+    <string name="widget_promo_title">Add Learning Widget</string>
+    <string name="widget_promo_subtitle">Learn new words directly from your home screen</string>
+    <string name="widget_promo_added_success">Widget added successfully!</string>
+
+    <string name="widget_pin_not_supported">Quick widget adding is not supported on your device</string>
+    <string name="widget_already_installed">Widget is already on your screen</string>
+    <string name="err">Нема такого</string>
+    <string name="err_name">Що ти бред пишеш</string>
+    <string name="err1">Неправильна мова</string>
+    <string name="err2">Переглян налаштування</string>
 </resources>

@@ -11,6 +11,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
@@ -70,7 +71,26 @@ val LocalCustomAppColors = staticCompositionLocalOf {
         progressGradientStart = Color.Unspecified,
         progressGradientEnd = Color.Unspecified,
         progressCenterTextTitle = Color.Unspecified,
-        progressCenterTextSubtitle = Color.Unspecified
+        progressCenterTextSubtitle = Color.Unspecified,
+        accent = Color.Unspecified,
+        accentSoft = Color.Unspecified,
+        onAccent = Color.Unspecified,
+        accentContainer = Color.Unspecified,
+        errorContainer = Color.Unspecified,
+        onErrorContainer = Color.Unspecified,
+        textSecondary = Color.Unspecified,
+        textMain = Color.Unspecified,
+        accentCardGradientStart = Color.Unspecified,
+        accentCardGradientToEnd = Color.Unspecified,
+        accentCardIconBoxColor = Color.Unspecified,
+        expandableCardBorder = SolidColor(Color.Unspecified),
+        expandableCardBackground = Color.Unspecified,
+        expandableCardArrowTint = Color.Unspecified,
+        expandableCardExpandedBackground = SolidColor(Color.Unspecified),
+        expandableCardContentBackground = SolidColor(Color.Unspecified),
+        textProcessingCardColor = Color.Unspecified,
+        textProcessingBackgroundColor = Color.Unspecified,
+        overlayDialogColor = Color.Unspecified
     )
 }
 
@@ -79,13 +99,17 @@ val MaterialTheme.appGradientColors: GradientBackgroundColors
     @Composable
     get() = LocalAppGradientColors.current
 
-val MaterialTheme.customColors: CustomAppColors
+val MaterialTheme.appColors: CustomAppColors
     @Composable
     get() = LocalCustomAppColors.current
 
-val MaterialTheme.dimensions: AppDimensions
+val MaterialTheme.appDimensions: AppDimensions
     @Composable
     get() = LocalAppDimensions.current
+
+val MaterialTheme.appTypography: CustomTypography
+    @Composable
+    get() = LocalAppTypography.current
 
 
 @Composable
@@ -110,34 +134,46 @@ fun LearnWordsTrainerTheme(
         else -> darkTheme
     }
 
-    val customGradientColors = if (!isDark) DarkAppGradient else LightAppGradient
-    val customAppColors = if (isDark) DarkCustomColors else LightCustomColors
+    val gradientColors = if (!isDark) DarkAppGradient else LightAppGradient
+    val appColors = if (isDark) DarkCustomColors else LightCustomColors
 
     val configuration = LocalConfiguration.current
-    val dimensions = when {
-        configuration.screenHeightDp < 720 -> smallDimensions
-        configuration.screenHeightDp < 820 -> mediumDimensions
+
+    val appDimensions = when {
+        configuration.screenHeightDp < 650 -> smallDimensions
+        configuration.screenHeightDp < 900 -> mediumDimensions
         else -> defaultDimensions
     }
+
+    val appTypography = when {
+        configuration.screenHeightDp < 650 -> smallTypography
+        configuration.screenHeightDp < 900 -> mediumTypography
+        else -> defaultTypography
+    }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = Color.Transparent.toArgb()
-            window.navigationBarColor = Color.Transparent.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isDark
+            val context = view.context
+            if (context is Activity) {
+                val window = context.window
+                window.statusBarColor = Color.Transparent.toArgb()
+                window.navigationBarColor = Color.Transparent.toArgb()
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            }
         }
     }
 
     CompositionLocalProvider(
-        LocalAppGradientColors provides customGradientColors,
-                LocalCustomAppColors provides customAppColors,
-        LocalAppDimensions provides dimensions
+        LocalAppGradientColors provides gradientColors,
+        LocalCustomAppColors provides appColors,
+        LocalAppDimensions provides appDimensions,
+        LocalAppTypography provides appTypography
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = AppTypography,
-            shapes = AppShapes,
+            typography = Typography,
+            shapes = Shapes,
             content = content
         )
     }
@@ -149,20 +185,16 @@ fun VocabAppCoreTheme(
     themeMode: Int? = null,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
+    val isDark = when {
         themeMode != null -> when (themeMode) {
-            AppCompatDelegate.MODE_NIGHT_YES -> DarkColorScheme
-            AppCompatDelegate.MODE_NIGHT_NO -> LightColorScheme
-            else -> if (darkTheme) DarkColorScheme else LightColorScheme
+            AppCompatDelegate.MODE_NIGHT_YES -> true
+            AppCompatDelegate.MODE_NIGHT_NO -> false
+            else -> darkTheme
         }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        else -> darkTheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = AppTypography,
-        shapes = AppShapes,
-        content = content
-    )
+    LearnWordsTrainerTheme(darkTheme = isDark) {
+        content()
+    }
 }

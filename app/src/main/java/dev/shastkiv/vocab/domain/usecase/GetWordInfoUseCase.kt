@@ -1,6 +1,7 @@
 package dev.shastkiv.vocab.domain.usecase
 
 import dev.shastkiv.vocab.data.remote.client.OpenAIClient
+import dev.shastkiv.vocab.domain.exeptions.LinguisticException
 import dev.shastkiv.vocab.domain.model.Language
 import dev.shastkiv.vocab.domain.model.Word
 import dev.shastkiv.vocab.domain.model.WordData
@@ -28,19 +29,27 @@ class GetWordInfoUseCase @Inject constructor(
 
         val apiResult = openAIClient.fetchWordInfo(word, sourceLanguage.name, targetLanguage.name)
 
-        apiResult.onSuccess { wordData ->
-            val cacheWord = Word(
-                sourceWord = wordData.originalWord,
-                translation = wordData.translation,
-                sourceLanguageCode = sourceLanguage.code,
-                targetLanguageCode = targetLanguage.code,
-                wordType = WordType.CACHE_ONLY,
-                isWordAdded = false,
-                aiDataJson = wordData.toJson()
-            )
-            wordRepository.addWord(cacheWord)
-        }
-
-        return apiResult
+        return apiResult.fold(
+            onSuccess = { wordData ->
+                when (wordData.translation) {
+                    "ERROR_INVALID_WORD" -> Result.failure(LinguisticException.InvalidWord())
+                    "ERROR_WRONG_LANGUAGE" -> Result.failure(LinguisticException.WrongLanguage())
+                    else -> {
+                        val cacheWord = Word(
+                            sourceWord = wordData.originalWord,
+                            translation = wordData.translation,
+                            sourceLanguageCode = sourceLanguage.code,
+                            targetLanguageCode = targetLanguage.code,
+                            wordType = WordType.CACHE_ONLY,
+                            isWordAdded = false,
+                            aiDataJson = wordData.toJson()
+                        )
+                        wordRepository.addWord(cacheWord)
+                        Result.success(wordData)
+                    }
+                }
+            },
+            onFailure = { error -> Result.failure(error) }
+        )
     }
 }

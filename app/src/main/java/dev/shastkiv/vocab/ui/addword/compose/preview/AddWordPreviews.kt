@@ -77,7 +77,8 @@ fun AddWordDialogPreview(
                 onUsageInfoToggle = {},
                 onPaywallDismissed = {},
                 onSubscribe = {},
-                onDismiss = {}
+                onDismiss = {},
+                onRetryManual = {}
             )
         }
     }
@@ -109,7 +110,8 @@ fun DialogSuccessFreeUserPreview() {
                 onUsageInfoToggle = {},
                 onPaywallDismissed = {},
                 onSubscribe = {},
-                onDismiss = {}
+                onDismiss = {},
+                onRetryManual = {}
             )
         }
     }
@@ -142,7 +144,8 @@ fun DialogSuccessPremiumUserPreview() {
                 onUsageInfoToggle = {},
                 onPaywallDismissed = {},
                 onSubscribe = {},
-                onDismiss = {}
+                onDismiss = {},
+                onRetryManual = {}
             )
         }
     }
@@ -166,7 +169,8 @@ fun DialogIdlePreview() {
                 onUsageInfoToggle = {},
                 onPaywallDismissed = {},
                 onSubscribe = {},
-                onDismiss = {}
+                onDismiss = {},
+                onRetryManual = {}
             )
         }
     }

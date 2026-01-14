@@ -101,7 +101,8 @@ fun AddWordScreen(
                 onUsageInfoToggle = viewModel::ontUsageInfoToggle,
                 onPaywallDismissed = viewModel::onPaywallDismissed,
                 onSubscribe = onFinish,
-                onDismiss = onFinish
+                onDismiss = onFinish,
+                onRetryManual = viewModel::onRetryToIdle
             )
         }
     }

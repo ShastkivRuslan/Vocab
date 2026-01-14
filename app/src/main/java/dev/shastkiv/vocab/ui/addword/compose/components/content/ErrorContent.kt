@@ -43,7 +43,6 @@ fun ErrorContent(
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(error.animationRes))
         LottieAnimation(
             composition = composition,
-            iterations = LottieConstants.IterateForever,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(dimensions.loadingAnimationHeight)

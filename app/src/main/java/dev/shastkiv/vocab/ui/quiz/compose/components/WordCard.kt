@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.theme.GreenSuccess
 import dev.shastkiv.vocab.ui.theme.RedError
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
 
 @Composable
 fun WordCard(
@@ -43,12 +43,12 @@ fun WordCard(
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
             .background(
-                color = MaterialTheme.customColors.cardBackground,
+                color = MaterialTheme.appColors.cardBackground,
                 shape = MaterialTheme.shapes.medium
             )
             .border(
                 width = 1.dp,
-                color = MaterialTheme.customColors.cardBorder,
+                color = MaterialTheme.appColors.cardBorder,
                 shape = MaterialTheme.shapes.medium
             )
     ) {
@@ -76,7 +76,7 @@ fun WordCard(
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.customColors.cardTitleText
+                color = MaterialTheme.appColors.cardTitleText
             )
             Spacer(modifier = Modifier.height(10.dp))
             Row(

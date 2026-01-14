@@ -47,10 +47,21 @@ sealed class UiError(
         description = R.string.error_parsing_description
     )
 
-    // Generic error
     object UnknownError : UiError(
         animationRes = R.raw.error,
         title = R.string.error_unknown_title,
         description = R.string.error_unknown_description
+    )
+
+    object InvalidWord : UiError(
+        animationRes = R.raw.error,
+        title = R.string.error_invalid_word_title,
+        description = R.string.error_invalid_word_description
+    )
+
+    object WrongLanguage : UiError(
+        animationRes = R.raw.wrong_language,
+        title = R.string.error_wrong_lang_title,
+        description = R.string.error_wrong_lang_description
     )
 }

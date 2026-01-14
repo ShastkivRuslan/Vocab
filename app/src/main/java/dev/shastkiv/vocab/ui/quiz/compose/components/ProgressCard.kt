@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.ui.mainscreen.compose.components.ProgressCircle
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
 
 data class ProgressStatItem(
     val label: String,
@@ -41,12 +41,12 @@ fun ProgressCard(
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
             .background(
-                color = MaterialTheme.customColors.cardBackground,
+                color = MaterialTheme.appColors.cardBackground,
                 shape = RoundedCornerShape(24.dp)
             )
             .border(
                 width = 1.dp,
-                color = MaterialTheme.customColors.cardBorder,
+                color = MaterialTheme.appColors.cardBorder,
                 shape = RoundedCornerShape(24.dp)
             )
             .padding(24.dp)
@@ -57,7 +57,7 @@ fun ProgressCard(
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
-                            MaterialTheme.customColors.statsGlowStartColor,
+                            MaterialTheme.appColors.statsGlowStartColor,
                             Color.Transparent
                         )
                     ),
@@ -83,13 +83,13 @@ fun ProgressCard(
                         Text(
                             text = stat.label,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.customColors.statsLabelText
+                            color = MaterialTheme.appColors.statsLabelText
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = stat.value,
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.customColors.statsValueText
+                            color = MaterialTheme.appColors.statsValueText
                         )
                     }
                 }

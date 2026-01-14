@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.shastkiv.vocab.domain.model.Example
 import dev.shastkiv.vocab.ui.addword.compose.components.sections.ExampleCard
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
 
 @Composable
 fun ExamplesItem(
@@ -30,12 +30,12 @@ fun ExamplesItem(
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
             .background(
-                color = MaterialTheme.customColors.cardBackground,
+                color = MaterialTheme.appColors.cardBackground,
                 shape = MaterialTheme.shapes.medium
             )
             .border(
                 width = 1.dp,
-                color = MaterialTheme.customColors.cardBorder,
+                color = MaterialTheme.appColors.cardBorder,
                 shape = MaterialTheme.shapes.large
             )
     ) {

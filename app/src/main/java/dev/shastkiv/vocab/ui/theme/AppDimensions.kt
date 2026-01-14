@@ -12,22 +12,33 @@ data class AppDimensions(
     val smallPadding: Dp,
     val mediumPadding: Dp,
     val largePadding: Dp,
-    val cornerRadius: Dp,
 
-    val spacingExtraLarge: Dp,
-    val spacingLarge: Dp,
-    val spacingMedium: Dp,
-    val spacingSmall: Dp,
-    val spacingExtraSmall: Dp,
+    val extraSmallCornerRadius: Dp,
+    val smallCornerRadius: Dp,
+    val mediumCornerRadius: Dp,
+    val largeCornerRadius: Dp,
+
+    val extraLargeSpacing: Dp,
+    val largeSpacing: Dp,
+    val mediumSpacing: Dp,
+    val smallSpacing: Dp,
+    val extraSmallSpacing: Dp,
+    val microSpacing: Dp,
 
     val buttonHeight: Dp,
     val buttonTextSize: TextUnit,
     val loadingIndicatorSize: Dp,
 
     val cardItemSpacing: Dp,
-    val cardLargeTitleStyle: TextStyle,
-    val cardTitleStyle: TextStyle,
-    val cartDescriptionStyle: TextStyle,
+    val cardTitleLargeStyle: TextStyle,
+    val cardTitleMediumStyle: TextStyle,
+    val cartDescriptionMediumStyle: TextStyle,
+    val cardDescriptionSmallStyle: TextStyle,
+    val sectionHeaderStyle: TextStyle,
+    val cardIconBoxSize: Dp,
+    val cardIconSize: Dp,
+    val cardArrowBoxSize: Dp,
+    val cardArrowIconSize: Dp,
 
     val headerIconSize: Dp,
     val appNameHeight: Dp,
@@ -37,9 +48,21 @@ data class AppDimensions(
     val iconSizeLarge: Dp,
     val iconSizeExtraLarge: Dp,
 
+    val statisticsCircleSize: Dp,
+    val statisticBoxBlurSize: Dp,
+    val progressCircleRadius: Dp,
+    val progressCircleStrokeWidth: Dp,
+    val progressPercentStyle: TextStyle,
+    val progressLabelStyle:TextStyle,
+    val loadingAnimationHeight: Dp,
+
     val headerTextStyle: TextStyle,
     val subHeaderTextStyle: TextStyle,
-    val promptTextStyle: TextStyle
+    val promptTextStyle: TextStyle,
+
+    val dragBoxHeight: Dp,
+    val dragLineHeight: Dp,
+    val dragLineWidth: Dp
 )
 
 val defaultDimensions = AppDimensions(
@@ -47,22 +70,35 @@ val defaultDimensions = AppDimensions(
     smallPadding = 12.dp,
     mediumPadding = 16.dp,
     largePadding = 24.dp,
-    cornerRadius = 16.dp,
 
-    spacingExtraLarge = 32.dp,
-    spacingLarge = 24.dp,
-    spacingMedium = 16.dp,
-    spacingSmall = 8.dp,
-    spacingExtraSmall = 4.dp,
+    extraSmallCornerRadius = 8.dp,
+    smallCornerRadius = 12.dp,
+    mediumCornerRadius = 16.dp,
+    largeCornerRadius = 20.dp,
+
+    extraLargeSpacing = 32.dp,
+    largeSpacing = 24.dp,
+    mediumSpacing = 16.dp,
+    smallSpacing = 8.dp,
+    extraSmallSpacing = 4.dp,
+    microSpacing = 2.dp,
 
     buttonHeight = 56.dp,
     buttonTextSize = 18.sp,
     loadingIndicatorSize = 24.dp,
 
     cardItemSpacing = 12.dp,
-    cardLargeTitleStyle = AppTypography.headlineMedium,
-    cardTitleStyle = AppTypography.titleMedium,
-    cartDescriptionStyle = AppTypography.bodyLarge,
+
+    cardTitleLargeStyle = Typography.headlineMedium,
+    cardTitleMediumStyle = Typography.titleMedium,
+    cartDescriptionMediumStyle = Typography.bodyLarge,
+    cardDescriptionSmallStyle = Typography.bodySmall,
+    sectionHeaderStyle = Typography.titleLarge,
+
+    cardIconBoxSize = 56.dp,
+    cardIconSize = 28.dp,
+    cardArrowBoxSize = 36.dp,
+    cardArrowIconSize = 18.dp,
 
     headerIconSize = 48.dp,
     appNameHeight = 100.dp,
@@ -72,9 +108,21 @@ val defaultDimensions = AppDimensions(
     iconSizeLarge = 32.dp,
     iconSizeExtraLarge = 64.dp,
 
-    headerTextStyle = AppTypography.headlineLarge,
-    subHeaderTextStyle = AppTypography.bodyLarge,
-    promptTextStyle = AppTypography.headlineSmall
+    statisticsCircleSize = 120.dp,
+    statisticBoxBlurSize = 2.dp,
+    progressCircleRadius = 52.dp,
+    progressCircleStrokeWidth = 6.dp,
+    progressPercentStyle = Typography.titleLarge ,
+    progressLabelStyle = Typography.bodySmall,
+    loadingAnimationHeight = 136.dp,
+
+    headerTextStyle = Typography.headlineLarge,
+    subHeaderTextStyle = Typography.bodyLarge,
+    promptTextStyle = Typography.headlineSmall,
+
+    dragBoxHeight = 32.dp,
+    dragLineHeight = 4.dp,
+    dragLineWidth = 80.dp
 )
 
 val mediumDimensions = AppDimensions(
@@ -82,22 +130,35 @@ val mediumDimensions = AppDimensions(
     smallPadding = 10.dp,
     mediumPadding = 14.dp,
     largePadding = 20.dp,
-    cornerRadius = 14.dp,
 
-    spacingExtraLarge = 28.dp,
-    spacingLarge = 20.dp,
-    spacingMedium = 14.dp,
-    spacingSmall = 6.dp,
-    spacingExtraSmall = 4.dp,
+    extraSmallCornerRadius = 6.dp,
+    smallCornerRadius = 10.dp,
+    mediumCornerRadius = 14.dp,
+    largeCornerRadius = 18.dp,
+
+
+    extraLargeSpacing = 28.dp,
+    largeSpacing = 20.dp,
+    mediumSpacing = 14.dp,
+    smallSpacing = 6.dp,
+    extraSmallSpacing = 4.dp,
+    microSpacing = 2.dp,
 
     buttonHeight = 52.dp,
     buttonTextSize = 17.sp,
     loadingIndicatorSize = 22.dp,
 
     cardItemSpacing = 10.dp,
-    cardLargeTitleStyle = AppTypography.headlineSmall,
-    cardTitleStyle = AppTypography.titleMedium,
-    cartDescriptionStyle = AppTypography.bodyLarge,
+    cardTitleLargeStyle = Typography.headlineSmall,
+    cardTitleMediumStyle = Typography.titleMedium,
+    cartDescriptionMediumStyle = Typography.bodyLarge,
+    cardDescriptionSmallStyle = Typography.labelLarge,
+    sectionHeaderStyle = Typography.titleMedium,
+
+    cardIconBoxSize = 48.dp,
+    cardIconSize = 24.dp,
+    cardArrowBoxSize = 32.dp,
+    cardArrowIconSize = 16.dp,
 
     headerIconSize = 42.dp,
     appNameHeight = 90.dp,
@@ -107,9 +168,21 @@ val mediumDimensions = AppDimensions(
     iconSizeLarge = 28.dp,
     iconSizeExtraLarge = 56.dp,
 
-    headerTextStyle = AppTypography.headlineMedium,
-    subHeaderTextStyle = AppTypography.bodyLarge,
-    promptTextStyle = AppTypography.titleLarge
+    statisticsCircleSize = 100.dp,
+    statisticBoxBlurSize = 20.dp,
+    progressCircleRadius = 43.dp,
+    progressCircleStrokeWidth = 5.dp,
+    progressPercentStyle = Typography.titleMedium,
+    progressLabelStyle = Typography.labelSmall,
+    loadingAnimationHeight = 110.dp,
+
+    headerTextStyle = Typography.headlineMedium,
+    subHeaderTextStyle = Typography.bodyLarge,
+    promptTextStyle = Typography.titleLarge,
+
+    dragBoxHeight = 28.dp,
+    dragLineHeight = 4.dp,
+    dragLineWidth = 70.dp
 )
 
 val smallDimensions = AppDimensions(
@@ -117,22 +190,34 @@ val smallDimensions = AppDimensions(
     smallPadding = 8.dp,
     mediumPadding = 12.dp,
     largePadding = 12.dp,
-    cornerRadius = 12.dp,
 
-    spacingExtraLarge = 20.dp,
-    spacingLarge = 16.dp,
-    spacingMedium = 12.dp,
-    spacingSmall = 4.dp,
-    spacingExtraSmall = 3.dp,
+    extraSmallCornerRadius = 4.dp,
+    smallCornerRadius = 8.dp,
+    mediumCornerRadius = 12.dp,
+    largeCornerRadius = 16.dp,
+
+    extraLargeSpacing = 20.dp,
+    largeSpacing = 16.dp,
+    mediumSpacing = 12.dp,
+    smallSpacing = 4.dp,
+    extraSmallSpacing = 3.dp,
+    microSpacing = 1.dp,
 
     buttonHeight = 48.dp,
     buttonTextSize = 16.sp,
     loadingIndicatorSize = 20.dp,
 
     cardItemSpacing = 8.dp,
-    cardLargeTitleStyle = AppTypography.titleLarge,
-    cardTitleStyle = AppTypography.titleSmall,
-    cartDescriptionStyle = AppTypography.bodyMedium,
+    cardTitleLargeStyle = Typography.titleLarge,
+    cardTitleMediumStyle = Typography.titleSmall,
+    cartDescriptionMediumStyle = Typography.bodyMedium,
+    cardDescriptionSmallStyle = Typography.labelMedium,
+    sectionHeaderStyle = Typography.titleSmall,
+
+    cardIconBoxSize = 40.dp,
+    cardIconSize = 20.dp,
+    cardArrowBoxSize = 28.dp,
+    cardArrowIconSize = 14.dp,
 
     headerIconSize = 36.dp,
     appNameHeight = 80.dp,
@@ -142,9 +227,22 @@ val smallDimensions = AppDimensions(
     iconSizeLarge = 24.dp,
     iconSizeExtraLarge = 48.dp,
 
-    headerTextStyle = AppTypography.headlineSmall,
-    subHeaderTextStyle = AppTypography.bodyMedium,
-    promptTextStyle = AppTypography.titleMedium
+    statisticsCircleSize = 80.dp,
+    statisticBoxBlurSize = 12.dp,
+    progressCircleRadius = 34.dp,
+    progressCircleStrokeWidth = 4.dp,
+    progressPercentStyle = Typography.titleSmall,
+    progressLabelStyle = Typography.labelSmall,
+    loadingAnimationHeight = 90.dp,
+
+
+    headerTextStyle = Typography.headlineSmall,
+    subHeaderTextStyle = Typography.bodyMedium,
+    promptTextStyle = Typography.titleMedium,
+
+    dragBoxHeight = 24.dp,
+    dragLineHeight = 3.dp,
+    dragLineWidth = 60.dp
 )
 
 val LocalAppDimensions = staticCompositionLocalOf { defaultDimensions }

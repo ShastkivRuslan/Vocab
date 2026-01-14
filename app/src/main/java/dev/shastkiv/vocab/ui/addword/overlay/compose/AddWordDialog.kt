@@ -19,7 +19,8 @@ fun AddWordDialog(
     ontUsageInfoToggle: () -> Unit,
     onPaywallDismissed: () -> Unit,
     onSubscribe: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onRetryManual: () -> Unit
 ) {
     DialogContainer(onDismissRequest = onDismissRequest) {
         Content(
@@ -35,7 +36,8 @@ fun AddWordDialog(
             onUsageInfoToggle = ontUsageInfoToggle,
             onPaywallDismissed = onPaywallDismissed,
             onSubscribe = onSubscribe,
-            onDismiss = onDismissRequest
+            onDismiss = onDismissRequest,
+            onRetryManual = onRetryManual
         )
     }
 }

@@ -44,6 +44,9 @@ class ServiceNotificationManager @Inject constructor(
             .build()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            // We combine SPECIAL_USE for the floating UI and DATA_SYNC for reliable data operations.
+            // DATA_SYNC ensures that when a user saves a word, the database write operation
+            // is completed successfully and not interrupted by the OS, preventing data loss.
             service.startForeground(
                 FOREGROUND_NOTIFICATION_ID,
                 notification,

@@ -1,5 +1,6 @@
 package dev.shastkiv.vocab.ui.theme
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val LightPrimary = Color(0xFF4AA284)
@@ -58,15 +59,37 @@ data class CustomAppColors(
     val statsLabelText: Color,
     val statsValueText: Color,
     val statsGlowStartColor: Color,
-
     val progressGlowColor: Color,
     val progressBackgroundCircleColor: Color,
     val progressGradientStart: Color,
     val progressGradientEnd: Color,
     val progressCenterTextTitle: Color,
     val progressCenterTextSubtitle: Color,
+    val accentCardGradientStart: Color,
+    val accentCardGradientToEnd: Color,
+    val accentCardIconBoxColor: Color,
     val greenSuccess: Color,
-    val redError: Color
+    val redError: Color,
+
+    val accent: Color,
+    val accentSoft: Color,
+    val onAccent: Color,
+    val accentContainer: Color,
+    val errorContainer: Color,
+    val onErrorContainer: Color,
+    val textSecondary: Color,
+    val textMain: Color,
+
+    val expandableCardBackground: Color,
+    val expandableCardBorder: Brush,
+    val expandableCardExpandedBackground: Brush,
+    val expandableCardContentBackground: Brush,
+    val expandableCardArrowTint: Color,
+
+    val textProcessingBackgroundColor: Color,
+    val textProcessingCardColor: Color,
+
+    val overlayDialogColor: Color
 )
 
 val LightCustomColors = CustomAppColors(
@@ -77,44 +100,104 @@ val LightCustomColors = CustomAppColors(
     cardIconTintLight = Color(0xFF14B8A6),
     cardArrowBackground = Color(0x80CBD5E1),
     cardArrowTint = Color(0xFF475569),
-
     statsLabelText = Color(0xFF475569),
     statsValueText = Color(0xFF1E293B),
     statsGlowStartColor = Color(0x1A5EEAD4),
-
     progressGlowColor = Color(0x4D5EEAD4),
     progressBackgroundCircleColor = Color(0x33647480),
     progressGradientStart = Color(0xFF14B8A6),
     progressGradientEnd = Color(0xFF0D9488),
     progressCenterTextTitle = Color(0xFF1E293B),
     progressCenterTextSubtitle = Color(0xFF475569),
-
+    accentCardGradientStart = Color(0xFF84f0e0).copy(alpha = 0.3f),
+    accentCardGradientToEnd = Color(0xFF32dff5).copy(alpha = 0.3f),
+    accentCardIconBoxColor = Color.White.copy(alpha = 0.4f),
     greenSuccess = Color(0xFF4CAF50),
-    redError = Color(0xFFF44336)
+    redError = Color(0xFFF44336),
+
+    accent = LightPrimary,
+    accentSoft = LightPrimary.copy(alpha = 0.1f),
+    onAccent = White,
+    accentContainer = LightPrimary,
+    errorContainer = Color(0xFFFFDAD6),
+    onErrorContainer = Color(0xFF410002),
+    textSecondary = Color(0xFF475569),
+    textMain = Black,
+
+    expandableCardBackground = LightPrimary.copy(alpha = 0.05f),
+    expandableCardBorder = Brush.verticalGradient(
+        listOf(
+            Color.White,
+            LightPrimary.copy(alpha = 0.2f)
+        )
+    ),
+    expandableCardExpandedBackground = Brush.horizontalGradient(
+        listOf(
+            LightPrimary.copy(alpha = 0.15f),
+            LightPrimary.copy(alpha = 0.05f)
+        )
+    ),
+    expandableCardContentBackground = Brush.verticalGradient(
+        listOf(
+            LightPrimary.copy(alpha = 0.08f),
+            Color.Transparent
+        )
+    ),
+    expandableCardArrowTint = LightPrimary,
+
+    textProcessingBackgroundColor = Color.Black.copy(alpha = 0.25f),
+    textProcessingCardColor = Color.White.copy(0.95f),
+    overlayDialogColor = Color(0xFFE7FCF1)
 )
 
-val DarkCustomColors: CustomAppColors
-    get() = CustomAppColors(
-        cardBackground = Color(0x0DFFFFFF),
-        cardBorder = Color(0x1AFFFFFF),
-        cardTitleText = Color(0xFFDDD6FE),
-        cardDescriptionText = Color(0xB3C4B5FD),
-        cardIconTintLight = Color(0xFF14B8A6),
-        cardArrowBackground = Color(0x0DFFFFFF),
-        cardArrowTint = Color(0xFFC4B5FD),
+val DarkCustomColors = CustomAppColors(
+    cardBackground = Color(0x0DFFFFFF),
+    cardBorder = Color(0x1AFFFFFF),
+    cardTitleText = Color(0xFFDDD6FE),
+    cardDescriptionText = Color(0xB3C4B5FD),
+    cardIconTintLight = Color(0xFF14B8A6),
+    cardArrowBackground = Color(0x0DFFFFFF),
+    cardArrowTint = Color(0xFFC4B5FD),
+    statsLabelText = Color(0xB3C4B5FD),
+    statsValueText = Color(0xFFDDD6FE),
+    statsGlowStartColor = Color(0x0D5EEAD4),
+    progressGlowColor = Color(0x335EEAD4),
+    progressBackgroundCircleColor = Color(0x1AFFFFFF),
+    progressGradientStart = Color(0xFF5EEAD4),
+    progressGradientEnd = Color(0xFF2DD4BF),
+    progressCenterTextTitle = Color(0xFFDDD6FE),
+    progressCenterTextSubtitle = Color(0xB3C4B5FD),
+    accentCardGradientStart = Color(0xFF6366F1).copy(alpha = 0.3f),
+    accentCardGradientToEnd = Color(0xFF8B5CF6).copy(alpha = 0.3f),
+    accentCardIconBoxColor = Color.White.copy(alpha = 0.1f),
+    greenSuccess = Color(0xFF4CAF50),
+    redError = Color(0xFFF44336),
 
-        statsLabelText = Color(0xB3C4B5FD),
-        statsValueText = Color(0xFFDDD6FE),
-        statsGlowStartColor = Color(0x0D5EEAD4),
+    accent = DarkPrimary,
+    accentSoft = DarkPrimary.copy(alpha = 0.1f),
+    onAccent = White,
+    accentContainer = DarkPrimary,
+    errorContainer = Color(0xFF93000A),
+    onErrorContainer = Color(0xFFFFDAD6),
+    textSecondary = Color(0xB3C4B5FD),
+    textMain = White,
 
-        progressGlowColor = Color(0x335EEAD4),
-        progressBackgroundCircleColor = Color(0x1AFFFFFF),
-        progressGradientStart = Color(0xFF5EEAD4),
-        progressGradientEnd = Color(0xFF2DD4BF),
-        progressCenterTextTitle = Color(0xFFDDD6FE),
-        progressCenterTextSubtitle = Color(0xB3C4B5FD),
+    expandableCardBackground = Color(0xFF1E293B).copy(alpha = 0.4f),
+    expandableCardBorder = Brush.verticalGradient(
+        listOf(Color.White.copy(alpha = 0.2f), Color.Transparent)
+    ),
+    expandableCardExpandedBackground = Brush.horizontalGradient(
+        listOf(Color(0xFF818CF8).copy(alpha = 0.2f), Color(0xFFC4B5FD).copy(alpha = 0.1f))
+    ),
+    expandableCardContentBackground = Brush.verticalGradient(
+        listOf(
+            Color.Black.copy(alpha = 0.3f),
+            Color.Transparent
+        )
+    ),
+    expandableCardArrowTint = Color(0xFFA5B4FC),
 
-
-        greenSuccess = Color(0xFF4CAF50),
-        redError = Color(0xFFF44336)
-    )
+    textProcessingCardColor = Color(0xFF303130).copy(0.90f),
+    textProcessingBackgroundColor = Color.Black.copy(0.15f),
+    overlayDialogColor = Color(0xFF303130)
+)

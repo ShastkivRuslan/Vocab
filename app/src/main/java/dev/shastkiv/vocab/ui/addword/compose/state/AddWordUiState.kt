@@ -43,6 +43,8 @@ sealed interface AddWordUiState {
     }
 
     data class Error(val type: UiError) : AddWordUiState
+
+    data class Warning(val type: UiError) : AddWordUiState
     object ShowPaywall : AddWordUiState
     object DialogShouldClose : AddWordUiState
 }

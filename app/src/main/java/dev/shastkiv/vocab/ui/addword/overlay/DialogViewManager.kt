@@ -151,7 +151,8 @@ class DialogViewManager(
                     ontUsageInfoToggle = viewModel::ontUsageInfoToggle,
                     onPaywallDismissed = viewModel::onPaywallDismissed,
                     onSubscribe = { isVisible = false },
-                    onDismissRequest = { isVisible = false }
+                    onDismissRequest = { isVisible = false },
+                    onRetryManual = viewModel::onRetryToIdle
                 )
             }
         }

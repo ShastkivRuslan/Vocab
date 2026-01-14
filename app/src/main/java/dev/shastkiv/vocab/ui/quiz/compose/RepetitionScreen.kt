@@ -28,7 +28,7 @@ import dev.shastkiv.vocab.ui.common.compose.ErrorContent
 import dev.shastkiv.vocab.ui.quiz.RepetitionEvent
 import dev.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import dev.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
 
 @Composable
 fun RepetitionScreen(
@@ -49,7 +49,7 @@ fun RepetitionScreen(
             Icon(
                 imageVector = Icons.Default.ChevronLeft,
                 contentDescription = "Navigate",
-                tint = MaterialTheme.customColors.cardTitleText,
+                tint = MaterialTheme.appColors.cardTitleText,
                 modifier = Modifier
                     .size(48.dp)
                     .clickable { onBackPressed() }
@@ -60,7 +60,7 @@ fun RepetitionScreen(
                     .padding(start = 16.dp),
                 text = stringResource(R.string.repeat_mode),
                 style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.customColors.cardTitleText
+                color = MaterialTheme.appColors.cardTitleText
             )
         }
 

@@ -55,7 +55,7 @@ class BubbleManager @Inject constructor(
             bubbleViewManager?.show(initialSettings.position)
             isInitialized = true
 
-            Log.d(TAG, "Bubble initialized successfully")
+            Log.d(TAG, "Bubble UI initialized: SPECIAL_USE active")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to initialize bubble", e)
             throw e
@@ -96,10 +96,10 @@ class BubbleManager @Inject constructor(
     }
 
     fun destroy() {
-        Log.d(TAG, "Destroying BubbleManager")
         bubbleViewManager?.destroy()
         bubbleViewManager = null
         isInitialized = false
+        Log.d(TAG, "STOPPING SERVICE: BubbleManager destroyed, all overlays removed")
     }
 
     companion object {

@@ -59,8 +59,6 @@ class DialogManager @Inject constructor(
             dialogViewManager?.hide()
             viewModel.resetState()
 
-            Log.d(TAG, "Dialog hidden successfully")
-
         } catch (e: Exception) {
             Log.e(TAG, "Failed to hide dialog", e)
         }

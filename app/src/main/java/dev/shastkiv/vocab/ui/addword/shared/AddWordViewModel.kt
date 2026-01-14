@@ -6,8 +6,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
-import dev.shastkiv.vocab.domain.model.Language
-import dev.shastkiv.vocab.domain.model.LanguageSettings
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dev.shastkiv.vocab.domain.model.UiError
 import dev.shastkiv.vocab.domain.model.WordData
 import dev.shastkiv.vocab.domain.model.enums.WordType
 import dev.shastkiv.vocab.domain.repository.LanguageRepository
@@ -20,8 +21,6 @@ import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
 import dev.shastkiv.vocab.ui.addword.compose.state.UserStatus
 import dev.shastkiv.vocab.utils.TTSManager
 import dev.shastkiv.vocab.utils.mapThrowableToUiError
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -149,7 +148,13 @@ class AddWordViewModel @AssistedInject constructor(
             )
         }.onFailure { error ->
             val uiError = mapThrowableToUiError(error)
-            _uiState.value = AddWordUiState.Error(uiError)
+
+            if (uiError is UiError.InvalidWord || uiError is UiError.WrongLanguage) {
+                _uiState.value = AddWordUiState.Warning(uiError)
+            } else {
+                // Якщо це мережа або база даних — це Error
+                _uiState.value = AddWordUiState.Error(uiError)
+            }
         }
     }
 
@@ -282,5 +287,9 @@ class AddWordViewModel @AssistedInject constructor(
                 )
             } ?: it
         }
+    }
+
+    fun onRetryToIdle() {
+        _uiState.value = AddWordUiState.Idle(userStatus = _userStatus.value)
     }
 }

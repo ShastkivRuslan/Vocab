@@ -65,7 +65,7 @@ import dev.shastkiv.vocab.ui.allwords.compose.components.MainInfoItem
 import dev.shastkiv.vocab.ui.allwords.compose.state.AllWordsUiState
 import dev.shastkiv.vocab.ui.common.compose.ErrorContent
 import dev.shastkiv.vocab.ui.theme.LearnWordsTrainerTheme
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
 
 @Composable
 fun AllWordsScreen(
@@ -126,7 +126,7 @@ fun AllWordsContent(
             Icon(
                 imageVector = Icons.Default.ChevronLeft,
                 contentDescription = "Navigate",
-                tint = MaterialTheme.customColors.cardTitleText,
+                tint = MaterialTheme.appColors.cardTitleText,
                 modifier = Modifier
                     .size(48.dp)
                     .clickable { onBackPressed() }
@@ -134,7 +134,7 @@ fun AllWordsContent(
             Text(
                 text = "Мій словник",
                 style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.customColors.cardTitleText,
+                color = MaterialTheme.appColors.cardTitleText,
                 modifier = Modifier.weight(1f)
             )
             if (uiState is AllWordsUiState.Success) {
@@ -240,14 +240,14 @@ fun WordItem(
             //.padding(top = 24.dp)
             .clip(MaterialTheme.shapes.medium)
             .background(
-                color = MaterialTheme.customColors.cardBackground,
+                color = MaterialTheme.appColors.cardBackground,
                 shape = MaterialTheme.shapes.medium
             )
             .clickable { onClick() }
             .animateContentSize()
             .border(
                 width = 1.dp,
-                color = MaterialTheme.customColors.cardBorder,
+                color = MaterialTheme.appColors.cardBorder,
                 shape = MaterialTheme.shapes.medium
             )
     ) {
@@ -264,7 +264,7 @@ fun WordItem(
                     text = "${word.sourceWord}  ${findByCode(word.sourceLanguageCode).flagEmoji}",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.customColors.cardTitleText
+                    color = MaterialTheme.appColors.cardTitleText
                 )
 
                 Spacer(modifier = Modifier.weight(1f))

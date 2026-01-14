@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.glance.GlanceTheme
 import androidx.glance.material3.ColorProviders
 
-// 1. Створюємо світлу палітру Material 3 з ваших кольорів
 private val LightColorScheme = lightColorScheme(
     primary = LightPrimary,
     secondary = LightSecondary,
@@ -20,7 +19,6 @@ private val LightColorScheme = lightColorScheme(
     onError = White
 )
 
-// 2. Створюємо темну палітру Material 3 з ваших кольорів
 private val DarkColorScheme = darkColorScheme(
     primary = DarkPrimary,
     secondary = DarkSecondary,
@@ -34,7 +32,6 @@ private val DarkColorScheme = darkColorScheme(
     onError = White
 )
 
-// 3. Створюємо об'єкт для Glance, як у гайді
 object WidgetGlanceColorScheme {
     val colors = ColorProviders(
         light = LightColorScheme,
@@ -42,7 +39,6 @@ object WidgetGlanceColorScheme {
     )
 }
 
-// 4. Створюємо саму тему для віджета
 @Composable
 fun WidgetTheme(
     content: @Composable () -> Unit

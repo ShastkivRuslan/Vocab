@@ -36,8 +36,8 @@ class BubbleService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        // Start foreground service immediately to ensure transparency and system awareness
         serviceNotificationManager.startForeground(this)
-
 
         overlayLifecycleOwner.create()
         overlayLifecycleOwner.start()
@@ -46,6 +46,7 @@ class BubbleService : Service() {
         isBubbleVisible = true
         registerScreenStateReceiver()
         initializeComponents()
+        Log.d(TAG, "Foreground Service started with unified notification")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -60,7 +61,18 @@ class BubbleService : Service() {
     }
 
     override fun onDestroy() {
-        cleanupResources()
+        // Explicitly stopping all managers to free memory and battery resources
+        // when the user turns off the feature in settings.
+        try {
+            unregisterReceiver(screenStateReceiver)
+        } catch (e: IllegalArgumentException) {
+            Log.w(TAG, "ScreenStateReceiver was not registered", e)
+        }
+        bubbleManager.destroy()
+        dialogManager.destroy()
+        overlayLifecycleOwner.destroy()
+        serviceScope.cancel()
+        Log.d(TAG, "User requested service stop: resources cleaned")
         super.onDestroy()
     }
 
@@ -101,18 +113,6 @@ class BubbleService : Service() {
             addAction(Intent.ACTION_USER_PRESENT)
         }
         registerReceiver(screenStateReceiver, filter)
-    }
-
-    private fun cleanupResources() {
-        try {
-            unregisterReceiver(screenStateReceiver)
-        } catch (e: IllegalArgumentException) {
-            Log.w(TAG, "ScreenStateReceiver was not registered", e)
-        }
-        bubbleManager.destroy()
-        dialogManager.destroy()
-        overlayLifecycleOwner.destroy()
-        serviceScope.cancel()
     }
 
     private inner class ScreenStateReceiver : BroadcastReceiver() {

@@ -22,7 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.ui.theme.GreenSuccess
 import dev.shastkiv.vocab.ui.theme.RedError
-import dev.shastkiv.vocab.ui.theme.customColors
+import dev.shastkiv.vocab.ui.theme.appColors
 
 @Composable
 fun AnswerOptions(
@@ -52,7 +52,7 @@ fun AnswerOptions(
                     .fillMaxWidth()
                     .clip(MaterialTheme.shapes.medium)
                     .background(
-                        color = MaterialTheme.customColors.cardBackground,
+                        color = MaterialTheme.appColors.cardBackground,
                         shape = MaterialTheme.shapes.medium
                     )
                     .clickable(enabled = selectedAnswerIndex == null) {
@@ -60,7 +60,7 @@ fun AnswerOptions(
                     }
                     .border(
                         width = 1.dp,
-                        color = MaterialTheme.customColors.cardBorder,
+                        color = MaterialTheme.appColors.cardBorder,
                         shape = MaterialTheme.shapes.medium
                     ),
 
@@ -82,7 +82,7 @@ fun AnswerOptions(
                     Text(
                         text = text,
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.customColors.cardTitleText,
+                        color = MaterialTheme.appColors.cardTitleText,
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }

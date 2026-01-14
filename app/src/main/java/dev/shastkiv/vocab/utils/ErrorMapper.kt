@@ -2,6 +2,7 @@ package dev.shastkiv.vocab.utils
 
 import android.database.sqlite.SQLiteException
 import dev.shastkiv.vocab.data.remote.client.WordInfoException
+import dev.shastkiv.vocab.domain.exeptions.LinguisticException
 import dev.shastkiv.vocab.domain.model.UiError
 import retrofit2.HttpException
 import java.io.IOException
@@ -13,13 +14,14 @@ import java.net.UnknownHostException
  */
 fun mapThrowableToUiError(throwable: Throwable?): UiError {
     return when (throwable) {
-        // Network errors
+        is LinguisticException.InvalidWord -> UiError.InvalidWord
+        is LinguisticException.WrongLanguage -> UiError.WrongLanguage
+
         is UnknownHostException,
         is IOException -> UiError.NetworkError
 
         is SocketTimeoutException -> UiError.TimeoutError
 
-        // Custom API errors
         is WordInfoException.HttpApiError -> {
             when (throwable.code) {
                 404 -> UiError.WordNotFound
@@ -31,7 +33,6 @@ fun mapThrowableToUiError(throwable: Throwable?): UiError {
         is WordInfoException.EmptyContentException,
         is WordInfoException.ParsingException -> UiError.ParsingError
 
-        // Retrofit HTTP errors
         is HttpException -> {
             when (throwable.code()) {
                 404 -> UiError.WordNotFound
@@ -40,13 +41,10 @@ fun mapThrowableToUiError(throwable: Throwable?): UiError {
             }
         }
 
-        // Database errors
         is SQLiteException -> UiError.DatabaseError
 
-        // Empty data
         is NoSuchElementException -> UiError.EmptyData
 
-        // Validation errors
         is IllegalArgumentException -> UiError.UnknownError
 
         // Unknown
