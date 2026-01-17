@@ -28,9 +28,10 @@ android {
     defaultConfig {
         applicationId = "dev.shastkiv.vocab"
         minSdk = 29
+        //noinspection OldTargetApi
         targetSdk = 35
-        versionCode = 8
-        versionName = "1.0"
+        versionCode = 10
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", "\"$openAiApiKey\"")

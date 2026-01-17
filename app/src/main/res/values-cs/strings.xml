@@ -319,4 +319,14 @@
     <string name="error_wrong_lang_title">Nesprávný jazyk</string>
     <string name="error_wrong_lang_description">Slovo neodpovídá zvolenému jazyku. Zkontrolujte nastavení nebo napište slovo ve správném jazyce.</string>
     <string name="accuracy">Přesnost</string>
+
+    <string name="vocab_plus_unlock_title">Téměř hotovo!</string>
+    <string name="vocab_plus_unlock_subtitle">Aktivujte magii Vocab+</string>
+    <string name="vocab_plus_unlock_description">Povolte zobrazení nad ostatními aplikacemi a učte se slovíčka, aniž byste opustili své oblíbené aplikace.</string>
+    <string name="vocab_plus_unlock_button">Povolit přístup</string>
+    <string name="vocab_promo_title">Aktivovat rychlý přístup</string>
+    <string name="vocab_promo_description">Vocab+ umožňuje rychlejší і snadnější učení a přidávání slov</string>
+    <string name="widget_promo_title">Přidat výukový widget</string>
+    <string name="widget_promo_subtitle">Učte se nová slovíčka přímo z domovské obrazovky</string>
+    <string name="magic_activated">Magie aktivována! ✨</string>
 </resources>

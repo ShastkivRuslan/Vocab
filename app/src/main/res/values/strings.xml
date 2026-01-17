@@ -326,9 +326,13 @@
 
     <string name="widget_pin_not_supported">Quick widget adding is not supported on your device</string>
     <string name="widget_already_installed">Widget is already on your screen</string>
-    <string name="err">Нема такого</string>
-    <string name="err_name">Що ти бред пишеш</string>
-    <string name="err1">Неправильна мова</string>
-    <string name="err2">Переглян налаштування</string>
     <string name="accuracy">Accuracy</string>
+
+    <string name="vocab_plus_unlock_title">Almost ready!</string>
+    <string name="vocab_plus_unlock_subtitle">Activate Vocab+ magic</string>
+    <string name="vocab_plus_unlock_description">Allow display over other apps to learn words without leaving your favorite applications.</string>
+    <string name="vocab_plus_unlock_button">Grant Access</string>
+    <string name="vocab_promo_title">Enable Quick Access</string>
+    <string name="vocab_promo_description">Vocab+ makes learning and adding words faster and easier</string>
+    <string name="magic_activated">Magic activated! ✨</string>
 </resources>

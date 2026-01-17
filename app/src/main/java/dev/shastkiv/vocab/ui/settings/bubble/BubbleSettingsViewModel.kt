@@ -2,18 +2,26 @@ package dev.shastkiv.vocab.ui.settings.bubble
 
 import android.app.Application
 import android.content.Intent
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.di.IoDispatcher
 import dev.shastkiv.vocab.domain.repository.BubbleSettingsRepository
 import dev.shastkiv.vocab.domain.repository.ThemeRepository
 import dev.shastkiv.vocab.service.bubble.BubbleService
 import dev.shastkiv.vocab.ui.bubble.BubbleSettingsUiState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
@@ -33,10 +41,13 @@ class BubbleSettingsViewModel @Inject constructor(
         private const val MAX_TRANSPARENCY = 100f
     }
 
+    private val _events = Channel<BubbleEvent>(Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
+
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
 
-    val uiState: StateFlow<BubbleSettingsUiState> = combine(
+    private val repositorySettings = combine(
         repository.isBubbleEnabled,
         repository.bubbleSize,
         repository.bubbleTransparency,
@@ -50,10 +61,23 @@ class BubbleSettingsViewModel @Inject constructor(
             isVibrationEnabled = isVibrationOn,
             autoHideAppList = appList
         )
+    }
+
+    private var isWaitingForPermission = false
+    private val _showDeniedSheet = MutableStateFlow(false)
+
+    val uiState: StateFlow<BubbleSettingsUiState> = combine(
+        repositorySettings,
+        _showDeniedSheet
+    ) { settings, showSheet ->
+        settings.copy(
+            hasOverlayPermission = Settings.canDrawOverlays(application),
+            showDeniedSheet = showSheet
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = BubbleSettingsUiState()
+        initialValue = BubbleSettingsUiState(hasOverlayPermission = Settings.canDrawOverlays(application))
     )
 
     val themeMode: StateFlow<Int> = themeRepository.themeMode.stateIn(
@@ -63,14 +87,14 @@ class BubbleSettingsViewModel @Inject constructor(
     )
 
     fun onBubbleEnabledChange(isEnabled: Boolean) = viewModelScope.launch(ioDispatcher) {
-        //TODO: implement overlay permission request if not granted and user want turn on vocab+
+        if (isEnabled && !Settings.canDrawOverlays(application)) {
+            _error.value = "PERMISSION_REQUIRED"
+            return@launch
+        }
+
         try {
             repository.setBubbleEnabled(isEnabled)
-            if (isEnabled) {
-                startBubbleService()
-            } else {
-                stopBubbleService()
-            }
+            if (isEnabled) startBubbleService() else stopBubbleService()
         } catch (e: Exception) {
             if (e is CancellationException) throw e
             _error.value = application.getString(R.string.error_failed_to_update_bubble_settings)
@@ -116,5 +140,34 @@ class BubbleSettingsViewModel @Inject constructor(
         val context = getApplication<Application>()
         val serviceIntent = Intent(context, BubbleService::class.java)
         context.stopService(serviceIntent)
+    }
+
+    fun checkPermission() {
+        val hasPermission = Settings.canDrawOverlays(application)
+
+        viewModelScope.launch {
+            if (hasPermission) {
+                if (isWaitingForPermission) {
+                    onBubbleEnabledChange(true)
+                    _events.send(BubbleEvent.PermissionGrantedSuccess)
+                }
+                _showDeniedSheet.value = false
+                isWaitingForPermission = false
+            } else {
+                if (isWaitingForPermission) {
+                    _showDeniedSheet.value = true
+                    isWaitingForPermission = false
+                }
+            }
+        }
+    }
+
+    fun requestOverlayPermission() {
+        isWaitingForPermission = true
+        viewModelScope.launch { _events.send(BubbleEvent.OpenOverlaySettings) }
+    }
+
+    fun dismissDeniedSheet() {
+        _showDeniedSheet.value = false
     }
 }

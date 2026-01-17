@@ -1,7 +1,6 @@
 package dev.shastkiv.vocab.navigation
 
 import AddWordScreen
-import BubbleSettingsScreen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -40,6 +39,7 @@ import dev.shastkiv.vocab.ui.mainscreen.MainViewModel
 import dev.shastkiv.vocab.ui.mainscreen.compose.MainScreen
 import dev.shastkiv.vocab.ui.quiz.RepetitionViewModel
 import dev.shastkiv.vocab.ui.quiz.compose.RepetitionScreen
+import dev.shastkiv.vocab.ui.settings.bubble.BubbleSettingsScreen
 import dev.shastkiv.vocab.ui.settings.bubble.BubbleSettingsViewModel
 import dev.shastkiv.vocab.ui.settings.language.LanguageDialogType
 import dev.shastkiv.vocab.ui.settings.language.LanguageSettingsViewModel
@@ -224,6 +224,7 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                 val uiState by bubbleViewModel.uiState.collectAsState()
 
                 BubbleSettingsScreen(
+                    viewModel = bubbleViewModel,
                     uiState = uiState,
                     onBubbleEnabledChange = bubbleViewModel::onBubbleEnabledChange,
                     onBubbleSizeChange = bubbleViewModel::onBubbleSizeChange,

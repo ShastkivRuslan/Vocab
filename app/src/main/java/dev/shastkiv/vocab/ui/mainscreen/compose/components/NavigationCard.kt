@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.ui.theme.appColors
@@ -33,14 +32,11 @@ import dev.shastkiv.vocab.ui.theme.appTypography
 data class NavigationCardData(
     val title: String,
     val description: String,
-    val icon: ImageVector,
-    val colorGradient: List<Color>,
-    val iconBgColor: Color,
-    val iconColor: Color
+    val icon: ImageVector
 )
 
 @Composable
-fun NavigationCardItem(
+fun NavigationCard(
     card: NavigationCardData,
     onClick: () -> Unit
 ) {
@@ -76,12 +72,12 @@ fun NavigationCardItem(
                     .size(dimensions.cardIconBoxSize)
                     .clip(RoundedCornerShape(dimensions.smallCornerRadius))
                     .background(
-                        color = card.iconBgColor,
+                        color = colors.expandableCardBackground,
                         shape = RoundedCornerShape(dimensions.smallCornerRadius)
                     )
                     .border(
                         width = 1.dp,
-                        color = colors.cardBorder,
+                        brush = colors.expandableCardBorder,
                         shape = RoundedCornerShape(dimensions.smallCornerRadius)
                     ),
                 contentAlignment = Alignment.Center
@@ -89,7 +85,7 @@ fun NavigationCardItem(
                 Icon(
                     imageVector = card.icon,
                     contentDescription = card.title,
-                    tint = colors.cardIconTintLight,
+                    tint = colors.accent,
                     modifier = Modifier
                         .size(dimensions.iconSizeMedium)
                 )

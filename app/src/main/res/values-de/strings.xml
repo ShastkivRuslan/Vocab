@@ -319,4 +319,14 @@
     <string name="error_wrong_lang_title">Falsche Sprache</string>
     <string name="error_wrong_lang_description">Das Wort entspricht nicht der gewählten Sprache. Überprüfen Sie Ihre Einstellungen oder schreiben Sie das Wort in der richtigen Sprache.</string>
     <string name="accuracy">Genauigkeit</string>
+
+    <string name="vocab_plus_unlock_title">Fast fertig!</string>
+    <string name="vocab_plus_unlock_subtitle">Vocab+ Magie aktivieren</string>
+    <string name="vocab_plus_unlock_description">Erlaube die Anzeige über anderen Apps, um Wörter zu lernen, ohne deine Lieblingsanwendungen zu verlassen.</string>
+    <string name="vocab_plus_unlock_button">Zugriff gewähren</string>
+    <string name="vocab_promo_title">Schnellzugriff aktivieren</string>
+    <string name="vocab_promo_description">Mit Vocab+ lernen und fügen Sie Wörter schneller und einfacher hinzu</string>
+    <string name="widget_promo_title">Lern-Widget hinzufügen</string>
+    <string name="widget_promo_subtitle">Lernen Sie neue Wörter direkt von Ihrem Startbildschirm aus</string>
+    <string name="magic_activated">Magie aktiviert! ✨</string>
 </resources>

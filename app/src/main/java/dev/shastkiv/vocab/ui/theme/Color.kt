@@ -4,20 +4,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val LightPrimary = Color(0xFF4AA284)
-val LightPrimaryVariant = Color(0xFF3700B3)
 val LightSecondary = Color(0xFF3a3346)
 val LightBackground = Color(0xFFFFFFFF)
 val LightSurface = Color(0xFFfff8f6)
-val LightCardBackground = Color(0xFFF8FAF7)
 val LightTextPrimary = Color(0xFF000000)
 val LightError = Color(0xFFEC407A)
 
 val DarkPrimary = Color(0xFF14B8A6)
-val DarkPrimaryVariant = Color(0xFF009688)
 val DarkSecondary = Color(0xFF3F51B5)
 val DarkBackground = Color(0xFF121826)
 val DarkSurface = Color(0xFF1E2135)
-val DarkCardBackground = Color(0xFF252D41)
 val DarkTextPrimary = Color(0xFFFFFFFF)
 val DarkError = Color(0xFFEC407A)
 
@@ -65,8 +61,7 @@ data class CustomAppColors(
     val progressGradientEnd: Color,
     val progressCenterTextTitle: Color,
     val progressCenterTextSubtitle: Color,
-    val accentCardGradientStart: Color,
-    val accentCardGradientToEnd: Color,
+    val promoCardBackgroundGradient: Brush,
     val accentCardIconBoxColor: Color,
     val greenSuccess: Color,
     val redError: Color,
@@ -109,8 +104,12 @@ val LightCustomColors = CustomAppColors(
     progressGradientEnd = Color(0xFF0D9488),
     progressCenterTextTitle = Color(0xFF1E293B),
     progressCenterTextSubtitle = Color(0xFF475569),
-    accentCardGradientStart = Color(0xFF84f0e0).copy(alpha = 0.3f),
-    accentCardGradientToEnd = Color(0xFF32dff5).copy(alpha = 0.3f),
+    promoCardBackgroundGradient = Brush.horizontalGradient(
+        listOf(
+            Color(0xFF32dff5).copy(alpha = 0.3f),
+            Color(0xFF84f0e0).copy(alpha = 0.3f)
+        )
+    ),
     accentCardIconBoxColor = Color.White.copy(alpha = 0.4f),
     greenSuccess = Color(0xFF4CAF50),
     redError = Color(0xFFF44336),
@@ -167,8 +166,12 @@ val DarkCustomColors = CustomAppColors(
     progressGradientEnd = Color(0xFF2DD4BF),
     progressCenterTextTitle = Color(0xFFDDD6FE),
     progressCenterTextSubtitle = Color(0xB3C4B5FD),
-    accentCardGradientStart = Color(0xFF6366F1).copy(alpha = 0.3f),
-    accentCardGradientToEnd = Color(0xFF8B5CF6).copy(alpha = 0.3f),
+    promoCardBackgroundGradient = Brush.horizontalGradient(
+        listOf(
+            Color(0xFF6366F1).copy(alpha = 0.3f),
+            Color(0xFF8B5CF6).copy(alpha = 0.3f)
+        )
+    ),
     accentCardIconBoxColor = Color.White.copy(alpha = 0.1f),
     greenSuccess = Color(0xFF4CAF50),
     redError = Color(0xFFF44336),

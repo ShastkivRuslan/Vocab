@@ -19,11 +19,14 @@ import dev.shastkiv.vocab.domain.repository.ThemeRepository
 import dev.shastkiv.vocab.domain.repository.WordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.shastkiv.vocab.utils.WidgetManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -59,6 +62,11 @@ class MainViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     )
+    private val _showWidgetPromo = MutableStateFlow(false)
+    val showWidgetPromo = _showWidgetPromo.asStateFlow()
+
+    private val _showVocabPromo = MutableStateFlow(value = false)
+    val showVocabPromo = _showVocabPromo.asStateFlow()
 
     val languageSettings: StateFlow<LanguageSettings> = languageRepository.languageSettings
         .stateIn(
@@ -89,6 +97,20 @@ class MainViewModel @Inject constructor(
 
     fun onResume() {
         startServicesIfPermissionsGranted()
+    }
+
+    fun updateWidgetStatus(context: Context) {
+        viewModelScope.launch {
+            _showWidgetPromo.value = !WidgetManager.isWidgetInstalled(context)
+        }
+    }
+
+    fun updateVocabPlusStatus(context: Context) {
+        viewModelScope.launch {
+            val hasOverlayPermission = Settings.canDrawOverlays(context)
+            val isBubbleEnabled = bubbleSettingsRepository.isBubbleEnabled.first()
+            _showVocabPromo.value = !hasOverlayPermission || !isBubbleEnabled
+        }
     }
 
     private fun startServicesIfPermissionsGranted() = viewModelScope.launch(ioDispatcher) {

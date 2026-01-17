@@ -323,4 +323,14 @@
     <string name="error_wrong_lang_title">Неправильна мова</string>
     <string name="error_wrong_lang_description">Слово не відповідає вибраній мові. Перевірте налаштування мови або напишіть слово відповідною мовою.</string>
     <string name="accuracy">Точність</string>
+
+    <string name="vocab_plus_unlock_title">Майже готово!</string>
+    <string name="vocab_plus_unlock_subtitle">Активуйте магію Vocab+</string>
+    <string name="vocab_plus_unlock_description">Дозвольте відображення поверх інших програм, щоб вивчати слова, не відволікаючись від улюблених застосунків.</string>
+    <string name="vocab_plus_unlock_button">Надати доступ</string>
+    <string name="vocab_promo_title">Активувати швидкий доступ</string>
+    <string name="vocab_promo_description">Vocab+ робить вивчення та додавання слів швидшим і простішим</string>
+    <string name="widget_promo_title">Додати віджет для навчання</string>
+    <string name="widget_promo_subtitle">Вивчайте нові слова прямо з головного екрана вашого телефону</string>
+    <string name="magic_activated">Магія активована! ✨</string>
 </resources>

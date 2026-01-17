@@ -59,17 +59,17 @@ class OpenAIClient @Inject constructor(
                 content = """
                         You are a professional linguistic $sourceLanguage assistant . 
                         Your strict duty is to return data in a valid JSON format.
-                        
-                        CRITICAL RULES:
-                        1. Always return ONLY a JSON object. No preamble, no markdown blocks.
-                        2. LANGUAGE SCOPE: You MUST analyze the word ONLY within the context of the specified Source Language. Even if the word exists in other languages with different meanings, ignore them.
-                        3. TYPO CORRECTION: If the input has a typo, find the closest word ONLY in the Source Language.
-                        4. Use the CEFR scale (A1-C2) for the 'level' field.
+
+                        Always return ONLY a JSON object. No preamble, no markdown blocks.
+                        You MUST analyze the word ONLY within the context of the specified Source Language. Even if the word exists in other languages with different meanings, ignore them.
+                        If the input has a typo, find the closest word ONLY in the Source or Target Language.
+                        Use the CEFR scale (A1-C2) for the 'level' field.
                         5. Structure for 'usageInfo': Use '\n' for line breaks. Translate labels (Synonyms, Forms, Note) into the target language.
-                        VALIDATION RULES:
+                        If "$input" is in $targetLanguage but exists in $sourceLanguage, SWAP them (set $sourceLanguage word as 'originalWord', input as 'translation') and fetch full data for the $sourceLanguage word.
+                        
                         If you cannot process the word "$input" in $sourceLanguage, use these error codes in the 'translation' field:
-                        1. If the word is gibberish or doesn't exist: "ERROR_INVALID_WORD".
-                        2. If the word belongs to a different language than $sourceLanguage: "ERROR_WRONG_LANGUAGE".
+                        If the word is gibberish or doesn't exist: "ERROR_INVALID_WORD".
+                        If the word belongs to a different language than $sourceLanguage: "ERROR_WRONG_LANGUAGE".
                             
                         JSON Schema:
                         {
@@ -99,7 +99,7 @@ class OpenAIClient @Inject constructor(
             )
         )
         return ChatCompletionRequest(
-            model = "gpt-4o",
+            model = "gpt-4o-mini",
             messages = messages,
             maxTokens = 500,
             responseFormat = ChatCompletionRequest.ResponseFormat(type = "json_object")

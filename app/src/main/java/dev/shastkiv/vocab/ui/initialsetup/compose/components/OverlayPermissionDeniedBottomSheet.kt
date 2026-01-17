@@ -40,7 +40,7 @@ fun OverlayPermissionDeniedBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensions.largePadding)
+                .padding(dimensions.mediumPadding)
         ) {
             Text(
                 text = stringResource(R.string.overlay_permission_denied_title),
@@ -56,7 +56,7 @@ fun OverlayPermissionDeniedBottomSheet(
                 color = colors.textSecondary
             )
 
-            Spacer(modifier = Modifier.height(dimensions.largeSpacing))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             Text(
                 text = stringResource(R.string.overlay_permission_why_important_title),
@@ -72,7 +72,7 @@ fun OverlayPermissionDeniedBottomSheet(
                 color = colors.textSecondary
             )
 
-            Spacer(modifier = Modifier.height(dimensions.largeSpacing))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             Text(
                 text = stringResource(R.string.overlay_permission_safety_title),
@@ -89,7 +89,7 @@ fun OverlayPermissionDeniedBottomSheet(
                 color = colors.textSecondary
             )
 
-            Spacer(modifier = Modifier.height(dimensions.extraLargeSpacing))
+            Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
             Button(
                 onClick = onTryAgain,
