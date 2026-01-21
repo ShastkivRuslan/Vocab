@@ -27,7 +27,10 @@ import dev.shastkiv.vocab.ui.theme.appColors
 
 @Composable
 fun MainInfoItem(
-    word: WordData
+    isExpanded: Boolean,
+    onToggle: () -> Unit,
+    word:  WordData,
+    showArrow: Boolean
 ) {
     Box(
         modifier = Modifier
@@ -100,21 +103,21 @@ fun MainInfoItem(
     }
 }
 
-@Preview
-@Composable
-private fun Preview() {
-    val sampleWord = WordData(
-        originalWord = "Compose",
-        translation = "сучасний декларативний UI інструментарій",
-        transcription = "[kəmˈpoʊz]",
-        partOfSpeech = "noun",
-        level = "B2",
-        usageInfo = "\"Англійське слово 'reusability' є формальним технічним терміном, що найчастіше зустрічається в програмуванні (reusability of code), інженерії та екології (reusability of materials). Воно має нейтральний відтінок і підкреслює ефективність та економність. Типові словосполучення: 'design for reusability' (проєктувати з розрахунком на повторне використання)",
-        examples = listOf(
-            Example("Compose makes UI development easier.", "Compose робить розробку UI простішою."),
-            Example("We use Compose for our Android app.", "Ми використовуємо Compose для нашого Android додатку."),
-            Example("Learning Compose is essential.", "Вивчення Compose є важливим.")
-        )
-    )
-    MainInfoItem(word = sampleWord)
-}
+//@Preview
+//@Composable
+//private fun Preview() {
+//    val sampleWord = WordData(
+//        originalWord = "Compose",
+//        translation = "сучасний декларативний UI інструментарій",
+//        transcription = "[kəmˈpoʊz]",
+//        partOfSpeech = "noun",
+//        level = "B2",
+//        usageInfo = "\"Англійське слово 'reusability' є формальним технічним терміном, що найчастіше зустрічається в програмуванні (reusability of code), інженерії та екології (reusability of materials). Воно має нейтральний відтінок і підкреслює ефективність та економність. Типові словосполучення: 'design for reusability' (проєктувати з розрахунком на повторне використання)",
+//        examples = listOf(
+//            Example("Compose makes UI development easier.", "Compose робить розробку UI простішою."),
+//            Example("We use Compose for our Android app.", "Ми використовуємо Compose для нашого Android додатку."),
+//            Example("Learning Compose is essential.", "Вивчення Compose є важливим.")
+//        )
+//    )
+//    MainInfoItem(word = sampleWord)
+//}
