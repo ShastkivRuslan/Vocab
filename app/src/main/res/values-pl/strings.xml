@@ -329,4 +329,16 @@
     <string name="widget_promo_title">Dodaj widżet do nauki</string>
     <string name="widget_promo_subtitle">Ucz się nowych słówek bezpośrednio z ekranu głównego</string>
     <string name="magic_activated">Magia aktywowana! ✨</string>
+    <string name="error_empty_language_filter_title">Nie znaleziono słów</string>
+    <string name="error_search_title">Nie znaleziono słowa</string>
+
+    <string name="my_dictionary_title">Mój słownik</string>
+    <string name="search_placeholder">Szukaj w słowniku…</string>
+    <string name="filter_all_languages">🌐 Wszystkie języki</string>
+    <string name="sort_newest">Najpierw najnowsze</string>
+    <string name="sort_oldest">Najpierw najstarsze</string>
+    <string name="sort_az">Alfabetycznie (A-Z)</string>
+    <string name="sort_za">Alfabetycznie (Z-A)</string>
+    <string name="error_empty_language_filter_description">W Twoim słowniku brakuje słów w tym języku</string>
+    <string name="error_search_description">Sprawdź zapytanie lub dodaj to słowo do słownika</string>
 </resources>

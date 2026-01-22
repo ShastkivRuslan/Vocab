@@ -329,4 +329,17 @@
     <string name="widget_promo_title">Ajouter le widget d\'apprentissage</string>
     <string name="widget_promo_subtitle">Apprenez de nouveaux mots directement depuis votre écran d\'accueil</string>
     <string name="magic_activated">Magie activée ! ✨</string>
+    <string name="error_empty_language_filter_title">Aucun mot trouvé</string>
+    <string name="error_search_title">Mot non trouvé</string>
+
+    <string name="my_dictionary_title">Mon dictionnaire</string>
+    <string name="search_placeholder">Chercher dans le dictionnaire...</string>
+    <string name="filter_all_languages">🌐 Toutes les langues</string>
+    <string name="sort_newest">Plus récents</string>
+    <string name="sort_oldest">Plus anciens</string>
+    <string name="sort_az">Alphabétique (A-Z)</string>
+    <string name="sort_za">Alphabétique (Z-A)</string>
+    <string name="error_empty_language_filter_description">Il n\'y a pas de mots de cette langue dans votre dictionnaire</string>
+    <string name="error_search_description">Vérifiez votre requête ou ajoutez ce mot au dictionnaire</string>
+
 </resources>

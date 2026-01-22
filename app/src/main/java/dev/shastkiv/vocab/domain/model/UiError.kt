@@ -9,7 +9,6 @@ sealed class UiError(
     @StringRes val title: Int,
     @StringRes val description: Int
 ) {
-    // Network errors
     object NetworkError : UiError(
         animationRes = R.raw.error,
         title = R.string.error_network_title,
@@ -63,5 +62,17 @@ sealed class UiError(
         animationRes = R.raw.wrong_language,
         title = R.string.error_wrong_lang_title,
         description = R.string.error_wrong_lang_description
+    )
+
+    object EmptyTargetLanguageWords : UiError(
+        animationRes = R.raw.wrong_language,
+        title = R.string.error_empty_language_filter_title,
+        description = R.string.error_empty_language_filter_description
+    )
+
+    object SearchError : UiError(
+        animationRes = R.raw.search,
+        title = R.string.error_search_title,
+        description = R.string.error_search_description
     )
 }

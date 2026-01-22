@@ -95,6 +95,10 @@ class AllWordsViewModel @Inject constructor(
     val expandedWordState: StateFlow<ExpandedWordState?> = _expandedWordState.asStateFlow()
     val savedScrollPosition: StateFlow<ScrollPosition> = _savedScrollPosition.asStateFlow()
 
+    val isDictionaryEmpty = wordRepository.getWordCount()
+        .map { it == 0 }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<AllWordsUiState> = combine(
         _languageFilter.flatMapLatest { langCode ->
@@ -254,15 +258,24 @@ class AllWordsViewModel @Inject constructor(
         sort: SortType
     ): AllWordsUiState {
         return try {
-            if (words.isEmpty() && query.isBlank()) {
-                AllWordsUiState.Error(UiError.EmptyData)
-            } else {
-                val processedWords = words
-                    .sortWords(sort)
-                    .filterWords(query)
-
-                AllWordsUiState.Success(processedWords)
+            if (words.isEmpty()) {
+                return if (isDictionaryEmpty.value) {
+                    AllWordsUiState.Error(UiError.EmptyData)
+                } else {
+                    AllWordsUiState.Error(UiError.EmptyTargetLanguageWords)
+                }
             }
+
+            val processedWords = words
+                .sortWords(sort)
+                .filterWords(query)
+
+            if (processedWords.isEmpty() && query.isNotBlank()) {
+                return AllWordsUiState.Error(UiError.SearchError)
+            }
+
+            AllWordsUiState.Success(processedWords)
+
         } catch (e: Exception) {
             AllWordsUiState.Error(mapThrowableToUiError(e))
         }

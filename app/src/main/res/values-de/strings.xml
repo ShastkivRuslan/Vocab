@@ -329,4 +329,16 @@
     <string name="widget_promo_title">Lern-Widget hinzufügen</string>
     <string name="widget_promo_subtitle">Lernen Sie neue Wörter direkt von Ihrem Startbildschirm aus</string>
     <string name="magic_activated">Magie aktiviert! ✨</string>
+    <string name="error_empty_language_filter_title">Keine Wörter gefunden</string>
+    <string name="error_search_title">Wort nicht gefunden</string>
+
+    <string name="my_dictionary_title">Mein Wörterbuch</string>
+    <string name="search_placeholder">Im Wörterbuch suchen...</string>
+    <string name="filter_all_languages">🌐 Alle Sprachen</string>
+    <string name="sort_newest">Neueste zuerst</string>
+    <string name="sort_oldest">Älteste zuerst</string>
+    <string name="sort_az">Alphabetisch (A-Z)</string>
+    <string name="sort_za">Alphabetisch (Z-A)</string>
+    <string name="error_empty_language_filter_description">In Ihrem Wörterbuch befinden sich keine Wörter in dieser Sprache</string>
+    <string name="error_search_description">Überprüfen Sie Ihre Suchanfrage oder fügen Sie dieses Wort hinzu</string>
 </resources>

@@ -30,7 +30,7 @@ import dev.shastkiv.vocab.ui.SplashScreen
 import dev.shastkiv.vocab.ui.about.app.AboutAppScreen
 import dev.shastkiv.vocab.ui.about.button.AboutButtonScreen
 import dev.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
-import dev.shastkiv.vocab.ui.allwords.AllWordsScreen
+import dev.shastkiv.vocab.ui.allwords.compose.AllWordsScreen
 import dev.shastkiv.vocab.ui.common.compose.FeatureInDevelopScreen
 import dev.shastkiv.vocab.ui.initialsetup.AppStartViewModel
 import dev.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel

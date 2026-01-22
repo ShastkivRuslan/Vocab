@@ -329,4 +329,16 @@
     <string name="widget_promo_title">Přidat výukový widget</string>
     <string name="widget_promo_subtitle">Učte se nová slovíčka přímo z domovské obrazovky</string>
     <string name="magic_activated">Magie aktivována! ✨</string>
+    <string name="error_empty_language_filter_title">Nenalezena žádná slova</string>
+    <string name="error_search_title">Slovo nenalezeno</string>
+
+    <string name="my_dictionary_title">Můj slovník</string>
+    <string name="search_placeholder">Hledat ve slovníku…</string>
+    <string name="filter_all_languages">🌐 Všechny jazyky</string>
+    <string name="sort_newest">Nejnovější</string>
+    <string name="sort_oldest">Nejstarší</string>
+    <string name="sort_az">Abecedně (A-Z)</string>
+    <string name="sort_za">Abecedně (Z-A)</string>
+    <string name="error_empty_language_filter_description">Ve vašem slovníku nejsou žádná slova v tomto jazyce</string>
+    <string name="error_search_description">Zkontrolujte svůj dotaz nebo přidejte toto slovo do slovníku</string>
 </resources>

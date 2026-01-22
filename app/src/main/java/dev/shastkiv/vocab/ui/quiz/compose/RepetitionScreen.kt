@@ -77,10 +77,12 @@ fun RepetitionScreen(
             }
 
 
-            ProgressCard(
-                correctCount = stats?.correctAnswers ?: 0,
-                wrongCount = stats?.wrongAnswers ?: 0
-            )
+            if (uiState !is RepetitionUiState.Error) {
+                ProgressCard(
+                    correctCount = stats?.correctAnswers ?: 0,
+                    wrongCount = stats?.wrongAnswers ?: 0
+                )
+            }
 
             Box(
                 modifier = Modifier
@@ -116,7 +118,8 @@ fun RepetitionScreen(
                         ErrorContent(
                             error = uiState.error,
                             onRetry = { onEvent(RepetitionEvent.OnNextWordClicked) },
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.fillMaxSize(),
+                            showButton = false
                         )
                     }
                 }

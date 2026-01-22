@@ -335,4 +335,16 @@
     <string name="vocab_promo_title">Enable Quick Access</string>
     <string name="vocab_promo_description">Vocab+ makes learning and adding words faster and easier</string>
     <string name="magic_activated">Magic activated! ✨</string>
+    <string name="error_empty_language_filter_title">No words found</string>
+    <string name="error_search_title">Word not found</string>
+
+    <string name="my_dictionary_title">My Dictionary</string>
+    <string name="search_placeholder">Search in dictionary…</string>
+    <string name="filter_all_languages">🌐 All Languages</string>
+    <string name="sort_newest">Newest first</string>
+    <string name="sort_oldest">Oldest first</string>
+    <string name="sort_az">Alphabetical (A-Z)</string>
+    <string name="sort_za">Alphabetical (Z-A)</string>
+    <string name="error_empty_language_filter_description">There are no words in this language in your dictionary</string>
+    <string name="error_search_description">Check your query or add this word to the dictionary</string>
 </resources>

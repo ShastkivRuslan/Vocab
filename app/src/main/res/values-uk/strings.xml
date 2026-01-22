@@ -333,4 +333,16 @@
     <string name="widget_promo_title">Додати віджет для навчання</string>
     <string name="widget_promo_subtitle">Вивчайте нові слова прямо з головного екрана вашого телефону</string>
     <string name="magic_activated">Магія активована! ✨</string>
+    <string name="error_empty_language_filter_title">Слів не знайдено</string>
+    <string name="error_search_title">Такого слова немає</string>
+
+    <string name="my_dictionary_title">Мій словник</string>
+    <string name="search_placeholder">Пошук у словнику...</string>
+    <string name="filter_all_languages">🌐 Всі мови</string>
+    <string name="sort_newest">Спочатку нові</string>
+    <string name="sort_oldest">Спочатку старі</string>
+    <string name="sort_az">За алфавітом (А-Я)</string>
+    <string name="sort_za">За алфавітом (Я-А)</string>
+    <string name="error_empty_language_filter_description">У вашому словнику відсутні слова цієї мови</string>
+    <string name="error_search_description">Перевірте свій запит або додайте це слово до словника</string>
 </resources>

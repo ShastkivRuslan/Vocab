@@ -19,7 +19,8 @@ import dev.shastkiv.vocab.domain.model.UiError
 fun ErrorContent(
     error: UiError,
     onRetry: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showButton: Boolean = true
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -32,7 +33,6 @@ fun ErrorContent(
 
         LottieAnimation(
             composition = composition,
-            iterations = LottieConstants.IterateForever,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp)
@@ -59,13 +59,15 @@ fun ErrorContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(
-            onClick = onRetry,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
-            Text(text = stringResource(R.string.try_again), fontSize = 15.sp)
+        if (showButton) {
+            Button(
+                onClick = onRetry,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Text(text = stringResource(R.string.try_again), fontSize = 15.sp)
+            }
         }
     }
 }

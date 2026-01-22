@@ -1,5 +1,6 @@
-package dev.shastkiv.vocab.ui.allwords
+package dev.shastkiv.vocab.ui.allwords.compose
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.Animatable
@@ -63,6 +64,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.lerp
 import androidx.compose.ui.text.style.TextAlign
@@ -82,6 +84,12 @@ import dev.shastkiv.vocab.ui.addword.compose.components.common.ProBadge
 import dev.shastkiv.vocab.ui.addword.compose.components.sections.ExamplesSection
 import dev.shastkiv.vocab.ui.addword.compose.components.sections.UsageInfoSection
 import dev.shastkiv.vocab.ui.addword.compose.components.sections.WordInfoSection
+import dev.shastkiv.vocab.ui.allwords.AllWordsEvent
+import dev.shastkiv.vocab.ui.allwords.AllWordsViewModel
+import dev.shastkiv.vocab.ui.allwords.AnimationPhase
+import dev.shastkiv.vocab.ui.allwords.ExpandedWordState
+import dev.shastkiv.vocab.ui.allwords.ScrollPosition
+import dev.shastkiv.vocab.ui.allwords.SortType
 import dev.shastkiv.vocab.ui.allwords.compose.state.AllWordsUiState
 import dev.shastkiv.vocab.ui.common.compose.ErrorContent
 import dev.shastkiv.vocab.ui.theme.appColors
@@ -142,7 +150,6 @@ private fun AllWordsContent(
             languageFilter = languageFilter,
             sortType = sortType,
             availableLanguages = availableLanguages,
-            showFilters = uiState is AllWordsUiState.Success,
             onEvent = onEvent,
             onBackPressed = onBackPressed
         )
@@ -168,7 +175,6 @@ private fun AllWordsHeader(
     languageFilter: String,
     sortType: SortType,
     availableLanguages: List<Language>,
-    showFilters: Boolean,
     onEvent: (AllWordsEvent) -> Unit,
     onBackPressed: () -> Unit
 ) {
@@ -190,24 +196,22 @@ private fun AllWordsHeader(
         )
 
         Text(
-            text = "Мій словник",
+            text = stringResource(R.string.my_dictionary_title),
             style = typography.header,
             color = colors.cardTitleText,
             modifier = Modifier.weight(1f)
         )
 
-        if (showFilters) {
-            LanguageFilterMenu(
-                availableLanguages = availableLanguages,
-                currentLanguageCode = languageFilter,
-                onLanguageSelected = { onEvent(AllWordsEvent.LanguageFilterChanged(it)) }
-            )
+        LanguageFilterMenu(
+            availableLanguages = availableLanguages,
+            currentLanguageCode = languageFilter,
+            onLanguageSelected = { onEvent(AllWordsEvent.LanguageFilterChanged(it)) }
+        )
 
-            SortMenu(
-                currentSortType = sortType,
-                onSortSelected = { onEvent(AllWordsEvent.SortTypeChanged(it)) }
-            )
-        }
+        SortMenu(
+            currentSortType = sortType,
+            onSortSelected = { onEvent(AllWordsEvent.SortTypeChanged(it)) }
+        )
     }
 }
 
@@ -224,7 +228,7 @@ private fun SearchBar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = dimensions.mediumPadding),
-        placeholder = { Text("Пошук у словнику...") },
+        placeholder = { Text(stringResource(R.string.search_placeholder)) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -268,9 +272,9 @@ private fun ColumnScope.AllWordsMainContent(
                     if (state.words.isEmpty()) {
                         EmptyState(
                             message = if (searchQuery.isNotBlank())
-                                "Слів за вашим запитом не знайдено"
+                                stringResource(R.string.error_search_description)
                             else
-                                "Слів для обраної мови немає."
+                                stringResource(R.string.error_empty_language_filter_description)
                         )
                     } else {
                         WordsList(
@@ -287,7 +291,8 @@ private fun ColumnScope.AllWordsMainContent(
                     ErrorContent(
                         error = state.error,
                         onRetry = {},
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        showButton = false
                     )
                 }
             }
@@ -295,6 +300,7 @@ private fun ColumnScope.AllWordsMainContent(
     }
 }
 
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 private fun WordsList(
     words: List<Word>,
@@ -304,7 +310,6 @@ private fun WordsList(
     savedScrollPosition: ScrollPosition
 ) {
     val listState = rememberLazyListState()
-    val isAnyFocused = expandedWordState != null
 
     LaunchedEffect(expandedWordState?.animationPhase) {
         val wordId = expandedWordState?.wordId
@@ -477,7 +482,7 @@ private fun WordRow(
             else -> 0f
         },
         animationSpec = tween(
-            durationMillis = AllWordsViewModel.SHOW_DETAILS_DURATION.toInt(),
+            durationMillis = AllWordsViewModel.Companion.SHOW_DETAILS_DURATION.toInt(),
             easing = FastOutSlowInEasing
         ),
         label = "iconRotation"
@@ -563,23 +568,23 @@ private fun WordDetailsSection(
         visible = detailsVisible,
         enter = fadeIn(
             animationSpec = tween(
-                durationMillis = AllWordsViewModel.SHOW_DETAILS_DURATION.toInt(),
+                durationMillis = AllWordsViewModel.Companion.SHOW_DETAILS_DURATION.toInt(),
                 easing = FastOutSlowInEasing
             )
         ) + expandVertically(
             animationSpec = tween(
-                durationMillis = AllWordsViewModel.SHOW_DETAILS_DURATION.toInt(),
+                durationMillis = AllWordsViewModel.Companion.SHOW_DETAILS_DURATION.toInt(),
                 easing = FastOutSlowInEasing
             )
         ),
         exit = fadeOut(
             animationSpec = tween(
-                durationMillis = AllWordsViewModel.SHOW_DETAILS_DURATION.toInt(),
+                durationMillis = AllWordsViewModel.Companion.SHOW_DETAILS_DURATION.toInt(),
                 easing = FastOutSlowInEasing
             )
         ) + shrinkVertically(
             animationSpec = tween(
-                durationMillis = AllWordsViewModel.SHOW_DETAILS_DURATION.toInt(),
+                durationMillis = AllWordsViewModel.Companion.SHOW_DETAILS_DURATION.toInt(),
                 easing = FastOutSlowInEasing
             )
         )
@@ -720,7 +725,7 @@ private fun LanguageFilterMenu(
             onDismissRequest = { expanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text("🌐 Всі мови") },
+                text = { Text(stringResource(R.string.filter_all_languages)) },
                 onClick = {
                     onLanguageSelected("all")
                     expanded = false
@@ -761,7 +766,7 @@ private fun SortMenu(
             onDismissRequest = { expanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text("Спочатку нові") },
+                text = { Text(stringResource(R.string.sort_newest)) },
                 onClick = {
                     onSortSelected(SortType.BY_DATE_NEWEST)
                     expanded = false
@@ -769,7 +774,7 @@ private fun SortMenu(
                 enabled = currentSortType != SortType.BY_DATE_NEWEST
             )
             DropdownMenuItem(
-                text = { Text("Спочатку старі") },
+                text = { Text(stringResource(R.string.sort_oldest)) },
                 onClick = {
                     onSortSelected(SortType.BY_DATE_OLDEST)
                     expanded = false
@@ -777,7 +782,7 @@ private fun SortMenu(
                 enabled = currentSortType != SortType.BY_DATE_OLDEST
             )
             DropdownMenuItem(
-                text = { Text("За алфавітом (А-Я)") },
+                text = { Text(stringResource(R.string.sort_az)) },
                 onClick = {
                     onSortSelected(SortType.ALPHABETICALLY_AZ)
                     expanded = false
@@ -785,7 +790,7 @@ private fun SortMenu(
                 enabled = currentSortType != SortType.ALPHABETICALLY_AZ
             )
             DropdownMenuItem(
-                text = { Text("За алфавітом (Я-А)") },
+                text = { Text(stringResource(R.string.sort_za)) },
                 onClick = {
                     onSortSelected(SortType.ALPHABETICALLY_ZA)
                     expanded = false
