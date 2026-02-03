@@ -16,6 +16,7 @@
     <string name="error_parsing_description">Impossible de traiter les données reçues</string>
     <string name="error_unknown_description">Réessayez</string>
 
+    <string name="general_statistic">Statistiques générales</string>
     <string name="try_again">Réessayer</string>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Ajouter un nouveau mot :)</string>
@@ -28,7 +29,7 @@
     <string name="head_text">Mon dictionnaire</string>
     <string name="description_head_text">Apprenez des mots facilement</string>
     <string name="add_new_word_button">Ajouter un nouveau mot</string>
-    <string name="repeat_mode">Mode répétition</string>
+    <string name="tests_mode">Tests</string>
     <string name="count_words">Total de mots</string>
     <string name="num_of_words">0</string>
     <string name="learned">Appris</string>
@@ -333,7 +334,7 @@
     <string name="error_search_title">Mot non trouvé</string>
 
     <string name="my_dictionary_title">Mon dictionnaire</string>
-    <string name="search_placeholder">Chercher dans le dictionnaire...</string>
+    <string name="search_placeholder">Chercher dans le dictionnaire…</string>
     <string name="filter_all_languages">🌐 Toutes les langues</string>
     <string name="sort_newest">Plus récents</string>
     <string name="sort_oldest">Plus anciens</string>
@@ -342,4 +343,39 @@
     <string name="error_empty_language_filter_description">Il n\'y a pas de mots de cette langue dans votre dictionnaire</string>
     <string name="error_search_description">Vérifiez votre requête ou ajoutez ce mot au dictionnaire</string>
 
+    <string name="session_finished">Session terminée</string>
+    <string name="excellent_result">Excellent résultat</string>
+    <string name="mistakes">Erreurs</string>
+    <string name="review_mistakes">Revoir les erreurs</string>
+    <string name="choose_new_mode">Choisir un nouveau mode</string>
+    <string name="finish_for_today">Finir pour aujourd\'hui</string>
+
+    <string name="category_intelligent">Intelligent</string>
+    <string name="category_intelligent_desc">Mélange de mots oubliés et de nouvelles expressions</string>
+    <string name="category_new">Nouveau</string>
+    <string name="category_new_desc">Mots ajoutés récemment et pas encore pratiqués</string>
+    <string name="category_hard">Difficile</string>
+    <string name="category_hard_desc">Vos \"dettes\" : progrès faibles et erreurs fréquentes</string>
+    <string name="category_stable">Renforcement</string>
+    <string name="category_stable_desc">Mots avec un progrès moyen nécessitant de la pratique</string>
+    <string name="category_learned">Appris</string>
+    <string name="category_learned_desc">Mots bien maîtrisés que vous n\'avez pas vus depuis longtemps</string>
+
+    <string name="daily_statistics">Statistiques quotidiennes</string>
+    <string name="correct_answers">Bonnes réponses</string>
+    <string name="wrong_answers">Mauvaises réponses</string>
+    <string name="total_attempts">Total des tentatives</string>
+
+    <string name="choose_focus">Choisir l\'objectif</string>
+    <string name="words_count">mots</string>
+    <string name="no_words_available">Aucun mot disponible pour l\'entraînement</string>
+
+    <string name="mastery_level">Niveau de maîtrise</string>
+    <string name="word_progress">Mot %1$d sur %2$d</string>
+
+    <string name="mastery_info_title">Comment ça marche ?</string>
+    <string name="mastery_info_general">Nous suivons votre mémorisation de ce mot pour ne pas vous ennuyer avec ce que vous savez déjà.\n\nUne fois à 100 %, nous mettrons ce mot de côté pour un moment.</string>
+    <string name="mastery_info_gain">Une bonne réponse maintenant ajoutera +%1$d%%.</string>
+    <string name="mastery_info_loss">En cas d\'erreur, nous baisserons le niveau de %1$.0f%% pour pratiquer ce mot plus souvent.</string>
+    <string name="got_it">Compris</string>
 </resources>

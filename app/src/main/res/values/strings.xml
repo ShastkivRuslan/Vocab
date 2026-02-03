@@ -16,6 +16,7 @@
     <string name="error_parsing_description">Could not process received data</string>
     <string name="error_unknown_description">Try again</string>
 
+    <string name="general_statistic">General Statistics</string>
     <string name="try_again">Retry</string>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Add a new word :)</string>
@@ -28,7 +29,7 @@
     <string name="head_text">My Dictionary</string>
     <string name="description_head_text">Learn words easily</string>
     <string name="add_new_word_button">Add a new word</string>
-    <string name="repeat_mode">Repetition Mode</string>
+    <string name="tests_mode">Tests</string>
     <string name="count_words">Total Words</string>
     <string name="num_of_words">0</string>
     <string name="learned">Learned</string>
@@ -347,4 +348,44 @@
     <string name="sort_za">Alphabetical (Z-A)</string>
     <string name="error_empty_language_filter_description">There are no words in this language in your dictionary</string>
     <string name="error_search_description">Check your query or add this word to the dictionary</string>
+
+    <string name="session_finished">Session Completed</string>
+    <string name="excellent_result">Excellent Result</string>
+    <string name="mistakes">Mistakes</string>
+    <string name="review_mistakes">Review Mistakes</string>
+    <string name="choose_new_mode">Choose New Mode</string>
+    <string name="finish_for_today">Finish for Today</string>
+
+    <!-- Word Categories -->
+    <string name="category_intelligent">Intelligent</string>
+    <string name="category_intelligent_desc">Mix of words you forget and new expressions</string>
+    <string name="category_new">New</string>
+    <string name="category_new_desc">Words you just added and haven\'t practiced yet</string>
+    <string name="category_hard">Difficult</string>
+    <string name="category_hard_desc">Your \"debts\": low progress and frequent mistakes</string>
+    <string name="category_stable">Reinforcement</string>
+    <string name="category_stable_desc">Words with average progress that need practice</string>
+    <string name="category_learned">Learned</string>
+    <string name="category_learned_desc">Words with high Mastery that you haven\'t seen in a while</string>
+
+    <!-- Progress Card -->
+    <string name="daily_statistics">Daily Statistics</string>
+    <string name="correct_answers">Correct Answers</string>
+    <string name="wrong_answers">Wrong Answers</string>
+    <string name="total_attempts">Total Attempts</string>
+
+    <!-- Lobby -->
+    <string name="choose_focus">Choose Focus</string>
+    <string name="words_count">words</string>
+    <string name="no_words_available">No words available for training</string>
+
+    <!-- Repetition -->
+    <string name="mastery_level">Mastery Level</string>
+    <string name="word_progress">Word %1$d of %2$d</string>
+
+    <string name="mastery_info_title">How it works?</string>
+    <string name="mastery_info_general">We track how well you remember this word so we don\'t bug you with what you already know.\n\nWhen the level hits 100%, we\'ll set this word aside for a while.</string>
+    <string name="mastery_info_gain">A correct answer now adds +%1$d%%.</string>
+    <string name="mastery_info_loss">If you miss, we\'ll drop the level by %1$.0f%% to practice this word more often.</string>
+    <string name="got_it">Got it</string>
 </resources>

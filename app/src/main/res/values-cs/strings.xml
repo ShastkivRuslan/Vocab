@@ -16,6 +16,7 @@
     <string name="error_parsing_description">Nepodařilo se zpracovat přijatá data</string>
     <string name="error_unknown_description">Zkuste to znovu</string>
 
+    <string name="general_statistic">Obecné statistiky</string>
     <string name="try_again">Zkusit znovu</string>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Přidat nové slovo :)</string>
@@ -28,7 +29,7 @@
     <string name="head_text">Můj slovník</string>
     <string name="description_head_text">Učte se slova snadno</string>
     <string name="add_new_word_button">Přidat nové slovo</string>
-    <string name="repeat_mode">Režim opakování</string>
+    <string name="tests_mode">Testy</string>
     <string name="count_words">Slov celkem</string>
     <string name="num_of_words">0</string>
     <string name="learned">Naučeno</string>
@@ -341,4 +342,40 @@
     <string name="sort_za">Abecedně (Z-A)</string>
     <string name="error_empty_language_filter_description">Ve vašem slovníku nejsou žádná slova v tomto jazyce</string>
     <string name="error_search_description">Zkontrolujte svůj dotaz nebo přidejte toto slovo do slovníku</string>
+
+    <string name="session_finished">Lekce dokončena</string>
+    <string name="excellent_result">Vynikající výsledek</string>
+    <string name="mistakes">Chyby</string>
+    <string name="review_mistakes">Zkontrolovat chyby</string>
+    <string name="choose_new_mode">Vybrat nový režim</string>
+    <string name="finish_for_today">Pro dnešek skončit</string>
+
+    <string name="category_intelligent">Inteligentní</string>
+    <string name="category_intelligent_desc">Mix slov, která zapomínáte, a nových výrazů</string>
+    <string name="category_new">Nové</string>
+    <string name="category_new_desc">Slova, která jste právě přidali a ještě neprocvičovali</string>
+    <string name="category_hard">Obtížné</string>
+    <string name="category_hard_desc">Vaše \"dluhy\": malý pokrok a časté chyby</string>
+    <string name="category_stable">Upevňování</string>
+    <string name="category_stable_desc">Slova s průměrným pokrokem, která potřebují procvičit</string>
+    <string name="category_learned">Naučené</string>
+    <string name="category_learned_desc">Slova s vysokou úrovní zvládnutí, která jste dlouho neviděli</string>
+
+    <string name="daily_statistics">Denní statistiky</string>
+    <string name="correct_answers">Správné odpovědi</string>
+    <string name="wrong_answers">Špatné odpovědi</string>
+    <string name="total_attempts">Celkem pokusů</string>
+
+    <string name="choose_focus">Vyberte zaměření</string>
+    <string name="words_count">slov</string>
+    <string name="no_words_available">Žádná slova k procvičení</string>
+
+    <string name="mastery_level">Úroveň zvládnutí</string>
+    <string name="word_progress">Slovo %1$d z %2$d</string>
+
+    <string name="mastery_info_title">Jak to funguje?</string>
+    <string name="mastery_info_general">Sledujeme, jak dobře si toto slovo pamatujete, abychom vás neobtěžovali tím, co už znáte.\n\nAž úroveň dosáhne 100 %, odložíme toto slovo na delší dobu.</string>
+    <string name="mastery_info_gain">Správná odpověď nyní přidá +%1$d%%.</string>
+    <string name="mastery_info_loss">Pokud uděláte chybu, snížíme úroveň o %1$.0f%%, abychom toto slovo trénovali častěji.</string>
+    <string name="got_it">Rozumím</string>
 </resources>

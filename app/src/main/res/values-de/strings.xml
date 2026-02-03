@@ -16,6 +16,7 @@
     <string name="error_parsing_description">Daten konnten nicht verarbeitet werden</string>
     <string name="error_unknown_description">Versuchen Sie es erneut</string>
 
+    <string name="general_statistic">Allgemeine Statistik</string>
     <string name="try_again">Wiederholen</string>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Ein neues Wort hinzufügen :)</string>
@@ -28,7 +29,7 @@
     <string name="head_text">Mein Wörterbuch</string>
     <string name="description_head_text">Wörter einfach lernen</string>
     <string name="add_new_word_button">Neues Wort hinzufügen</string>
-    <string name="repeat_mode">Wiederholungsmodus</string>
+    <string name="tests_mode">Tests</string>
     <string name="count_words">Wörter insgesamt</string>
     <string name="num_of_words">0</string>
     <string name="learned">Gelernt</string>
@@ -341,4 +342,40 @@
     <string name="sort_za">Alphabetisch (Z-A)</string>
     <string name="error_empty_language_filter_description">In Ihrem Wörterbuch befinden sich keine Wörter in dieser Sprache</string>
     <string name="error_search_description">Überprüfen Sie Ihre Suchanfrage oder fügen Sie dieses Wort hinzu</string>
+
+    <string name="session_finished">Sitzung beendet</string>
+    <string name="excellent_result">Ausgezeichnetes Ergebnis</string>
+    <string name="mistakes">Fehler</string>
+    <string name="review_mistakes">Fehler überprüfen</string>
+    <string name="choose_new_mode">Neuen Modus wählen</string>
+    <string name="finish_for_today">Für heute beenden</string>
+
+    <string name="category_intelligent">Intelligent</string>
+    <string name="category_intelligent_desc">Mix aus vergessenen Wörtern und neuen Ausdrücken</string>
+    <string name="category_new">Neu</string>
+    <string name="category_new_desc">Gerade hinzugefügte Wörter, noch nicht geübt</string>
+    <string name="category_hard">Schwierig</string>
+    <string name="category_hard_desc">Ihre \"Schulden\": geringer Fortschritt und häufige Fehler</string>
+    <string name="category_stable">Festigung</string>
+    <string name="category_stable_desc">Wörter mit durchschnittlichem Fortschritt, die Übung brauchen</string>
+    <string name="category_learned">Gelernt</string>
+    <string name="category_learned_desc">Wörter mit hoher Beherrschung, lange nicht gesehen</string>
+
+    <string name="daily_statistics">Tagesstatistik</string>
+    <string name="correct_answers">Richtige Antworten</string>
+    <string name="wrong_answers">Falsche Antworten</string>
+    <string name="total_attempts">Versuche gesamt</string>
+
+    <string name="choose_focus">Fokus wählen</string>
+    <string name="words_count">Wörter</string>
+    <string name="no_words_available">Keine Wörter zum Üben verfügbar</string>
+
+    <string name="mastery_level">Beherrschungsgrad</string>
+    <string name="word_progress">Wort %1$d von %2$d</string>
+
+    <string name="mastery_info_title">Wie funktioniert das?</string>
+    <string name="mastery_info_general">Wir verfolgen, wie gut Sie sich dieses Wort merken, um Sie nicht mit dem zu nerven, was Sie schon wissen.\n\nWenn das Niveau 100% erreicht, legen wir das Wort für eine Weile beiseite.</string>
+    <string name="mastery_info_gain">Eine richtige Antwort bringt jetzt +%1$d%%.</string>
+    <string name="mastery_info_loss">Bei einem Fehler senken wir das Niveau um %1$.0f%%, um dieses Wort öfter zu üben.</string>
+    <string name="got_it">Verstanden</string>
 </resources>

@@ -16,6 +16,7 @@
     <string name="error_parsing_description">Не вдалося обробити отримані дані</string>
     <string name="error_unknown_description">Спробуйте ще раз</string>
 
+    <string name="general_statistic">Загальна статистика</string>
     <string name="try_again">Повторити</string>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Додати нове слово :)</string>
@@ -28,7 +29,7 @@
     <string name="head_text">Мій словник</string>
     <string name="description_head_text">Вивчайте слова легко</string>
     <string name="add_new_word_button">Додати нове слово</string>
-    <string name="repeat_mode">Режим повторення</string>
+    <string name="tests_mode">Тести</string>
     <string name="count_words">Всього слів</string>
     <string name="num_of_words">0</string>
     <string name="learned">Вивчено</string>
@@ -345,4 +346,45 @@
     <string name="sort_za">За алфавітом (Я-А)</string>
     <string name="error_empty_language_filter_description">У вашому словнику відсутні слова цієї мови</string>
     <string name="error_search_description">Перевірте свій запит або додайте це слово до словника</string>
+
+    <!-- Session Finished Screen -->
+    <string name="session_finished">Сесія завершена</string>
+    <string name="excellent_result">Відмінний результат</string>
+    <string name="mistakes">Помилок</string>
+    <string name="review_mistakes">Робота над помилками</string>
+    <string name="choose_new_mode">Обрати новий режим</string>
+    <string name="finish_for_today">Завершити на сьогодні</string>
+
+    <!-- Word Categories -->
+    <string name="category_intelligent">Інтелектуальний</string>
+    <string name="category_intelligent_desc">Мікс слів, які ви забуваєте, та нових виразів</string>
+    <string name="category_new">Нові</string>
+    <string name="category_new_desc">Слова, які ви щойно додали і ще не тренували</string>
+    <string name="category_hard">Важкі</string>
+    <string name="category_hard_desc">Ваші \"борги\": низький прогрес та часті помилки</string>
+    <string name="category_stable">Закріплення</string>
+    <string name="category_stable_desc">Слова з середнім прогресом, що потребують практики</string>
+    <string name="category_learned">Вивчені</string>
+    <string name="category_learned_desc">Слова з високим Mastery, які ви давно не бачили</string>
+
+    <!-- Progress Card -->
+    <string name="daily_statistics">Денна статистика</string>
+    <string name="correct_answers">Правильні відповіді</string>
+    <string name="wrong_answers">Неправильні відповіді</string>
+    <string name="total_attempts">Усього спроб</string>
+
+    <!-- Lobby -->
+    <string name="choose_focus">Оберіть фокус</string>
+    <string name="words_count">слів</string>
+    <string name="no_words_available">Немає доступних слів для тренування</string>
+
+    <!-- Repetition -->
+    <string name="mastery_level">Рівень володіння</string>
+    <string name="word_progress">Слово %1$d з %2$d</string>
+
+    <string name="mastery_info_title">Як це працює?</string>
+    <string name="mastery_info_general">Ми відстежуємо, наскільки добре ви пам\'ятаєте це слово, щоб не набридати вам із тим, що ви вже знаєте.\n\nКоли рівень досягне 100%, ми відкладемо це слово надовго.</string>
+    <string name="mastery_info_gain">Правильна відповідь зараз додасть +%1$d%%.</string>
+    <string name="mastery_info_loss">Якщо помилитесь, ми знизимо рівень на %1$.0f%%, щоб частіше тренувати це слово.</string>
+    <string name="got_it">Зрозуміло</string>
 </resources>

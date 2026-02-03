@@ -16,6 +16,7 @@
     <string name="error_parsing_description">Nie udało się przetworzyć danych</string>
     <string name="error_unknown_description">Spróbuj ponownie</string>
 
+    <string name="general_statistic">Statystyki ogólne</string>
     <string name="try_again">Ponów</string>
     <string name="app_name">Vocab.</string>
     <string name="add_word_button">Dodaj nowe słowo :)</string>
@@ -28,7 +29,7 @@
     <string name="head_text">Mój słownik</string>
     <string name="description_head_text">Ucz się słów z łatwością</string>
     <string name="add_new_word_button">Dodaj nowe słowo</string>
-    <string name="repeat_mode">Tryb powtórek</string>
+    <string name="tests_mode">Testy</string>
     <string name="count_words">Wszystkie słowa</string>
     <string name="num_of_words">0</string>
     <string name="learned">Nauczone</string>
@@ -341,4 +342,40 @@
     <string name="sort_za">Alfabetycznie (Z-A)</string>
     <string name="error_empty_language_filter_description">W Twoim słowniku brakuje słów w tym języku</string>
     <string name="error_search_description">Sprawdź zapytanie lub dodaj to słowo do słownika</string>
+
+    <string name="session_finished">Sesja zakończona</string>
+    <string name="excellent_result">Doskonały wynik</string>
+    <string name="mistakes">Błędy</string>
+    <string name="review_mistakes">Przejrzyj błędy</string>
+    <string name="choose_new_mode">Wybierz nowy tryb</string>
+    <string name="finish_for_today">Zakończ na dziś</string>
+
+    <string name="category_intelligent">Inteligentny</string>
+    <string name="category_intelligent_desc">Mieszanka zapomnianych słów i nowych wyrażeń</string>
+    <string name="category_new">Nowe</string>
+    <string name="category_new_desc">Słowa właśnie dodane i jeszcze nieprzećwiczone</string>
+    <string name="category_hard">Trudne</string>
+    <string name="category_hard_desc">Twoje \"długi\": niski postęp i częste błędy</string>
+    <string name="category_stable">Utrwalanie</string>
+    <string name="category_stable_desc">Słowa o średnim postępie wymagające praktyki</string>
+    <string name="category_learned">Nauczone</string>
+    <string name="category_learned_desc">Słowa dobrze opanowane, dawno niewidziane</string>
+
+    <string name="daily_statistics">Dzienne statystyki</string>
+    <string name="correct_answers">Poprawne odpowiedzi</string>
+    <string name="wrong_answers">Błędne odpowiedzi</string>
+    <string name="total_attempts">Liczba prób</string>
+
+    <string name="choose_focus">Wybierz cel</string>
+    <string name="words_count">słów</string>
+    <string name="no_words_available">Brak słów do treningu</string>
+
+    <string name="mastery_level">Poziom opanowania</string>
+    <string name="word_progress">Słowo %1$d z %2$d</string>
+
+    <string name="mastery_info_title">Jak to działa?</string>
+    <string name="mastery_info_general">Śledzimy, jak dobrze pamiętasz to słowo, żeby nie zamęczać Cię tym, co już wiesz.\n\nGdy poziom osiągnie 100%, odłożymy to słowo na dłuższy czas.</string>
+    <string name="mastery_info_gain">Poprawna odpowiedź doda teraz +%1$d%%.</string>
+    <string name="mastery_info_loss">Jeśli się pomylisz, obniżymy poziom o %1$.0f%%, aby częściej ćwiczyć to słowo.</string>
+    <string name="got_it">Zrozumiałem</string>
 </resources>
