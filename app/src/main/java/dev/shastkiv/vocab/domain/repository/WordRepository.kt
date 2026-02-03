@@ -1,5 +1,6 @@
 package dev.shastkiv.vocab.domain.repository
 
+import dev.shastkiv.vocab.domain.model.CategoryCounts
 import dev.shastkiv.vocab.domain.model.Word
 import dev.shastkiv.vocab.domain.model.enums.WordType
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,11 @@ interface WordRepository {
 
     fun getLearnedWordsCount(): Flow<Int>
 
-    suspend fun updateScore(id: Int, correctCount: Int, wrongCount: Int)
+    suspend fun updateScore(id: Int,
+                            correctCount: Int,
+                            wrongCount: Int,
+                            masteryScore: Int,
+                            lastTrainedAt : Long)
 
     fun getWords(sourceLanguageCode: String): Flow<List<Word>>
 
@@ -32,7 +37,7 @@ interface WordRepository {
 
     suspend fun getCachedWord(sourceWord: String, sourceLanguageCode: String): Word?
 
-    suspend fun getWordById(id: Int): Word?
+    suspend fun getWordById(id: Int): Word
 
     suspend fun upgradeWordToAI(wordId: Int, aiDataJson: String, wordType: WordType)
 
@@ -43,5 +48,19 @@ interface WordRepository {
     fun getWordsNeedingRepetition(): Flow<Int>
 
     fun getWordsAddedBetween(startDate: LocalDateTime, endDate: LocalDateTime): Flow<List<Word>>
+
+    suspend fun getWordsForTraining(languageCode: String, limit: Int): List<Word>
+
+    suspend fun getNewWords(lang: String, limit: Int): List<Word>
+
+    suspend fun getHardWords(lang: String, limit: Int): List<Word>
+
+    suspend fun getStableWords(lang: String, limit: Int): List<Word>
+
+    suspend fun getIntelligentWords(lang: String, currentTime: Long, limit: Int): List<Word>
+
+    suspend fun getLearnedWords(lang : String, limit: Int) : List<Word>
+
+    fun getCategoryCounts(lang: String) : Flow<CategoryCounts>
 
 }

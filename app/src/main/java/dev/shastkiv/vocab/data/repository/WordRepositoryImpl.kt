@@ -1,6 +1,7 @@
 package dev.shastkiv.vocab.data.repository
 
 import dev.shastkiv.vocab.data.local.dao.WordDao
+import dev.shastkiv.vocab.domain.model.CategoryCounts
 import dev.shastkiv.vocab.domain.model.Word
 import dev.shastkiv.vocab.domain.model.enums.WordType
 import dev.shastkiv.vocab.domain.repository.WordRepository
@@ -50,9 +51,20 @@ class WordRepositoryImpl @Inject constructor(
 
     override fun getLearnedWordsCount(): Flow<Int> = wordDao.getLearnedWordsCount().flowOn(Dispatchers.IO)
 
-    override suspend fun updateScore(id: Int, correctCount: Int, wrongCount: Int) {
+    override suspend fun updateScore(
+        id: Int,
+        correctCount: Int,
+        wrongCount: Int,
+        masteryScore: Int,
+        lastTrainedAt: Long
+    ) {
         withContext(Dispatchers.IO) {
-            wordDao.updateScore(id, correctCount, wrongCount)
+            wordDao.updateScore(
+                id,
+                correctCount,
+                wrongCount,
+                masteryScore,
+                lastTrainedAt)
         }
     }
 
@@ -91,7 +103,7 @@ class WordRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getWordById(id: Int): Word? {
+    override suspend fun getWordById(id: Int): Word {
         return withContext(Dispatchers.IO) {
             wordDao.getWordById(id)
         }
@@ -136,5 +148,37 @@ class WordRepositoryImpl @Inject constructor(
             .toEpochMilli()
 
         return wordDao.getWordsAddedBetween(startMillis, endMillis).flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getWordsForTraining(languageCode: String, limit: Int): List<Word> {
+        return wordDao.getWordsForTraining(languageCode, limit)
+    }
+
+    override suspend fun getHardWords(lang: String, limit: Int): List<Word> {
+        return wordDao.getHardWords(lang, limit)
+    }
+
+    override suspend fun getIntelligentWords(
+        lang: String,
+        currentTime: Long,
+        limit: Int
+    ): List<Word> {
+        return wordDao.getIntelligentWords(lang,currentTime, limit)
+    }
+
+    override suspend fun getLearnedWords(lang: String, limit: Int): List<Word> {
+        return wordDao.getLearnedWords(lang, limit)
+    }
+
+    override suspend fun getNewWords(lang: String, limit: Int): List<Word> {
+        return wordDao.getNewWords(lang, limit)
+    }
+
+    override suspend fun getStableWords(lang: String, limit: Int): List<Word> {
+        return wordDao.getStableWords(lang, limit)
+    }
+
+    override fun getCategoryCounts(lang: String): Flow<CategoryCounts> {
+        return wordDao.getCategoryCounts(lang)
     }
 }

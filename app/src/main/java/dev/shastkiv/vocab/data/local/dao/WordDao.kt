@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import dev.shastkiv.vocab.domain.model.CategoryCounts
 import dev.shastkiv.vocab.domain.model.Word
 import dev.shastkiv.vocab.domain.model.enums.WordType
 import kotlinx.coroutines.flow.Flow
@@ -32,8 +33,23 @@ interface WordDao {
     @Query("SELECT COUNT(*) FROM words WHERE correct_count > 10 AND is_word_added = 1")
     fun getLearnedWordsCount(): Flow<Int>
 
-    @Query("UPDATE words SET correct_count = :correctCount, wrong_count = :wrongCount WHERE _id = :id")
-    suspend fun updateScore(id: Int, correctCount: Int, wrongCount: Int)
+    @Query(
+        """
+    UPDATE words 
+    SET correct_count = :correctCount, 
+        wrong_count = :wrongCount, 
+        mastery_score = :masteryScore, 
+        last_trained_at = :lastTrainedAt 
+    WHERE _id = :id
+"""
+    )
+    suspend fun updateScore(
+        id: Int,
+        correctCount: Int,
+        wrongCount: Int,
+        masteryScore: Int,
+        lastTrainedAt: Long
+    )
 
     @Delete
     suspend fun deleteWord(word: Word)
@@ -54,7 +70,7 @@ interface WordDao {
     suspend fun getCachedWord(sourceWord: String, sourceLanguageCode: String): Word?
 
     @Query("SELECT * FROM words WHERE _id = :id")
-    suspend fun getWordById(id: Int): Word?
+    suspend fun getWordById(id: Int): Word
 
     @Query("UPDATE words SET word_type = :wordType, ai_data_json = :aiDataJson WHERE _id = :id")
     suspend fun updateWordWithAIData(id: Int, wordType: WordType, aiDataJson: String)
@@ -73,4 +89,90 @@ interface WordDao {
 
     @Query("SELECT COUNT(*) FROM words WHERE correct_count <=10 AND is_word_added = 1")
     fun getWordsNeedingRepetition(): Flow<Int>
+
+    @Query(
+        """
+    SELECT * FROM words 
+    WHERE source_language_code = :languageCode 
+      AND is_word_added = 1 
+    ORDER BY
+        mastery_score ASC, 
+        last_trained_at ASC 
+    LIMIT :limit
+"""
+    )
+    suspend fun getWordsForTraining(languageCode: String, limit: Int): List<Word>
+
+    @Query(
+        """
+        SELECT * FROM words 
+        WHERE source_language_code = :lang AND is_word_added = 1 
+        AND mastery_score < 20 AND (correct_count + wrong_count) < 4
+        ORDER BY added_at DESC LIMIT :limit
+    """
+    )
+    suspend fun getNewWords(lang: String, limit: Int): List<Word>
+
+    @Query("""
+    SELECT * FROM words 
+    WHERE source_language_code = :lang 
+    AND is_word_added = 1
+    AND mastery_score < 50
+    AND wrong_count > 0
+    AND (wrong_count + correct_count) >= 4
+    ORDER BY wrong_count DESC, mastery_score ASC 
+    LIMIT :limit
+""")
+    suspend fun getHardWords(lang: String, limit: Int): List<Word>
+
+    @Query("""
+    SELECT * FROM words 
+    WHERE source_language_code = :lang AND is_word_added = 1
+    AND mastery_score < 85
+    AND NOT (mastery_score < 20 AND (wrong_count + correct_count) < 4)
+    AND NOT (mastery_score < 50 AND wrong_count > 0 AND (wrong_count + correct_count) >= 4)
+    ORDER BY last_trained_at ASC LIMIT :limit
+""")
+    suspend fun getStableWords(lang: String, limit: Int): List<Word>
+
+    @Query(
+        """
+        SELECT * FROM words 
+        WHERE source_language_code = :lang AND is_word_added = 1
+        ORDER BY 
+            (CAST(wrong_count AS FLOAT) / (correct_count + 1) * 2.0) + 
+            (CAST(:currentTime - last_trained_at AS FLOAT) / 86400000.0) DESC
+        LIMIT :limit
+    """
+    )
+    suspend fun getIntelligentWords(lang: String, currentTime: Long, limit: Int): List<Word>
+
+    @Query(
+        """
+        SELECT * FROM words
+        WHERE source_language_code = :lang and is_word_added = 1
+        AND mastery_score >= 85
+        ORDER By last_trained_at DESC
+        LIMIT :limit
+    """
+    )
+    suspend fun getLearnedWords(lang: String, limit: Int): List<Word>
+
+    @Query(
+        """
+    SELECT 
+        COUNT(*) as totalCount,
+        SUM(CASE WHEN mastery_score < 20 AND (wrong_count + correct_count) < 4 THEN 1 ELSE 0 END) as newCount,
+        SUM(CASE WHEN mastery_score < 50 AND wrong_count > 0 AND (wrong_count + correct_count) >= 4 THEN 1 ELSE 0 END) as hardCount,
+        SUM(CASE WHEN 
+            NOT (mastery_score < 20 AND (wrong_count + correct_count) < 4) -- Не нове
+            AND NOT (mastery_score < 50 AND wrong_count > 0 AND (wrong_count + correct_count) >= 4) -- Не важке
+            AND mastery_score < 85 -- Не вивчене
+            THEN 1 ELSE 0 END) as stableCount,
+        SUM(CASE WHEN mastery_score >= 85 THEN 1 ELSE 0 END) as learnedCount
+    FROM words 
+    WHERE source_language_code = :lang AND is_word_added = 1
+"""
+    )
+    fun getCategoryCounts(lang: String): Flow<CategoryCounts>
 }

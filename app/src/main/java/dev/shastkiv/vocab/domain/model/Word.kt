@@ -39,7 +39,13 @@ data class Word(
     val isWordAdded: Boolean = true,
 
     @ColumnInfo(name = "ai_data_json")
-    val aiDataJson: String? = null
+    val aiDataJson: String? = null,
+
+    @ColumnInfo(name = "mastery_score")
+    val masteryScore: Int = 0,
+
+    @ColumnInfo(name = "last_trained_at")
+    val lastTrainedAt: Long = System.currentTimeMillis()
 ) {
     fun hasAIData(): Boolean = aiDataJson != null
     fun getAIData(): WordData? = aiDataJson?.let { WordData.fromJson(it) }
