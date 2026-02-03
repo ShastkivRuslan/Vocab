@@ -89,7 +89,15 @@ val LocalCustomAppColors = staticCompositionLocalOf {
         expandableCardContentBackground = SolidColor(Color.Unspecified),
         textProcessingCardColor = Color.Unspecified,
         textProcessingBackgroundColor = Color.Unspecified,
-        overlayDialogColor = Color.Unspecified
+        overlayDialogColor = Color.Unspecified,
+        masteryProgressHighlight = Color.Unspecified,
+        masteryProgressUltraBright = Color.Unspecified,
+        masteryProgressDecreaseWave = Color.Unspecified,
+        masteryProgressIncreaseWave = Color.Unspecified,
+        vocabProgressIdle = Color.Unspecified,
+        vocabProgressActive = Color.Unspecified,
+        vocabProgressCorrect = Color.Unspecified,
+        vocabProgressWrong = Color.Unspecified
     )
 }
 

@@ -49,8 +49,10 @@ fun ResultFooter(
     val colors = MaterialTheme.appColors
     val typography = MaterialTheme.appTypography
 
-    val stateColor = if (isCorrect) GreenSuccess else RedError
+    val rememberedIsCorrect by remember { mutableStateOf(isCorrect) }
+    val stateColor = if (rememberedIsCorrect) GreenSuccess else RedError
     var progress by remember { mutableStateOf(0f) }
+    var hasTriggered by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         val totalTime = 3000L
@@ -61,7 +63,10 @@ fun ResultFooter(
             progress = i.toFloat() / steps
             delay(stepTime)
         }
-        onNextWordClick()
+        if (!hasTriggered) {
+            hasTriggered = true
+            onNextWordClick()
+        }
     }
 
     val shape = RoundedCornerShape(dimensions.largeCornerRadius)
@@ -98,7 +103,7 @@ fun ResultFooter(
                 modifier = Modifier.padding(bottom = dimensions.smallSpacing)
             ) {
                 Text(
-                    text = if (isCorrect) stringResource(R.string.correct) else stringResource(R.string.wrong),
+                    text = if (rememberedIsCorrect) stringResource(R.string.correct) else stringResource(R.string.wrong),
                     style = typography.wordHeadLine,
                     color = colors.textMain,
                     modifier = Modifier.padding(start = dimensions.smallSpacing)
@@ -106,7 +111,12 @@ fun ResultFooter(
             }
 
             Button(
-                onClick = onNextWordClick,
+                onClick = {
+                    if (!hasTriggered) {
+                        hasTriggered = true
+                        onNextWordClick()
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(dimensions.buttonHeight)

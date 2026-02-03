@@ -62,7 +62,7 @@ class OpenAIClient @Inject constructor(
 
                         Always return ONLY a JSON object. No preamble, no markdown blocks.
                         You MUST analyze the word ONLY within the context of the specified Source Language. Even if the word exists in other languages with different meanings, ignore them.
-                        If the input has a typo, find the closest word ONLY in the Source or Target Language.
+                        If the input has a typo, find the closest word ONLY in the $sourceLanguage or $targetLanguage Language.
                         Use the CEFR scale (A1-C2) for the 'level' field.
                         5. Structure for 'usageInfo': Use '\n' for line breaks. Translate labels (Synonyms, Forms, Note) into the target language.
                         If "$input" is in $targetLanguage but exists in $sourceLanguage, SWAP them (set $sourceLanguage word as 'originalWord', input as 'translation') and fetch full data for the $sourceLanguage word.

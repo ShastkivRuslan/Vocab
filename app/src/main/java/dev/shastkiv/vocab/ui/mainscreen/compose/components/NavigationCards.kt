@@ -26,7 +26,7 @@ fun AddWordCard(onClick: () -> Unit) {
 @Composable
 fun QuizCard(onClick: () -> Unit) {
     val card = NavigationCardData(
-        title = stringResource(R.string.repeat_mode),
+        title = stringResource(R.string.tests_mode),
         description = stringResource(R.string.repetition_card_description),
         icon = Icons.Default.Quiz
     )

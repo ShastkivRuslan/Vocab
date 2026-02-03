@@ -9,16 +9,17 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import dev.shastkiv.vocab.domain.model.DailyStatistic
-import dev.shastkiv.vocab.domain.model.Word
 import dev.shastkiv.vocab.ui.quiz.compose.components.AnswerOptions
 import dev.shastkiv.vocab.ui.quiz.compose.components.ResultFooter
+import dev.shastkiv.vocab.ui.quiz.compose.components.VocabProgressBar
 import dev.shastkiv.vocab.ui.quiz.compose.components.WordCard
 import dev.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import dev.shastkiv.vocab.ui.theme.appDimensions
@@ -33,17 +34,26 @@ fun RepetitionContent(
     val dimensions = MaterialTheme.appDimensions
 
     Column(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(dimensions.smallSpacing)
     ) {
-        WordCard(
-            word = state.word.sourceWord,
-            correctCount = state.correctCount,
-            wrongCount = state.wrongCount,
-            onListenClick = onListenClick
+        VocabProgressBar(
+            totalSteps = state.totalSteps,
+            currentStep = state.currentStep,
+            segmentStates = state.segmentStates
         )
+
+        Spacer(modifier = Modifier.height(MaterialTheme.appDimensions.smallSpacing))
+
+        key(state.word.id) {
+            WordCard(
+                word = state.word,
+                onListenClick = onListenClick
+            )
+        }
+
+        Spacer(modifier = Modifier.height(MaterialTheme.appDimensions.smallSpacing))
 
         AnswerOptions(
             options = state.answerOptions,
@@ -57,8 +67,17 @@ fun RepetitionContent(
     Box(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(
             visible = state.isAnswerCorrect != null,
-            enter = slideInVertically(initialOffsetY = { it / 2 }, animationSpec = tween(300)) + fadeIn(animationSpec = tween(300)),
-            exit = slideOutVertically(targetOffsetY = { it / 2 }, animationSpec = tween(300)) + fadeOut(animationSpec = tween(300)),
+            enter = slideInVertically(
+                initialOffsetY = { it / 2 },
+                animationSpec = tween(300)) + fadeIn(animationSpec = tween(300)
+                )
+            ,
+            exit = slideOutVertically(
+                targetOffsetY = { it / 2 },
+                animationSpec = tween(300))
+                    + fadeOut(animationSpec = tween(300)
+                )
+            ,
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             ResultFooter(
@@ -67,42 +86,4 @@ fun RepetitionContent(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RepetitionContentPreview() {
-
-    val sampleWord = Word(
-        id = 1,
-        sourceWord = "Heuristic",
-        translation = "Евристичний",
-        correctAnswerCount = 12,
-        wrongAnswerCount = 3,
-        sourceLanguageCode = "en",
-        targetLanguageCode = "uk"
-    )
-    val sampleOptions = listOf("Евристичний", "Спорадичний", "Еклектичний", "Емпіричний")
-
-    val sampleStats = DailyStatistic(
-        correctAnswers = 87,
-        wrongAnswers = 15
-    )
-
-    val sampleState = RepetitionUiState.Content(
-        word = sampleWord,
-        answerOptions = sampleOptions,
-        selectedAnswerIndex = 2,
-        isAnswerCorrect = false,
-        dailyStats = sampleStats,
-        correctCount = 10,
-        wrongCount = 11
-    )
-
-        RepetitionContent(
-            state = sampleState,
-            onAnswerClick = {},
-            onNextWordClick = {},
-            onListenClick = {}
-        )
 }

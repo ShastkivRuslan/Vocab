@@ -26,7 +26,6 @@ import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.common.compose.ErrorContent
 import dev.shastkiv.vocab.ui.quiz.RepetitionEvent
 import dev.shastkiv.vocab.ui.quiz.RepetitionViewModel
-import dev.shastkiv.vocab.ui.quiz.compose.components.ProgressCard
 import dev.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import dev.shastkiv.vocab.ui.theme.appColors
 import dev.shastkiv.vocab.ui.theme.appDimensions
@@ -37,13 +36,11 @@ fun RepetitionScreen(
     viewModel: RepetitionViewModel,
     uiState: RepetitionUiState,
     onEvent: (RepetitionEvent) -> Unit,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     val colors = MaterialTheme.appColors
     val dimensions = MaterialTheme.appDimensions
     val typography = MaterialTheme.appTypography
-
-    val stats by viewModel.dailyStats.collectAsState()
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -70,17 +67,9 @@ fun RepetitionScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = dimensions.mediumPadding),
-                    text = stringResource(R.string.repeat_mode),
+                    text = stringResource(R.string.tests_mode),
                     style = typography.header,
                     color = colors.textMain
-                )
-            }
-
-
-            if (uiState !is RepetitionUiState.Error) {
-                ProgressCard(
-                    correctCount = stats?.correctAnswers ?: 0,
-                    wrongCount = stats?.wrongAnswers ?: 0
                 )
             }
 
@@ -99,6 +88,20 @@ fun RepetitionScreen(
                         }
                     }
 
+                    is RepetitionUiState.Lobby -> {
+                        LobbyContent(
+                            state = uiState,
+                            onStartClick = { onEvent(RepetitionEvent.OnStartSessionClicked) },
+                            onCategoryChange = { category ->
+                                onEvent(
+                                    RepetitionEvent.OnCategoryChanged(
+                                        category
+                                    )
+                                )
+                            }
+                        )
+                    }
+
                     is RepetitionUiState.Content -> {
                         RepetitionContent(
                             state = uiState,
@@ -111,6 +114,15 @@ fun RepetitionScreen(
                             },
                             onNextWordClick = { onEvent(RepetitionEvent.OnNextWordClicked) },
                             onListenClick = { onEvent(RepetitionEvent.OnListenClicked) }
+                        )
+                    }
+
+                    is RepetitionUiState.SessionFinished -> {
+                        SessionFinishedContent(
+                            state = uiState,
+                            onContinueClick = { onEvent(RepetitionEvent.OnReturnToLobby) },
+                            onFinishClick = { onBackPressed() },
+                            onMistakesReviewClick = { onEvent(RepetitionEvent.OnStartMistakesReview) }
                         )
                     }
 

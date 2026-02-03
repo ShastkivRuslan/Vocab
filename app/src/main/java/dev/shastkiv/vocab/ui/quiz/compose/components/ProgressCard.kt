@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,8 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.shastkiv.vocab.R
@@ -35,21 +32,30 @@ data class ProgressStatItem(
 
 @Composable
 fun ProgressCard(
-    correctCount: Int,
-    wrongCount: Int
+    wrongCount: Int,
+    correctCount: Int
 ) {
-    val total = correctCount + wrongCount
-    val correctPercentage = if (total > 0) ((correctCount.toFloat() / total) * 100).toInt() else 0
-
-    val stats = listOf(
-        ProgressStatItem("Правильні відповіді", correctCount.toString()),
-        ProgressStatItem("Неправильні відповіді", wrongCount.toString()),
-        ProgressStatItem("Усього спроб", total.toString())
-    )
-
     val colors = MaterialTheme.appColors
     val dimensions = MaterialTheme.appDimensions
     val typography = MaterialTheme.appTypography
+
+    val total = wrongCount + correctCount
+    val correctPercentage = if (total == 0) 0 else ((correctCount.toFloat() / total) * 100).toInt()
+
+    val stats = listOf(
+        ProgressStatItem(
+            label = stringResource(R.string.correct_answers),
+            value = correctCount.toString()
+        ),
+        ProgressStatItem(
+            label = stringResource(R.string.wrong_answers),
+            value = wrongCount.toString()
+        ),
+        ProgressStatItem(
+            label = stringResource(R.string.total_attempts),
+            value = total.toString()
+        )
+    )
 
     Box(
         modifier = Modifier
@@ -64,51 +70,49 @@ fun ProgressCard(
                 color = colors.cardBorder,
                 shape = RoundedCornerShape(dimensions.largeCornerRadius)
             )
-            .padding(dimensions.largePadding)
+            .padding(dimensions.mediumPadding)
     ) {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(
-                            colors.statsGlowStartColor,
-                            Color.Transparent
-                        )
-                    ),
-                    shape = RoundedCornerShape(dimensions.largeCornerRadius)
-                )
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
         ) {
-            ProgressCircle(
-                progress = correctPercentage,
-                title = stringResource(R.string.accuracy)
+            Text(
+                text = stringResource(R.string.daily_statistics),
+                style = typography.cardTitleMedium,
+                color = colors.textMain,
+                modifier = Modifier.padding(bottom = dimensions.extraSmallPadding)
             )
 
-            Spacer(modifier = Modifier.width(dimensions.largeSpacing))
-
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(dimensions.mediumSpacing)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                stats.forEach { stat ->
-                    Column {
-                        Text(
-                            text = stat.label,
-                            style = typography.cardDescriptionSmall,
-                            color = colors.statsLabelText
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = stat.value,
-                            style = typography.cardDescriptionSmall,
-                            color = colors.statsValueText
-                        )
+                Box() {
+                    ProgressCircle(
+                        progress = correctPercentage,
+                        title = stringResource(R.string.accuracy), // Вже було, залишаємо
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(dimensions.largeSpacing))
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(dimensions.mediumSpacing)
+                ) {
+                    stats.forEach { stat ->
+                        Row {
+                            Text(
+                                text = stat.label,
+                                style = typography.cardDescriptionSmall,
+                                color = colors.statsLabelText
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(
+                                text = stat.value,
+                                style = typography.cardDescriptionSmall,
+                                color = colors.statsValueText
+                            )
+                        }
                     }
                 }
             }
