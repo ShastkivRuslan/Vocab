@@ -24,6 +24,7 @@ import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.mainscreen.compose.components.ProgressCircle
 import dev.shastkiv.vocab.ui.theme.appColors
 import dev.shastkiv.vocab.ui.theme.appDimensions
+import dev.shastkiv.vocab.ui.theme.appTypography
 
 data class StatItem(
     val label: String,
@@ -44,6 +45,7 @@ fun UserStatsCard(
     )
     val dimensions = MaterialTheme.appDimensions
     val colors = MaterialTheme.appColors
+    val typography = MaterialTheme.appTypography
 
     Box(
         modifier = Modifier
@@ -60,39 +62,48 @@ fun UserStatsCard(
             )
             .padding(dimensions.mediumPadding)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ProgressCircle(
-                progress = learnedPercentage,
-                title = stringResource(R.string.learned))
-
-            Spacer(modifier = Modifier.width(dimensions.largeSpacing))
-
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(dimensions.mediumSpacing)
+        Column {
+            Text(
+                text = stringResource(R.string.general_statistic),
+                style = typography.cardTitleMedium,
+                color = colors.textMain,
+                modifier = Modifier.padding(bottom = dimensions.extraSmallPadding)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                stats.forEach { stat ->
-                    Column {
-                        Text(
-                            text = stat.label,
-                            style = dimensions.cardDescriptionSmallStyle,
-                            color = colors.statsLabelText
-                        )
+                ProgressCircle(
+                    progress = learnedPercentage,
+                    title = stringResource(R.string.learned))
 
-                        Spacer(modifier = Modifier.height(dimensions.extraSmallSpacing))
+                Spacer(modifier = Modifier.width(dimensions.largeSpacing))
 
-                        Text(
-                            text = stat.value.toString(),
-                            style = dimensions.cartDescriptionMediumStyle,
-                            color = colors.statsValueText
-                        )
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(dimensions.mediumSpacing)
+                ) {
+                    stats.forEach { stat ->
+                        Row {
+                            Text(
+                                text = stat.label,
+                                style = dimensions.cardDescriptionSmallStyle,
+                                color = colors.statsLabelText
+                            )
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            Text(
+                                text = stat.value.toString(),
+                                style = dimensions.cartDescriptionMediumStyle,
+                                color = colors.statsValueText
+                            )
+                        }
                     }
                 }
             }
+
         }
     }
 }
