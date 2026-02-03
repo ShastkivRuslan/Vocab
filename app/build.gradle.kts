@@ -30,8 +30,8 @@ android {
         minSdk = 29
         //noinspection OldTargetApi
         targetSdk = 35
-        versionCode = 10
-        versionName = "1.2"
+        versionCode = 13
+        versionName = "1.4)"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", "\"$openAiApiKey\"")

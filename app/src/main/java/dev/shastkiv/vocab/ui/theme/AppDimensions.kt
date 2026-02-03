@@ -64,7 +64,15 @@ data class AppDimensions(
 
     val dragBoxHeight: Dp,
     val dragLineHeight: Dp,
-    val dragLineWidth: Dp
+    val dragLineWidth: Dp,
+
+    val linearProgressContainerHeight: Dp,
+    val linearProgressActiveThickness: Dp,
+    val linearProgressInactiveThickness: Dp,
+
+    val masteryProgressHeight: Dp,
+    val masteryProgressCornerRadius: Dp,
+    val masteryProgressBorderWidth: Dp,
 )
 
 val defaultDimensions = AppDimensions(
@@ -127,7 +135,15 @@ val defaultDimensions = AppDimensions(
 
     dragBoxHeight = 32.dp,
     dragLineHeight = 4.dp,
-    dragLineWidth = 80.dp
+    dragLineWidth = 80.dp,
+
+    linearProgressContainerHeight = 20.dp,
+    linearProgressActiveThickness = 14.dp,
+    linearProgressInactiveThickness = 8.dp,
+
+    masteryProgressHeight = 35.dp,
+    masteryProgressCornerRadius = 14.dp,
+    masteryProgressBorderWidth = 1.5.dp
 )
 
 val mediumDimensions = AppDimensions(
@@ -189,7 +205,15 @@ val mediumDimensions = AppDimensions(
 
     dragBoxHeight = 28.dp,
     dragLineHeight = 4.dp,
-    dragLineWidth = 70.dp
+    dragLineWidth = 70.dp,
+
+    linearProgressContainerHeight = 18.dp,
+    linearProgressActiveThickness = 12.dp,
+    linearProgressInactiveThickness = 6.dp,
+
+    masteryProgressHeight = 30.dp,
+    masteryProgressCornerRadius = 12.dp,
+    masteryProgressBorderWidth = 1.5.dp
 )
 
 val smallDimensions = AppDimensions(
@@ -251,7 +275,16 @@ val smallDimensions = AppDimensions(
 
     dragBoxHeight = 24.dp,
     dragLineHeight = 3.dp,
-    dragLineWidth = 60.dp
+    dragLineWidth = 60.dp,
+
+    linearProgressContainerHeight = 16.dp,
+    linearProgressActiveThickness = 10.dp,
+    linearProgressInactiveThickness = 4.dp,
+
+    masteryProgressHeight = 26.dp,
+    masteryProgressCornerRadius = 10.dp,
+    masteryProgressBorderWidth = 1.dp
+
 )
 
 val LocalAppDimensions = staticCompositionLocalOf { defaultDimensions }

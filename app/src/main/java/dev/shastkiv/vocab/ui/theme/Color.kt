@@ -15,7 +15,7 @@ val DarkSecondary = Color(0xFF3F51B5)
 val DarkBackground = Color(0xFF121826)
 val DarkSurface = Color(0xFF1E2135)
 val DarkTextPrimary = Color(0xFFFFFFFF)
-val DarkError = Color(0xFFEC407A)
+val DarkError = Color(0xFFDA3F74)
 
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
@@ -84,7 +84,17 @@ data class CustomAppColors(
     val textProcessingBackgroundColor: Color,
     val textProcessingCardColor: Color,
 
-    val overlayDialogColor: Color
+    val overlayDialogColor: Color,
+
+    val masteryProgressHighlight: Color,
+    val masteryProgressUltraBright: Color,
+    val masteryProgressDecreaseWave: Color,
+    val masteryProgressIncreaseWave: Color,
+
+    val vocabProgressIdle: Color,
+    val vocabProgressActive: Color,
+    val vocabProgressCorrect: Color,
+    val vocabProgressWrong: Color
 )
 
 val LightCustomColors = CustomAppColors(
@@ -146,7 +156,17 @@ val LightCustomColors = CustomAppColors(
 
     textProcessingBackgroundColor = Color.Black.copy(alpha = 0.25f),
     textProcessingCardColor = Color.White.copy(0.95f),
-    overlayDialogColor = Color(0xFFE7FCF1)
+    overlayDialogColor = Color(0xFFE7FCF1),
+
+    masteryProgressHighlight = Color(0xFF4DB8A8),
+    masteryProgressUltraBright = Color(0xFF7BC4BA),
+    masteryProgressDecreaseWave = Color(0xFFE57373),
+    masteryProgressIncreaseWave = Color(0xFF4DB8A8),
+
+    vocabProgressIdle = Color(0xFFCBD5E1),
+    vocabProgressActive = Color(0xFF94A3B8),
+    vocabProgressCorrect = LightPrimary,
+    vocabProgressWrong = Color(0xFFE57373)
 )
 
 val DarkCustomColors = CustomAppColors(
@@ -202,5 +222,15 @@ val DarkCustomColors = CustomAppColors(
 
     textProcessingCardColor = Color(0xFF303130).copy(0.90f),
     textProcessingBackgroundColor = Color.Black.copy(0.15f),
-    overlayDialogColor = Color(0xFF303130)
+    overlayDialogColor = Color(0xFF303130),
+
+    masteryProgressHighlight = Color(0xFF00FFC2),
+    masteryProgressUltraBright = Color(0xFF7FFFD4),
+    masteryProgressDecreaseWave = Color(0xFFFF6B6B),
+    masteryProgressIncreaseWave = Color(0xFF00FFC2),
+
+    vocabProgressIdle = Color(0x4DFFFFFF),
+    vocabProgressActive = Color(0xB3FFFFFF),
+    vocabProgressCorrect = DarkPrimary,
+    vocabProgressWrong = Color(0xFFFF6B6B)
 )

@@ -21,6 +21,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.shastkiv.vocab.data.local.db.MIGRATION_1_2
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -67,6 +68,7 @@ object AppModule {
             WordDatabase::class.java,
             "words.db"
         )
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
 
