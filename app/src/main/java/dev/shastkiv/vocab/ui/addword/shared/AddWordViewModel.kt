@@ -68,11 +68,6 @@ class AddWordViewModel @AssistedInject constructor(
         initialValue = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
     )
 
-    override fun onCleared() {
-        super.onCleared()
-        ttsManager.shutdown()
-    }
-
     fun onInputChange(newValue: TextFieldValue) {
         _inputWord.value = newValue
     }
@@ -159,7 +154,13 @@ class AddWordViewModel @AssistedInject constructor(
     }
 
     fun onTextToSpeech(word: String) {
-        ttsManager.speak(word)
+        viewModelScope.launch {
+            val settings = languageRepository.getLatestLanguageSettings()
+            ttsManager.speak(
+                text = word,
+                languageCode = settings.sourceLanguage.code
+            )
+        }
     }
 
     fun onAddWord() {

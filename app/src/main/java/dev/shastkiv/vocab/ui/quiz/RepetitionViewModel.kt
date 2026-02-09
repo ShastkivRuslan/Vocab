@@ -1,6 +1,5 @@
 package dev.shastkiv.vocab.ui.quiz
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +21,10 @@ import dev.shastkiv.vocab.ui.quiz.state.RepetitionUiState
 import dev.shastkiv.vocab.utils.TTSManager
 import dev.shastkiv.vocab.utils.mapThrowableToUiError
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -281,7 +283,9 @@ class RepetitionViewModel @Inject constructor(
 
     private fun playCurrentWordTts() {
         val state = _uiState.value as? RepetitionUiState.Content ?: return
-        ttsManager.speak(state.word.sourceWord)
+        ttsManager.speak(
+            text = state.word.sourceWord,
+            languageCode = state.word.sourceLanguageCode)
     }
 }
 
