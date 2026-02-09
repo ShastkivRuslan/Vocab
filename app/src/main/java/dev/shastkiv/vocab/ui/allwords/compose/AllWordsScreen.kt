@@ -13,6 +13,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -37,6 +39,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
@@ -92,6 +95,7 @@ import dev.shastkiv.vocab.ui.allwords.ScrollPosition
 import dev.shastkiv.vocab.ui.allwords.SortType
 import dev.shastkiv.vocab.ui.allwords.compose.state.AllWordsUiState
 import dev.shastkiv.vocab.ui.common.compose.ErrorContent
+import dev.shastkiv.vocab.ui.components.MasteryBadge
 import dev.shastkiv.vocab.ui.theme.appColors
 import dev.shastkiv.vocab.ui.theme.appDimensions
 import dev.shastkiv.vocab.ui.theme.appTypography
@@ -438,6 +442,14 @@ private fun WordListItem(
                 if (!isAnyFocused || isThisWordFocused) {
                     onEvent(AllWordsEvent.WordClicked(word))
                 }
+            },
+            onListenClick = {
+                onEvent(
+                    AllWordsEvent.OnSpechClicked(
+                        word = word,
+                        langCode = word.sourceLanguageCode
+                    )
+                )
             }
         )
 
@@ -467,20 +479,18 @@ private fun WordRow(
     word: Word,
     isExpanded: Boolean,
     animationPhase: AnimationPhase,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onListenClick: () -> Unit
 ) {
     val dimensions = MaterialTheme.appDimensions
     val colors = MaterialTheme.appColors
     val typography = MaterialTheme.appTypography
 
     val iconRotation by animateFloatAsState(
-        targetValue = when {
-            isExpanded && animationPhase in listOf(
+        targetValue = if (isExpanded && animationPhase in listOf(
                 AnimationPhase.SHOWING_DETAILS,
                 AnimationPhase.EXPANDED
-            ) -> 180f
-            else -> 0f
-        },
+            )) 180f else 0f,
         animationSpec = tween(
             durationMillis = AllWordsViewModel.Companion.SHOW_DETAILS_DURATION.toInt(),
             easing = FastOutSlowInEasing
@@ -501,6 +511,11 @@ private fun WordRow(
             dampingRatio = Spring.DampingRatioNoBouncy
         ),
         label = "textScaleProgress"
+    )
+
+    val isVolumeIconVisible = isExpanded && animationPhase in listOf(
+        AnimationPhase.SHOWING_DETAILS,
+        AnimationPhase.EXPANDED
     )
 
     Row(
@@ -534,10 +549,29 @@ private fun WordRow(
             )
         }
 
-        if (word.wordType == WordType.PRO && !isExpanded) {
-            ProBadge()
-            Spacer(modifier = Modifier.width(dimensions.smallSpacing))
+        AnimatedVisibility(
+            visible = !isExpanded,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            MasteryBadge(score = word.masteryScore)
         }
+
+        AnimatedVisibility(
+            visible = isVolumeIconVisible,
+            enter = fadeIn(animationSpec = tween(300)) + scaleIn(),
+            exit = fadeOut(animationSpec = tween(300)) + scaleOut()
+        ) {
+            IconButton(onClick = onListenClick) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.VolumeUp,
+                    contentDescription = "Listen",
+                    tint = colors.textMain
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.width(dimensions.smallSpacing))
 
         Icon(
             imageVector = if (animationPhase in listOf(
@@ -546,7 +580,9 @@ private fun WordRow(
                 )
             ) Icons.Default.Close else Icons.Default.ChevronRight,
             contentDescription = null,
-            modifier = Modifier.rotate(iconRotation),
+            modifier = Modifier
+                .rotate(iconRotation)
+                .clickable { onClick() },
             tint = colors.cardArrowTint
         )
     }

@@ -12,6 +12,7 @@ import dev.shastkiv.vocab.domain.usecase.GetWordInfoUseCase
 import dev.shastkiv.vocab.ui.allwords.compose.state.AllWordsUiState
 import dev.shastkiv.vocab.utils.mapThrowableToUiError
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.shastkiv.vocab.utils.TTSManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -24,6 +25,8 @@ sealed interface AllWordsEvent {
     data class SortTypeChanged(val sortType: SortType) : AllWordsEvent
     data class LanguageFilterChanged(val langCode: String) : AllWordsEvent
     data class WordClicked(val word: Word) : AllWordsEvent
+
+    data class OnSpechClicked(val word: Word, val langCode: String) : AllWordsEvent
     data class WordDeleted(val word: Word) : AllWordsEvent
 }
 
@@ -63,7 +66,8 @@ data class ScrollPosition(
 @HiltViewModel
 class AllWordsViewModel @Inject constructor(
     private val wordRepository: WordRepository,
-    private val getWordInfoUseCase: GetWordInfoUseCase
+    private val getWordInfoUseCase: GetWordInfoUseCase,
+    private val ttsManager: TTSManager
 ) : ViewModel() {
 
     companion object {
@@ -121,6 +125,8 @@ class AllWordsViewModel @Inject constructor(
             is AllWordsEvent.LanguageFilterChanged -> handleLanguageFilterChanged(event.langCode)
             is AllWordsEvent.WordClicked -> handleWordClicked(event.word)
             is AllWordsEvent.WordDeleted -> handleWordDeleted(event.word)
+            is AllWordsEvent.OnSpechClicked ->
+                ttsManager.speak(event.word.sourceWord, event.langCode)
         }
     }
 
