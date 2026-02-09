@@ -65,6 +65,7 @@ data class CustomAppColors(
     val accentCardIconBoxColor: Color,
     val greenSuccess: Color,
     val redError: Color,
+    val dialogInfoBackground: Color,
 
     val accent: Color,
     val accentSoft: Color,
@@ -86,10 +87,9 @@ data class CustomAppColors(
 
     val overlayDialogColor: Color,
 
-    val masteryProgressHighlight: Color,
-    val masteryProgressUltraBright: Color,
+    val masteryBarGradientStart: Color,
+    val masteryBarGradientEnd:Color,
     val masteryProgressDecreaseWave: Color,
-    val masteryProgressIncreaseWave: Color,
 
     val vocabProgressIdle: Color,
     val vocabProgressActive: Color,
@@ -123,6 +123,7 @@ val LightCustomColors = CustomAppColors(
     accentCardIconBoxColor = Color.White.copy(alpha = 0.4f),
     greenSuccess = Color(0xFF4CAF50),
     redError = Color(0xFFF44336),
+    dialogInfoBackground = Color(0xFFFFFFFF),
 
     accent = LightPrimary,
     accentSoft = LightPrimary.copy(alpha = 0.1f),
@@ -158,10 +159,10 @@ val LightCustomColors = CustomAppColors(
     textProcessingCardColor = Color.White.copy(0.95f),
     overlayDialogColor = Color(0xFFE7FCF1),
 
-    masteryProgressHighlight = Color(0xFF4DB8A8),
-    masteryProgressUltraBright = Color(0xFF7BC4BA),
+    masteryBarGradientStart = Color(0xFFCBD5E1),
+    masteryBarGradientEnd = Color(0xFF4DB8A8),
     masteryProgressDecreaseWave = Color(0xFFE57373),
-    masteryProgressIncreaseWave = Color(0xFF4DB8A8),
+
 
     vocabProgressIdle = Color(0xFFCBD5E1),
     vocabProgressActive = Color(0xFF94A3B8),
@@ -195,6 +196,7 @@ val DarkCustomColors = CustomAppColors(
     accentCardIconBoxColor = Color.White.copy(alpha = 0.1f),
     greenSuccess = Color(0xFF4CAF50),
     redError = Color(0xFFF44336),
+    dialogInfoBackground = Color(0xFF2E2A42),
 
     accent = DarkPrimary,
     accentSoft = DarkPrimary.copy(alpha = 0.1f),
@@ -224,10 +226,9 @@ val DarkCustomColors = CustomAppColors(
     textProcessingBackgroundColor = Color.Black.copy(0.15f),
     overlayDialogColor = Color(0xFF303130),
 
-    masteryProgressHighlight = Color(0xFF00FFC2),
-    masteryProgressUltraBright = Color(0xFF7FFFD4),
-    masteryProgressDecreaseWave = Color(0xFFFF6B6B),
-    masteryProgressIncreaseWave = Color(0xFF00FFC2),
+    masteryBarGradientStart = Color(0xFF334155),
+    masteryBarGradientEnd = Color(0xFF00FFC2),
+    masteryProgressDecreaseWave = Color(0xFFFC6262),
 
     vocabProgressIdle = Color(0x4DFFFFFF),
     vocabProgressActive = Color(0xB3FFFFFF),

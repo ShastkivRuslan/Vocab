@@ -82,8 +82,6 @@ import dev.shastkiv.vocab.domain.model.AvailableLanguages.findByCode
 import dev.shastkiv.vocab.domain.model.Language
 import dev.shastkiv.vocab.domain.model.Word
 import dev.shastkiv.vocab.domain.model.WordData
-import dev.shastkiv.vocab.domain.model.enums.WordType
-import dev.shastkiv.vocab.ui.addword.compose.components.common.ProBadge
 import dev.shastkiv.vocab.ui.addword.compose.components.sections.ExamplesSection
 import dev.shastkiv.vocab.ui.addword.compose.components.sections.UsageInfoSection
 import dev.shastkiv.vocab.ui.addword.compose.components.sections.WordInfoSection

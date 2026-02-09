@@ -141,8 +141,8 @@ val defaultDimensions = AppDimensions(
     linearProgressActiveThickness = 14.dp,
     linearProgressInactiveThickness = 8.dp,
 
-    masteryProgressHeight = 35.dp,
-    masteryProgressCornerRadius = 14.dp,
+    masteryProgressHeight = 24.dp,
+    masteryProgressCornerRadius = 12.dp,
     masteryProgressBorderWidth = 1.5.dp
 )
 
@@ -211,8 +211,8 @@ val mediumDimensions = AppDimensions(
     linearProgressActiveThickness = 12.dp,
     linearProgressInactiveThickness = 6.dp,
 
-    masteryProgressHeight = 30.dp,
-    masteryProgressCornerRadius = 12.dp,
+    masteryProgressHeight = 20.dp,
+    masteryProgressCornerRadius = 10.dp,
     masteryProgressBorderWidth = 1.5.dp
 )
 
@@ -222,7 +222,7 @@ val smallDimensions = AppDimensions(
     mediumPadding = 12.dp,
     largePadding = 12.dp,
 
-    extraSmallCornerRadius = 4.dp,
+    extraSmallCornerRadius = 6.dp,
     smallCornerRadius = 8.dp,
     mediumCornerRadius = 12.dp,
     largeCornerRadius = 16.dp,
@@ -281,8 +281,8 @@ val smallDimensions = AppDimensions(
     linearProgressActiveThickness = 10.dp,
     linearProgressInactiveThickness = 4.dp,
 
-    masteryProgressHeight = 26.dp,
-    masteryProgressCornerRadius = 10.dp,
+    masteryProgressHeight = 16.dp,
+    masteryProgressCornerRadius = 8.dp,
     masteryProgressBorderWidth = 1.dp
 
 )

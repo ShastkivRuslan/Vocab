@@ -40,7 +40,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,17 +53,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogWindowProvider
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.domain.model.enums.ExerciseType
+import dev.shastkiv.vocab.domain.model.enums.MasteryLevel
+import dev.shastkiv.vocab.ui.components.MasteryBadge
 import dev.shastkiv.vocab.ui.theme.appColors
 import dev.shastkiv.vocab.ui.theme.appDimensions
-import dev.shastkiv.vocab.ui.theme.appGradientColors
 import dev.shastkiv.vocab.ui.theme.appTypography
 
 @Composable
@@ -76,7 +74,6 @@ fun MasteryProgressBar(
     val colors = MaterialTheme.appColors
     val dimensions = MaterialTheme.appDimensions
     val typography = MaterialTheme.appTypography
-    val accentColor = colors.accent
     val density = LocalDensity.current
 
     var targetProgress by remember { mutableStateOf(masteryScore / 100f) }
@@ -163,12 +160,11 @@ fun MasteryProgressBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    // Додаємо клік на весь рядок для зручності
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
-                        indication = null // Прибираємо ripple ефект при кліку на текст
+                        indication = null
                     ) { showInfoDialog = true }
-                    .padding(top = 2.dp) // Трохи відступу від відсотків
+                    .padding(top = 2.dp)
             ) {
                 Text(
                     text = stringResource(R.string.mastery_level),
@@ -188,16 +184,7 @@ fun MasteryProgressBar(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Text(
-                text = "$animatedScore%",
-                style = MaterialTheme.appTypography.cardTitleMedium,
-                color = MaterialTheme.appColors.accent,
-                modifier = Modifier
-                    .graphicsLayer {
-                        scaleX = 1f + energyPulse * 0.05f
-                        scaleY = 1f + energyPulse * 0.05f
-                    }
-            )
+            MasteryBadge(score = animatedScore)
         }
 
         Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
@@ -220,14 +207,19 @@ fun MasteryProgressBar(
             ) {
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val glowRadius = size.height * 1.5f
+                    val glowColor = MasteryLevel.getEnergyColor(
+                        score = masteryScore,
+                        startColor = colors.masteryBarGradientStart,
+                        endColor = colors.masteryBarGradientEnd
+                    )
 
                     drawRoundRect(
                         brush = Brush.radialGradient(
                             colors = listOf(
-                                accentColor.copy(alpha = 0.7f),
-                                accentColor.copy(alpha = 0.4f),
-                                accentColor.copy(alpha = 0.2f),
-                                accentColor.copy(alpha = 0.1f),
+                                glowColor.copy(alpha = 0.7f),
+                                glowColor.copy(alpha = 0.4f),
+                                glowColor.copy(alpha = 0.2f),
+                                glowColor.copy(alpha = 0.1f),
                                 Color.Transparent
                             ),
                             center = Offset(size.width / 2, 0f),
@@ -257,10 +249,21 @@ fun MasteryProgressBar(
                         val w = size.width
                         val fillW = w * animatedProgress
 
-                        val baseColor = accentColor
-                        val highlightColor = colors.masteryProgressHighlight
-                        val deepColor = accentColor.copy(alpha = 0.7f)
-                        val ultraBright = colors.masteryProgressUltraBright
+                        val baseColor = MasteryLevel.getEnergyColor(
+                            score = masteryScore,
+                            startColor = colors.masteryBarGradientStart,
+                            endColor = colors.masteryBarGradientEnd)
+                        val highlightColor = baseColor
+                        val deepColor = MasteryLevel.getEnergyColorDeep(
+                            score = masteryScore,
+                            startColor = colors.masteryBarGradientStart,
+                            endColor = colors.masteryBarGradientEnd
+                        )
+                        val ultraBright = MasteryLevel.getEnergyColorUltraBright(
+                            score = masteryScore,
+                            startColor = colors.masteryBarGradientStart,
+                            endColor = colors.masteryBarGradientEnd
+                        )
 
                         val shift = gradientShift * 2f
 
@@ -335,7 +338,11 @@ fun MasteryProgressBar(
                         val waveColor = if (isProgressDecreasing) {
                             colors.masteryProgressDecreaseWave
                         } else {
-                            colors.masteryProgressIncreaseWave
+                            MasteryLevel.getEnergyColorUltraBright(
+                                score = masteryScore,
+                                startColor = colors.masteryBarGradientStart,
+                                endColor = colors.masteryBarGradientEnd
+                            )
                         }
 
                         val outerRadius = h * 4.0f
@@ -396,18 +403,14 @@ fun MasteryProgressBar(
     }
     if (showInfoDialog) {
         Dialog(onDismissRequest = { showInfoDialog = false }) {
-            val dialogWindowProvider = LocalView.current.parent as? DialogWindowProvider
-            SideEffect {
-                dialogWindowProvider?.window?.setDimAmount(0.4f)
-            }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(dimensions.largeCornerRadius))
-                    .background(color = MaterialTheme.appGradientColors.color1.copy(alpha = 0.85f))
+                    .background(color = colors.dialogInfoBackground)
                     .border(
                         width = 1.dp,
-                        brush = colors.expandableCardBorder,
+                        color = colors.cardBorder,
                         shape = RoundedCornerShape(dimensions.largeCornerRadius)
                     )
                     .padding(dimensions.mediumPadding)
@@ -447,38 +450,6 @@ fun MasteryProgressBar(
                             color = colors.textMain.copy(alpha = 0.9f)
                         )
 
-                        if (exerciseType != null) {
-                            Spacer(modifier = Modifier.height(dimensions.extraSmallSpacing))
-
-                            Row(verticalAlignment = Alignment.Top) {
-                                Text(
-                                    text = "• ",
-                                    color = colors.greenSuccess,
-                                    style = typography.cardTitleMedium
-                                )
-                                Text(
-                                    text = stringResource(R.string.mastery_info_gain, exerciseType.weight),
-                                    style = typography.cardDescriptionMedium.copy(fontWeight = FontWeight.Medium),
-                                    color = colors.greenSuccess
-                                )
-                            }
-
-                            Row(verticalAlignment = Alignment.Top) {
-                                Text(
-                                    text = "• ",
-                                    color = colors.redError,
-                                    style = typography.cardTitleMedium
-                                )
-                                Text(
-                                    text = stringResource(
-                                        R.string.mastery_info_loss,
-                                        exerciseType.weight * ExerciseType.MASTERY_PENALTY_COEFFICIENT
-                                    ),
-                                    style = typography.cardDescriptionMedium.copy(fontWeight = FontWeight.Medium),
-                                    color = colors.redError
-                                )
-                            }
-                        }
                     }
 
                     Spacer(modifier = Modifier.height(dimensions.smallSpacing))
