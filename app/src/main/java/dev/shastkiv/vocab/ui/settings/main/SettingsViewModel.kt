@@ -1,6 +1,9 @@
 package dev.shastkiv.vocab.ui.settings.main
 
 import android.content.Context
+import android.content.Intent
+import android.provider.Settings
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,6 +38,19 @@ class SettingsViewModel @Inject constructor(
 
     fun onDismissThemeDialog() {
         _showThemeDialog.value = false
+    }
+
+    fun openAccessibilitySettings() {
+        val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+        // Додаємо прапор, якщо викликаємо не з Activity (наприклад, з вашого Service)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+        try {
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            // Якщо з якоїсь причини налаштування не відкриваються
+            Log.e("Vocab", "Не вдалося відкрити налаштування доступності", e)
+        }
     }
 
     fun clearError() {

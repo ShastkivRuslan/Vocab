@@ -16,7 +16,7 @@ fun formatTimestamp(timestamp: Long?): String {
     return format.format(date)
 }
 
-object WidgetManager {
+object WidgetHelper {
 
     suspend fun isWidgetInstalled(context: Context): Boolean {
         val manager = GlanceAppWidgetManager(context)

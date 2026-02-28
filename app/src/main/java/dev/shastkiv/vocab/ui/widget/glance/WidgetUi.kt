@@ -1,5 +1,6 @@
 package dev.shastkiv.vocab.ui.widget.glance
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -115,5 +116,18 @@ fun WidgetUi() {
                 )
             )
         }
+    }
+}
+
+@Composable
+private fun GlanceModifier.appWidgetBackground(): GlanceModifier {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        // Android 12+ (API 31+): Використовуємо системний радіус
+        this.background(GlanceTheme.colors.surface)
+            .cornerRadius(android.R.dimen.system_app_widget_background_radius)
+    } else {
+        // Android 10-11 (API 29-30): Використовуємо фіксований радіус
+        this.background(GlanceTheme.colors.surface)
+            .cornerRadius(16.dp)
     }
 }

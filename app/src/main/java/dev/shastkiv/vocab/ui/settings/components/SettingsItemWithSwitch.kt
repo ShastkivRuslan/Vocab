@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import dev.shastkiv.vocab.ui.components.CustomSwitch
 import dev.shastkiv.vocab.ui.theme.appColors
 import dev.shastkiv.vocab.ui.theme.appDimensions
 import dev.shastkiv.vocab.ui.theme.appTypography
@@ -54,19 +55,9 @@ fun SettingItemWithSwitch(
             )
         }
 
-        Switch(
-            modifier = Modifier
-                .scale(0.8f),
+        CustomSwitch(
             checked = isChecked,
-            onCheckedChange = onCheckedChange,
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = colors.accent,
-                uncheckedThumbColor = colors.accent.copy(alpha = 0.9f),
-                checkedTrackColor = colors.accent.copy(alpha = 0.5f),
-                uncheckedTrackColor = Color.Transparent,
-                checkedBorderColor = Color.Transparent,
-                uncheckedBorderColor = colors.cardBorder
-            )
+            onCheckedChange = onCheckedChange
         )
     }
 }

@@ -9,7 +9,8 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.domain.model.AvailableLanguages
-import dev.shastkiv.vocab.domain.usecase.GetWordForWidgetUseCase
+import dev.shastkiv.vocab.domain.usecase.GetWidgetWordUseCase
+import dev.shastkiv.vocab.domain.usecase.ShouldShowTranslationUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,8 @@ import kotlinx.coroutines.withContext
 class UpdateWidgetWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParameters: WorkerParameters,
-    private val getWordForWidgetUseCase: GetWordForWidgetUseCase
+    private val getWidgetWordUseCase: GetWidgetWordUseCase,
+    private val shouldShowTranslationUseCase: ShouldShowTranslationUseCase
 ) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
@@ -31,7 +33,11 @@ class UpdateWidgetWorker @AssistedInject constructor(
                 return@withContext Result.success()
             }
 
-            val randomWord = getWordForWidgetUseCase()
+            // Отримуємо слово з урахуванням налаштувань фільтрації
+            val randomWord = getWidgetWordUseCase()
+
+            // Перевіряємо чи показувати переклад
+            val shouldShowTranslation = shouldShowTranslationUseCase()
 
             val sourceLanguage = AvailableLanguages.findByCode(randomWord?.sourceLanguageCode)
 
@@ -39,7 +45,14 @@ class UpdateWidgetWorker @AssistedInject constructor(
                 try {
                     updateAppWidgetState(context, glanceId) { prefs ->
                         val sourceText = randomWord?.sourceWord ?: context.getString(R.string.vocab_empty)
-                        val translationText = randomWord?.translation ?: context.getString(R.string.add_new_words_widget)
+
+                        // Показуємо переклад тільки якщо ввімкнено в налаштуваннях
+                        val translationText = if (shouldShowTranslation) {
+                            randomWord?.translation ?: context.getString(R.string.add_new_words_widget)
+                        } else {
+                            "***" // Приховуємо переклад
+                        }
+
                         val wordLevel = randomWord?.level ?: ""
                         val flagEmoji = sourceLanguage.flagEmoji
 

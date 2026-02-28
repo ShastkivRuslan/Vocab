@@ -388,4 +388,12 @@
     <string name="mastery_info_gain">A correct answer now adds +%1$d%%.</string>
     <string name="mastery_info_loss">If you miss, we\'ll drop the level by %1$.0f%% to practice this word more often.</string>
     <string name="got_it">Got it</string>
+    <string name="wiget_settings_screen_title">Налаштування віджета</string>
+    <string name="wiget_settings_screen_subtitle">Налаштуй віджет</string>
+
+    <string name="accessibility_service_label">Vocab — Перекладач</string>
+    <string name="accessibility_service_description">
+        Дозволяє Vocab читати текст з активного поля вводу та автоматично вставляти переклад.
+        Жодні дані не зберігаються і не передаються третім особам.
+    </string>
 </resources>

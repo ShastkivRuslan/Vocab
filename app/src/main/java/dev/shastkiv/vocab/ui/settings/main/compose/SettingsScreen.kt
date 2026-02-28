@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.EditNotifications
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,7 +41,9 @@ fun SettingsScreen(
     onLanguageClick: () -> Unit,
     onNotificationClick: () -> Unit,
     onBubbleSettingsClick: () -> Unit,
-    onAboutClick: () -> Unit
+    onWidgetClick: () -> Unit,
+    onAboutClick: () -> Unit,
+    onAccClick: () -> Unit
 ) {
     val dimensions = MaterialTheme.appDimensions
     val colors = MaterialTheme.appColors
@@ -116,11 +119,30 @@ fun SettingsScreen(
                 SettingsItemDivider()
 
                 SettingItem(
+                    title = stringResource(R.string.wiget_settings_screen_title),
+                    description = stringResource(R.string.wiget_settings_screen_subtitle),
+                    imageVector = Icons.Filled.Widgets,
+                    onClick = onWidgetClick
+                )
+
+                SettingsItemDivider()
+
+                SettingItem(
                     title = stringResource(R.string.settings_item_about_title),
                     description = stringResource(R.string.settings_item_about_description),
                     imageVector = Icons.Filled.Info,
                     onClick = onAboutClick
                 )
+
+                SettingsItemDivider()
+
+                SettingItem(
+                    title = "Accessibility",
+                    description = "Allow accessibility",
+                    imageVector = Icons.Default.Info,
+                    onClick = onAccClick
+                )
+
             }
         }
     }
@@ -135,6 +157,8 @@ fun PreviewSettingsScreen() {
         onLanguageClick = {},
         onNotificationClick = {},
         onBubbleSettingsClick = {},
-        onAboutClick = {}
+        onWidgetClick = {},
+        onAboutClick = {},
+        onAccClick = {}
     )
 }
