@@ -1,13 +1,18 @@
 package dev.shastkiv.vocab.ui.addword.shared
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.shastkiv.vocab.domain.model.UiError
 import dev.shastkiv.vocab.domain.model.WordData
 import dev.shastkiv.vocab.domain.model.enums.WordType
@@ -19,6 +24,11 @@ import dev.shastkiv.vocab.domain.usecase.GetWordInfoUseCase
 import dev.shastkiv.vocab.domain.usecase.TranslateUseCase
 import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
 import dev.shastkiv.vocab.ui.addword.compose.state.UserStatus
+import dev.shastkiv.vocab.ui.permission.MicrophonePermissionActivity
+import android.content.Intent
+import dev.shastkiv.vocab.utils.PermissionResultBus
+import dev.shastkiv.vocab.utils.STTManager
+import dev.shastkiv.vocab.utils.STTResult
 import dev.shastkiv.vocab.utils.TTSManager
 import dev.shastkiv.vocab.utils.mapThrowableToUiError
 import kotlinx.coroutines.delay
@@ -30,13 +40,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * AddWordViewModel - Complex UI state management for word dialog.
- * Uses AssistedFactory instead of @HiltViewModel for Service context compatibility.
- *
- * This class handles sophisticated UI state transitions, coordinates multiple UseCase,
- * and manages reactive state for Compose UI - justifying ViewModel pattern over simple UseCase.
- */
 class AddWordViewModel @AssistedInject constructor(
     private val getWordInfoUseCase: GetWordInfoUseCase,
     private val addWordToDictionaryUseCase: AddWordToDictionaryUseCase,
@@ -45,7 +48,9 @@ class AddWordViewModel @AssistedInject constructor(
     private val languageRepository: LanguageRepository,
     private val translateUseCase: TranslateUseCase,
     private val analytics: FirebaseAnalytics,
-    themeRepository: ThemeRepository
+    private val sttManager: STTManager,
+    themeRepository: ThemeRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     @AssistedFactory
@@ -61,6 +66,33 @@ class AddWordViewModel @AssistedInject constructor(
 
     private val _inputWord = MutableStateFlow(TextFieldValue(""))
     val inputWord = _inputWord.asStateFlow()
+
+    val isListening: StateFlow<Boolean> = sttManager.isListening
+    val isReady: StateFlow<Boolean> = sttManager.isReady
+    val rmsLevel: StateFlow<Float> = sttManager.rmsLevel
+
+    init {
+        viewModelScope.launch {
+            sttManager.sttResult.collect { result ->
+                when (result) {
+                    is STTResult.Success -> {
+                        _inputWord.value = TextFieldValue(result.text)
+                        onCheckWord()
+                    }
+                    is STTResult.Empty,
+                    is STTResult.Error -> {}
+                }
+            }
+        }
+        viewModelScope.launch {
+            PermissionResultBus.results.collect { result ->
+                if (result.permission == Manifest.permission.RECORD_AUDIO && result.granted) {
+                    val settings = languageRepository.getLatestLanguageSettings()
+                    sttManager.startListening(settings.sourceLanguage.code)
+                }
+            }
+        }
+    }
 
     val themeMode: StateFlow<Int> = themeRepository.themeMode.stateIn(
         scope = viewModelScope,
@@ -90,15 +122,11 @@ class AddWordViewModel @AssistedInject constructor(
         val word = _inputWord.value.text
         if (word.isBlank()) return
 
-        val bundle = Bundle().apply {
-            putString("word_value", word)
-        }
+        val bundle = Bundle().apply { putString("word_value", word) }
         analytics.logEvent("ai_word_search", bundle)
-
 
         viewModelScope.launch {
             _uiState.value = AddWordUiState.Loading
-
             when (userStatus.value) {
                 is UserStatus.Free -> fetchSimpleTranslation(word)
                 is UserStatus.Premium -> fetchFullWordInfo(word)
@@ -118,8 +146,7 @@ class AddWordViewModel @AssistedInject constructor(
                 isMainSectionExpanded = true
             )
         } catch (e: Exception) {
-            val uiError = mapThrowableToUiError(e)
-            _uiState.value = AddWordUiState.Error(uiError)
+            _uiState.value = AddWordUiState.Error(mapThrowableToUiError(e))
         }
     }
 
@@ -143,12 +170,10 @@ class AddWordViewModel @AssistedInject constructor(
             )
         }.onFailure { error ->
             val uiError = mapThrowableToUiError(error)
-
-            if (uiError is UiError.InvalidWord || uiError is UiError.WrongLanguage) {
-                _uiState.value = AddWordUiState.Warning(uiError)
+            _uiState.value = if (uiError is UiError.InvalidWord || uiError is UiError.WrongLanguage) {
+                AddWordUiState.Warning(uiError)
             } else {
-                // Якщо це мережа або база даних — це Error
-                _uiState.value = AddWordUiState.Error(uiError)
+                AddWordUiState.Error(uiError)
             }
         }
     }
@@ -156,16 +181,44 @@ class AddWordViewModel @AssistedInject constructor(
     fun onTextToSpeech(word: String) {
         viewModelScope.launch {
             val settings = languageRepository.getLatestLanguageSettings()
-            ttsManager.speak(
-                text = word,
-                languageCode = settings.sourceLanguage.code
-            )
+            ttsManager.speak(text = word, languageCode = settings.sourceLanguage.code)
+        }
+    }
+
+    /**
+     * Перевіряє наявність дозволу RECORD_AUDIO.
+     * - Є дозвіл → одразу запускає STT
+     * - Немає дозволу → запускає MicrophonePermissionActivity і чекає результат через PermissionResultHolder
+     */
+    fun onSpeechToText() {
+        if (sttManager.isListening.value) {
+            sttManager.stopListening()
+            return
+        }
+
+        val hasPermission = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (hasPermission) {
+            startSTT()
+        } else {
+            val intent = Intent(context, MicrophonePermissionActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        }
+    }
+
+    private fun startSTT() {
+        viewModelScope.launch {
+            val settings = languageRepository.getLatestLanguageSettings()
+            sttManager.startListening(settings.sourceLanguage.code)
         }
     }
 
     fun onAddWord() {
         val currentState = _uiState.value
-
         if (currentState is AddWordUiState.Success) {
             viewModelScope.launch {
                 val wordDataForUI = currentState.wordData ?: createBasicWordData(currentState)
@@ -199,7 +252,6 @@ class AddWordViewModel @AssistedInject constructor(
                             wordData = currentState.wordData
                         )
                     }
-
                     is UserStatus.Free -> {
                         addWordToDictionaryUseCase(
                             sourceWord = currentState.originalWord,
@@ -244,17 +296,14 @@ class AddWordViewModel @AssistedInject constructor(
         }
     }
 
-    fun onPaywallDismissed() {
-        onCheckWord()
-    }
+    fun onPaywallDismissed() { onCheckWord() }
 
     fun onMainInfoToggle() {
         _uiState.update {
             (it as? AddWordUiState.Success)?.let { state ->
                 if (state.userStatus is UserStatus.Free) return@let it
-                val isOpening = !state.isMainSectionExpanded
                 state.copy(
-                    isMainSectionExpanded = isOpening,
+                    isMainSectionExpanded = !state.isMainSectionExpanded,
                     isExamplesSectionExpanded = false,
                     isUsageInfoSectionExpanded = false
                 )
@@ -266,10 +315,9 @@ class AddWordViewModel @AssistedInject constructor(
         _uiState.update {
             (it as? AddWordUiState.Success)?.let { state ->
                 if (state.userStatus is UserStatus.Free) return@let it
-                val isOpening = !state.isExamplesSectionExpanded
                 state.copy(
                     isMainSectionExpanded = false,
-                    isExamplesSectionExpanded = isOpening,
+                    isExamplesSectionExpanded = !state.isExamplesSectionExpanded,
                     isUsageInfoSectionExpanded = false
                 )
             } ?: it
@@ -280,11 +328,10 @@ class AddWordViewModel @AssistedInject constructor(
         _uiState.update {
             (it as? AddWordUiState.Success)?.let { state ->
                 if (state.userStatus is UserStatus.Free) return@let it
-                val isOpening = !state.isUsageInfoSectionExpanded
                 state.copy(
                     isMainSectionExpanded = false,
                     isExamplesSectionExpanded = false,
-                    isUsageInfoSectionExpanded = isOpening
+                    isUsageInfoSectionExpanded = !state.isUsageInfoSectionExpanded
                 )
             } ?: it
         }

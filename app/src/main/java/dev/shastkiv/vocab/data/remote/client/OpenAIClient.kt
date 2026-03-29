@@ -86,16 +86,16 @@ class OpenAIClient @Inject constructor(
             ChatCompletionRequest.Message(
                 role = "user",
                 content = """
-                        Analyze the word/phrase: "$input" 
-                        Source Language: $sourceLanguage
-                        Target Language: $targetLanguage
-                    
-                        Instructions:
-                        - 'translation': Provide the most accurate translation. Use 2-3 only if the word is multi-meaning and common. If one word covers it, use only one.
-                        - 'partOfSpeech': Provide the name of the part of speech in $targetLanguage.
-                        - 'usageInfo': Provide synonyms, grammatical forms, and a usage note if the word is complex. Everything in $targetLanguage.
-                        - 'examples': Exactly 3 simple, high-frequency sentences in $sourceLanguage with translations in $targetLanguage.
-                """
+                Analyze the word/phrase: "$input" 
+                Source Language: $sourceLanguage
+                Target Language: $targetLanguage
+            
+                Instructions:
+                - 'translation': Provide the most accurate translation. Use 2-3 only if the word is multi-meaning and common. If one word covers it, use only one.
+                - 'partOfSpeech': Provide the name of the part of speech in $targetLanguage.
+                - 'usageInfo': Provide synonyms, grammatical forms, and a usage note if the word is complex. Everything in $targetLanguage.
+                - 'examples': Exactly 3 simple, high-frequency sentences in $sourceLanguage with translations in $targetLanguage.
+            """
             )
         )
         return ChatCompletionRequest(

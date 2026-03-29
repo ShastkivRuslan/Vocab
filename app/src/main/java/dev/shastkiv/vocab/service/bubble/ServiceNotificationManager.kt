@@ -35,7 +35,7 @@ class ServiceNotificationManager @Inject constructor(
             .setSmallIcon(R.drawable.ic_add_floating)
             .setContentTitle(context.getString(R.string.service_notification_title))
             .setOngoing(true)
-            .setPriority(NotificationCompat.PRIORITY_MIN)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
             .setSilent(true)
             .setOnlyAlertOnce(true)
             .setShowWhen(false)
@@ -44,14 +44,10 @@ class ServiceNotificationManager @Inject constructor(
             .build()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            // We combine SPECIAL_USE for the floating UI and DATA_SYNC for reliable data operations.
-            // DATA_SYNC ensures that when a user saves a word, the database write operation
-            // is completed successfully and not interrupted by the OS, preventing data loss.
             service.startForeground(
                 FOREGROUND_NOTIFICATION_ID,
                 notification,
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE or
-                        ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
             )
         } else {
             service.startForeground(FOREGROUND_NOTIFICATION_ID, notification)

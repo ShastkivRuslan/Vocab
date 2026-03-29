@@ -63,4 +63,8 @@ interface WordRepository {
 
     fun getCategoryCounts(lang: String) : Flow<CategoryCounts>
 
+    suspend fun getRandomStableWord(lang: String): Word?
+    suspend fun getRandomMasteredWord(lang: String): Word?
+    suspend fun getRandomHardWord(lang: String): Word?
+
 }

@@ -1,3 +1,7 @@
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +25,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat
 import dev.shastkiv.vocab.R
 import dev.shastkiv.vocab.ui.addword.compose.components.Content
 import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
@@ -39,27 +45,42 @@ fun AddWordScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val inputWord by viewModel.inputWord.collectAsState()
+    val isListening by viewModel.isListening.collectAsState()
+    val isReady by viewModel.isReady.collectAsState()
+    val rmsLevel by viewModel.rmsLevel.collectAsState()
 
+    val context = LocalContext.current
     val typography = MaterialTheme.appTypography
     val colors = MaterialTheme.appColors
     val dimensions = MaterialTheme.appDimensions
 
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) viewModel.onSpeechToText()
+    }
+
+    fun onMicClick() {
+        val granted = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+        if (granted) viewModel.onSpeechToText()
+        else permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+    }
+
     LaunchedEffect(initialText) {
-        if (!initialText.isNullOrBlank()) {
-            viewModel.initialize(initialText)
-        }
+        if (!initialText.isNullOrBlank()) viewModel.initialize(initialText)
     }
 
     LaunchedEffect(uiState) {
-        if (uiState is AddWordUiState.DialogShouldClose) {
-            viewModel.resetState()
-        }
+        if (uiState is AddWordUiState.DialogShouldClose) viewModel.resetState()
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .statusBarsPadding()
-        .verticalScroll(rememberScrollState())
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
     ) {
         Row(
             modifier = Modifier
@@ -75,9 +96,7 @@ fun AddWordScreen(
                     .size(dimensions.headerIconSize)
                     .clickable { onFinish() }
             )
-
             Spacer(modifier = Modifier.width(dimensions.mediumSpacing))
-
             Text(
                 text = stringResource(R.string.add_new_word),
                 style = typography.header,
@@ -86,8 +105,7 @@ fun AddWordScreen(
             )
         }
 
-        LiquidGlassCard(modifier = Modifier.padding(horizontal = dimensions.mediumPadding)
-        ) {
+        LiquidGlassCard(modifier = Modifier.padding(horizontal = dimensions.mediumPadding)) {
             Content(
                 uiState = uiState,
                 inputWord = inputWord,
@@ -102,10 +120,12 @@ fun AddWordScreen(
                 onPaywallDismissed = viewModel::onPaywallDismissed,
                 onSubscribe = onFinish,
                 onDismiss = onFinish,
-                onRetryManual = viewModel::onRetryToIdle
+                onRetryManual = viewModel::onRetryToIdle,
+                isListening = isListening,
+                isReady = isReady,
+                rmsLevel = rmsLevel,
+                onSpeechToText = ::onMicClick
             )
         }
     }
 }
-
-

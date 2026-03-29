@@ -12,6 +12,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.shastkiv.vocab.domain.repository.WidgetSettingsRepository
 import javax.inject.Singleton
 
 @Module
@@ -60,5 +61,11 @@ abstract class RepositoryModule {
     abstract fun bindLanguageRepository(
         impl: LanguageRepositoryImpl
     ): LanguageRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindWidgetSettingsRepository(
+        impl: WidgetSettingsRepositoryImpl
+    ): WidgetSettingsRepository
 
 }

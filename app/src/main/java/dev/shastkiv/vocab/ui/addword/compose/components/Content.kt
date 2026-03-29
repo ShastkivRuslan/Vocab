@@ -32,7 +32,11 @@ fun Content(
     onPaywallDismissed: () -> Unit,
     onSubscribe: () -> Unit,
     onDismiss: () -> Unit,
-    onRetryManual: () -> Unit
+    onRetryManual: () -> Unit,
+    isListening: Boolean = false,
+    isReady: Boolean = false,
+    rmsLevel: Float = 0f,
+    onSpeechToText: () -> Unit = {}
 ) {
     val dimensions = MaterialTheme.appDimensions
 
@@ -57,14 +61,14 @@ fun Content(
                         word = inputWord,
                         onWordChange = onInputChange,
                         onCheckClick = onCheckWord,
-                        userStatus = uiState.userStatus
+                        userStatus = uiState.userStatus,
+                        isListening = isListening,
+                        isReady = isReady,
+                        rmsLevel = rmsLevel,
+                        onMicClick = onSpeechToText
                     )
                 }
-
-                is AddWordUiState.Loading -> {
-                    LoadingContent(word = inputWord.text)
-                }
-
+                is AddWordUiState.Loading -> LoadingContent(word = inputWord.text)
                 is AddWordUiState.Success -> {
                     SuccessContent(
                         state = uiState,
@@ -75,7 +79,6 @@ fun Content(
                         onUsageInfoToggle = onUsageInfoToggle
                     )
                 }
-
                 is AddWordUiState.SavingWord -> {
                     SavingWordContent(
                         state = uiState,
@@ -84,23 +87,9 @@ fun Content(
                         isContextSectionExpanded = uiState.isUsageInfoSectionExpanded
                     )
                 }
-
-                is AddWordUiState.Error -> {
-                    ErrorContent(
-                        error = uiState.type,
-                        onRetry = onCheckWord
-                    )
-                }
-
-                is AddWordUiState.Warning -> {
-                    ErrorContent(
-                        error = uiState.type,
-                        onRetry = onRetryManual
-                    )
-                }
-
-                is AddWordUiState.DialogShouldClose, is AddWordUiState.ShowPaywall -> {
-                }
+                is AddWordUiState.Error -> ErrorContent(error = uiState.type, onRetry = onCheckWord)
+                is AddWordUiState.Warning -> ErrorContent(error = uiState.type, onRetry = onRetryManual)
+                is AddWordUiState.DialogShouldClose, is AddWordUiState.ShowPaywall -> {}
             }
         }
     }

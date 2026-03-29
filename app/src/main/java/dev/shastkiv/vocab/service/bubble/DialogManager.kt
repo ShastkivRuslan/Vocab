@@ -35,7 +35,10 @@ class DialogManager @Inject constructor(
     fun showDialog(
         context: Context,
         overlayLifecycleOwner: OverlayLifecycleOwner,
-        initialText: String? = null
+        initialText: String? = null,
+        bubbleX: Int = 0,
+        bubbleY: Int = 0,
+        bubbleSize: Int = 0
     ) {
         try {
             if (dialogViewManager == null) {
@@ -46,7 +49,12 @@ class DialogManager @Inject constructor(
                 )
             }
 
-            dialogViewManager?.show(initialText)
+            dialogViewManager?.show(
+                initialText = initialText,
+                bubbleX = bubbleX,
+                bubbleY = bubbleY,
+                bubbleSize = bubbleSize
+            )
             Log.d(TAG, "Dialog shown successfully")
 
         } catch (e: Exception) {

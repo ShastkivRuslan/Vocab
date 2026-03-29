@@ -3,7 +3,7 @@ package dev.shastkiv.vocab.domain.model.enums
 enum class ExerciseType(
     val weight: Int) {
     QUIZ(10),
-    CARDS(5),
+    FLASHCARD(5),
     SPRINT(8),
     CONSTRUCTOR(15),
     WRITING(25);

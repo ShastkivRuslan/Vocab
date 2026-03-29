@@ -1,10 +1,7 @@
 package dev.shastkiv.vocab.service.bubble
 
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.IBinder
 import android.util.Log
 import dev.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
@@ -20,14 +17,12 @@ import javax.inject.Inject
 class BubbleService : Service() {
 
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var isBubbleVisible = false
 
     @Inject lateinit var bubbleManager: BubbleManager
     @Inject lateinit var dialogManager: DialogManager
     @Inject lateinit var serviceNotificationManager: ServiceNotificationManager
 
     private val overlayLifecycleOwner = OverlayLifecycleOwner()
-    private val screenStateReceiver = ScreenStateReceiver()
 
     companion object {
         private const val TAG = "BubbleService"
@@ -36,15 +31,12 @@ class BubbleService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        // Start foreground service immediately to ensure transparency and system awareness
         serviceNotificationManager.startForeground(this)
 
         overlayLifecycleOwner.create()
         overlayLifecycleOwner.start()
         overlayLifecycleOwner.resume()
 
-        isBubbleVisible = true
-        registerScreenStateReceiver()
         initializeComponents()
         Log.d(TAG, "Foreground Service started with unified notification")
     }
@@ -61,13 +53,6 @@ class BubbleService : Service() {
     }
 
     override fun onDestroy() {
-        // Explicitly stopping all managers to free memory and battery resources
-        // when the user turns off the feature in settings.
-        try {
-            unregisterReceiver(screenStateReceiver)
-        } catch (e: IllegalArgumentException) {
-            Log.w(TAG, "ScreenStateReceiver was not registered", e)
-        }
         bubbleManager.destroy()
         dialogManager.destroy()
         overlayLifecycleOwner.destroy()
@@ -96,41 +81,17 @@ class BubbleService : Service() {
         }
     }
 
-    private fun handleBubbleClick() {
+    private fun handleBubbleClick(bubbleX: Int, bubbleY: Int, bubbleSize: Int) {
         dialogManager.showDialog(
             context = this,
-            overlayLifecycleOwner = overlayLifecycleOwner
+            overlayLifecycleOwner = overlayLifecycleOwner,
+            bubbleX = bubbleX,
+            bubbleY = bubbleY,
+            bubbleSize = bubbleSize
         )
     }
 
     private fun handleBubbleRemoval() {
         stopSelf()
-    }
-
-    private fun registerScreenStateReceiver() {
-        val filter = IntentFilter().apply {
-            addAction(Intent.ACTION_SCREEN_OFF)
-            addAction(Intent.ACTION_USER_PRESENT)
-        }
-        registerReceiver(screenStateReceiver, filter)
-    }
-
-    private inner class ScreenStateReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.action) {
-                Intent.ACTION_SCREEN_OFF -> handleScreenOff()
-                Intent.ACTION_USER_PRESENT -> handleScreenOn()
-            }
-        }
-
-        private fun handleScreenOff() {
-            isBubbleVisible = false
-            bubbleManager.hideViews()
-        }
-
-        private fun handleScreenOn() {
-            isBubbleVisible = true
-            bubbleManager.showViews()
-        }
     }
 }

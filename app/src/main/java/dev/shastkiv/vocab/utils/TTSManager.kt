@@ -16,6 +16,9 @@ class TTSManager @Inject constructor(
     private var tts: TextToSpeech? = null
     private var isInitialized = false
 
+    init {
+        initializeTTS()
+    }
 
     private fun initializeTTS() {
         if (tts != null) return
@@ -32,12 +35,6 @@ class TTSManager @Inject constructor(
     }
 
     fun speak(text: String, languageCode: String?) {
-        if (tts == null) {
-            initializeTTS()
-
-            Log.d("TTSManager", "TTS was not initialized, starting initialization...")
-            return
-        }
 
         if (!isInitialized) {
             Log.w("TTSManager", "TTS is not ready yet.")

@@ -1,5 +1,6 @@
 package dev.shastkiv.vocab.data.local.dao
 
+import android.R
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -17,9 +18,6 @@ interface WordDao {
 
     @Query("SELECT * FROM words ORDER BY RANDOM() LIMIT 1")
     suspend fun getRandomWord(): Word?
-
-    @Query("SELECT * FROM words WHERE source_language_code = :languageCode ORDER BY RANDOM() LIMIT 1")
-    suspend fun getRandomWordForLanguage(languageCode: String): Word?
 
     @Query("SELECT translation FROM words WHERE _id != :excludeId ORDER BY RANDOM() LIMIT 3")
     suspend fun getRandomTranslations(excludeId: Int): List<String>
@@ -175,4 +173,44 @@ interface WordDao {
 """
     )
     fun getCategoryCounts(lang: String): Flow<CategoryCounts>
+
+    @Query("""
+        SELECT * FROM words 
+        WHERE source_language_code = :lang AND is_word_added = 1
+        AND mastery_score < 85
+        AND NOT (mastery_score < 20 AND (wrong_count + correct_count) < 4)
+        AND NOT (mastery_score < 50 AND wrong_count > 0 AND (wrong_count + correct_count) >= 4)
+        ORDER BY RANDOM() 
+        LIMIT 1
+    """)
+    suspend fun getRandomStableWord(lang: String): Word?
+
+    @Query("""
+        SELECT * FROM words 
+        WHERE source_language_code = :lang AND is_word_added = 1
+        AND mastery_score >= 85
+        ORDER BY RANDOM() 
+        LIMIT 1
+    """)
+    suspend fun getRandomMasteredWord(lang: String): Word?
+
+    @Query("""
+        SELECT * FROM words 
+        WHERE source_language_code = :lang 
+          AND is_word_added = 1
+          AND mastery_score < 50
+          AND wrong_count > 0
+          AND (wrong_count + correct_count) >= 4
+        ORDER BY RANDOM() 
+        LIMIT 1
+    """)
+    suspend fun getRandomHardWord(lang: String): Word?
+
+    @Query("""
+        SELECT * FROM words
+        WHERE source_language_code = :lang AND is_word_added = 1
+        ORDER BY RANDOM()
+        LIMIT 1
+    """)
+    suspend fun getRandomWordForLanguage(lang: String) : Word?
 }

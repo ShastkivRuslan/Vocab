@@ -20,7 +20,11 @@ fun AddWordDialog(
     onPaywallDismissed: () -> Unit,
     onSubscribe: () -> Unit,
     onDismissRequest: () -> Unit,
-    onRetryManual: () -> Unit
+    onRetryManual: () -> Unit,
+    isListening: Boolean = false,
+    isReady: Boolean = false,
+    rmsLevel: Float = 0f,
+    onSpeechToText: () -> Unit = {}
 ) {
     DialogContainer(onDismissRequest = onDismissRequest) {
         Content(
@@ -37,7 +41,11 @@ fun AddWordDialog(
             onPaywallDismissed = onPaywallDismissed,
             onSubscribe = onSubscribe,
             onDismiss = onDismissRequest,
-            onRetryManual = onRetryManual
+            onRetryManual = onRetryManual,
+            isListening = isListening,
+            isReady = isReady,
+            rmsLevel = rmsLevel,
+            onSpeechToText = onSpeechToText
         )
     }
 }

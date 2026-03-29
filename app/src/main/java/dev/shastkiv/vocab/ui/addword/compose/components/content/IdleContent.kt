@@ -19,13 +19,22 @@ fun IdleContent(
     word: TextFieldValue,
     onWordChange: (TextFieldValue) -> Unit,
     onCheckClick: () -> Unit,
-    userStatus: UserStatus
+    userStatus: UserStatus,
+    isListening: Boolean = false,
+    isReady: Boolean = false,
+    rmsLevel: Float = 0f,
+    onMicClick: () -> Unit = {}
 ) {
     val dimensions = MaterialTheme.appDimensions
+
     WordInputField(
         value = word,
         onValueChange = onWordChange,
-        onClear = { onWordChange(TextFieldValue("")) }
+        onClear = { onWordChange(TextFieldValue("")) },
+        isListening = isListening,
+        isReady = isReady,
+        rmsLevel = rmsLevel,
+        onMicClick = onMicClick
     )
 
     Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
@@ -33,14 +42,12 @@ fun IdleContent(
     PrimaryButton(
         text = stringResource(R.string.add_word_button_text),
         onClick = onCheckClick,
-        enabled = word.text.isNotEmpty()
+        enabled = word.text.isNotEmpty() && !isListening
     )
 
     Spacer(modifier = Modifier.height(dimensions.mediumSpacing))
 
-    val isPro = userStatus is UserStatus.Premium
-
-    if (isPro) {
+    if (userStatus is UserStatus.Premium) {
         DescriptionText(text = stringResource(R.string.description_free_add_word))
     } else {
         DescriptionText(stringResource(R.string.description_pro_add_word))

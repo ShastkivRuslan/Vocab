@@ -32,6 +32,8 @@ import dev.shastkiv.vocab.ui.about.button.AboutButtonScreen
 import dev.shastkiv.vocab.ui.addword.shared.AddWordViewModelProvider
 import dev.shastkiv.vocab.ui.allwords.compose.AllWordsScreen
 import dev.shastkiv.vocab.ui.common.compose.FeatureInDevelopScreen
+import dev.shastkiv.vocab.ui.flashcard.FlashCardViewModel
+import dev.shastkiv.vocab.ui.flashcard.compose.FlashCardScreen
 import dev.shastkiv.vocab.ui.initialsetup.AppStartViewModel
 import dev.shastkiv.vocab.ui.initialsetup.InitialSetupViewModel
 import dev.shastkiv.vocab.ui.initialsetup.compose.InitialSetupScreen
@@ -50,6 +52,8 @@ import dev.shastkiv.vocab.ui.settings.main.compose.SettingsScreen
 import dev.shastkiv.vocab.ui.settings.main.compose.ThemeSelectionBottomSheet
 import dev.shastkiv.vocab.ui.settings.notification.NotificationSettingsScreen
 import dev.shastkiv.vocab.ui.settings.notification.NotificationSettingsViewModel
+import dev.shastkiv.vocab.ui.settings.widget.WidgetSettingsScreen
+import dev.shastkiv.vocab.ui.settings.widget.WidgetSettingsViewModel
 import dev.shastkiv.vocab.ui.theme.appGradientColors
 import kotlinx.coroutines.delay
 
@@ -155,7 +159,9 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                     onThemeClick = { settingsViewModel.onThemeSettingClick() },
                     onNotificationClick = { navController.navigate(Screen.NotificationSettings.route) },
                     onAboutClick = { navController.navigate(Screen.About.route) },
-                    onBackPressed = { navController.popBackStack() }
+                    onWidgetClick = { navController.navigate(Screen.WidgetSettings.route) },
+                    onBackPressed = { navController.popBackStack() },
+                    onAccClick = { settingsViewModel.openAccessibilitySettings()}
                 )
 
                 val sheetState = rememberModalBottomSheetState()
@@ -257,11 +263,16 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                 )
             }
             composable(route = Screen.Practice.route) {
-                FeatureInDevelopScreen(
-                    onBackPressed = { navController.popBackStack() },
-                    title = stringResource(R.string.practice_title),
-                    subtitle = stringResource(R.string.practice_subtitle),
-                    featureDescription = stringResource(R.string.feature_practice_description)
+//                FeatureInDevelopScreen(
+//                    onBackPressed = { navController.popBackStack() },
+//                    title = stringResource(R.string.practice_title),
+//                    subtitle = stringResource(R.string.practice_subtitle),
+//                    featureDescription = stringResource(R.string.feature_practice_description)
+//                )
+                val flashCardViewModel: FlashCardViewModel = hiltViewModel()
+                FlashCardScreen(
+                    viewModel = flashCardViewModel,
+                    onBackPressed = { navController.popBackStack() }
                 )
             }
             composable(route = Screen.AllWords.route) {
@@ -309,6 +320,15 @@ fun AppNavigation(mainViewModel: MainViewModel) {
                         }
                     }
                 )
+            }
+
+            composable(route = Screen.WidgetSettings.route) {
+                val widgetSettingsView: WidgetSettingsViewModel = hiltViewModel()
+                WidgetSettingsScreen(
+                    onBackClick = { navController.popBackStack() },
+                    viewModel = widgetSettingsView
+                )
+
             }
         }
     }

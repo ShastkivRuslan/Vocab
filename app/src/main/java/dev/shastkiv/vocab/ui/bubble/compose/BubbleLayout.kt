@@ -1,8 +1,8 @@
 package dev.shastkiv.vocab.ui.bubble.compose
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -11,6 +11,10 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -30,6 +34,9 @@ fun BubbleLayout(
     onDrag: (Offset) -> Unit = {},
     onDragEnd: () -> Unit = {}
 ) {
+    // Відстежуємо чи почався drag щоб не тригерити click
+    var isDragging by remember { mutableStateOf(false) }
+
     Box(
         modifier = modifier
             .size(size)
@@ -38,18 +45,34 @@ fun BubbleLayout(
                 color = MaterialTheme.colorScheme.background,
                 shape = CircleShape
             )
+            // Drag detector - пріоритет вище ніж tap
             .pointerInput(Unit) {
                 detectDragGestures(
-                    onDragStart = { offset -> onDragStart(offset) },
+                    onDragStart = { offset ->
+                        isDragging = true
+                        onDragStart(offset)
+                    },
                     onDrag = { change, dragAmount ->
                         change.consume()
                         onDrag(dragAmount)
                     },
-                    onDragEnd = { onDragEnd() }
+                    onDragEnd = {
+                        isDragging = false
+                        onDragEnd()
+                    },
+                    onDragCancel = {
+                        isDragging = false
+                        onDragEnd()
+                    }
                 )
             }
-            .clickable {
-                onClick()
+            // Tap detector
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        if (!isDragging) onClick()
+                    }
+                )
             },
         contentAlignment = Alignment.Center
     ) {
@@ -65,12 +88,11 @@ fun BubbleLayout(
 @Preview
 fun BubbleLayoutPreview() {
     BubbleLayout(
-        40.dp,
-        1.0f,
+        size = 40.dp,
+        alpha = 1.0f,
         onClick = {},
         onDrag = {},
         onDragEnd = {},
         onDragStart = {}
-
     )
 }

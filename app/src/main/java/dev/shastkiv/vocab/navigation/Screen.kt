@@ -14,6 +14,7 @@ sealed class Screen(val route: String) {
     object BubbleSettings : Screen("bubble_settings_screen")
     object AutoHideSettings : Screen("auto_hide_settings_screen")
     object NotificationSettings : Screen("notification_settings_screen")
+    object WidgetSettings : Screen("widget_settings_screen")
     object About : Screen("about_screen")
     object AboutBubble : Screen("about_bubble_screen")
 }

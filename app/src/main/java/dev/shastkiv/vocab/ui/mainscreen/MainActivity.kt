@@ -10,6 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import dev.shastkiv.vocab.navigation.AppNavigation
@@ -29,7 +31,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        scheduleWidgetUpdates()
+        updateWidgets()
 
         setContent {
             val currentTheme by viewModel.themeMode.collectAsState()
@@ -63,17 +65,12 @@ class MainActivity : BaseActivity() {
         intent?.let { startService(it) }
     }
 
-    private fun scheduleWidgetUpdates() {
-        val workManager = WorkManager.getInstance(applicationContext)
-
-        val periodicRequest = PeriodicWorkRequestBuilder<UpdateWidgetWorker>(
-            1, TimeUnit.HOURS
-        ).addTag("periodic_update").build()
-
-        workManager.enqueueUniquePeriodicWork(
-            "WordWidgetUpdateWork",
-            ExistingPeriodicWorkPolicy.UPDATE,
-            periodicRequest
+    private fun updateWidgets() {
+        val immediateRequest = OneTimeWorkRequestBuilder<UpdateWidgetWorker>().build()
+        WorkManager.getInstance(applicationContext).enqueueUniqueWork(
+            "widget_immediate_update",
+            ExistingWorkPolicy.REPLACE,
+            immediateRequest
         )
     }
 

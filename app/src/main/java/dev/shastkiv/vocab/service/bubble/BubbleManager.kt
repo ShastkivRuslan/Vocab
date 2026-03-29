@@ -2,8 +2,8 @@ package dev.shastkiv.vocab.service.bubble
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import dev.shastkiv.vocab.domain.model.BubblePosition
 import dev.shastkiv.vocab.domain.usecase.GetBubbleSettingsFlowUseCase
 import dev.shastkiv.vocab.domain.usecase.SaveBubblePositionUseCase
 import kotlinx.coroutines.CoroutineScope
@@ -12,13 +12,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * BubbleManager - manages bubble functionality using UseCase pattern.
- * Handles: positioning, display, drag&drop, settings updates.
- *
- * Uses UseCase pattern because bubble operations are simple CRUD operations
- * that don't require complex UI state management.
- */
 @Singleton
 class BubbleManager @Inject constructor(
     private val getBubbleSettingsFlowUseCase: GetBubbleSettingsFlowUseCase,
@@ -31,7 +24,8 @@ class BubbleManager @Inject constructor(
     suspend fun initialize(
         context: Context,
         coroutineScope: CoroutineScope,
-        onBubbleClick: () -> Unit,
+        // ← Сигнатура оновлена: передаємо координати і розмір бульбашки
+        onBubbleClick: (bubbleX: Int, bubbleY: Int, bubbleSize: Int) -> Unit,
         onBubbleRemoval: () -> Unit
     ) {
         if (isInitialized) {
@@ -55,7 +49,7 @@ class BubbleManager @Inject constructor(
             bubbleViewManager?.show(initialSettings.position)
             isInitialized = true
 
-            Log.d(TAG, "Bubble UI initialized: SPECIAL_USE active")
+            Log.d(TAG, "Bubble UI initialized")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to initialize bubble", e)
             throw e
@@ -65,7 +59,7 @@ class BubbleManager @Inject constructor(
     fun observeSettings(coroutineScope: CoroutineScope) {
         coroutineScope.launch {
             getBubbleSettingsFlowUseCase().collect { settings ->
-                updateBubbleSettings(
+                bubbleViewManager?.updateBubbleSettings(
                     newSize = settings.size.dp,
                     newAlpha = settings.transparency / 100f,
                     isVibrationEnabled = settings.isVibrationEnabled
@@ -74,32 +68,11 @@ class BubbleManager @Inject constructor(
         }
     }
 
-    fun hideViews() {
-        bubbleViewManager?.hideViews()
-    }
-
-    fun showViews() {
-        bubbleViewManager?.showViews()
-    }
-
-    private fun updateBubbleSettings(
-        newSize: Dp,
-        newAlpha: Float,
-        isVibrationEnabled: Boolean
-    ) {
-        bubbleViewManager?.updateBubbleSettings(
-            newSize = newSize,
-            newAlpha = newAlpha,
-            isVibrationEnabled = isVibrationEnabled
-        )
-        Log.d(TAG, "Bubble settings updated: size=$newSize, alpha=$newAlpha")
-    }
-
     fun destroy() {
         bubbleViewManager?.destroy()
         bubbleViewManager = null
         isInitialized = false
-        Log.d(TAG, "STOPPING SERVICE: BubbleManager destroyed, all overlays removed")
+        Log.d(TAG, "BubbleManager destroyed")
     }
 
     companion object {

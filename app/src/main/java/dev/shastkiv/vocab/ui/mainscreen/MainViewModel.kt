@@ -19,7 +19,7 @@ import dev.shastkiv.vocab.domain.repository.ThemeRepository
 import dev.shastkiv.vocab.domain.repository.WordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.shastkiv.vocab.utils.WidgetManager
+import dev.shastkiv.vocab.utils.WidgetHelper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -101,7 +101,7 @@ class MainViewModel @Inject constructor(
 
     fun updateWidgetStatus(context: Context) {
         viewModelScope.launch {
-            _showWidgetPromo.value = !WidgetManager.isWidgetInstalled(context)
+            _showWidgetPromo.value = !WidgetHelper.isWidgetInstalled(context)
         }
     }
 

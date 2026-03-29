@@ -53,7 +53,7 @@ import dev.shastkiv.vocab.ui.mainscreen.compose.components.VocabPromoCard
 import dev.shastkiv.vocab.ui.mainscreen.compose.components.WidgetPromoCard
 import dev.shastkiv.vocab.ui.theme.appColors
 import dev.shastkiv.vocab.ui.theme.appDimensions
-import dev.shastkiv.vocab.utils.WidgetManager
+import dev.shastkiv.vocab.utils.WidgetHelper
 import kotlinx.coroutines.delay
 
 @Composable
@@ -83,7 +83,7 @@ fun MainScreen(
         onAllWordsClick = { navController.navigate(Screen.AllWords.route) },
         onPracticeClick = { navController.navigate(Screen.Practice.route) },
         showWidgetPromo = showWidgetPromo,
-        onAddWidgetClick = { WidgetManager.requestPinWidget(context) },
+        onAddWidgetClick = { WidgetHelper.requestPinWidget(context) },
         showVocabPromo = showVocabPromo,
         onEnableVocabClick = { navController.navigate(Screen.BubbleSettings.route) }
     )

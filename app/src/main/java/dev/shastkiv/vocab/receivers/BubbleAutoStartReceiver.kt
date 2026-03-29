@@ -22,6 +22,7 @@ class BubbleAutoStartReceiver : BroadcastReceiver() {
 
     companion object {
         private const val TAG = "BubbleAutoStartReceiver"
+        private const val BOOT_DELAY_MS = 10000L
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -51,31 +52,28 @@ class BubbleAutoStartReceiver : BroadcastReceiver() {
         }
     }
 
-    /**
-     * Initiates the bubble service if all conditions are met.
-     * Implements a double-check pattern with a safety delay to prevent
-     * starting the service if the user disabled it during the system boot period.
-     */
     private suspend fun startBubbleServiceIfAllowed(context: Context, reason: String) {
         if (!Settings.canDrawOverlays(context)) {
             Log.e(TAG, "Cannot start service: Overlay permission not granted.")
             return
         }
 
-        val isEnabledInitial = bubbleSettingsRepository.isBubbleEnabled.first()
-        if (!isEnabledInitial) {
-            Log.d(TAG, "Initial check: Bubble service is disabled in settings. Aborting.")
+        val isEnabled = bubbleSettingsRepository.isBubbleEnabled.first()
+        if (!isEnabled) {
+            Log.d(TAG, "Bubble service is disabled in settings. Aborting.")
             return
         }
 
-        Log.d(TAG, "Starting 10s safety delay before start for safety start on boot for action: $reason")
-
-        delay(10000)
+        val isBootAction = reason == Intent.ACTION_BOOT_COMPLETED ||
+                reason == Intent.ACTION_USER_UNLOCKED
+        if (isBootAction) {
+            Log.d(TAG, "Boot action detected, waiting ${BOOT_DELAY_MS}ms before start")
+            delay(BOOT_DELAY_MS)
+        }
 
         try {
-            val serviceIntent = Intent(context, BubbleService::class.java)
-            context.startForegroundService(serviceIntent)
-            Log.i(TAG, "Bubble service successfully started after safety delay.")
+            context.startForegroundService(Intent(context, BubbleService::class.java))
+            Log.i(TAG, "Bubble service started for action: $reason")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to start BubbleService: ${e.message}", e)
         }

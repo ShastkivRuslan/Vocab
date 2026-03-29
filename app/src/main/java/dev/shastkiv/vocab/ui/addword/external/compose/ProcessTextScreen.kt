@@ -1,5 +1,9 @@
 package dev.shastkiv.vocab.ui.addword.external.compose
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -25,7 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import dev.shastkiv.vocab.ui.addword.compose.components.Content
 import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
 import dev.shastkiv.vocab.ui.addword.shared.AddWordViewModel
@@ -41,26 +47,35 @@ fun ProcessTextScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val inputWord by viewModel.inputWord.collectAsState()
+    val isListening by viewModel.isListening.collectAsState()
+    val isReady by viewModel.isReady.collectAsState()
+    val rmsLevel by viewModel.rmsLevel.collectAsState()
 
+    val context = LocalContext.current
     var isVisible by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        isVisible = true
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) viewModel.onSpeechToText()
     }
 
+    fun onMicClick() {
+        val granted = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+        if (granted) viewModel.onSpeechToText()
+        else permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+    }
+
+    LaunchedEffect(Unit) { isVisible = true }
+
     LaunchedEffect(initialText) {
-        if (!initialText.isNullOrBlank()) {
-            viewModel.initialize(initialText)
-        }
+        if (!initialText.isNullOrBlank()) viewModel.initialize(initialText)
     }
 
     LaunchedEffect(uiState) {
-        when (uiState) {
-            is AddWordUiState.DialogShouldClose -> {
-                isVisible = false
-            }
-            else -> {}
-        }
+        if (uiState is AddWordUiState.DialogShouldClose) isVisible = false
     }
 
     if (!isVisible) {
@@ -69,6 +84,7 @@ fun ProcessTextScreen(
             onFinish()
         }
     }
+
     val colors = MaterialTheme.appColors
     val dimensions = MaterialTheme.appDimensions
 
@@ -91,9 +107,7 @@ fun ProcessTextScreen(
                     .fillMaxWidth()
                     .padding(dimensions.largePadding)
                     .clip(RoundedCornerShape(dimensions.mediumCornerRadius))
-                    .background(
-                        colors.textProcessingCardColor
-                    )
+                    .background(colors.textProcessingCardColor)
                     .border(
                         width = 1.dp,
                         brush = colors.expandableCardBorder,
@@ -115,7 +129,11 @@ fun ProcessTextScreen(
                     onPaywallDismissed = viewModel::onPaywallDismissed,
                     onSubscribe = { isVisible = false },
                     onDismiss = { isVisible = false },
-                    onRetryManual = viewModel::onRetryToIdle
+                    onRetryManual = viewModel::onRetryToIdle,
+                    isListening = isListening,
+                    isReady = isReady,
+                    rmsLevel = rmsLevel,
+                    onSpeechToText = ::onMicClick
                 )
             }
         }

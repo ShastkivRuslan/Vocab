@@ -26,28 +26,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import dev.shastkiv.vocab.domain.usecase.SaveBubblePositionUseCase
 import dev.shastkiv.vocab.domain.model.BubblePosition
+import dev.shastkiv.vocab.domain.usecase.SaveBubblePositionUseCase
+import dev.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
 import dev.shastkiv.vocab.ui.bubble.compose.BubbleLayout
 import dev.shastkiv.vocab.ui.bubble.compose.DeleteZoneLayout
-import dev.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-/**
- * BubbleViewManager - Pure bubble UI management, no dialog logic.
- * Responsibilities: bubble display, positioning, drag&drop, delete zone.
- *
- * Clean separation: This class only handles bubble-specific UI operations.
- * Dialog logic moved to separate DialogManager to maintain SRP.
- */
 class BubbleViewManager(
     private val context: Context,
     private val coroutineScope: CoroutineScope,
     private val saveBubblePositionUseCase: SaveBubblePositionUseCase,
-    private val onBubbleClick: () -> Unit, // Callback to BubbleService
+    // ← Тепер передаємо координати центру бульбашки і її розмір
+    private val onBubbleClick: (bubbleX: Int, bubbleY: Int, bubbleSize: Int) -> Unit,
     private val onBubbleRemovedByUser: () -> Unit,
     initialSize: Dp,
     initialAlpha: Float
@@ -84,35 +78,21 @@ class BubbleViewManager(
         positionManager = BubblePositionManager(screenSize, displayMetrics)
     }
 
-    fun show(initialPosition: BubblePosition) {
-        if (bubbleView != null) {
-            return
-        }
+    // ─── Public ───────────────────────────────────────────────────────────────
 
+    fun show(initialPosition: BubblePosition) {
+        if (bubbleView != null) return
         try {
             overlayLifecycleOwner.create()
             overlayLifecycleOwner.start()
-
+            overlayLifecycleOwner.resume()
             bubbleParams.x = initialPosition.x
             bubbleParams.y = initialPosition.y
-
             bubbleView = createBubbleView()
             windowManager.addView(bubbleView, bubbleParams)
-
         } catch (e: Exception) {
             Log.e(TAG, "Failed to show bubble", e)
             overlayLifecycleOwner.destroy()
-        }
-    }
-
-    fun hideViews() {
-        bubbleView?.visibility = View.GONE
-        hideDeleteZone()
-    }
-
-    fun showViews() {
-        if (bubbleView != null) {
-            bubbleView?.visibility = View.VISIBLE
         }
     }
 
@@ -128,15 +108,14 @@ class BubbleViewManager(
         removeViewsSafely()
     }
 
+    // ─── View Builders ────────────────────────────────────────────────────────
+
     private fun createBubbleView(): View {
         return ComposeView(context).apply {
             setViewTreeLifecycleOwner(overlayLifecycleOwner)
             setViewTreeSavedStateRegistryOwner(overlayLifecycleOwner)
-
             setContent {
-                CompositionLocalProvider(
-                    LocalViewModelStoreOwner provides overlayLifecycleOwner
-                ) {
+                CompositionLocalProvider(LocalViewModelStoreOwner provides overlayLifecycleOwner) {
                     BubbleLayout(
                         size = bubbleSizeState,
                         alpha = bubbleAlphaState,
@@ -150,16 +129,41 @@ class BubbleViewManager(
         }
     }
 
-    private fun handleBubbleClick() {
-        Log.d("BubbleViewManager", "Bubble clicked, isDragging: $isDragging")
-        if (!isDragging) {
-            if (isVibrationEnabled) {
-                vibrateOnClick()
+    private fun createDeleteZoneView(): View {
+        return ComposeView(context).apply {
+            setViewTreeLifecycleOwner(overlayLifecycleOwner)
+            setViewTreeSavedStateRegistryOwner(overlayLifecycleOwner)
+            setContent {
+                val animatedAlpha by animateFloatAsState(
+                    targetValue = targetDeleteZoneAlpha,
+                    label = "alphaAnimation",
+                    animationSpec = tween(durationMillis = DELETE_ZONE_ANIMATION_DURATION)
+                )
+                val animatedScale by animateFloatAsState(
+                    targetValue = targetDeleteZoneScale,
+                    label = "scaleAnimation",
+                    animationSpec = tween(durationMillis = DELETE_ZONE_ANIMATION_DURATION)
+                )
+                DeleteZoneLayout(alpha = animatedAlpha, scale = animatedScale)
             }
-            Log.d("BubbleViewManager", "Calling onBubbleClick callback")
-            onBubbleClick()
         }
     }
+
+    // ─── Bubble Click ─────────────────────────────────────────────────────────
+
+    private fun handleBubbleClick() {
+        if (isDragging) return
+        if (isVibrationEnabled) vibrateOnClick()
+
+        // Передаємо центр бульбашки і її розмір для анімації діалогу
+        val bv = bubbleView
+        val size = bv?.width?.takeIf { it > 0 } ?: dpToPx(BUBBLE_SIZE_DP)
+        val centerX = bubbleParams.x + size / 2
+        val centerY = bubbleParams.y + size / 2
+        onBubbleClick(centerX, centerY, size)
+    }
+
+    // ─── Drag ─────────────────────────────────────────────────────────────────
 
     private fun handleDragStart() {
         isDragging = true
@@ -174,27 +178,17 @@ class BubbleViewManager(
     private fun handleDragEnd() {
         isDragging = false
         val isOverDeleteZone = isBubbleOverDeleteZone()
-
         hideDeleteZone()
-
-        if (isOverDeleteZone) {
-            handleBubbleRemoval()
-        } else {
-            snapToEdge()
-        }
+        if (isOverDeleteZone) onBubbleRemovedByUser() else snapToEdge()
     }
 
     private fun updateBubblePosition(dragAmount: androidx.compose.ui.geometry.Offset) {
         bubbleParams.x += dragAmount.x.roundToInt()
         bubbleParams.y += dragAmount.y.roundToInt()
-
         val currentTime = System.currentTimeMillis()
-
         if (currentTime - lastUpdateTime >= 8) {
             try {
-                bubbleView?.let { view ->
-                    windowManager.updateViewLayout(view, bubbleParams)
-                }
+                bubbleView?.let { windowManager.updateViewLayout(it, bubbleParams) }
                 lastUpdateTime = currentTime
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to update bubble position", e)
@@ -202,149 +196,99 @@ class BubbleViewManager(
         }
     }
 
+    // ─── Delete Zone ──────────────────────────────────────────────────────────
+
     private fun showDeleteZone() {
         if (isDeleteZoneVisible) return
         isDeleteZoneVisible = true
-
         if (deleteZoneView == null) {
             deleteZoneView = createDeleteZoneView()
             try {
                 windowManager.addView(deleteZoneView, deleteZoneParams)
             } catch (e: Exception) {
-                Log.e(TAG, "Failed to add delete zone view", e)
+                Log.e(TAG, "Failed to add delete zone", e)
                 return
             }
         }
-
         deleteZoneView?.visibility = View.VISIBLE
-        animateDeleteZoneIn()
+        targetDeleteZoneAlpha = DELETE_ZONE_ALPHA_NORMAL
+        targetDeleteZoneScale = DELETE_ZONE_SCALE_NORMAL
     }
 
     private fun hideDeleteZone() {
         if (!isDeleteZoneVisible) return
         isDeleteZoneVisible = false
-
-        animateDeleteZoneOut()
-
-        coroutineScope.launch {
-            delay(DELETE_ZONE_HIDE_DELAY)
-            if (!isDeleteZoneVisible) {
-                deleteZoneView?.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun createDeleteZoneView(): View {
-        return ComposeView(context).apply {
-            setViewTreeLifecycleOwner(overlayLifecycleOwner)
-            setViewTreeSavedStateRegistryOwner(overlayLifecycleOwner)
-
-            setContent {
-                val animatedAlpha by animateFloatAsState(
-                    targetValue = targetDeleteZoneAlpha,
-                    label = "alphaAnimation",
-                    animationSpec = tween(durationMillis = DELETE_ZONE_ANIMATION_DURATION)
-                )
-
-                val animatedScale by animateFloatAsState(
-                    targetValue = targetDeleteZoneScale,
-                    label = "scaleAnimation",
-                    animationSpec = tween(durationMillis = DELETE_ZONE_ANIMATION_DURATION)
-                )
-
-                DeleteZoneLayout(
-                    alpha = animatedAlpha,
-                    scale = animatedScale
-                )
-            }
-        }
-    }
-
-    private fun animateDeleteZoneIn() {
-        targetDeleteZoneAlpha = DELETE_ZONE_ALPHA_NORMAL
-        targetDeleteZoneScale = DELETE_ZONE_SCALE_NORMAL
-    }
-
-    private fun animateDeleteZoneOut() {
         targetDeleteZoneAlpha = 0f
         targetDeleteZoneScale = 0f
+        coroutineScope.launch {
+            delay(DELETE_ZONE_HIDE_DELAY)
+            if (!isDeleteZoneVisible) deleteZoneView?.visibility = View.GONE
+        }
     }
 
     private fun updateDeleteZoneHighlight() {
         if (!isDeleteZoneVisible) return
-
         val isOver = isBubbleOverDeleteZone()
         targetDeleteZoneScale = if (isOver) DELETE_ZONE_SCALE_HIGHLIGHTED else DELETE_ZONE_SCALE_NORMAL
         targetDeleteZoneAlpha = if (isOver) DELETE_ZONE_ALPHA_HIGHLIGHTED else DELETE_ZONE_ALPHA_NORMAL
     }
 
+    private fun isBubbleOverDeleteZone(): Boolean {
+        val bv = bubbleView ?: return false
+        val dv = deleteZoneView ?: return false
+        if (!isDeleteZoneVisible) return false
+        return positionManager.isBubbleOverDeleteZone(
+            bubbleX = bubbleParams.x,
+            bubbleY = bubbleParams.y,
+            bubbleWidth = bv.width,
+            bubbleHeight = bv.height,
+            deleteZoneYOffset = deleteZoneParams.y,
+            deleteZoneWidth = dv.width,
+            deleteZoneHeight = dv.height
+        )
+    }
+
+    // ─── Snap ─────────────────────────────────────────────────────────────────
+
     private fun snapToEdge() {
         val bubbleWidth = bubbleView?.width ?: dpToPx(BUBBLE_SIZE_DP)
         val targetX = positionManager.calculateSnapTargetX(bubbleParams.x, bubbleWidth)
-
         snapAnimator?.cancel()
         snapAnimator = ValueAnimator.ofInt(bubbleParams.x, targetX).apply {
             duration = SNAP_ANIMATION_DURATION
             interpolator = BounceInterpolator()
-
             addUpdateListener { animator ->
                 bubbleParams.x = animator.animatedValue as Int
                 try {
                     windowManager.updateViewLayout(bubbleView, bubbleParams)
                 } catch (e: Exception) {
-                    Log.e(TAG, "Failed to update layout during snap", e)
+                    Log.e(TAG, "Failed snap update", e)
                 }
             }
-
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    saveBubblePosition()
+                    coroutineScope.launch {
+                        try {
+                            saveBubblePositionUseCase(bubbleParams.x, bubbleParams.y)
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Failed to save position", e)
+                        }
+                    }
                 }
             })
         }
-
         snapAnimator?.start()
     }
 
-    private fun saveBubblePosition() {
-        coroutineScope.launch {
-            try {
-                saveBubblePositionUseCase(bubbleParams.x, bubbleParams.y)
-                Log.d(TAG, "Bubble position saved: (${bubbleParams.x}, ${bubbleParams.y})")
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to save bubble position", e)
-            }
-        }
-    }
-
-    private fun handleBubbleRemoval() {
-        Log.d(TAG, "Bubble removal requested by user")
-        onBubbleRemovedByUser()
-    }
-
-    private fun isBubbleOverDeleteZone(): Boolean {
-        val currentBubbleView = bubbleView ?: return false
-        val currentDeleteZoneView = deleteZoneView ?: return false
-
-        if (!isDeleteZoneVisible) return false
-
-        return positionManager.isBubbleOverDeleteZone(
-            bubbleX = bubbleParams.x,
-            bubbleY = bubbleParams.y,
-            bubbleWidth = currentBubbleView.width,
-            bubbleHeight = currentBubbleView.height,
-            deleteZoneYOffset = deleteZoneParams.y,
-            deleteZoneWidth = currentDeleteZoneView.width,
-            deleteZoneHeight = currentDeleteZoneView.height
-        )
-    }
+    // ─── Layout Params ────────────────────────────────────────────────────────
 
     private fun setupLayoutParams() {
         bubbleParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.START
@@ -354,7 +298,8 @@ class BubbleViewManager(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
@@ -362,37 +307,10 @@ class BubbleViewManager(
         }
     }
 
-    private fun cleanupAnimators() {
-        snapAnimator?.cancel()
-        snapAnimator = null
-    }
+    // ─── Utils ────────────────────────────────────────────────────────────────
 
     fun setVibrationEnabled(isEnabled: Boolean) {
         isVibrationEnabled = isEnabled
-    }
-
-    private fun removeViewsSafely() {
-        bubbleView?.let { view ->
-            if (view.isAttachedToWindow) {
-                try {
-                    windowManager.removeView(view)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Failed to remove bubble view", e)
-                }
-            }
-        }
-        bubbleView = null
-
-        deleteZoneView?.let { view ->
-            if (view.isAttachedToWindow) {
-                try {
-                    windowManager.removeView(view)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Failed to remove delete zone view", e)
-                }
-            }
-        }
-        deleteZoneView = null
     }
 
     private fun vibrateOnClick() {
@@ -400,12 +318,27 @@ class BubbleViewManager(
         vibrator.vibrate(effect)
     }
 
-    private fun dpToPx(dp: Int): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp.toFloat(),
-            displayMetrics
-        ).toInt()
+    private fun dpToPx(dp: Int): Int = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), displayMetrics
+    ).toInt()
+
+    private fun cleanupAnimators() {
+        snapAnimator?.cancel()
+        snapAnimator = null
+    }
+
+    private fun removeViewsSafely() {
+        listOf(bubbleView, deleteZoneView).forEach { view ->
+            view?.let {
+                if (it.isAttachedToWindow) {
+                    try { windowManager.removeView(it) } catch (e: Exception) {
+                        Log.e(TAG, "Failed to remove view", e)
+                    }
+                }
+            }
+        }
+        bubbleView = null
+        deleteZoneView = null
     }
 
     companion object {

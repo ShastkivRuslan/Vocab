@@ -1,11 +1,15 @@
 package dev.shastkiv.vocab.ui.addword.overlay
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -19,14 +23,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import dev.shastkiv.vocab.ui.addword.shared.AddWordViewModel
-import dev.shastkiv.vocab.ui.addword.overlay.compose.AddWordDialog
-import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
 import dev.shastkiv.vocab.service.bubble.lifecycle.OverlayLifecycleOwner
+import dev.shastkiv.vocab.ui.addword.compose.state.AddWordUiState
+import dev.shastkiv.vocab.ui.addword.overlay.compose.AddWordDialog
+import dev.shastkiv.vocab.ui.addword.shared.AddWordViewModel
+import dev.shastkiv.vocab.ui.permission.MicrophonePermissionActivity
 import dev.shastkiv.vocab.ui.theme.VocabAppCoreTheme
 import kotlinx.coroutines.delay
 
@@ -40,6 +48,10 @@ class DialogViewManager(
     private var dialogView: View? = null
     var isShowing = false
 
+    private var originX: Int = 0
+    private var originY: Int = 0
+    private var originSize: Int = 0
+
     private val dialogParams = WindowManager.LayoutParams(
         WindowManager.LayoutParams.MATCH_PARENT,
         WindowManager.LayoutParams.MATCH_PARENT,
@@ -51,10 +63,19 @@ class DialogViewManager(
         gravity = Gravity.CENTER
     }
 
-    fun show(initialText: String? = null) {
+    fun show(
+        initialText: String? = null,
+        bubbleX: Int = 0,
+        bubbleY: Int = 0,
+        bubbleSize: Int = 0
+    ) {
         if (isShowing) return
 
         try {
+            originX = bubbleX
+            originY = bubbleY
+            originSize = bubbleSize
+
             overlayLifecycleOwner.create()
             overlayLifecycleOwner.start()
             overlayLifecycleOwner.resume()
@@ -87,6 +108,27 @@ class DialogViewManager(
         }
     }
 
+    /**
+     * Перевіряємо дозвіл RECORD_AUDIO.
+     * Якщо є — запускаємо STT напряму.
+     * Якщо ні — запускаємо прозору MicrophonePermissionActivity.
+     * Після надання дозволу ViewModel сам запустить STT через PermissionResultBus.
+     */
+    private fun requestMicPermissionOrSpeak() {
+        val granted = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (granted) {
+            viewModel.onSpeechToText()
+        } else {
+            val intent = Intent(context, MicrophonePermissionActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        }
+    }
+
     private fun createDialogView(): View {
         return ComposeView(context).apply {
             setViewTreeLifecycleOwner(overlayLifecycleOwner)
@@ -107,20 +149,16 @@ class DialogViewManager(
         val currentTheme by viewModel.themeMode.collectAsState()
         val uiState by viewModel.uiState.collectAsState()
         val inputWord by viewModel.inputWord.collectAsState()
+        val isListening by viewModel.isListening.collectAsState()
+        val isReady by viewModel.isReady.collectAsState()
+        val rmsLevel by viewModel.rmsLevel.collectAsState()
 
         var isVisible by remember { mutableStateOf(false) }
 
-        LaunchedEffect(Unit) {
-            isVisible = true
-        }
+        LaunchedEffect(Unit) { isVisible = true }
 
         LaunchedEffect(uiState) {
-            when (uiState) {
-                is AddWordUiState.DialogShouldClose -> {
-                    isVisible = false
-                }
-                else -> {}
-            }
+            if (uiState is AddWordUiState.DialogShouldClose) isVisible = false
         }
 
         if (!isVisible) {
@@ -130,13 +168,26 @@ class DialogViewManager(
             }
         }
 
+        val displayMetrics = LocalContext.current.resources.displayMetrics
+        val screenW = displayMetrics.widthPixels.toFloat()
+        val screenH = displayMetrics.heightPixels.toFloat()
+
+        val pivotX = if (screenW > 0f && originX > 0) (originX / screenW).coerceIn(0f, 1f) else 0.5f
+        val pivotY = if (screenH > 0f && originY > 0) (originY / screenH).coerceIn(0f, 1f) else 0.5f
+
+        val transformOrigin = remember(pivotX, pivotY) { TransformOrigin(pivotX, pivotY) }
+
         VocabAppCoreTheme(themeMode = currentTheme) {
             AnimatedVisibility(
                 visible = isVisible,
-                enter = fadeIn(animationSpec = tween(ANIMATION_DURATION_MS)) +
-                        scaleIn(animationSpec = tween(ANIMATION_DURATION_MS), initialScale = 0.8f),
-                exit = fadeOut(animationSpec = tween(ANIMATION_DURATION_MS)) +
-                        scaleOut(animationSpec = tween(ANIMATION_DURATION_MS), targetScale = 0.8f)
+                enter = fadeIn(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing)) +
+                        scaleIn(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing),
+                            initialScale = ANIMATION_INITIAL_SCALE,
+                            transformOrigin = transformOrigin),
+                exit = fadeOut(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing)) +
+                        scaleOut(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing),
+                            targetScale = ANIMATION_INITIAL_SCALE,
+                            transformOrigin = transformOrigin)
             ) {
                 AddWordDialog(
                     uiState = uiState,
@@ -152,13 +203,18 @@ class DialogViewManager(
                     onPaywallDismissed = viewModel::onPaywallDismissed,
                     onSubscribe = { isVisible = false },
                     onDismissRequest = { isVisible = false },
-                    onRetryManual = viewModel::onRetryToIdle
+                    onRetryManual = viewModel::onRetryToIdle,
+                    isListening = isListening,
+                    isReady = isReady,
+                    rmsLevel = rmsLevel,
+                    onSpeechToText = ::requestMicPermissionOrSpeak
                 )
             }
         }
     }
 
     companion object {
-        private const val ANIMATION_DURATION_MS = 300
+        private const val ANIMATION_DURATION_MS = 350
+        private const val ANIMATION_INITIAL_SCALE = 0.25f
     }
 }

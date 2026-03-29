@@ -396,4 +396,7 @@
         Дозволяє Vocab читати текст з активного поля вводу та автоматично вставляти переклад.
         Жодні дані не зберігаються і не передаються третім особам.
     </string>
+    <string name="dont_know">Не знаю</string>
+    <string name="know">Знаю</string>
+    <string name="flashcards_mode">Картки</string>
 </resources>

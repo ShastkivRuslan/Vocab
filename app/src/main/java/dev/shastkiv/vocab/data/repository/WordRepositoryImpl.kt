@@ -181,4 +181,17 @@ class WordRepositoryImpl @Inject constructor(
     override fun getCategoryCounts(lang: String): Flow<CategoryCounts> {
         return wordDao.getCategoryCounts(lang)
     }
+
+    override suspend fun getRandomStableWord(lang : String): Word? {
+        return wordDao.getRandomStableWord(lang)
+    }
+
+    override suspend fun getRandomMasteredWord(lang : String): Word? {
+        return wordDao.getRandomMasteredWord(lang)
+    }
+
+    override suspend fun getRandomHardWord(lang : String): Word? {
+        return wordDao.getRandomHardWord(lang)
+    }
+
 }
