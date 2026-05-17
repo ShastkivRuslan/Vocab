@@ -94,7 +94,9 @@ data class CustomAppColors(
     val vocabProgressIdle: Color,
     val vocabProgressActive: Color,
     val vocabProgressCorrect: Color,
-    val vocabProgressWrong: Color
+    val vocabProgressWrong: Color,
+
+    val neonAccent: Color
 )
 
 val LightCustomColors = CustomAppColors(
@@ -157,7 +159,7 @@ val LightCustomColors = CustomAppColors(
 
     textProcessingBackgroundColor = Color.Black.copy(alpha = 0.25f),
     textProcessingCardColor = Color.White.copy(0.95f),
-    overlayDialogColor = Color(0xFFF1F0F0),
+    overlayDialogColor = Color(0xD0F1F0F0),
 
     masteryBarGradientStart = Color(0xFFCBD5E1),
     masteryBarGradientEnd = Color(0xFF4DB8A8),
@@ -167,7 +169,9 @@ val LightCustomColors = CustomAppColors(
     vocabProgressIdle = Color(0xFFCBD5E1),
     vocabProgressActive = Color(0xFF94A3B8),
     vocabProgressCorrect = LightPrimary,
-    vocabProgressWrong = Color(0xFFE57373)
+    vocabProgressWrong = Color(0xFFE57373),
+
+    neonAccent = Color(0xFF0EA5E9)
 )
 
 val DarkCustomColors = CustomAppColors(
@@ -224,7 +228,7 @@ val DarkCustomColors = CustomAppColors(
 
     textProcessingCardColor = Color(0xFF303130).copy(0.90f),
     textProcessingBackgroundColor = Color.Black.copy(0.15f),
-    overlayDialogColor = Color(0xD91C1B23).copy(0.50f),
+    overlayDialogColor = Color(0xD71C1B23),
 
     masteryBarGradientStart = Color(0xFF334155),
     masteryBarGradientEnd = Color(0xFF00FFC2),
@@ -233,5 +237,7 @@ val DarkCustomColors = CustomAppColors(
     vocabProgressIdle = Color(0x4DFFFFFF),
     vocabProgressActive = Color(0xB3FFFFFF),
     vocabProgressCorrect = DarkPrimary,
-    vocabProgressWrong = Color(0xFFFF6B6B)
+    vocabProgressWrong = Color(0xFFFF6B6B),
+
+    neonAccent = Color(0xFF00E5FF)
 )

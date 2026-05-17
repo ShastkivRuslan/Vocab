@@ -15,6 +15,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
@@ -108,12 +113,6 @@ class DialogViewManager(
         }
     }
 
-    /**
-     * Перевіряємо дозвіл RECORD_AUDIO.
-     * Якщо є — запускаємо STT напряму.
-     * Якщо ні — запускаємо прозору MicrophonePermissionActivity.
-     * Після надання дозволу ViewModel сам запустить STT через PermissionResultBus.
-     */
     private fun requestMicPermissionOrSpeak() {
         val granted = ContextCompat.checkSelfPermission(
             context, Manifest.permission.RECORD_AUDIO
@@ -178,43 +177,68 @@ class DialogViewManager(
         val transformOrigin = remember(pivotX, pivotY) { TransformOrigin(pivotX, pivotY) }
 
         VocabAppCoreTheme(themeMode = currentTheme) {
-            AnimatedVisibility(
-                visible = isVisible,
-                enter = fadeIn(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing)) +
-                        scaleIn(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing),
-                            initialScale = ANIMATION_INITIAL_SCALE,
-                            transformOrigin = transformOrigin),
-                exit = fadeOut(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing)) +
-                        scaleOut(tween(ANIMATION_DURATION_MS, easing = FastOutSlowInEasing),
-                            targetScale = ANIMATION_INITIAL_SCALE,
-                            transformOrigin = transformOrigin)
-            ) {
-                AddWordDialog(
-                    uiState = uiState,
-                    inputWord = inputWord,
-                    onInputChange = viewModel::onInputChange,
-                    onCheckWord = viewModel::onCheckWord,
-                    onAddToVocabulary = viewModel::onAddWord,
-                    onGetFullInfo = viewModel::onGetFullInfoClicked,
-                    onTextToSpeech = viewModel::onTextToSpeech,
-                    onMainInfoToggle = viewModel::onMainInfoToggle,
-                    onExamplesToggle = viewModel::onExamplesToggle,
-                    ontUsageInfoToggle = viewModel::ontUsageInfoToggle,
-                    onPaywallDismissed = viewModel::onPaywallDismissed,
-                    onSubscribe = { isVisible = false },
-                    onDismissRequest = { isVisible = false },
-                    onRetryManual = viewModel::onRetryToIdle,
-                    isListening = isListening,
-                    isReady = isReady,
-                    rmsLevel = rmsLevel,
-                    onSpeechToText = ::requestMicPermissionOrSpeak
-                )
+            Box(modifier = Modifier.fillMaxSize()) {
+
+                // Скрим — тільки плавний fade, незалежний від діалогу
+                AnimatedVisibility(
+                    visible = isVisible,
+                    enter = fadeIn(tween(ANIMATION_SCRIM_MS, easing = FastOutSlowInEasing)),
+                    exit = fadeOut(tween(ANIMATION_SCRIM_MS, easing = FastOutSlowInEasing))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.275f))
+                    )
+                }
+
+                // Діалог — spring scale + fade
+                AnimatedVisibility(
+                    visible = isVisible,
+                    enter = fadeIn(tween(ANIMATION_FADE_MS, easing = FastOutSlowInEasing)) +
+                            scaleIn(
+                                tween(ANIMATION_FADE_MS, easing = FastOutSlowInEasing),
+                                initialScale = ANIMATION_INITIAL_SCALE,
+                                transformOrigin = transformOrigin
+                            ),
+                    exit = fadeOut(tween(ANIMATION_EXIT_MS, easing = FastOutSlowInEasing)) +
+                            scaleOut(
+                                tween(ANIMATION_EXIT_MS, easing = FastOutSlowInEasing),
+                                targetScale = ANIMATION_EXIT_SCALE,
+                                transformOrigin = transformOrigin
+                            )
+                ) {
+                    AddWordDialog(
+                        uiState = uiState,
+                        inputWord = inputWord,
+                        onInputChange = viewModel::onInputChange,
+                        onCheckWord = viewModel::onCheckWord,
+                        onAddToVocabulary = viewModel::onAddWord,
+                        onGetFullInfo = viewModel::onGetFullInfoClicked,
+                        onTextToSpeech = viewModel::onTextToSpeech,
+                        onMainInfoToggle = viewModel::onMainInfoToggle,
+                        onExamplesToggle = viewModel::onExamplesToggle,
+                        ontUsageInfoToggle = viewModel::ontUsageInfoToggle,
+                        onPaywallDismissed = viewModel::onPaywallDismissed,
+                        onSubscribe = { isVisible = false },
+                        onDismissRequest = { isVisible = false },
+                        onRetryManual = viewModel::onRetryToIdle,
+                        isListening = isListening,
+                        isReady = isReady,
+                        rmsLevel = rmsLevel,
+                        onSpeechToText = ::requestMicPermissionOrSpeak
+                    )
+                }
             }
         }
     }
 
     companion object {
-        private const val ANIMATION_DURATION_MS = 350
-        private const val ANIMATION_INITIAL_SCALE = 0.25f
+        private const val ANIMATION_SCRIM_MS = 400
+        private const val ANIMATION_FADE_MS = 280
+        private const val ANIMATION_EXIT_MS = 200
+        private const val ANIMATION_DURATION_MS = 280
+        private const val ANIMATION_INITIAL_SCALE = 0.88f
+        private const val ANIMATION_EXIT_SCALE = 0.92f
     }
 }

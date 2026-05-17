@@ -97,7 +97,8 @@ val LocalCustomAppColors = staticCompositionLocalOf {
         vocabProgressIdle = Color.Unspecified,
         vocabProgressActive = Color.Unspecified,
         vocabProgressCorrect = Color.Unspecified,
-        vocabProgressWrong = Color.Unspecified
+        vocabProgressWrong = Color.Unspecified,
+        neonAccent = Color.Unspecified
     )
 }
 
